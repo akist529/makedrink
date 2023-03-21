@@ -9,7 +9,7 @@ export default function HomePage() {
   return (
     <div>
       <NavBar navMenuOpen={navMenuOpen} setNavMenuOpen={setNavMenuOpen} />
-      {navMenuOpen && <NavMenu />}
+      <NavMenu navMenuOpen={navMenuOpen} />
       <div>Welcome to Next.js!</div>
       <footer>
         <a href="https://www.flaticon.com/free-icons" title="spirit icons">Spirit icons created by Freepik - Flaticon</a>
