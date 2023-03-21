@@ -13,47 +13,8 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: flex-start;
+        align-items: center;
         position: relative;
-
-        li {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-
-            ul {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-                gap: 10px;
-
-                li {
-                    button {
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: space-between;
-                        align-items: center;
-                        width: 100%;
-                        padding: 10px 20px;
-
-                        background: none;
-                        border: none;
-                        color: white;
-                        font-family: 'Nunito';
-                        font-size: 24px;
-                        cursor: pointer;
-
-                        &:hover {
-                            background: rgb(0, 0, 66);
-                        }
-                    }
-                }
-            }
-        }
     }
 }
 
