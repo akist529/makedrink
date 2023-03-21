@@ -1,0 +1,28 @@
+.search {
+    background: white;
+    height: 50px;
+    position: relative;
+    padding: 5px;
+
+    display: grid;
+    grid-template-columns: 50px 1fr 50px;
+    width: 250px;
+
+    button {
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+
+    input {
+        background: none;
+        border: none;
+        height: 100%;
+        font-size: 20px;
+        width: 100%;
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
