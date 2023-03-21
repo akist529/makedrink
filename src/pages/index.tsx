@@ -8,7 +8,10 @@ export default function HomePage() {
 
   return (
     <div>
-      <NavBar navMenuOpen={navMenuOpen} setNavMenuOpen={setNavMenuOpen} />
+      <NavBar
+        navMenuOpen={navMenuOpen}
+        setNavMenuOpen={setNavMenuOpen}
+      />
       <NavMenu navMenuOpen={navMenuOpen} />
       <div>Welcome to Next.js!</div>
       <footer>
