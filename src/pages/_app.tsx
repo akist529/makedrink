@@ -8,7 +8,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [navMenuOpen, setNavMenuOpen] = useState(false)
   
   return (
-    <div>
+    <div className="app">
       <NavBar
         navMenuOpen={navMenuOpen}
         setNavMenuOpen={setNavMenuOpen}
