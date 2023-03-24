@@ -9,7 +9,7 @@ export default function IngredientSection (props: any) {
         const prevValue = JSON.parse(localStorage.getItem(item) || 'false')
 
         if (prevValue) {
-            localStorage.setItem(item, 'false')
+            localStorage.removeItem(item)
         } else {
             localStorage.setItem(item, 'true')
         }
