@@ -1,6 +1,8 @@
+import styles from '@/styles/Home.module.scss'
+
 export default function HomePage() {
   return (
-    <div className="HomePage">
+    <div className={styles.HomePage}>
       <div>Welcome to Next.js!</div>
       <footer>
         <a>Bartender icon created by Iconduck</a>
