@@ -1,6 +1,6 @@
 export default function HomePage() {
   return (
-    <div>
+    <div className="HomePage">
       <div>Welcome to Next.js!</div>
       <footer>
         <a>Bartender icon created by Iconduck</a>
@@ -21,6 +21,9 @@ export default function HomePage() {
         <a href="https://www.flaticon.com/free-icons/whiskey" title="whiskey icons">Whiskey icons created by Smashicons - Flaticon</a>
         <a href="https://www.flaticon.com/free-icons/alcohol" title="alcohol icons">Alcohol icons created by Flat Icons Design - Flaticon</a>
         <a href="https://www.flaticon.com/free-icons/alcohol" title="alcohol icons">Alcohol icons created by photo3idea_studio - Flaticon</a>
+        <a href="https://www.flaticon.com/free-icons/drink" title="drink icons">Drink icons created by monkik - Flaticon</a>
+        <a href="https://www.flaticon.com/free-icons/bottle" title="bottle icons">Bottle icons created by Ina Mella - Flaticon</a>
+        <a href="https://www.flaticon.com/free-icons/white-wine" title="white wine icons">White wine icons created by Kanyanee Watanajitkasem - Flaticon</a>
       </footer>
     </div>
   )

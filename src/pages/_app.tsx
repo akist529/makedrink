@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
         navMenuOpen={navMenuOpen}
         setNavMenuOpen={setNavMenuOpen}
       />
-      <Component {...pageProps} />
+      <Component {...pageProps} className="page" />
     </div>
   )
 }

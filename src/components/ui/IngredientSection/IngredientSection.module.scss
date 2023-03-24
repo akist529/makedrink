@@ -1,0 +1,28 @@
+.IngredientSection {
+    display: grid;
+    grid-template-rows: repeat(auto, 1fr);
+    grid-template-columns: repeat(auto-fit, 150px);
+    justify-content: center;
+    
+    list-style-type: none;
+
+    li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        width: auto;
+        text-align: center;
+
+        div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 64px;
+        }
+
+        input {
+            transform: scale(3);
+        }
+    }
+}
