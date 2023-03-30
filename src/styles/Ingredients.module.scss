@@ -1,8 +1,46 @@
 .IngredientsPage {
-    padding-top: 100px;
+    padding-top: 125px;
+    background-color: #020202;
+    opacity: 0.8;
+    background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 42px 42px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 42px 42px;
+    
+    h1 {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        line-height: 1;
+        left: 25px;
+
+        span {
+            color: white;
+            font-family: 'Nunito';
+            font-size: 38px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgb(80, 80, 255);
+        }
+
+        span:first-child {
+            text-indent: -48px;
+        }
+
+        img {
+            transform: rotate(270deg);
+            position: absolute;
+            top: 0;
+            left: -48px;
+
+            filter: invert(1) drop-shadow(0 0 10px rgb(80, 80, 255));
+        }
+    }
 
     div {
         display: flex;
         flex-direction: column;
+    }
+
+    .alcohol {
+        padding-top: 50px;
     }
 }

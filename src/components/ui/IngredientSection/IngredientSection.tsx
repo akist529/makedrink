@@ -7,36 +7,41 @@ export default function IngredientSection (props: any) {
 
     function changeLocalStorage(item: string) {
         const prevValue = JSON.parse(localStorage.getItem(item) || 'false')
-
+        
         if (prevValue) {
+            (document.getElementById(`${item}`) as HTMLDivElement).classList.add(`${styles.unchecked}`);
+            (document.getElementById(`${item}`) as HTMLDivElement).classList.remove(`${styles.checked}`);
             localStorage.removeItem(item)
         } else {
+            (document.getElementById(`${item}`) as HTMLDivElement).classList.add(`${styles.checked}`);
+            (document.getElementById(`${item}`) as HTMLDivElement).classList.remove(`${styles.unchecked}`);
             localStorage.setItem(item, 'true')
         }
     }
 
     useEffect(() => {
-        const items = document.querySelectorAll('input')
+        const items = document.querySelectorAll('.checkbox')
 
         items.forEach(item => {
             const state = JSON.parse(localStorage.getItem(item.id) || 'false')
 
             if (state) {
-                (document.getElementById(`${item.id}`) as HTMLInputElement).checked = true
+                (document.getElementById(`${item.id}`) as HTMLDivElement).classList.remove('unchecked');
+                (document.getElementById(`${item.id}`) as HTMLDivElement).classList.add('checked');
             }
         })
     }, [])
 
     return (
         <ul className={styles.IngredientSection}>
-            {section.map((item: string) => {
+            {section.map((item: any) => {
                 return (
-                    <li key={item} className={styles.Ingredient}>
+                    <li key={item.name} className={styles.Ingredient}>
                         <div>
-                            <span>{item}</span>
-                            <Image alt={item} src={require(`/public/images/ui/${item.toLowerCase().split(" ").join("-")}.webp`)} />
+                            <span>{item.name}</span>
+                            <Image alt={item.name} src={require(`/public/images/ui/${item.name.toLowerCase().split(" ").join("-")}.webp`)} />
                         </div>
-                        <input id={item} type="checkbox" onChange={() => changeLocalStorage(item)} />
+                        <div id={item.name} className={['checkbox', styles.checkbox, styles.unchecked].join(' ')} onClick={() => changeLocalStorage(item.name)} />
                     </li>
                 )
             })}
