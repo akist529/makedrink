@@ -297,7 +297,7 @@ export default function IngredientsPage() {
                 <h1>
                     <span>Select</span>
                     <span>Ingredients</span>
-                    <Image alt='Select Ingredients' src={require('/public/images/ui/arrow_left.svg')} width='128' height='128' />
+                    <Image alt='Select Ingredients' src={require('/public/images/ui/local_bar.svg')} width='64' height='64' />
                 </h1>
             </div>
             <div className={styles.alcohol}>

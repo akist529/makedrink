@@ -1,5 +1,5 @@
 .IngredientsPage {
-    padding-top: 125px;
+    padding-top: 150px;
     background-color: #020202;
     opacity: 0.8;
     background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 42px 42px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 42px 42px;
@@ -10,30 +10,37 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        line-height: 1;
-        left: 25px;
+        line-height: 1.25;
 
         span {
             color: white;
             font-family: 'Nunito';
-            font-size: 38px;
+            font-size: 40px;
             text-transform: uppercase;
-            text-shadow: 0 0 20px rgb(80, 80, 255);
-            
+            text-shadow: 0 0 20px rgb(80, 80, 255);  
         }
 
         span:first-child {
-            text-indent: -48px;
+            text-indent: -64px;
         }
 
         img {
-            transform: rotate(270deg);
+            transform: rotate(45deg);
             position: absolute;
-            top: 0;
-            left: -48px;
+            top: -16px;
+            right: 40px;
 
             filter: invert(1) drop-shadow(0 0 10px rgb(80, 80, 255));
         }
+    }
+
+    h2 {
+        color: white;
+        font-family: 'Nunito';
+        font-size: 38px;
+        text-align: center;
+        text-transform: uppercase;
+        text-shadow: 0 0 20px rgb(80, 80, 255);  
     }
 
     div {
