@@ -10,7 +10,7 @@ export default function IngredientSection (props: any) {
             {section.map((item: any) => {
                 return (
                     <li key={item.name} className={styles.Ingredient}>
-                        <div>
+                        <div className={styles.name}>
                             <span>{item.name}</span>
                             <Image alt={item.name} src={require(`/public/images/ui/${item.name.toLowerCase().split(" ").join("-")}.webp`)} />
                         </div>
