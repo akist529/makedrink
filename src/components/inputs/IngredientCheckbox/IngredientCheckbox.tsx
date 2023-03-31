@@ -1,5 +1,6 @@
 import styles from './IngredientCheckbox.module.scss'
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 
 export default function IngredientCheckbox(props: any) {
     const {item} = props
@@ -44,6 +45,8 @@ export default function IngredientCheckbox(props: any) {
             className={[styles.checkbox, (isChecked && styles.checked), (colorIsLight && styles.lightColor)].join(' ')}
             {...(isChecked && {style: { background: `${item.color}` }})}
             onClick={ () => changeLocalStorage(item.name) }
-        />
+        >
+            { !isChecked && <Image className={styles.notSelected} alt="Ingredient Not Selected" src={require('/public/images/ui/close.svg')} width="48" height="48" /> }
+        </div>
     )
 }
