@@ -295,8 +295,20 @@ export default function IngredientsPage() {
         <div className={styles.IngredientsPage}>
             <div>
                 <h1>
-                    <span>Select</span>
-                    <span>Ingredients</span>
+                    <div>
+                        { 'Select'.split('').map(letter => {
+                            return (
+                                <span key={letter}>{letter}</span>
+                            )
+                        }) }
+                    </div>
+                    <div>
+                        { 'Ingredients'.split('').map(letter => {
+                            return (
+                                <span key={letter}>{letter}</span>
+                            )
+                        }) }
+                    </div>
                     <Image alt='Select Ingredients' src={require('/public/images/ui/local_bar.svg')} width='64' height='64' />
                 </h1>
             </div>
