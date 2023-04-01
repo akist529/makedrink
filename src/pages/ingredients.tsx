@@ -312,8 +312,11 @@ export default function IngredientsPage() {
                     <Image alt='Select Ingredients' src={require('/public/images/ui/local_bar.svg')} width='64' height='64' />
                 </h1>
             </div>
-            <div className={styles.alcohol}>
-                <h2>Alcohol</h2>
+            <div>
+                <div className={styles.category}>
+                    <h2>Alcohol</h2>
+                    <Image alt="Alcohol" src={require('/public/images/ui/drunk.webp')} width="64" />
+                </div>
                 <IngredientCatBtn category="Spirits" color="pink" />
                 <IngredientSection section={spirits} />
                 <IngredientCatBtn category="Liqueurs" color="green" />
@@ -321,8 +324,11 @@ export default function IngredientsPage() {
                 <IngredientCatBtn category="Other" color="red" />
                 <IngredientSection section={other} />
             </div>
-            <div className={styles.mixers}>
-                <h2>Mixers</h2>
+            <div>
+                <div className={styles.category}>
+                    <h2>Mixers</h2>
+                    <Image alt="Mixers" src={require('/public/images/ui/shaker.webp')} height="64" />
+                </div>
                 <IngredientCatBtn category="Carbonated" color="yellow" />
                 <IngredientSection section={carbonated} />
                 <IngredientCatBtn category="Juices" color="orange" />

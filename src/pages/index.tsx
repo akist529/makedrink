@@ -27,6 +27,8 @@ export default function HomePage() {
         <a href="https://www.flaticon.com/free-icons/bottle" title="bottle icons">Bottle icons created by Ina Mella - Flaticon</a>
         <a href="https://www.flaticon.com/free-icons/white-wine" title="white wine icons">White wine icons created by Kanyanee Watanajitkasem - Flaticon</a>
         <a href="http://freefrontend.com/css-liquid-effects">CSS liquid effect by Dave Quah</a>
+        <a href="https://www.flaticon.com/free-icons/drunk" title="drunk icons">Drunk icons created by Prosymbols Premium - Flaticon</a>
+        <a href="https://www.flaticon.com/free-icons/bartender" title="bartender icons">Bartender icons created by photo3idea_studio - Flaticon</a>
       </footer>
     </div>
   )
