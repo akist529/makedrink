@@ -5,9 +5,21 @@ import IngredientCheckbox from '../../../components/inputs/IngredientCheckbox/In
 export default function IngredientSection (props: any) {
     const {section} = props
 
+    const sortedSection = (function sortNames () {
+        const sorted = section.sort(function (a: any, b: any) {
+            if (a.name < b.name) {
+                return -1
+            } else {
+                return 1
+            }
+        })
+        
+        return sorted
+    })()
+
     return (
         <ul className={styles.IngredientSection}>
-            {section.map((item: any) => {
+            {sortedSection.map((item: any) => {
                 return (
                     <li key={item.name} className={styles.Ingredient}>
                         <div className={styles.name}>
