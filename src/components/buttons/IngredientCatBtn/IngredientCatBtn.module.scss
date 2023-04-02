@@ -1,59 +1,82 @@
 .ingCategory {
     background: none;
-    border-radius: 10px;
-    font-family: 'Nunito';
-    font-size: 24px;
-
+    font-family: 'Oswald';
+    border: none;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
     margin: 0 auto;
-    padding: 10px;
     text-transform: uppercase;
-    font-size: 48px;
     font-weight: 700;
     letter-spacing: 3px;
-    width: 100vw;
     overflow: hidden;
+    border-radius: 5px;
+    padding: 0 10px;
 
-    img {
-        filter: drop-shadow(10px 10px 5px rgb(0, 0, 0));
+    span {
+        line-height: 84px;
+        height: 64px;
     }
 }
 
-.pink {
-    color: rgb(255, 215, 222);
-    text-shadow: 0 0 20px rgb(100, 77, 81);
-    border: 3px solid pink;
+.pink { 
+    border-bottom: 3px solid pink;
+
+    span {
+        color: rgb(255, 215, 222);
+        text-shadow: 0 0 20px rgb(100, 77, 81);
+        font-size: 48px;
+    }
 }
 
 .green {
-    color: green;
-    text-shadow: 0 0 20px lightgreen;
-    border: 3px solid darkgreen;
+    border-bottom: 3px solid rgb(47, 178, 47);
+
+    span {
+        color: rgb(61, 225, 110);
+        text-shadow: 0 0 20px rgb(70, 138, 70);
+        font-size: 48px;
+    }
 }
 
 .red {
-    color: red;
-    text-shadow: 0 0 20px lightred;
-    border: 3px solid darkred;
+    border-bottom: 3px solid rgb(209, 59, 59);
+
+    span {
+        color: rgb(199, 19, 19);
+        text-shadow: 0 0 20px rgb(114, 20, 20);
+        font-size: 48px;
+    }
 }
 
 .yellow {
-    color: yellow;
-    text-shadow: 0 0 20px lightyellow;
-    border: 3px solid rgb(156, 156, 0);
+    border-bottom: 3px solid rgb(221, 221, 34);    
+
+    span {
+        color: rgb(224, 224, 7);
+        text-shadow: 0 0 20px rgb(178, 178, 43);
+        font-size: 36px;
+        line-height: 96px;
+    }
 }
 
 .orange {
-    color: orange;
-    text-shadow: 0 0 20px rgb(255, 183, 49);
-    border: 3px solid rgb(153, 99, 0);
+    border-bottom: 3px solid rgb(255, 166, 0);    
+
+    span {
+        color: rgb(255, 166, 0);
+        text-shadow: 0 0 20px rgb(198, 139, 31);
+        font-size: 48px;
+    }
 }
 
 .blue {
-    color: blue;
-    text-shadow: 0 0 20px lightblue;
-    border: 3px solid darkblue;
+    border-bottom: 3px solid rgb(37, 37, 255);    
+
+    span {
+        color: rgb(70, 70, 224);
+        text-shadow: 0 0 20px rgb(13, 47, 58);
+        font-size: 48px;
+    }
 }
