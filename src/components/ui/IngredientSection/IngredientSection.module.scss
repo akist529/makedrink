@@ -4,12 +4,13 @@
     grid-template-columns: repeat(auto-fit, 150px);
     justify-content: center;
     list-style-type: none;
+    grid-row-gap: 20px;
 
     .Ingredient {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 20px;
+        gap: 10px;
         width: auto;
         height: auto;
         text-align: center;
@@ -17,10 +18,11 @@
 
         .name {
             display: flex;
-            flex-direction: column;
+            flex-direction: column-reverse;
             justify-content: center;
             align-items: center;
             width: 64px;
+            font-family: 'Oswald';
         }         
     }
 }
