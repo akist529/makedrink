@@ -201,7 +201,7 @@ export default function IngredientsPage() {
         }
     ]
 
-    const other = [
+    const otherAlcohol = [
         {
             name: "Beer",
             color: "#f28e1c"
@@ -215,40 +215,12 @@ export default function IngredientsPage() {
             color: "#F7E7CE"
         },
         {
-            name: "Cream",
-            color: "#FFFDD0"
-        },
-        {
-            name: "Creme of Coconut",
-            color: "#965a3e"
-        },
-        {
             name: "Dry Vermouth",
             color: "#FDFD96"
         },
         {
-            name: "Grenadine",
-            color: "#4c0b09"
-        },
-        {
-            name: "Lemonade",
-            color: "#f0e79d"
-        },
-        {
-            name: "Mint Sprig",
-            color: "#009C6E"
-        },
-        {
-            name: "Simple Syrup",
-            color: "#bfc0ee"
-        },
-        {
             name: "Sweet Vermouth",
             color: "#b11226"
-        },
-        {
-            name: "Water",
-            color: "#bfc0ee"
         },
         {
             name: "Wine",
@@ -291,6 +263,37 @@ export default function IngredientsPage() {
         }
     ]
 
+    const otherMixers = [
+        {
+            name: "Cream",
+            color: "#FFFDD0"
+        },
+        {
+            name: "Creme of Coconut",
+            color: "#965a3e"
+        },
+        {
+            name: "Grenadine",
+            color: "#4c0b09"
+        },
+        {
+            name: "Lemonade",
+            color: "#f0e79d"
+        },
+        {
+            name: "Mint Sprig",
+            color: "#009C6E"
+        },
+        {
+            name: "Simple Syrup",
+            color: "#bfc0ee"
+        },
+        {
+            name: "Water",
+            color: "#bfc0ee"
+        }
+    ]
+
     return (
         <div className={styles.IngredientsPage}>
             <div>
@@ -322,7 +325,7 @@ export default function IngredientsPage() {
                 <IngredientCatBtn category="Liqueurs" color="green" />
                 <IngredientSection section={liqueurs} />
                 <IngredientCatBtn category="Other" color="red" />
-                <IngredientSection section={other} />
+                <IngredientSection section={otherAlcohol} />
             </div>
             <div>
                 <div className={styles.category}>
@@ -334,6 +337,7 @@ export default function IngredientsPage() {
                 <IngredientCatBtn category="Juices" color="orange" />
                 <IngredientSection section={juices} />
                 <IngredientCatBtn category="Other" color="blue" />
+                <IngredientSection section={otherMixers} />
             </div>
         </div>
     )
