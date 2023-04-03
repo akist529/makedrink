@@ -26,7 +26,7 @@ export default function IngredientsPage() {
             color: "#bfc0ee"
         },
         {
-            name: "Bourbon",
+            name: "Whiskey",
             color: "#BA6F1E"
         },
         {
@@ -54,11 +54,7 @@ export default function IngredientsPage() {
             color: "#D7D6CE"
         },
         {
-            name: "Scotch",
-            color: "#CC8E69"
-        },
-        {
-            name: "Rye Whiskey",
+            name: "Scotch Whiskey",
             color: "#CC8E69"
         },
         {
@@ -80,12 +76,80 @@ export default function IngredientsPage() {
         {
             name: "Cognac",
             color: "#834333"
+        },
+        {
+            name: "Bourbon",
+            color: "#BA6F1E"
+        },
+        {
+            name: "White Rum",
+            color: "#bfc0ee"
+        },
+        {
+            name: "Dark Rum",
+            color: "#44362C"
+        },
+        {
+            name: "Whipped Cream Vodka",
+            color: "#bfc0ee"
+        },
+        {
+            name: "Blended",
+            color: "#BA6F1E"
+        },
+        {
+            name: "Aged",
+            color: "#44362C"
+        },
+        {
+            name: "London Dry",
+            color: "#d8e4bc"
+        },
+        {
+            name: "Silver",
+            color: "#F4D2AB"
+        },
+        {
+            name: "Reposado",
+            color: "#F4D2AB"
+        },
+        {
+            name: "Apple Flavored Bourbon",
+            color: "#BA6F1E"
+        },
+        {
+            name: "Spiced Rum",
+            color: "#44362C"
+        },
+        {
+            name: "Blanco",
+            color: "#F4D2AB"
+        },
+        {
+            name: "Navy Rum",
+            color: "#44362C"
+        },
+        {
+            name: "Rye Whiskey",
+            color: "#BA6F1E"
+        },
+        {
+            name: "Irish Whiskey",
+            color: "#BA6F1E"
+        },
+        {
+            name: "Anejo Tequila",
+            color: "#F4D2AB"
+        },
+        {
+            name: "Vanilla Vodka",
+            color: "#bfc0ee"
         }
     ]
 
     const liqueurs = [
         {
-            name: "Almond",
+            name: "Almond Liqueur",
             color: "#EADDCA"
         },
         {
@@ -93,19 +157,19 @@ export default function IngredientsPage() {
             color: "#ffe135"
         },
         {
-            name: "Cherry",
+            name: "Cherry Liqueur",
             color: "#D2042D"
         },
         {
-            name: "Chocolate",
+            name: "Chocolate Liqueur",
             color: "#7B3F00"
         },
         {
-            name: "Coconut",
+            name: "Coconut Liqueur",
             color: "#965a3e"
         },
         {
-            name: "Coffee",
+            name: "Coffee Liqueur",
             color: "#6F4E37"
         },
         {
@@ -113,7 +177,7 @@ export default function IngredientsPage() {
             color: "#8db600"
         },
         {
-            name: "Herbal",
+            name: "Herbal Liqueur",
             color: "#FFBF00"
         },
         {
@@ -129,19 +193,19 @@ export default function IngredientsPage() {
             color: "#dc5349"
         },
         {
-            name: "Melon",
+            name: "Melon Liqueur",
             color: "#febaad"
         },
         {
-            name: "Mint",
+            name: "Mint Liqueur",
             color: "#3EB489"
         },
         {
-            name: "Orange",
+            name: "Orange Liqueur",
             color: "#FFA500"
         },
         {
-            name: "Peach",
+            name: "Peach Liqueur",
             color: "#FFE5B4"
         },
         {
@@ -149,11 +213,11 @@ export default function IngredientsPage() {
             color: "#DDA0DD"
         },
         {
-            name: "Raspberry",
+            name: "Raspberry Liqueur",
             color: "#E30B5C"
         },
         {
-            name: "Sloe-Berry",
+            name: "Sloe Berry Liqueur",
             color: "#444065"
         },
         {
@@ -171,6 +235,82 @@ export default function IngredientsPage() {
         {
             name: "Lemon",
             color: "#FAFA33"
+        },
+        {
+            name: "Blue Curacao",
+            color: "#0000FF"
+        },
+        {
+            name: "Cointreau",
+            color: "#FFA500"
+        },
+        {
+            name: "Chambord",
+            color: "#E30B5C"
+        },
+        {
+            name: "Amaretto",
+            color: "#EADDCA"
+        },
+        {
+            name: "Cherry Brandy",
+            color: "#D2042D"
+        },
+        {
+            name: "Grand Marnier",
+            color: "#FFA500"
+        },
+        {
+            name: "Benedictine",
+            color: "#FFBF00"
+        },
+        {
+            name: "Dark Creme De Cacao",
+            color: "#5C4033"
+        },
+        {
+            name: "Orange Curacao",
+            color: "#FFA500"
+        },
+        {
+            name: "Maraschino",
+            color: "#D2042D"
+        },
+        {
+            name: "Triple Sec",
+            color: "#FFA500"
+        },
+        {
+            name: "Midori",
+            color: "#febaad"
+        },
+        {
+            name: "Kahlua",
+            color: "#6F4E37"
+        },
+        {
+            name: "White Creme De Menthe",
+            color: "#3EB489"
+        },
+        {
+            name: "Galliano",
+            color: "#FFBF00"
+        },
+        {
+            name: "White Creme De Cacao",
+            color: "#bfc0ee"
+        },
+        {
+            name: "Green Creme De Menthe",
+            color: "#3EB489"
+        },
+        {
+            name: "Campari",
+            color: "#FF0000"
+        },
+        {
+            name: "Creme De Noyaux",
+            color: "#EADDCA"
         }
     ]
 
@@ -198,6 +338,10 @@ export default function IngredientsPage() {
         {
             name: "Pineapple Juice",
             color: "#FEEA63"
+        },
+        {
+            name: "Orange Juice",
+            color: "#FFA500"
         }
     ]
 
@@ -229,6 +373,18 @@ export default function IngredientsPage() {
         {
             name: "Sake",
             color: "#f9e8c0"
+        },
+        {
+            name: "Angostura",
+            color: "#FFA500"
+        },
+        {
+            name: "Orange",
+            color: "#FFA500"
+        },
+        {
+            name: "Peychaud",
+            color: "#FFA500"
         }
     ]
 
@@ -246,7 +402,7 @@ export default function IngredientsPage() {
             color: "#c27f38"
         },
         {
-            name: "Lemon-Lime",
+            name: "Lemon-Lime Soda",
             color: "#e3ff00"
         },
         {
@@ -269,7 +425,7 @@ export default function IngredientsPage() {
             color: "#FFFDD0"
         },
         {
-            name: "Creme of Coconut",
+            name: "Cream of Coconut",
             color: "#965a3e"
         },
         {
@@ -290,6 +446,26 @@ export default function IngredientsPage() {
         },
         {
             name: "Water",
+            color: "#bfc0ee"
+        },
+        {
+            name: "Egg White",
+            color: "#FFF5C3"
+        },
+        {
+            name: "Heavy Cream",
+            color: "#FFFDD0"
+        },
+        {
+            name: "Vanilla Extract",
+            color: "#F3E5AB"
+        },
+        {
+            name: "Half & Half",
+            color: "#FFFDD0"
+        },
+        {
+            name: "Almond/Orgeat Syrup",
             color: "#bfc0ee"
         }
     ]

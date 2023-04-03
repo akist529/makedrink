@@ -24,7 +24,7 @@ export default function IngredientSection (props: any) {
                     <li key={item.name} className={styles.Ingredient}>
                         <div className={styles.name}>
                             <span>{item.name}</span>
-                            <Image alt={item.name} src={require(`/public/images/ui/${item.name.toLowerCase().split(" ").join("-")}.webp`)} />
+                            <Image alt={item.name} src={require(`/public/images/ui/${item.name.toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)} />
                         </div>
                         <IngredientCheckbox item={item} />
                     </li>

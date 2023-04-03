@@ -4,7 +4,7 @@ import NavMenuItem from '@/components/navmenu/item/NavMenuItem'
 import Link from 'next/link'
 
 export default function NavMenu (props: any) {
-    const spirits = ['Bourbon', 'Brandy', 'Gin', 'Rum', 'Scotch', 'Tequila', 'Vermouth', 'Vodka', 'Whiskey', 'Absinthe']
+    const spirits = ['Whiskey', 'Brandy', 'Gin', 'Rum', 'Scotch', 'Tequila', 'Vermouth', 'Vodka', 'Absinthe']
     const { navMenuOpen, setNavMenuOpen } = props
 
     return (

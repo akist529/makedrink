@@ -29,6 +29,8 @@ export default function HomePage() {
         <a href="http://freefrontend.com/css-liquid-effects">CSS liquid effect by Dave Quah</a>
         <a href="https://www.flaticon.com/free-icons/drunk" title="drunk icons">Drunk icons created by Prosymbols Premium - Flaticon</a>
         <a href="https://www.flaticon.com/free-icons/bartender" title="bartender icons">Bartender icons created by photo3idea_studio - Flaticon</a>
+        <a href="https://www.flaticon.com/free-icons/bottle" title="bottle icons">Bottle icons created by Aranagraphics - Flaticon</a>
+        <a href="https://www.flaticon.com/free-icons/rum" title="rum icons">Rum icons created by small.smiles - Flaticon</a>
       </footer>
     </div>
   )
