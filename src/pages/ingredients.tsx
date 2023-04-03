@@ -2,6 +2,7 @@ import styles from '@/styles/Ingredients.module.scss'
 import IngredientCatBtn from '@/components/buttons/IngredientCatBtn/IngredientCatBtn'
 import IngredientSection from '@/components/ui/IngredientSection/IngredientSection'
 import Image from 'next/image'
+import { ingredients } from '@/data/IngredientsData'
 
 export default function IngredientsPage() {
     const spirits = [
@@ -469,6 +470,8 @@ export default function IngredientsPage() {
             color: "#bfc0ee"
         }
     ]
+
+    console.log(ingredients)
 
     return (
         <div className={styles.IngredientsPage}>
