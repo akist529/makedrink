@@ -2,13 +2,14 @@ import styles from '@/styles/Ingredients.module.scss'
 import IngredientCatBtn from '@/components/buttons/IngredientCatBtn/IngredientCatBtn'
 import IngredientSection from '@/components/ui/IngredientSection/IngredientSection'
 import Image from 'next/image'
-import { ingredients } from '@/data/IngredientsData'
+import { ingredientsAPI } from '@/data/IngredientsAPI'
+import { ingredientsData } from '@/data/IngredientsData'
 
 export default function IngredientsPage() {
     const spirits = [
         {
             name: "Brandy",
-            color: "#dcb68a"
+            color: "#DCB68A"
         },
         {
             name: "Gin",
@@ -498,11 +499,11 @@ export default function IngredientsPage() {
                     <Image alt="Alcohol" src={require('/public/images/ui/drunk.webp')} width="64" />
                 </div>
                 <IngredientCatBtn category="Spirits" color="pink" />
-                <IngredientSection section={spirits} />
+                <IngredientSection section={ingredientsData.filter(ingredient => ingredient.Type === 'Spirit')} />
                 <IngredientCatBtn category="Liqueurs" color="green" />
-                <IngredientSection section={liqueurs} />
+                <IngredientSection section={ingredientsData.filter(ingredient => ingredient.Type === 'Liqueur')} />
                 <IngredientCatBtn category="Other" color="red" />
-                <IngredientSection section={otherAlcohol} />
+                <IngredientSection section={ingredientsData.filter(ingredient => ingredient.Type === 'Other Alcohol')} />
             </div>
             <div>
                 <div className={styles.category}>
@@ -510,11 +511,11 @@ export default function IngredientsPage() {
                     <Image alt="Mixers" src={require('/public/images/ui/shaker.webp')} height="64" />
                 </div>
                 <IngredientCatBtn category="Carbonated" color="yellow" />
-                <IngredientSection section={carbonated} />
+                <IngredientSection section={ingredientsData.filter(ingredient => ingredient.Type === 'Carbonated')} />
                 <IngredientCatBtn category="Juices" color="orange" />
-                <IngredientSection section={juices} />
+                <IngredientSection section={ingredientsData.filter(ingredient => ingredient.Type === 'Juice')} />
                 <IngredientCatBtn category="Other" color="blue" />
-                <IngredientSection section={otherMixers} />
+                <IngredientSection section={ingredientsData.filter(ingredient => ingredient.Type === 'Other Mixer')} />
             </div>
         </div>
     )

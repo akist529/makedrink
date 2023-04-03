@@ -8,7 +8,7 @@ export default function IngredientCheckbox(props: any) {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const state = localStorage.getItem(`${item.name}`)
+            const state = localStorage.getItem(`${item.Name}`)
 
             if (state) {
                 setIsChecked(true);
@@ -19,7 +19,9 @@ export default function IngredientCheckbox(props: any) {
     }, [])
 
     const colorIsLight = (function colorIsLight() {
-        const hex = item.color.replace('#', '')
+        const style = getComputedStyle(document.body)
+
+        const hex = style.getPropertyValue(item.Color).replace('#', '')
         const c_r = parseInt(hex.substring(0, 0 + 2), 16)
         const c_g = parseInt(hex.substring(2, 2 + 2), 16)
         const c_b = parseInt(hex.substring(4, 4 + 2), 16)
@@ -41,10 +43,10 @@ export default function IngredientCheckbox(props: any) {
 
     return (
         <div
-            id={item.name}
+            id={item.Name}
             className={[styles.checkbox, (isChecked && styles.checked), (colorIsLight && styles.lightColor)].join(' ')}
-            {...(isChecked && {style: { background: `${item.color}` }})}
-            onClick={ () => changeLocalStorage(item.name) }
+            {...(isChecked && {style: { background: `var(${item.Color})` }})}
+            onClick={ () => changeLocalStorage(item.Name) }
         >
             { !isChecked && <Image className={styles.notSelected} alt="Ingredient Not Selected" src={require('/public/images/ui/close.svg')} width="48" height="48" /> }
         </div>

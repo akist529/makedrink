@@ -7,7 +7,7 @@ export default function IngredientSection (props: any) {
 
     const sortedSection = (function sortNames () {
         const sorted = section.sort(function (a: any, b: any) {
-            if (a.name < b.name) {
+            if (a.Name < b.Name) {
                 return -1
             } else {
                 return 1
@@ -21,10 +21,10 @@ export default function IngredientSection (props: any) {
         <ul className={styles.IngredientSection}>
             {sortedSection.map((item: any) => {
                 return (
-                    <li key={item.name} className={styles.Ingredient}>
+                    <li key={item.Name} className={styles.Ingredient}>
                         <div className={styles.name}>
-                            <span>{item.name}</span>
-                            <Image alt={item.name} src={require(`/public/images/ui/${item.name.toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)} />
+                            <span>{item.Name}</span>
+                            <Image alt={item.Name} src={require(`/public/images/ui/${item.Name.toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)} />
                         </div>
                         <IngredientCheckbox item={item} />
                     </li>
