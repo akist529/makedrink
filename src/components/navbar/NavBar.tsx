@@ -12,9 +12,9 @@ export default function NavBar(props: any) {
         <nav className={styles.navbar}>
             <BurgerButton navMenuOpen={navMenuOpen} setNavMenuOpen={setNavMenuOpen} />
             {!searchOpen && <h1>
-                {('BAR.HOME'.split('')).map(letter => {
+                {('BAR.HOME'.split('')).map((letter, index) => {
                     return (
-                        <span key={letter}>{letter}</span>
+                        <span key={index}>{letter}</span>
                     )
                 })}
             </h1>}

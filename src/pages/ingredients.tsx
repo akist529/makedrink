@@ -471,23 +471,21 @@ export default function IngredientsPage() {
         }
     ]
 
-    console.log(ingredients)
-
     return (
         <div className={styles.IngredientsPage}>
             <div>
                 <h1>
                     <div>
-                        { 'Select'.split('').map(letter => {
+                        { 'Select'.split('').map((letter, index) => {
                             return (
-                                <span key={letter}>{letter}</span>
+                                <span key={index}>{letter}</span>
                             )
                         }) }
                     </div>
                     <div>
-                        { 'Ingredients'.split('').map(letter => {
+                        { 'Ingredients'.split('').map((letter, index) => {
                             return (
-                                <span key={letter}>{letter}</span>
+                                <span key={index}>{letter}</span>
                             )
                         }) }
                     </div>
