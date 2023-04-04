@@ -5,8 +5,8 @@ import Image from 'next/image'
 import axios from 'axios'
 import { Item } from '@/types/index'
 
-export default function IngredientsPage(props: { ingredientsData: Item[] }) {
-    const { ingredientsData } = props
+export default function IngredientsPage(props: { ingredientsData: Item[], setIngredientModalOpen: Function }) {
+    const { ingredientsData, setIngredientModalOpen } = props
 
     return (
         <div className={styles.IngredientsPage}>
@@ -35,11 +35,20 @@ export default function IngredientsPage(props: { ingredientsData: Item[] }) {
                     <Image alt="Alcohol" src={require('/public/images/ui/drunk.webp')} width="64" />
                 </div>
                 <IngredientCatBtn category="Spirits" color="pink" />
-                <IngredientSection section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'liquor')} />
+                <IngredientSection
+                    section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'liquor')}
+                    setIngredientModalOpen={setIngredientModalOpen}
+                />
                 <IngredientCatBtn category="Liqueurs" color="green" />
-                <IngredientSection section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'liqueur')} />
+                <IngredientSection
+                    section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'liqueur')}
+                    setIngredientModalOpen={setIngredientModalOpen}
+                />
                 <IngredientCatBtn category="Other" color="red" />
-                <IngredientSection section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'other')} />
+                <IngredientSection
+                    section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'other')}
+                    setIngredientModalOpen={setIngredientModalOpen}
+                />
             </div>
             <div>
                 <div className={styles.category}>
@@ -47,11 +56,20 @@ export default function IngredientsPage(props: { ingredientsData: Item[] }) {
                     <Image alt="Mixers" src={require('/public/images/ui/shaker.webp')} height="64" />
                 </div>
                 <IngredientCatBtn category="Carbonated" color="yellow" />
-                <IngredientSection section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'carbonated')} />
+                <IngredientSection
+                    section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'carbonated')}
+                    setIngredientModalOpen={setIngredientModalOpen}
+                />
                 <IngredientCatBtn category="Juices" color="orange" />
-                <IngredientSection section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'juice')} />
+                <IngredientSection
+                    section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'juice')}
+                    setIngredientModalOpen={setIngredientModalOpen}
+                />
                 <IngredientCatBtn category="Other" color="blue" />
-                <IngredientSection section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'other')} />
+                <IngredientSection
+                    section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'other')}
+                    setIngredientModalOpen={setIngredientModalOpen}
+                />
             </div>
         </div>
     )

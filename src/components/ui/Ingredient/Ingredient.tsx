@@ -4,8 +4,8 @@ import Image from 'next/image'
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox'
 import { useState, useEffect } from 'react'
 
-export default function Ingredient (props: { item: Item, section: Item[] }) {
-    const { item, section } = props
+export default function Ingredient (props: { item: Item, section: Item[], setIngredientModalOpen: Function }) {
+    const { item, section, setIngredientModalOpen } = props
     const [hasChildren, setHasChildren] = useState(false)
 
     useEffect(() => {

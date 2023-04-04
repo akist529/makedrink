@@ -1,6 +1,8 @@
 import styles from '@/styles/Home.module.scss'
+import type { NextPage } from 'next'
 
-export default function HomePage() {
+const HomePage: NextPage = () => {
+
   return (
     <div className={styles.HomePage}>
       <div>Welcome to Next.js!</div>
@@ -35,3 +37,5 @@ export default function HomePage() {
     </div>
   )
 }
+
+export default HomePage

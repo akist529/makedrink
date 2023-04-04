@@ -3,8 +3,8 @@ import Image from 'next/image'
 import Ingredient from '@/components/ui/Ingredient/Ingredient'
 import { Item } from '@/types/index'
 
-export default function IngredientSection (props: {section: Item[]}) {
-    const {section} = props
+export default function IngredientSection (props: {section: Item[], setIngredientModalOpen: Function}) {
+    const {section, setIngredientModalOpen} = props
 
     // Remove ingredients that are variants of another ingredient
     const filteredSection = (() => {
@@ -28,7 +28,12 @@ export default function IngredientSection (props: {section: Item[]}) {
         <ul className={styles.IngredientSection}>
             {sortedSection.map((item: Item) => {
                 return (
-                    <Ingredient key={item['Id']} item={item} section={section} />
+                    <Ingredient
+                        key={item['Id']}
+                        item={item}
+                        section={section}
+                        setIngredientModalOpen={setIngredientModalOpen}
+                    />
                 )
             })}
         </ul>
