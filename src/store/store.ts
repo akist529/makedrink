@@ -15,11 +15,25 @@ export const iconSlice = createSlice({
     }
 })
 
+export const navMenuSlice = createSlice({
+    name: 'navMenu',
+    initialState: {
+        navMenu: false
+    },
+    reducers: {
+        navMenu: state => {
+            state.navMenu = false
+        }
+    }
+})
+
 const store = configureStore({
     reducer: {
-        icon: iconSlice.reducer
+        icon: iconSlice.reducer,
+        navMenu: navMenuSlice.reducer
     }
 })
 
 export default store
 export const iconAction = iconSlice.actions
+export const navMenuAction = navMenuSlice.actions

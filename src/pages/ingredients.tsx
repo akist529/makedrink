@@ -46,7 +46,7 @@ export default function IngredientsPage(props: { ingredientsData: Item[], setIng
                 />
                 <IngredientCatBtn category="Other" color="red" />
                 <IngredientSection
-                    section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'other')}
+                    section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === ('other') || ingredient['Type'] === ('wine'))}
                     setIngredientModalOpen={setIngredientModalOpen}
                 />
             </div>
@@ -67,7 +67,7 @@ export default function IngredientsPage(props: { ingredientsData: Item[], setIng
                 />
                 <IngredientCatBtn category="Other" color="blue" />
                 <IngredientSection
-                    section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'other')}
+                    section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'mixer')}
                     setIngredientModalOpen={setIngredientModalOpen}
                 />
             </div>
