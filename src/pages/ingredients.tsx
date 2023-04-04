@@ -2,7 +2,8 @@ import styles from '@/styles/Ingredients.module.scss'
 import IngredientCatBtn from '@/components/buttons/IngredientCatBtn/IngredientCatBtn'
 import IngredientSection from '@/components/ui/IngredientSection/IngredientSection'
 import Image from 'next/image'
-import ingredientsData from '@/data/IngredientsData'
+import { ingredientsData } from '@/data/IngredientsData'
+import { Item } from '@/types/index'
 
 export default function IngredientsPage() {
     return (
@@ -32,11 +33,11 @@ export default function IngredientsPage() {
                     <Image alt="Alcohol" src={require('/public/images/ui/drunk.webp')} width="64" />
                 </div>
                 <IngredientCatBtn category="Spirits" color="pink" />
-                <IngredientSection section={ingredientsData.filter(ingredient => ingredient['Type'] === 'Spirit')} />
+                <IngredientSection section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'liquor')} />
                 <IngredientCatBtn category="Liqueurs" color="green" />
-                <IngredientSection section={ingredientsData.filter(ingredient => ingredient['Type'] === 'Liqueur')} />
+                <IngredientSection section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'liqueur')} />
                 <IngredientCatBtn category="Other" color="red" />
-                <IngredientSection section={ingredientsData.filter(ingredient => ingredient['Type'] === 'Other Alcohol')} />
+                <IngredientSection section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'other')} />
             </div>
             <div>
                 <div className={styles.category}>
@@ -44,11 +45,11 @@ export default function IngredientsPage() {
                     <Image alt="Mixers" src={require('/public/images/ui/shaker.webp')} height="64" />
                 </div>
                 <IngredientCatBtn category="Carbonated" color="yellow" />
-                <IngredientSection section={ingredientsData.filter(ingredient => ingredient['Type'] === 'Carbonated')} />
+                <IngredientSection section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'carbonated')} />
                 <IngredientCatBtn category="Juices" color="orange" />
-                <IngredientSection section={ingredientsData.filter(ingredient => ingredient['Type'] === 'Juice')} />
+                <IngredientSection section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'juice')} />
                 <IngredientCatBtn category="Other" color="blue" />
-                <IngredientSection section={ingredientsData.filter(ingredient => ingredient['Type'] === 'Other Mixer')} />
+                <IngredientSection section={ingredientsData.filter((ingredient: Item) => ingredient['Type'] === 'other')} />
             </div>
         </div>
     )

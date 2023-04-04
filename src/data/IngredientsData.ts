@@ -1,3 +1,4 @@
+/*
 const ingredientsData = [
     {
         Id:1,
@@ -624,23 +625,39 @@ const ingredientsData = [
         Type: null
     }
 ]
+*/
 
-ingredientsData.forEach(ingredient => {
-    if (!ingredient["Color"]) {
-        ingredientsData.forEach(item => {
-            if (item["Id"] === ingredient["AliasId"]) {
-                ingredient["Color"] = item["Color"]
+import axios from 'axios'
+import { Item } from '@/types/index'
+
+export const ingredientsData: Item[] = (async () => { 
+    await axios.get('http://15.204.244.7:8585/ingredients', {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(response => {
+        return response.data
+    }).then(data => {
+        data.forEach((ingredient: any) => {
+            if (!ingredient["Color"]) {
+                data.forEach((item: any) => {
+                    if (item["Id"] === ingredient["AliasId"]) {
+                        ingredient["Color"] = item["Color"]
+                    }
+                })
+            }
+    
+            if (!ingredient["Type"]) {
+                data.forEach((item: any) => {
+                    if (item["Id"] === ingredient["AliasId"]) {
+                        ingredient["Type"] = item["Type"]
+                    }
+                })
             }
         })
-    }
-
-    if (!ingredient["Type"]) {
-        ingredientsData.forEach(item => {
-            if (item["Id"] === ingredient["AliasId"]) {
-                ingredient["Type"] = item["Type"]
-            }
-        })
-    }
-})
-
-export default ingredientsData
+    }).then(data => {
+        return data
+    }).catch(error => {
+        console.log(error)
+    })
+})()
