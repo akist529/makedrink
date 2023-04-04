@@ -2,10 +2,12 @@ import styles from '@/styles/Ingredients.module.scss'
 import IngredientCatBtn from '@/components/buttons/IngredientCatBtn/IngredientCatBtn'
 import IngredientSection from '@/components/ui/IngredientSection/IngredientSection'
 import Image from 'next/image'
-import { ingredientsData } from '@/data/IngredientsData'
+import axios from 'axios'
 import { Item } from '@/types/index'
 
-export default function IngredientsPage() {
+export default function IngredientsPage(props: { ingredientsData: Item[] }) {
+    const { ingredientsData } = props
+
     return (
         <div className={styles.IngredientsPage}>
             <div>
@@ -53,4 +55,17 @@ export default function IngredientsPage() {
             </div>
         </div>
     )
+}
+
+export async function getStaticProps () {
+    let res = await axios.get('http://15.204.244.7:8585/ingredients')
+    let ingredientsData: Item[] = res.data
+    ingredientsData.forEach(item => {
+        item["Color"] = 'whiskey'
+    })
+    return {
+        props: {
+            ingredientsData
+        }
+    }
 }
