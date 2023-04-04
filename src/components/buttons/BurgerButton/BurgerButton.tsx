@@ -1,5 +1,5 @@
-import BurgerImg from 'public/images/ui/menu.webp'
-import BurgerImgOpen from 'public/images/ui/menu_open.webp'
+import BurgerImg from 'public/images/ui/menu.svg'
+import BurgerImgOpen from 'public/images/ui/menu_open.svg'
 import Image from 'next/image'
 import styles from './BurgerButton.module.scss'
 

@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import ExpandImg from 'public/images/ui/expand_more.webp'
+import ExpandImg from 'public/images/ui/expand_more.svg'
 import styles from './NavMenuCategory.module.scss'
 import NavMenuItem from '@/components/navmenu/item/NavMenuItem'
 import Link from 'next/link'

@@ -1,5 +1,5 @@
 import styles from './SearchButton.module.scss'
-import SearchImg from 'public/images/ui/search.webp'
+import SearchImg from 'public/images/ui/search.svg'
 import Image from 'next/image'
 
 export default function SearchButton (props: any) {

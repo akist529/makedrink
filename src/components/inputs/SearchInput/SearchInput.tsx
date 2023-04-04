@@ -1,7 +1,7 @@
 import styles from './SearchInput.module.scss'
 import CloseButton from '@/components/buttons/CloseButton/CloseButton'
 import SearchButton from '@/components/buttons/SearchButton/SearchButton'
-import SearchImg from 'public/images/ui/search.webp'
+import SearchImg from 'public/images/ui/search.svg'
 import Image from 'next/image'
 
 export default function SearchInput(props: any) {

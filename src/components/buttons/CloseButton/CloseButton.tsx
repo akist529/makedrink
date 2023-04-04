@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import CloseImg from 'public/images/ui/close.webp'
+import CloseImg from 'public/images/ui/close.svg'
 import styles from './CloseButton.module.scss'
 
 export default function CloseButton(props: any) {
