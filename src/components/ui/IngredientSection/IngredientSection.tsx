@@ -1,6 +1,6 @@
 import styles from './IngredientSection.module.scss'
 import Image from 'next/image'
-import IngredientCheckbox from '../../../components/inputs/IngredientCheckbox/IngredientCheckbox'
+import Ingredient from '@/components/ui/Ingredient/Ingredient'
 import { Item } from '@/types/index'
 
 export default function IngredientSection (props: {section: Item[]}) {
@@ -23,18 +23,7 @@ export default function IngredientSection (props: {section: Item[]}) {
         <ul className={styles.IngredientSection}>
             {sortedSection.map((item: Item) => {
                 return (
-                    <li key={item['Id']} className={styles.Ingredient}>
-                        <div className={styles.info}>
-                            <button>
-                                <Image alt="Show Varieties" src={require(`/public/images/ui/more_vert.svg`)} width="8" height="64" />
-                            </button>
-                            <div className={styles.name}>
-                                <span>{item['Name']}</span>
-                                <Image alt={item['Name']} src={require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)} />
-                            </div>
-                        </div>
-                        <IngredientCheckbox item={item} />
-                    </li>
+                    <Ingredient key={item['Id']} item={item} />
                 )
             })}
         </ul>

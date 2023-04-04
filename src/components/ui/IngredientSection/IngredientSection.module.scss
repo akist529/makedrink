@@ -5,42 +5,4 @@
     justify-content: center;
     list-style-type: none;
     grid-gap: 20px;
-
-    .Ingredient {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
-        width: auto;
-        height: auto;
-        text-align: center;
-        color: white;
-
-        .info {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            button {
-                border: none;
-                background: none;
-                cursor: pointer;
-    
-                img {
-                    filter: invert(1);
-                    object-fit: cover;
-                    width: 8px;
-                }
-            }
-
-            .name {
-                display: flex;
-                flex-direction: column-reverse;
-                justify-content: center;
-                align-items: center;
-                width: 64px;
-                font-family: 'Oswald';
-            }
-        }
-    }
 }
