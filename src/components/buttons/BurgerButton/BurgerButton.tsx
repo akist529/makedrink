@@ -8,7 +8,7 @@ export default function BurgerButton(props: any) {
 
     return (
         <button className={styles.burger} onClick={() => setNavMenuOpen((prevState: boolean) => !prevState)}>
-            <Image alt='Open Menu' src={navMenuOpen ? BurgerImgOpen : BurgerImg} />
+            <Image alt='Open Menu' src={navMenuOpen ? BurgerImgOpen : BurgerImg} width="40" height="40" />
         </button>
     )
 }

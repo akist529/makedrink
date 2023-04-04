@@ -1,5 +1,4 @@
 import styles from './SearchButton.module.scss'
-import SearchImg from 'public/images/ui/search.svg'
 import Image from 'next/image'
 
 export default function SearchButton (props: any) {
@@ -7,7 +6,7 @@ export default function SearchButton (props: any) {
 
     return (
         <button className={styles.search} onClick={() => setSearchOpen((prevState: boolean) => !prevState)}>
-            <Image alt='Search' src={SearchImg} />
+            <Image alt='Search' src={require(`/public/images/ui/search.svg`)} width="40" height="40" />
         </button>
     )
 }

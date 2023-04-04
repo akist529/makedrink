@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import ExpandImg from 'public/images/ui/expand_more.svg'
 import styles from './NavMenuCategory.module.scss'
 import NavMenuItem from '@/components/navmenu/item/NavMenuItem'
 import Link from 'next/link'
@@ -11,7 +10,7 @@ export default function NavMenuCategory(props: any) {
         <li className={styles.category}>
             <button>
                 <span>{category}</span>
-                <Image alt='Expand' src={ExpandImg} />
+                <Image alt='Expand' src={require(`/public/images/ui/expand_more.svg`)} width="40" height="40" />
             </button>
             <ul>
                 { items.map((item: string) => {
