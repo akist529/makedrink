@@ -1,7 +1,7 @@
 import styles from './SearchButton.module.scss'
 import Image from 'next/image'
 
-export default function SearchButton (props: any) {
+export default function SearchButton (props: {setSearchOpen: Function}) {
     const { setSearchOpen } = props
 
     return (

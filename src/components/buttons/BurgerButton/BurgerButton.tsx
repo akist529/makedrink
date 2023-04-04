@@ -3,7 +3,7 @@ import BurgerImgOpen from 'public/images/ui/menu_open.svg'
 import Image from 'next/image'
 import styles from './BurgerButton.module.scss'
 
-export default function BurgerButton(props: any) {
+export default function BurgerButton(props: {navMenuOpen: boolean, setNavMenuOpen: Function}) {
     const { navMenuOpen, setNavMenuOpen } = props
 
     return (

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import styles from './CloseButton.module.scss'
 
-export default function CloseButton(props: any) {
+export default function CloseButton(props: {setSearchOpen: Function}) {
     const { setSearchOpen } = props
 
     return (

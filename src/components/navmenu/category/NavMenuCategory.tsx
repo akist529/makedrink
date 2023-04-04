@@ -3,7 +3,7 @@ import styles from './NavMenuCategory.module.scss'
 import NavMenuItem from '@/components/navmenu/item/NavMenuItem'
 import Link from 'next/link'
 
-export default function NavMenuCategory(props: any) {
+export default function NavMenuCategory(props: {category: string, items: string[]}) {
     const {category, items} = props
 
     return (

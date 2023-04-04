@@ -1,7 +1,7 @@
 import styles from './IngredientCatBtn.module.scss'
 import Image from 'next/image'
 
-export default function IngredientCatBtn(props: any) {
+export default function IngredientCatBtn(props: {category: string, color: string}) {
     const { category, color } = props
 
     return (

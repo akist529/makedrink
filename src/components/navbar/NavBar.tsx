@@ -4,7 +4,7 @@ import SearchInput from '@/components/inputs/SearchInput/SearchInput'
 import styles from './NavBar.module.scss'
 import { useState } from 'react'
 
-export default function NavBar(props: any) {
+export default function NavBar(props: {navMenuOpen: boolean, setNavMenuOpen: Function}) {
     const { navMenuOpen, setNavMenuOpen } = props
     const [searchOpen, setSearchOpen] = useState(false)
 

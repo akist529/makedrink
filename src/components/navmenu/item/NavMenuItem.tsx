@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import styles from './NavMenuItem.module.scss'
 
-export default function NavMenuItem(props: any) {
+export default function NavMenuItem(props: {item: string}) {
     const {item} = props
 
     const file = (() => {

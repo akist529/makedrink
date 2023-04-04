@@ -2,7 +2,7 @@ import styles from './SearchInput.module.scss'
 import CloseButton from '@/components/buttons/CloseButton/CloseButton'
 import Image from 'next/image'
 
-export default function SearchInput(props: any) {
+export default function SearchInput(props: {setSearchOpen: Function}) {
     const { setSearchOpen } = props
 
     return (
