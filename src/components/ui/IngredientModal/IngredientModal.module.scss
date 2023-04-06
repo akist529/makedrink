@@ -48,6 +48,8 @@
             display: grid;
             grid-template-columns: repeat(2, 130px);
             grid-gap: 10px;
+            justify-items: center;
+            align-items: center;
         }
 
         >button {
