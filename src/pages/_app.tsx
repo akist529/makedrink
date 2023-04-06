@@ -3,18 +3,18 @@ import type { AppProps } from 'next/app'
 import IngredientModal from '@/components/ui/IngredientModal/IngredientModal'
 import NavBar from '@/components/navbar/NavBar'
 import NavMenu from '@/components/navmenu/NavMenu'
-import { RootState } from '@/store/store'
-import { useSelector } from 'react-redux'
+import { Provider } from 'react-redux'
+import { store } from '@/store/store'
 
 export default function App({ Component, pageProps }: AppProps) {
-  const { ingredientModalOpen } = useSelector((state: RootState) => state.ingredientModal)
-
   return (
-    <div className="app">
-      { ingredientModalOpen && <IngredientModal /> }
-      <NavBar />
-      <NavMenu />
-      <Component {...pageProps} className="page" />
-    </div>
+    <Provider store={store}>
+      <div className="app">
+        <IngredientModal />
+        <NavBar />
+        <NavMenu />
+        <Component {...pageProps} className="page" />
+      </div>
+    </Provider>
   )
 }

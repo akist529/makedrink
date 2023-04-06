@@ -4,6 +4,7 @@ import NavMenuItem from '@/components/navmenu/item/NavMenuItem'
 import Link from 'next/link'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/store/store'
+import { toggleNavMenu } from '@/store/slices/navMenu.slice'
 
 export default function NavMenu () {
     const spirits = ['Whiskey', 'Brandy', 'Gin', 'Rum', 'Scotch', 'Tequila', 'Vermouth', 'Vodka', 'Absinthe']
@@ -13,7 +14,7 @@ export default function NavMenu () {
     return (
         <nav className={[styles.navmenu, (navMenuOpen ?  styles.open : styles.closed)].join(' ')}>
             <ul>
-                <Link href='/ingredients' onClick={() => dispatch({type: 'toggleNavMenu'})}>
+                <Link href='/ingredients' onClick={() => dispatch(toggleNavMenu())}>
                     <NavMenuItem item='Select Ingredients' />
                 </Link>
                 <NavMenuCategory category='Spirits' items={spirits} />

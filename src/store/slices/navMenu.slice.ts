@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { HYDRATE } from 'next-redux-wrapper'
 
 export const navMenuSlice = createSlice({
     name: 'navMenu',
@@ -6,8 +7,16 @@ export const navMenuSlice = createSlice({
         navMenuOpen: false
     },
     reducers: {
-        toggleNavMenu: state => {
+        toggleNavMenu: (state) => {
             state.navMenuOpen = !state.navMenuOpen
+        }
+    },
+    extraReducers: {
+        [HYDRATE]: (state, action) => {
+            return {
+                ...state,
+                ...action.payload.navMenu
+            }
         }
     }
 })

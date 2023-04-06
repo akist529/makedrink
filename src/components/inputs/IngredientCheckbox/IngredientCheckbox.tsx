@@ -1,8 +1,9 @@
 import styles from './IngredientCheckbox.module.scss'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import { Item } from '@/types/index'
 
-export default function IngredientCheckbox(props: any) {
+export default function IngredientCheckbox(props: { item: Item }) {
     const {item} = props
     const [isChecked, setIsChecked] = useState(false)
     const [colorIsLight, setColorIsLight] = useState(false)

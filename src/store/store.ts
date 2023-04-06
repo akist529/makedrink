@@ -1,15 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit'
-import navMenuReducer from './slices/navMenu.slice'
-import searchReducer from './slices/search.slice'
-import ingredientModalReducer from './slices/ingredientModal.slice'
+import { configureStore} from '@reduxjs/toolkit'
+import rootReducer from './rootReducer'
 
-const store = configureStore({
-    reducer: {
-        navMenu: navMenuReducer,
-        search: searchReducer,
-        ingredientModal: ingredientModalReducer
-    }
+export const store = configureStore({
+    reducer: rootReducer,
+    devTools: true
 })
 
 export type RootState = ReturnType<typeof store.getState>
-export default store
+export type AppDispatch = typeof store.dispatch
