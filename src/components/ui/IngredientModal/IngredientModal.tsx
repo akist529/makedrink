@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import { toggleIngredientModal } from '@/store/slices/ingredientModal.slice'
 
 export default function IngredientModal() {
-    const { ingredientModalOpen, modalIngredientID } = useSelector((state: RootState) => state.ingredientModal)
+    const { ingredientModalOpen, modalIngredient } = useSelector((state: RootState) => state.ingredientModal)
     const dispatch = useDispatch()
 
     return (
@@ -16,7 +16,7 @@ export default function IngredientModal() {
                     <button className={styles.closeBtn} onClick={() => dispatch(toggleIngredientModal())}>
                         <Image alt="Close Modal" src={require('/public/images/ui/close.svg')} />
                     </button>
-                    <span>{modalIngredientID}</span>
+                    <span>{modalIngredient['Id']}</span>
                 </div>
             </div> }
         </>

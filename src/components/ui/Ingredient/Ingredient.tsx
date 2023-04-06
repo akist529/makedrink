@@ -44,7 +44,7 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
 
     function handleClick () {
         if (hasChildren) {
-            dispatch(setModalIngredient(item['Id']))
+            dispatch(setModalIngredient(item))
             dispatch(toggleIngredientModal())
         } else {
             changeLocalStorage()
