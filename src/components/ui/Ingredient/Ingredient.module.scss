@@ -11,6 +11,9 @@
         display: grid;
         grid-template-columns: 8px 1fr 50px;
         align-items: center;
+        background: none;
+        border: none;
+        cursor: pointer;
 
         .children {
             grid-column: 1 / 2;
