@@ -23,6 +23,20 @@
         bottom: 0;
         z-index: 11;
         animation: 0.5s modal-spawn forwards;
+
+        .closeBtn {
+            border: none;
+            background: none;
+            cursor: pointer;
+
+            position: absolute;
+            top: 5px;
+            right: 5px;
+
+            img {
+                filter: invert(1);
+            }
+        }
     }
 
     @keyframes background-spawn {
