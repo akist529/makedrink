@@ -13,12 +13,6 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        section.forEach(ingredient => {
-            if (ingredient['AliasId'] === item['Id']) {
-                setHasChildren(true)
-            }
-        })
-
         if (typeof window !== 'undefined') {
             const state = localStorage.getItem(`${item['Name']}`)
 
@@ -28,6 +22,16 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
                 setIsChecked(false);
             }
         }
+
+        section.forEach(ingredient => {
+            if (ingredient['AliasId'] === item['Id']) {
+                setHasChildren(true)
+
+                if (localStorage.getItem(`${ingredient['Name']}`)) {
+                    setIsChecked(true);
+                }
+            }
+        })
     }, [])
 
     function changeLocalStorage() {
