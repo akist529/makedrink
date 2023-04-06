@@ -3,11 +3,14 @@ import styles from './Ingredient.module.scss'
 import Image from 'next/image'
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox'
 import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { toggleIngredientModal } from '@/store/slices/ingredientModal.slice'
 
 export default function Ingredient (props: { item: Item, section: Item[] }) {
     const { item, section } = props
     const [hasChildren, setHasChildren] = useState(false)
     const [isChecked, setIsChecked] = useState(false)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         section.forEach(ingredient => {
@@ -41,7 +44,7 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
 
     return (
         <li className={styles.Ingredient}>
-            <button className={styles.info} onClick={ () => changeLocalStorage() }>
+            <button className={styles.info} onClick={ () => (hasChildren ? dispatch(toggleIngredientModal()) : changeLocalStorage() )}>
                 { hasChildren && <Image className={styles.children} alt="Show Varieties" src={require(`/public/images/ui/more_vert.svg`)} width="8" height="64" /> }
                 <div className={styles.icon}>
                     <Image alt={item['Name']} src={require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)} />
