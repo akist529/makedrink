@@ -4,10 +4,14 @@ import { RootState } from '@/store/store'
 import Image from 'next/image'
 import { useDispatch } from 'react-redux'
 import { toggleIngredientModal } from '@/store/slices/ingredientModal.slice'
+import { useGetAllIngredientsQuery } from '@/store/api/api'
 
 export default function IngredientModal() {
+    const { data } = useGetAllIngredientsQuery()
     const { ingredientModalOpen, modalIngredient } = useSelector((state: RootState) => state.ingredientModal)
     const dispatch = useDispatch()
+
+    console.log(data)
 
     return (
         <>
