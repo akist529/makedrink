@@ -17,7 +17,7 @@
         color: white;
 
         width: 100vw;
-        height: 300px;
+        height: auto;
         position: fixed;
         left: 0;
         bottom: 0;
@@ -44,7 +44,13 @@
             }
         }
 
-        button {
+        .childList {
+            display: grid;
+            grid-template-columns: repeat(2, 130px);
+            grid-gap: 10px;
+        }
+
+        >button {
             border: none;
             background: none;
             cursor: pointer;
