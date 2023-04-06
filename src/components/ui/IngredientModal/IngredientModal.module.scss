@@ -24,17 +24,35 @@
         z-index: 11;
         animation: 0.5s modal-spawn forwards;
 
-        .closeBtn {
-            border: none;
-            background: none;
-            cursor: pointer;
+        display: grid;
+        grid-template-rows: 100px 1fr;
+        grid-template-columns: repeat(5, 1fr);
 
-            position: absolute;
-            top: 5px;
-            right: 5px;
+        .header {
+            grid-row: 1 / 2;
+            grid-column: 1 / -1;
 
-            img {
-                filter: invert(1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+
+            span {
+                font-size: 36px;
+            }
+
+            button {
+                border: none;
+                background: none;
+                cursor: pointer;
+    
+                position: absolute;
+                top: 5px;
+                right: 5px;
+    
+                img {
+                    filter: invert(1);
+                }
             }
         }
     }

@@ -13,10 +13,13 @@ export default function IngredientModal() {
         <>
             { ingredientModalOpen && <div className={styles.background}>
                 <div className={styles.modal}>
-                    <button className={styles.closeBtn} onClick={() => dispatch(toggleIngredientModal())}>
-                        <Image alt="Close Modal" src={require('/public/images/ui/close.svg')} />
-                    </button>
-                    <span>{modalIngredient['Id']}</span>
+                    <div className={styles.header}>
+                        <button onClick={() => dispatch(toggleIngredientModal())}>
+                            <Image alt="Close Modal" src={require('/public/images/ui/close.svg')} />
+                        </button>
+                        <span>{modalIngredient['Name']}</span>
+                        <Image alt={modalIngredient['Name']} src={require(`/public/images/ui/${modalIngredient['Name'].toLowerCase().split(' ').join('-').replace('/', '-')}.webp`)} />
+                    </div>
                 </div>
             </div> }
         </>
