@@ -6,16 +6,38 @@
     left: 0;
     top: 0;
     z-index: 10;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    animation: 0.15s background-spawn forwards;
 
     .modal {
-        width: 300px;
-        height: 600px;
-        background: white;
-        position: relative;
+        background-color: #111111;
+        background-image:  linear-gradient(135deg, #141414 25%, transparent 25%), linear-gradient(225deg, #141414 25%, transparent 25%), linear-gradient(45deg, #141414 25%, transparent 25%), linear-gradient(315deg, #141414 25%, #111111 25%);
+        background-position:  24px 0, 24px 0, 0 0, 0 0;
+        background-size: 48px 48px;
+        background-repeat: repeat;
+        color: white;
+
+        width: 100vw;
+        height: 300px;
+        position: fixed;
+        left: 0;
+        bottom: 0;
         z-index: 11;
+        animation: 0.5s modal-spawn forwards;
+    }
+
+    @keyframes background-spawn {
+        from {
+            opacity: 0%;
+        } to {
+            opacity: 100%;
+        }
+    }
+
+    @keyframes modal-spawn {
+        from {
+            bottom: -300px;
+        } to {
+            bottom: 0px;
+        }
     }
 }

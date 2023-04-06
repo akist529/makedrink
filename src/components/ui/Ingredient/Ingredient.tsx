@@ -4,7 +4,7 @@ import Image from 'next/image'
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox'
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { toggleIngredientModal } from '@/store/slices/ingredientModal.slice'
+import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingredientModal.slice'
 
 export default function Ingredient (props: { item: Item, section: Item[] }) {
     const { item, section } = props
@@ -42,9 +42,18 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
         }
     }
 
+    function handleClick () {
+        if (hasChildren) {
+            dispatch(setModalIngredient(item['Id']))
+            dispatch(toggleIngredientModal())
+        } else {
+            changeLocalStorage()
+        }
+    }
+
     return (
         <li className={styles.Ingredient}>
-            <button className={styles.info} onClick={ () => (hasChildren ? dispatch(toggleIngredientModal()) : changeLocalStorage() )}>
+            <button className={styles.info} onClick={ () => handleClick()}>
                 { hasChildren && <Image className={styles.children} alt="Show Varieties" src={require(`/public/images/ui/more_vert.svg`)} width="8" height="64" /> }
                 <div className={styles.icon}>
                     <Image alt={item['Name']} src={require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)} />

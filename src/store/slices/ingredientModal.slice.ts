@@ -1,14 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
 
 export const ingredientModalSlice = createSlice({
     name: 'ingredientModal',
     initialState: {
-        ingredientModalOpen: false
+        ingredientModalOpen: false,
+        modalIngredientID: 0
     },
     reducers: {
         toggleIngredientModal: (state) => {
             state.ingredientModalOpen = !state.ingredientModalOpen
+        },
+        setModalIngredient: (state, action: PayloadAction<number>) => {
+            state.modalIngredientID = action.payload
         }
     },
     extraReducers: {
@@ -21,5 +25,5 @@ export const ingredientModalSlice = createSlice({
     }
 })
 
-export const { toggleIngredientModal } = ingredientModalSlice.actions
+export const { toggleIngredientModal, setModalIngredient } = ingredientModalSlice.actions
 export default ingredientModalSlice.reducer
