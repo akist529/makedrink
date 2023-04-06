@@ -3,7 +3,6 @@ export interface Item {
     Name: string
     AliasId: number
     Type: string
-    Color: string
 }
 
 export interface Ingredient {
