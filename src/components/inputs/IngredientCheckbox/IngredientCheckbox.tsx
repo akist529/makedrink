@@ -37,12 +37,10 @@ export default function IngredientCheckbox(props: { item: Item }) {
         })
     }, [])
 
+    const boxStyles = [styles.checkbox, (isChecked && styles.checked), (colorIsLight && styles.lightColor)].join(' ')
+
     return (
-        <div
-            id={item['Name']}
-            className={[styles.checkbox, (isChecked && styles.checked), (colorIsLight && styles.lightColor)].join(' ')}
-            { ...isChecked && {style: { background: `var(--whiskey)` }} }
-        >
+        <div id={item['Name']} className={boxStyles} {...isChecked && {style: {background: `var(--whiskey)`}}}>
             { !isChecked && <Image className={styles.notSelected} alt="Ingredient Not Selected" src={require('/public/images/ui/close.svg')} width="48" height="48" /> }
         </div>
     )
