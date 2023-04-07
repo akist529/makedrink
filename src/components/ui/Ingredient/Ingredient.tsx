@@ -15,10 +15,15 @@ import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/Ingredien
 import { Item, StoredIngredient } from '@/types/index'
 
 export default function Ingredient (props: { item: Item, section: Item[] }) {
+    // Import props
     const { item, section } = props
+    // React states
     const [hasChildren, setHasChildren] = useState(false)
     const [isChecked, setIsChecked] = useState(false)
+    
     const dispatch = useDispatch()
+    const ingredientImagePath = require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)
+    const childrenImagePath = require(`/public/images/ui/more_vert.svg`)
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -68,10 +73,11 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
 
     return (
         <li className={styles.Ingredient}>
-            <button className={styles.info} onClick={ () => handleClick()}>
-                { hasChildren && <Image className={styles.children} alt="Show Varieties" src={require(`/public/images/ui/more_vert.svg`)} width="8" height="64" /> }
+            <button className={styles.info} onClick={() => handleClick()}>
+                { hasChildren &&
+                    <Image className={styles.children} alt="Show Varieties" src={childrenImagePath} width="8" height="64" /> }
                 <div className={styles.icon}>
-                    <Image alt={item['Name']} src={require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)} />
+                    <Image alt={item['Name']} src={ingredientImagePath} />
                 </div>
                 <IngredientCheckbox item={item} isChecked={isChecked} />
             </button>
