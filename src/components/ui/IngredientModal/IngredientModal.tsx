@@ -13,29 +13,37 @@ import Ingredient from '@/components/ui/Ingredient/Ingredient'
 import { Item } from '@/types/index'
 
 export default function IngredientModal() {
+    // Redux selectors
     const { ingredientModalOpen, modalIngredient } = useSelector((state: RootState) => state.ingredientModal)
-    const dispatch = useDispatch()
+    // Redux API data
     const { data, isLoading, error } = useGetAllIngredientsQuery()
+
+    const dispatch = useDispatch()
+    const closeImagePath = require('/public/images/ui/close.svg')
+    const ingredientImagePath = require(`/public/images/ui/${modalIngredient['Name'].toLowerCase().split(' ').join('-').replace('/', '-')}.webp`)
 
     return (
         <>
-            { ingredientModalOpen && data && <div className={styles.background}>
-                <div className={styles.modal}>
-                    <button onClick={() => dispatch(toggleIngredientModal())}>
-                        <Image alt="Close Modal" src={require('/public/images/ui/close.svg')} />
-                    </button>
-                    <div className={styles.header}>
-                        <span>{modalIngredient['Name']}</span>
-                        <Image alt={modalIngredient['Name']} src={require(`/public/images/ui/${modalIngredient['Name'].toLowerCase().split(' ').join('-').replace('/', '-')}.webp`)} />
+            { ingredientModalOpen && data &&
+                <div className={styles.background}>
+                    <div className={styles.modal}>
+                        <button onClick={() => dispatch(toggleIngredientModal())}>
+                            <Image alt="Close Modal" src={closeImagePath} />
+                        </button>
+                        <div className={styles.header}>
+                            <span>{modalIngredient['Name']}</span>
+                            <Image alt={modalIngredient['Name']} src={ingredientImagePath} />
+                        </div>
+                        <div className={styles.childList}>
+                            { data.filter((ingredient: Item) => ingredient['AliasId'] === modalIngredient['Id'])
+                                .map(ingredient => <Ingredient item={ingredient} section={[]} key={ingredient['Id']} />) }
+                        </div>
                     </div>
-                    <div className={styles.childList}>
-                        { data.filter((ingredient: Item) => ingredient['AliasId'] === modalIngredient['Id'])
-                            .map(ingredient => <Ingredient item={ingredient} section={[]} key={ingredient['Id']} />) }
-                    </div>
-                </div>
-            </div> }
-            { isLoading && <h1>Loading...</h1> }
-            { error && <h1>Error!</h1> }
+                </div> }
+            { isLoading &&
+                <h1>Loading...</h1> }
+            { error &&
+                <h1>Error!</h1> }
         </>
     )
 }
