@@ -1,4 +1,6 @@
+// Redux components
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+// Type interfaces
 import { Item } from '@/types/index'
 
 export const ingredientsApi = createApi({

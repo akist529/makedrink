@@ -1,9 +1,14 @@
+// Page styles
 import styles from '@/styles/Ingredients.module.scss'
+// Next components
+import Image from 'next/image'
+// Redux components
+import { useGetAllIngredientsQuery } from '@/store/api/api'
+// Type interfaces
+import { Item } from '@/types/index'
+// Local components
 import IngredientCatBtn from '@/components/buttons/IngredientCatBtn/IngredientCatBtn'
 import IngredientSection from '@/components/ui/IngredientSection/IngredientSection'
-import Image from 'next/image'
-import { Item } from '@/types/index'
-import { useGetAllIngredientsQuery } from '@/store/api/api'
 
 export default function IngredientsPage() {
     const { data, isLoading, error } = useGetAllIngredientsQuery()

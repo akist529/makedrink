@@ -1,5 +1,7 @@
-import Image from 'next/image'
+// Component styles
 import styles from './NavMenuItem.module.scss'
+// Next components
+import Image from 'next/image'
 
 export default function NavMenuItem(props: {item: string}) {
     const {item} = props

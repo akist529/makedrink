@@ -1,18 +1,24 @@
-import { Item } from '@/types/index'
+// Component styles
 import styles from './Ingredient.module.scss'
-import Image from 'next/image'
-import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox'
+// React components
 import { useState, useEffect } from 'react'
+// Next components
+import Image from 'next/image'
+// Redux components
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingredientModal.slice'
+import { addIngredient } from '@/store/slices/ingredients.slice'
 import { RootState } from '@/store/store'
+// Local components
+import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox'
+// Type interfaces
+import { Item, StoredIngredient } from '@/types/index'
 
 export default function Ingredient (props: { item: Item, section: Item[] }) {
     const { item, section } = props
     const [hasChildren, setHasChildren] = useState(false)
     const [isChecked, setIsChecked] = useState(false)
     const dispatch = useDispatch()
-    const { availableIngredients } = useSelector((state: RootState) => state.ingredients)
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -36,8 +42,11 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
         })
     }, [])
 
-    function changeLocalStorage() {
-        const prevValue = JSON.parse(localStorage.getItem(item['Name']) || 'false')
+    function ChangeLocalStorage() {
+        const ingredients = useSelector((state: RootState) => state.ingredients)
+        
+        console.log(ingredients)
+        const prevValue = 0
         
         if (prevValue) {
             setIsChecked(false)
@@ -53,7 +62,7 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
             dispatch(setModalIngredient(item))
             dispatch(toggleIngredientModal())
         } else {
-            changeLocalStorage()
+            ChangeLocalStorage()
         }
     }
 

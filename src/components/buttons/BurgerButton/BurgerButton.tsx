@@ -1,10 +1,14 @@
-import BurgerImg from 'public/images/ui/menu.svg'
-import BurgerImgOpen from 'public/images/ui/menu_open.svg'
-import Image from 'next/image'
+// Component styles
 import styles from './BurgerButton.module.scss'
+// Next components
+import Image from 'next/image'
+// Redux components
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/store/store'
 import { toggleNavMenu } from '@/store/slices/navMenu.slice'
+// Local images
+import BurgerImg from 'public/images/ui/menu.svg'
+import BurgerImgOpen from 'public/images/ui/menu_open.svg'
 
 export default function BurgerButton() {
     const { navMenuOpen } = useSelector((state: RootState) => state.navMenu)

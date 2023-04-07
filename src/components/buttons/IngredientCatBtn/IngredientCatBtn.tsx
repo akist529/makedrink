@@ -1,4 +1,6 @@
+// Component styles
 import styles from './IngredientCatBtn.module.scss'
+// Next components
 import Image from 'next/image'
 
 export default function IngredientCatBtn(props: {category: string, color: string}) {

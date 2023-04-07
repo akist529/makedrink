@@ -1,5 +1,8 @@
+// Component styles
 import styles from './IngredientSection.module.scss'
+// Local components
 import Ingredient from '@/components/ui/Ingredient/Ingredient'
+// Type interfaces
 import { Item } from '@/types/index'
 
 export default function IngredientSection (props: {section: Item[]}) {

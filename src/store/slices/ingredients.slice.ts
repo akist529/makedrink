@@ -1,22 +1,19 @@
+// Redux components
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
-import { StoredIngredient } from '@/types/index'
 
 export const ingredientsSlice = createSlice({
     name: 'ingredients',
     initialState: {
-        storedIngredients: [] as StoredIngredient[]
+        storedIngredients: [] as string[]
     },
     reducers: {
         addIngredient: (state, action: PayloadAction<string>) => {
-            state.storedIngredients.push({
-                Name: action.payload,
-                Value: true
-            })
+            state.storedIngredients.push(action.payload)
         },
         removeIngredient: (state, action: PayloadAction<string>) => {
             state.storedIngredients = state.storedIngredients.filter(ingredient => {
-                ingredient['Name'] !== action.payload
+                ingredient !== action.payload
             })
         }
     },

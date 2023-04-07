@@ -1,12 +1,16 @@
+// Component styles
 import styles from './IngredientModal.module.scss'
-import { useSelector } from 'react-redux'
-import { RootState } from '@/store/store'
+// Next components
 import Image from 'next/image'
-import { useDispatch } from 'react-redux'
+// Redux components
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '@/store/store'
 import { toggleIngredientModal } from '@/store/slices/ingredientModal.slice'
 import { useGetAllIngredientsQuery } from '@/store/api/api'
-import { Item } from '@/types/index'
+// Local components
 import Ingredient from '@/components/ui/Ingredient/Ingredient'
+// Type interfaces
+import { Item } from '@/types/index'
 
 export default function IngredientModal() {
     const { ingredientModalOpen, modalIngredient } = useSelector((state: RootState) => state.ingredientModal)

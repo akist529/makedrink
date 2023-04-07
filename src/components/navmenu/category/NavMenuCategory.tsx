@@ -1,7 +1,10 @@
-import Image from 'next/image'
+// Component styles
 import styles from './NavMenuCategory.module.scss'
-import NavMenuItem from '@/components/navmenu/item/NavMenuItem'
+// Next components
+import Image from 'next/image'
 import Link from 'next/link'
+// Local components
+import NavMenuItem from '@/components/navmenu/item/NavMenuItem'
 
 export default function NavMenuCategory(props: {category: string, items: string[]}) {
     const {category, items} = props

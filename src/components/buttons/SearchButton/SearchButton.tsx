@@ -1,5 +1,8 @@
+// Component styles
 import styles from './SearchButton.module.scss'
+// Next components
 import Image from 'next/image'
+// Redux components
 import { useDispatch } from 'react-redux'
 import { toggleSearch } from '@/store/slices/search.slice'
 

@@ -1,8 +1,10 @@
+// Redux components
 import { configureStore } from '@reduxjs/toolkit'
 import rootReducer from './rootReducer'
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 import thunk from 'redux-thunk'
+// Store APIs
 import { ingredientsApi } from '@/store/api/api'
 
 const persistConfig = {

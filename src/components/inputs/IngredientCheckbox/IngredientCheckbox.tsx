@@ -1,21 +1,29 @@
+// Component styles
 import styles from './IngredientCheckbox.module.scss'
+// React components
 import { useState, useEffect } from 'react'
+// Next components
 import Image from 'next/image'
-import { Item, StoredIngredient } from '@/types/index'
-import { useGetAllIngredientsQuery } from '@/store/api/api'
+// Redux components
 import { useSelector, useDispatch } from 'react-redux'
+import { useGetAllIngredientsQuery } from '@/store/api/api'
 import { RootState } from '@/store/store'
+// Type interfaces
+import { Item, StoredIngredient } from '@/types/index'
 
 export default function IngredientCheckbox(props: { item: Item }) {
     const {item} = props
     const [colorIsLight, setColorIsLight] = useState(false)
-    const { availableIngredients } = useSelector((state: RootState) => state.ingredients)
-    const { data, isLoading, error } = useGetAllIngredientsQuery()
-    const [isChecked, setIsChecked] = useState(() => {
-        return JSON.parse(localStorage.getItem('ingredients') || '[]')
-            .filter((ingredient: StoredIngredient) => ingredient['Name'] === item['Name'])
-            ['Value']
-    })
+    const { storedIngredients } = useSelector((state: RootState) => state.ingredients)
+    const [isChecked, setIsChecked] = useState(false)
+
+    useEffect(() => {
+        const storage = storedIngredients.filter(ingredient => ingredient['Name'] === item['Name'])
+
+        if (storage) {
+            setIsChecked(true)
+        }
+    }, [])
 
     useEffect(() => {
         setColorIsLight(() => {
@@ -33,7 +41,7 @@ export default function IngredientCheckbox(props: { item: Item }) {
         <div
             id={item['Name']}
             className={[styles.checkbox, (isChecked && styles.checked), (colorIsLight && styles.lightColor)].join(' ')}
-            {...(isChecked && {style: { background: `var(--whiskey)` }})}
+            { ...isChecked && {style: { background: `var(--whiskey)` }} }
         >
             { !isChecked && <Image className={styles.notSelected} alt="Ingredient Not Selected" src={require('/public/images/ui/close.svg')} width="48" height="48" /> }
         </div>

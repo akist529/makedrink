@@ -1,4 +1,6 @@
+// Page styles
 import styles from '@/styles/Home.module.scss'
+// Next components
 import type { NextPage } from 'next'
 
 const HomePage: NextPage = () => {

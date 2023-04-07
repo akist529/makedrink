@@ -1,5 +1,7 @@
+// Redux components
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
+// Type interfaces
 import { Item } from '@/types/index'
 
 export const ingredientModalSlice = createSlice({

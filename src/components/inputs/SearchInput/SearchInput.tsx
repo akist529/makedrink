@@ -1,6 +1,9 @@
+// Component styles
 import styles from './SearchInput.module.scss'
-import CloseButton from '@/components/buttons/CloseButton/CloseButton'
+// Next components
 import Image from 'next/image'
+// Local components
+import CloseButton from '@/components/buttons/CloseButton/CloseButton'
 
 export default function SearchInput() {
     return (

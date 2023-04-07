@@ -1,10 +1,14 @@
+// Component styles
 import styles from './NavMenu.module.scss'
-import NavMenuCategory from '@/components/navmenu/category/NavMenuCategory'
-import NavMenuItem from '@/components/navmenu/item/NavMenuItem'
+// Next components
 import Link from 'next/link'
+// Redux components
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/store/store'
 import { toggleNavMenu } from '@/store/slices/navMenu.slice'
+// Local components
+import NavMenuCategory from '@/components/navmenu/category/NavMenuCategory'
+import NavMenuItem from '@/components/navmenu/item/NavMenuItem'
 
 export default function NavMenu () {
     const spirits = ['Whiskey', 'Brandy', 'Gin', 'Rum', 'Scotch', 'Tequila', 'Vermouth', 'Vodka', 'Absinthe']
