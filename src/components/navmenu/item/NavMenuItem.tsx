@@ -4,17 +4,16 @@ import styles from './NavMenuItem.module.scss'
 import Image from 'next/image'
 
 export default function NavMenuItem(props: {item: string}) {
+    // Import props
     const {item} = props
 
-    const file = (() => {
-        return item.toLowerCase().split(' ').join('-')
-    })()
+    const imagePath = require(`/public/images/ui/${item.toLowerCase().split(' ').join('-')}.webp`)
 
     return (
         <li className={styles.item}>
             <button>
                 <span>{item}</span>
-                <Image alt={item} src={require(`/public/images/ui/${file}.webp`)} width='48' height='48' />
+                <Image alt={item} src={imagePath} width='48' height='48' />
             </button>
         </li>
     )
