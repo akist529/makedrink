@@ -12,11 +12,15 @@ import { RootState } from '@/store/store'
 import { Item, StoredIngredient } from '@/types/index'
 
 export default function IngredientCheckbox(props: { item: Item }) {
+    // Import props
     const {item} = props
+    // React states
     const [colorIsLight, setColorIsLight] = useState(false)
-    const { storedIngredients } = useSelector((state: RootState) => state.ingredients)
     const [isChecked, setIsChecked] = useState(false)
+    // Redux selectors
+    const { storedIngredients } = useSelector((state: RootState) => state.ingredients)
 
+    // See if ingredient is already in store
     useEffect(() => {
         const storage = storedIngredients.filter(ingredient => ingredient['Name'] === item['Name'])
 
@@ -25,6 +29,7 @@ export default function IngredientCheckbox(props: { item: Item }) {
         }
     }, [])
 
+    // Decide color of checkmark based on ingredient color
     useEffect(() => {
         setColorIsLight(() => {
             const style = getComputedStyle(document.body)
@@ -38,10 +43,12 @@ export default function IngredientCheckbox(props: { item: Item }) {
     }, [])
 
     const boxStyles = [styles.checkbox, (isChecked && styles.checked), (colorIsLight && styles.lightColor)].join(' ')
+    const imagePath = require('/public/images/ui/close.svg')
 
     return (
         <div id={item['Name']} className={boxStyles} {...isChecked && {style: {background: `var(--whiskey)`}}}>
-            { !isChecked && <Image className={styles.notSelected} alt="Ingredient Not Selected" src={require('/public/images/ui/close.svg')} width="48" height="48" /> }
+            { !isChecked && 
+                <Image className={styles.notSelected} alt="Ingredient Not Selected" src={imagePath} width="48" height="48" /> }
         </div>
     )
 }
