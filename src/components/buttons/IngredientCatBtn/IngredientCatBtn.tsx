@@ -5,11 +5,13 @@ import Image from 'next/image'
 
 export default function IngredientCatBtn(props: {category: string, color: string}) {
     const { category, color } = props
-
+    const btnStyles = [styles.ingCategory, styles[`${color}`]].join(' ')
+    const imagePath = require(`/public/images/ui/${category.toLowerCase()}.webp`)
+    
     return (
-        <button className={[styles.ingCategory, styles[`${color}`]].join(" ")}>
+        <button className={btnStyles}>
             <span>{category}</span>
-            <Image alt={category} src={require(`/public/images/ui/${category.toLowerCase()}.webp`)} width="64" height="64" />
+            <Image alt={category} src={imagePath} width="64" height="64" />
         </button>
     )
 }
