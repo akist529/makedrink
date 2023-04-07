@@ -8,10 +8,11 @@ import { toggleSearch } from '@/store/slices/search.slice'
 
 export default function CloseButton() {
     const dispatch = useDispatch()
+    const imagePath = require(`/public/images/ui/close.svg`)
 
     return (
         <button className={styles.closebtn} onClick={() => dispatch(toggleSearch())}>
-            <Image alt='Close' src={require(`/public/images/ui/close.svg`)} width="48" height="48" />
+            <Image alt='Close' src={imagePath} width="48" height="48" />
         </button>
     )
 }
