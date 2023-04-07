@@ -4,7 +4,9 @@ import styles from './IngredientCatBtn.module.scss'
 import Image from 'next/image'
 
 export default function IngredientCatBtn(props: {category: string, color: string}) {
+    // Import props
     const { category, color } = props
+
     const btnStyles = [styles.ingCategory, styles[`${color}`]].join(' ')
     const imagePath = require(`/public/images/ui/${category.toLowerCase()}.webp`)
     

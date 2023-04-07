@@ -8,7 +8,9 @@ import { RootState } from '@/store/store'
 import { toggleNavMenu } from '@/store/slices/navMenu.slice'
 
 export default function BurgerButton() {
+    // Redux selectors
     const { navMenuOpen } = useSelector((state: RootState) => state.navMenu)
+    
     const dispatch = useDispatch()
     const imagePathOpen = require('public/images/ui/menu_open.svg')
     const imagePathClosed = require('public/images/ui/menu.svg')
