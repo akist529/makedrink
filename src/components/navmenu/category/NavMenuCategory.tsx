@@ -7,22 +7,25 @@ import Link from 'next/link'
 import NavMenuItem from '@/components/navmenu/item/NavMenuItem'
 
 export default function NavMenuCategory(props: {category: string, items: string[]}) {
+    // Import props
     const {category, items} = props
+
+    const imagePath = require(`/public/images/ui/expand_more.svg`)
 
     return (
         <li className={styles.category}>
             <button>
                 <span>{category}</span>
-                <Image alt='Expand' src={require(`/public/images/ui/expand_more.svg`)} width="40" height="40" />
+                <Image alt='Expand' src={imagePath} width="40" height="40" />
             </button>
             <ul>
-                { items.map((item: string) => {
+                {items.map((item: string, index) => {
                     return (
-                        <Link key={item} href={`/${item.toLowerCase()}`}>
+                        <Link key={index} href={`/${item.toLowerCase()}`}>
                             <NavMenuItem item={item} />
                         </Link>
                     )
-                }) }
+                })}
             </ul>
         </li>
     )
