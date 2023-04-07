@@ -4,30 +4,14 @@ import styles from './IngredientCheckbox.module.scss'
 import { useState, useEffect } from 'react'
 // Next components
 import Image from 'next/image'
-// Redux components
-import { useSelector, useDispatch } from 'react-redux'
-import { useGetAllIngredientsQuery } from '@/store/api/api'
-import { RootState } from '@/store/store'
 // Type interfaces
-import { Item, StoredIngredient } from '@/types/index'
+import { Item } from '@/types/index'
 
-export default function IngredientCheckbox(props: { item: Item }) {
+export default function IngredientCheckbox(props: { item: Item, isChecked: boolean }) {
     // Import props
-    const {item} = props
+    const {item, isChecked} = props
     // React states
     const [colorIsLight, setColorIsLight] = useState(false)
-    const [isChecked, setIsChecked] = useState(false)
-    // Redux selectors
-    const { storedIngredients } = useSelector((state: RootState) => state.ingredients)
-
-    // See if ingredient is already in store
-    useEffect(() => {
-        const storage = storedIngredients.filter(ingredient => ingredient['Name'] === item['Name'])
-
-        if (storage) {
-            setIsChecked(true)
-        }
-    }, [])
 
     // Decide color of checkmark based on ingredient color
     useEffect(() => {

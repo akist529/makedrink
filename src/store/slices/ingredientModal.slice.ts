@@ -7,15 +7,15 @@ import { Item } from '@/types/index'
 export const ingredientModalSlice = createSlice({
     name: 'ingredientModal',
     initialState: {
-        ingredientModalOpen: false,
-        modalIngredient: {} as Item
+        open: false,
+        ingredient: {} as Item
     },
     reducers: {
         toggleIngredientModal: (state) => {
-            state.ingredientModalOpen = !state.ingredientModalOpen
+            state.open = !state.open
         },
         setModalIngredient: (state, action: PayloadAction<Item>) => {
-            state.modalIngredient = action.payload
+            state.ingredient = action.payload
         }
     },
     extraReducers: {

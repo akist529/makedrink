@@ -1,18 +1,20 @@
 // Redux components
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
+// Type interfaces
+import { Item } from '@/types/index'
 
 export const ingredientsSlice = createSlice({
     name: 'ingredients',
     initialState: {
-        storedIngredients: [] as string[]
+        stored: [] as Item[]
     },
     reducers: {
-        addIngredient: (state, action: PayloadAction<string>) => {
-            state.storedIngredients.push(action.payload)
+        addIngredient: (state, action: PayloadAction<Item>) => {
+            state.stored.push(action.payload)
         },
-        removeIngredient: (state, action: PayloadAction<string>) => {
-            state.storedIngredients = state.storedIngredients.filter(ingredient => {
+        removeIngredient: (state, action: PayloadAction<Item>) => {
+            state.stored = state.stored.filter(ingredient => {
                 ingredient !== action.payload
             })
         }

@@ -14,17 +14,17 @@ import { Item } from '@/types/index'
 
 export default function IngredientModal() {
     // Redux selectors
-    const { ingredientModalOpen, modalIngredient } = useSelector((state: RootState) => state.ingredientModal)
+    const ingredientModalOpen = useSelector((state: RootState) => state.ingredientModal.open)
+    const modalIngredient = useSelector((state: RootState) => state.ingredientModal.ingredient)
     // Redux API data
     const { data, isLoading, error } = useGetAllIngredientsQuery()
 
     const dispatch = useDispatch()
     const closeImagePath = require('/public/images/ui/close.svg')
-    const ingredientImagePath = require(`/public/images/ui/${modalIngredient['Name'].toLowerCase().split(' ').join('-').replace('/', '-')}.webp`)
 
     return (
         <>
-            { ingredientModalOpen && data &&
+            { ingredientModalOpen && data && modalIngredient &&
                 <div className={styles.background}>
                     <div className={styles.modal}>
                         <button onClick={() => dispatch(toggleIngredientModal())}>
@@ -32,7 +32,7 @@ export default function IngredientModal() {
                         </button>
                         <div className={styles.header}>
                             <span>{modalIngredient['Name']}</span>
-                            <Image alt={modalIngredient['Name']} src={ingredientImagePath} />
+                            <Image alt={modalIngredient['Name']} src={require(`/public/images/ui/${modalIngredient['Name'].toLowerCase().split(' ').join('-').replace('/', '-')}.webp`)} />
                         </div>
                         <div className={styles.childList}>
                             { data.filter((ingredient: Item) => ingredient['AliasId'] === modalIngredient['Id'])

@@ -7,67 +7,76 @@ import Image from 'next/image'
 // Redux components
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingredientModal.slice'
-import { addIngredient } from '@/store/slices/ingredients.slice'
+import { addIngredient, removeIngredient } from '@/store/slices/ingredients.slice'
 import { RootState } from '@/store/store'
+import { useGetAllIngredientsQuery } from '@/store/api/api'
 // Local components
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox'
 // Type interfaces
-import { Item, StoredIngredient } from '@/types/index'
+import { Item } from '@/types/index'
 
 export default function Ingredient (props: { item: Item, section: Item[] }) {
     // Import props
-    const { item, section } = props
+    const {item, section} = props
     // React states
     const [hasChildren, setHasChildren] = useState(false)
     const [isChecked, setIsChecked] = useState(false)
-    
+    // Redux components
+    const storedIngredients: Item[] = useSelector((state: RootState) => state.ingredients.stored)
+    const { data, isLoading, error } = useGetAllIngredientsQuery()
+
     const dispatch = useDispatch()
     const ingredientImagePath = require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)
     const childrenImagePath = require(`/public/images/ui/more_vert.svg`)
 
+    // See if ingredient has child ingredients
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const state = localStorage.getItem(`${item['Name']}`)
-
-            if (state) {
-                setIsChecked(true);
-            } else {
-                setIsChecked(false);
-            }
-        }
-
-        section.forEach(ingredient => {
+        (data as Item[]).forEach(ingredient => {
             if (ingredient['AliasId'] === item['Id']) {
                 setHasChildren(true)
-
-                if (localStorage.getItem(`${ingredient['Name']}`)) {
-                    setIsChecked(true);
-                }
             }
         })
-    }, [])
+    }, [data])
 
-    function ChangeLocalStorage() {
-        const ingredients = useSelector((state: RootState) => state.ingredients)
-        
-        console.log(ingredients)
-        const prevValue = 0
-        
-        if (prevValue) {
-            setIsChecked(false)
-            localStorage.removeItem(item['Name'])
-        } else {
-            setIsChecked(true)
-            localStorage.setItem(item['Name'], 'true')
+    // If parent ingredient, see if child ingredient in store
+    useEffect(() => {
+        if (hasChildren) {
+            storedIngredients.forEach(ingredient => {
+                if (ingredient['AliasId'] === item['Id']) {
+                    setIsChecked(true)
+                }
+            })
         }
-    }
+    }, [hasChildren])
+
+    useEffect(() => {
+        if (storedIngredients.includes(item)) {
+            setIsChecked(true)
+        } else if (includesAlias()) {
+            setIsChecked(true)
+        } else {
+            setIsChecked(false)
+        }
+    }, [storedIngredients])
 
     function handleClick () {
         if (hasChildren) {
             dispatch(setModalIngredient(item))
             dispatch(toggleIngredientModal())
         } else {
-            ChangeLocalStorage()
+            if (storedIngredients.includes(item)) {
+                dispatch(removeIngredient(item))
+            } else {
+                dispatch(addIngredient(item))
+            }
+        }
+    }
+
+    function includesAlias () {
+        for (const ingredient of storedIngredients) {
+            if (ingredient['AliasId'] === item['Id']) {
+                return true
+            }
         }
     }
 
