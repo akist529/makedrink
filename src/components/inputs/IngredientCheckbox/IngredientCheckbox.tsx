@@ -1,11 +1,21 @@
 import styles from './IngredientCheckbox.module.scss'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { Item } from '@/types/index'
+import { Item, StoredIngredient } from '@/types/index'
+import { useGetAllIngredientsQuery } from '@/store/api/api'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '@/store/store'
 
-export default function IngredientCheckbox(props: { item: Item, isChecked: boolean }) {
-    const {item, isChecked} = props
+export default function IngredientCheckbox(props: { item: Item }) {
+    const {item} = props
     const [colorIsLight, setColorIsLight] = useState(false)
+    const { availableIngredients } = useSelector((state: RootState) => state.ingredients)
+    const { data, isLoading, error } = useGetAllIngredientsQuery()
+    const [isChecked, setIsChecked] = useState(() => {
+        return JSON.parse(localStorage.getItem('ingredients') || '[]')
+            .filter((ingredient: StoredIngredient) => ingredient['Name'] === item['Name'])
+            ['Value']
+    })
 
     useEffect(() => {
         setColorIsLight(() => {

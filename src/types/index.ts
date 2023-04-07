@@ -24,3 +24,8 @@ export interface Drink {
     Name: string
     Recipe: Recipe[]
 }
+
+export interface StoredIngredient {
+    Name: string
+    Value: boolean
+}

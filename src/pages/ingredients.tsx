@@ -72,18 +72,3 @@ export default function IngredientsPage() {
         </>
     )
 }
-
-/*
-export async function getStaticProps () {
-    let res = await axios.get('http://15.204.244.7:8585/ingredients')
-    let ingredientsData: Item[] = res.data
-    ingredientsData.forEach(item => {
-        item["Color"] = 'whiskey'
-    })
-    return {
-        props: {
-            ingredientsData
-        }
-    }
-}
-*/

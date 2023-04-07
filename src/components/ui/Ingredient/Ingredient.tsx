@@ -3,14 +3,16 @@ import styles from './Ingredient.module.scss'
 import Image from 'next/image'
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox'
 import { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingredientModal.slice'
+import { RootState } from '@/store/store'
 
 export default function Ingredient (props: { item: Item, section: Item[] }) {
     const { item, section } = props
     const [hasChildren, setHasChildren] = useState(false)
     const [isChecked, setIsChecked] = useState(false)
     const dispatch = useDispatch()
+    const { availableIngredients } = useSelector((state: RootState) => state.ingredients)
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
