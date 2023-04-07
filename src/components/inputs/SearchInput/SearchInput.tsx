@@ -6,10 +6,12 @@ import Image from 'next/image'
 import CloseButton from '@/components/buttons/CloseButton/CloseButton'
 
 export default function SearchInput() {
+    const imagePath = require('/public/images/ui/search.svg')
+
     return (
         <div className={styles.search}>
             <button>
-                <Image alt='Search' src={require(`/public/images/ui/search.svg`)} width="40" height="40" />
+                <Image alt='Search' src={imagePath} width="40" height="40" />
             </button>
             <input type='text' placeholder='Search' />
             <CloseButton />
