@@ -50,7 +50,7 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
     }, [hasChildren])
 
     useEffect(() => {
-        if (storedIngredients.includes(item)) {
+        if (JSON.stringify(storedIngredients).includes(JSON.stringify(item))) {
             setIsChecked(true)
         } else if (includesAlias()) {
             setIsChecked(true)
@@ -64,7 +64,7 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
             dispatch(setModalIngredient(item))
             dispatch(toggleIngredientModal())
         } else {
-            if (storedIngredients.includes(item)) {
+            if (JSON.stringify(storedIngredients).includes(JSON.stringify(item))) {
                 dispatch(removeIngredient(item))
             } else {
                 dispatch(addIngredient(item))

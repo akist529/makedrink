@@ -11,11 +11,13 @@ export const ingredientsSlice = createSlice({
     },
     reducers: {
         addIngredient: (state, action: PayloadAction<Item>) => {
-            state.stored.push(action.payload)
+            if (!JSON.stringify(state.stored).includes(JSON.stringify(action.payload))) {
+                state.stored.push(action.payload)
+            }
         },
         removeIngredient: (state, action: PayloadAction<Item>) => {
             state.stored = state.stored.filter(ingredient => {
-                ingredient !== action.payload
+                return JSON.stringify(ingredient) !== JSON.stringify(action.payload)
             })
         }
     },
