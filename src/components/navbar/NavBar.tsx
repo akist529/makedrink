@@ -1,19 +1,30 @@
+// Component styles
+import styles from './NavBar.module.scss'
+// Redux components
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store/store'
+// Local components
 import BurgerButton from '@/components/buttons/BurgerButton/BurgerButton'
 import SearchButton from '@/components/buttons/SearchButton/SearchButton'
 import SearchInput from '@/components/inputs/SearchInput/SearchInput'
-import styles from './NavBar.module.scss'
-import { useState } from 'react'
 
-export default function NavBar(props: any) {
-    const { navMenuOpen, setNavMenuOpen } = props
-    const [searchOpen, setSearchOpen] = useState(false)
+export default function NavBar() {
+    // Redux selectors
+    const { searchOpen } = useSelector((state: RootState) => state.search)
 
     return (
         <nav className={styles.navbar}>
-            <BurgerButton navMenuOpen={navMenuOpen} setNavMenuOpen={setNavMenuOpen} />
-            {!searchOpen && <h1>BAR.HOME</h1>}
-            {!searchOpen && <SearchButton setSearchOpen={setSearchOpen} />}
-            {searchOpen && <SearchInput setSearchOpen={setSearchOpen} />}
+            <BurgerButton />
+            {!searchOpen && 
+                <h1>
+                    {('BAR.HOME'.split('')).map((letter, index) => {
+                        return (
+                            <span key={index}>{letter}</span>
+                        )
+                    })}
+                </h1>}
+            {!searchOpen && <SearchButton />}
+            {searchOpen && <SearchInput />}
         </nav>
     )
 }

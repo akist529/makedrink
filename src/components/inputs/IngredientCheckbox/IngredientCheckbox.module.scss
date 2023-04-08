@@ -1,0 +1,61 @@
+.checkbox {
+    position: relative;
+    background: #fff;
+    border: 0.25rem solid #363636;
+    box-sizing: border-box;
+    height: 50px;
+    width: 50px;
+    outline: 0;
+    overflow: hidden;
+    transform: perspective(10px) rotateX(-3deg);
+    cursor: pointer;
+    background-color: black;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.checked {
+    &::before {
+        content: url('../../../../public/images/ui/check_small.svg');
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+        filter: invert(33%) sepia(89%) saturate(364%) hue-rotate(182deg) brightness(300%) contrast(300%);
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: -50%;
+        left: -50%;
+        height: 200%;
+        width: 200%;
+        box-sizing: border-box;
+        background-color: rgb(0, 0, 0);
+        border-radius: 40%;
+        animation: spin 4s cubic-bezier(0,0.8,1,1) forwards;
+    }
+}
+
+.lightColor {
+    &::before {
+        filter: invert(0);
+    }
+}
+
+.notSelected {
+    filter: invert(11%) sepia(89%) saturate(6777%) hue-rotate(1deg) brightness(123%) contrast(116%);
+}
+  
+@keyframes spin {
+0% {
+    transform: translateY(0) rotate(0deg);
+}
+100% {
+    transform: translateY(-100%) rotate(360deg);
+}
+}

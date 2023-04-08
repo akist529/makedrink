@@ -3,7 +3,10 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    width: 100%;
     height: 100px;
+    z-index: 2;
+    position: fixed;
 
     background-color: black;
     color: white;
@@ -12,12 +15,47 @@
     h1 {
         font-family: 'Nunito';
         font-size: 36px;
-
-        color: rgb(255, 215, 222);
-        text-shadow: 0 0 20px rgb(255, 0, 43);
         border: 2px solid white;
-        border-radius: 3px;
+        border-radius: 6px;
         padding: 5px;
-        box-shadow: inset 0 0 10px rgb(0, 0, 163), 0 0 30px rgb(0, 0, 190);      
+        box-shadow: inset 0 0 10px rgb(0, 0, 163), 0 0 30px rgb(0, 0, 190);
+
+
+        @for $i from 1 to 9 {
+            span:nth-child(#{$i}) {
+                color: rgb(255, 215, 222);
+                text-shadow:
+                    0 0 10px rgb(255, 0, 43),
+                    -1px -1px 0 white,
+                    1px -1px 0 white,
+                    -1px 1px 0 white,
+                    1px 1px 0 white;
+        
+                animation-name: flicker;
+                animation-iteration-count: infinite;        
+                animation-duration: random(5) + s;
+                animation-delay: random(10) + s;
+            }
+        }
+
+        @keyframes flicker {
+            0% {
+                color: rgb(255, 215, 222);
+                text-shadow:
+                    0 0 10px rgb(255, 0, 43),
+                    -0.5px -0.5px 0 white,
+                    0.5px -0.5px 0 white,
+                    -0.5px 0.5px 0 white,
+                    0.5px 0.5px 0 white;
+            } 100% {
+                color: rgb(random(20) + 215, random(20) + 175, random(20) + 182);
+                text-shadow:
+                    0 0 10px rgb(255, 0, 43),
+                    -0.5px -0.5px 0 rgb(200, 200, 200),
+                    0.5px -0.5px 0 rgb(200, 200, 200),
+                    -0.5px 0.5px 0 rgb(200, 200, 200),
+                    0.5px 0.5px 0 rgb(200, 200, 200);
+            }
+        }
     }
 }

@@ -1,0 +1,8 @@
+.IngredientSection {
+    display: grid;
+    grid-template-rows: repeat(auto, 1fr);
+    grid-template-columns: repeat(auto-fit, 130px);
+    justify-content: center;
+    list-style-type: none;
+    grid-gap: 20px;
+}
