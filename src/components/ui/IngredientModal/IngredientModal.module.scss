@@ -1,0 +1,85 @@
+.background {
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    animation: 0.15s background-spawn forwards;
+
+    .modal {
+        background-color: #111111;
+        background-image:  linear-gradient(135deg, #141414 25%, transparent 25%), linear-gradient(225deg, #141414 25%, transparent 25%), linear-gradient(45deg, #141414 25%, transparent 25%), linear-gradient(315deg, #141414 25%, #111111 25%);
+        background-position:  24px 0, 24px 0, 0 0, 0 0;
+        background-size: 48px 48px;
+        background-repeat: repeat;
+        color: white;
+
+        width: 100vw;
+        height: auto;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        z-index: 11;
+        animation: 0.5s modal-spawn forwards;
+
+        display: grid;
+        grid-template-rows: 100px 1fr;
+        grid-template-columns: repeat(5, 1fr);
+        padding: 30px 20px;
+
+        .header {
+            grid-row: 1 / 2;
+            grid-column: 1 / -1;
+
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            justify-items: center;
+            align-items: center;
+
+            span {
+                font-size: 36px;
+                text-align: center;
+            }
+        }
+
+        .childList {
+            display: grid;
+            grid-template-columns: repeat(2, 130px);
+            grid-gap: 10px;
+            justify-items: center;
+            align-items: center;
+        }
+
+        >button {
+            border: none;
+            background: none;
+            cursor: pointer;
+
+            position: absolute;
+            top: 0px;
+            right: 0px;
+
+            img {
+                filter: invert(1);
+            }
+        }
+    }
+
+    @keyframes background-spawn {
+        from {
+            opacity: 0%;
+        } to {
+            opacity: 100%;
+        }
+    }
+
+    @keyframes modal-spawn {
+        from {
+            bottom: -300px;
+        } to {
+            bottom: 0px;
+        }
+    }
+}

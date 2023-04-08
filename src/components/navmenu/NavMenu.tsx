@@ -1,15 +1,29 @@
+// Component styles
 import styles from './NavMenu.module.scss'
+// Next components
+import Link from 'next/link'
+// Redux components
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '@/store/store'
+import { toggleNavMenu } from '@/store/slices/navMenu.slice'
+// Local components
 import NavMenuCategory from '@/components/navmenu/category/NavMenuCategory'
 import NavMenuItem from '@/components/navmenu/item/NavMenuItem'
 
-export default function NavMenu (props: any) {
-    const spirits = ['Bourbon', 'Brandy', 'Gin', 'Rum', 'Scotch', 'Tequila', 'Vermouth', 'Vodka', 'Whiskey']
-    const { navMenuOpen } = props
+export default function NavMenu () {
+    // Redux selectors
+    const { navMenuOpen } = useSelector((state: RootState) => state.navMenu)
+
+    const spirits = ['Whiskey', 'Brandy', 'Gin', 'Rum', 'Scotch', 'Tequila', 'Vermouth', 'Vodka', 'Absinthe']
+    const dispatch = useDispatch()
+    const navStyles = [styles.navmenu, (navMenuOpen ?  styles.open : styles.closed)].join(' ')
 
     return (
-        <nav className={[styles.navmenu, (navMenuOpen ?  styles.open : styles.closed)].join(' ')}>
+        <nav className={navStyles}>
             <ul>
-                <NavMenuItem item='Select Ingredients' />
+                <Link href='/ingredients' onClick={() => dispatch(toggleNavMenu())}>
+                    <NavMenuItem item='Select Ingredients' />
+                </Link>
                 <NavMenuCategory category='Spirits' items={spirits} />
             </ul>
         </nav>

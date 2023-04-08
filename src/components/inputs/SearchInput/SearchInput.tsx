@@ -1,19 +1,20 @@
+// Component styles
 import styles from './SearchInput.module.scss'
-import CloseButton from '@/components/buttons/CloseButton/CloseButton'
-import SearchButton from '@/components/buttons/SearchButton/SearchButton'
-import SearchImg from 'public/images/ui/search.webp'
+// Next components
 import Image from 'next/image'
+// Local components
+import CloseButton from '@/components/buttons/CloseButton/CloseButton'
 
-export default function SearchInput(props: any) {
-    const { setSearchOpen } = props
+export default function SearchInput() {
+    const imagePath = require('/public/images/ui/search.svg')
 
     return (
         <div className={styles.search}>
             <button>
-                <Image alt='Search' src={SearchImg} />
+                <Image alt='Search' src={imagePath} width="40" height="40" />
             </button>
             <input type='text' placeholder='Search' />
-            <CloseButton setSearchOpen={setSearchOpen} />
+            <CloseButton />
         </div>
     )
 }
