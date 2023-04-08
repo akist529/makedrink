@@ -2,12 +2,29 @@
 import styles from '@/styles/Home.module.scss'
 // Next components
 import type { NextPage } from 'next'
+import Image from 'next/image'
 
 const HomePage: NextPage = () => {
 
   return (
     <div className={styles.HomePage}>
-      <div>Welcome to Next.js!</div>
+      <div>
+        <h1>What Can I Make?</h1>
+        <button>
+          <span>Give Me A Drink, Bartender!</span>
+        </button>
+        <div>
+          <span>DRINK NAME</span>
+          <span>DRINK IMAGE</span>
+          <span>DRINK INGREDIENTS</span>
+          <button>GO TO DRINK</button>
+        </div>
+        <h2>Or...</h2>
+        <div>
+          <button>Cocktail</button>
+          <button>Mocktail</button>
+        </div>
+      </div>
       <footer>
         <a>Bartender icon created by Iconduck</a>
         <a href="https://www.flaticon.com/free-icons" title="spirit icons">Spirit icons created by Freepik - Flaticon</a>
