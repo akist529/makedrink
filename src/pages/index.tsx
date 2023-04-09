@@ -1,29 +1,81 @@
 // Page styles
 import styles from '@/styles/Home.module.scss'
+// React components
+import { useState } from 'react'
 // Next components
 import type { NextPage } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
+// Local components
+import IngredientFilter from '@/components/ui/IngredientFilter/IngredientFilter'
 
 const HomePage: NextPage = () => {
+  const [drinkType, setDrinkType] = useState('')
 
   return (
     <div className={styles.HomePage}>
-      <div>
+      <div className={styles.Home}>
         <h1>What Can I Make?</h1>
-        <button>
+        <Link href="/ingredients">
+          <button className={styles.selectBtn}>
+            <span>Select Your Ingredients</span>
+            <Image alt="Select Ingredients" src={require('/public/images/ui/select-ingredients.webp')} width="48" height="48" />
+          </button>
+        </Link>
+        <span>Then</span>
+        <button className={styles.randomBtn}>
           <span>Give Me A Drink, Bartender!</span>
+          <Image alt="Cocktail" src={require('/public/images/ui/cocktail.webp')} width="48" height="48" />
         </button>
-        <div>
+        <div className={styles.randomDrink}>
           <span>DRINK NAME</span>
           <span>DRINK IMAGE</span>
           <span>DRINK INGREDIENTS</span>
-          <button>GO TO DRINK</button>
+          <button>
+            <span>GO TO DRINK</span>
+            <Image alt="Go to Drink" src={require('/public/images/ui/local_bar.svg')} width="16" height="16" />
+          </button>
         </div>
         <h2>Or...</h2>
         <div>
-          <button>Cocktail</button>
-          <button>Mocktail</button>
+          <button onClick={() => setDrinkType('cocktail')}>
+            <span>Cocktail</span>
+            <Image alt="Cocktail" src={require('/public/images/ui/local_bar.svg')} width="16" height="16" />
+          </button>
+          <button onClick={() => setDrinkType('mocktail')}>
+            <span>Mocktail</span>
+            <Image alt="Mocktail" src={require('/public/images/ui/no_drinks.svg')} width="16" height="16" />
+          </button>
         </div>
+        { (drinkType === 'cocktail') &&
+          <h2>Alcohol</h2> }
+        { (drinkType === 'cocktail') && <div>
+          <h3>Spirits</h3>
+          <IngredientFilter type='liquor' />
+        </div> }
+        { (drinkType === 'cocktail') && <div>
+          <h3>Liqueurs</h3>
+          <IngredientFilter type='liqueur' />
+        </div> }
+        { (drinkType === 'cocktail') && <div>
+          <h3>Other</h3>
+          <IngredientFilter type='other' />
+          <IngredientFilter type='wine' />
+        </div> }
+        { drinkType &&
+          <h2>Mixers</h2> }
+        { drinkType && <div>
+          <h3>Carbonated</h3>
+          <IngredientFilter type='carbonated' />
+        </div> }
+        { drinkType && <div>
+          <h3>Juices</h3>
+          <IngredientFilter type='juice' />
+        </div> }
+        { drinkType && <div>
+          <h3>Other</h3>
+          <IngredientFilter type='mixer' />
+        </div> }
       </div>
       <footer>
         <a>Bartender icon created by Iconduck</a>
