@@ -1,16 +1,67 @@
 // Page styles
 import styles from '@/styles/Home.module.scss'
 // React components
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 // Next components
 import type { NextPage } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+// Redux components
+import { createSelector } from '@reduxjs/toolkit'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store/store'
+import { useGetAllDrinksQuery, useGetDrinkInfoQuery } from '@/store/api/api'
 // Local components
 import IngredientFilter from '@/components/ui/IngredientFilter/IngredientFilter'
+// Type interfaces
+import { Item, DrinkInfo } from '@/types/index'
+// Custom hooks
+import useFetchDrink from '@/hooks/useFetchDrink'
 
 const HomePage: NextPage = () => {
   const [drinkType, setDrinkType] = useState('')
+  const allDrinks = useGetAllDrinksQuery()
+  const ingredients = useSelector((state: RootState) => state.ingredients.stored)
+  const filteredDrinkInfo: DrinkInfo[] = []
+  const drinkCount = useRef(0)
+
+  for (let i = 0; i < (allDrinks.data || []).length; i++) {
+    const drinkInfo = useFetchDrink(allDrinks[i].data)
+  }
+
+  useEffect(() => {
+    useGetDrinkInfoQuery()
+  }, [drinkCount])
+
+  for (const drink of allDrinks) {
+    const drinkData = useGetDrinkInfoQuery(drink['Id'])
+  }
+
+  const drinkInfo = useGetDrinkInfoQuery(undefined, {
+    selectFromResult: result => ({
+      ...result,
+      filtered: getFilteredDrinks(result.data)
+    })
+  })
+
+  const getIngredientNames = createSelector(
+    (inputData: any) => inputData,
+    (data: any) => {
+      data.map((ingredient: Item) => ingredient['Name'])
+    }
+  )
+
+  function getFilteredDrinks (drinks: DrinkInfo[]) {
+    const filteredDrinks: DrinkInfo[] = drinks.filter(drink => {
+      for (const item of drink['Recipe']) {
+        if (!getIngredientNames.includes(item['Name'])) {
+          return false
+        }
+      }
+
+      return true
+    })
+  }
 
   return (
     <div className={styles.HomePage}>

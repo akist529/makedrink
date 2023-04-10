@@ -6,14 +6,14 @@ import searchReducer from './slices/search.slice'
 import ingredientModalReducer from './slices/ingredientModal.slice'
 import ingredientsReducer from './slices/ingredients.slice'
 // Store APIs
-import { ingredientsApi } from './api/api'
+import { barApi } from './api/api'
 
 const rootReducer = combineReducers({
     navMenu: navMenuReducer,
     search: searchReducer,
     ingredientModal: ingredientModalReducer,
     ingredients: ingredientsReducer,
-    [ingredientsApi.reducerPath]: ingredientsApi.reducer
+    [barApi.reducerPath]: barApi.reducer
 })
 
 export default rootReducer
