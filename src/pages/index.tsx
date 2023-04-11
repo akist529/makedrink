@@ -14,10 +14,12 @@ import { useGetAllDrinksQuery, useGetDrinkInfoQuery, useGetAllDrinkInfoQuery } f
 // Local components
 import IngredientFilter from '@/components/ui/IngredientFilter/IngredientFilter'
 // Type interfaces
-import { Item, DrinkInfo } from '@/types/index'
+import { Item, DrinkInfo, Ingredient } from '@/types/index'
 
 const HomePage: NextPage = () => {
   const [drinkType, setDrinkType] = useState('')
+  const [randomDrink, setRandomDrink] = useState({} as DrinkInfo)
+  const allDrinkInfo = useGetAllDrinkInfoQuery()
 
   const getIngredientNames = createSelector(
     (inputData: any) => inputData,
@@ -26,7 +28,15 @@ const HomePage: NextPage = () => {
     }
   )
 
-  const allDrinkInfo = useGetAllDrinkInfoQuery()
+  function getRandomDrink () {
+    setRandomDrink(() => {
+      const randomIndex = Math.floor(Math.random() * (allDrinkInfo.data || []).length)
+
+      const randomDrink = (allDrinkInfo.data || [])[randomIndex]
+
+      return randomDrink
+    })
+  }
 
   return (
     <div className={styles.HomePage}>
@@ -39,19 +49,21 @@ const HomePage: NextPage = () => {
           </button>
         </Link>
         <span>Then</span>
-        <button className={styles.randomBtn}>
+        <button className={styles.randomBtn} onClick={() => getRandomDrink()}>
           <span>Give Me A Drink, Bartender!</span>
           <Image alt="Cocktail" src={require('/public/images/ui/cocktail.webp')} width="48" height="48" />
         </button>
-        <div className={styles.randomDrink}>
-          <span>DRINK NAME</span>
+        { (Object.keys(randomDrink).length > 0) && <div className={styles.randomDrink}>
+          <span>{randomDrink['Name']}</span>
           <span>DRINK IMAGE</span>
-          <span>DRINK INGREDIENTS</span>
+          { randomDrink['Recipe'].map((ingredient, index) => {
+            return <span key={index}>{ingredient['Name']}</span>
+          }) }
           <button>
             <span>GO TO DRINK</span>
             <Image alt="Go to Drink" src={require('/public/images/ui/local_bar.svg')} width="16" height="16" />
           </button>
-        </div>
+        </div> }
         <h2>Or...</h2>
         <div>
           <button onClick={() => setDrinkType('cocktail')}>
