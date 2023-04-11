@@ -15,8 +15,37 @@ export const barApi = createApi({
         }),
         getDrinkInfo: builder.query<DrinkInfo,void>({
             query: (id) => `/drink/${id}`
+        }),
+        getAllDrinkInfo: builder.query<DrinkInfo[],void>({
+            async queryFn(arg, queryApi, extraOptions, baseQuery) {
+                const allDrinkInfo: DrinkInfo[] = []
+
+                const allDrinksQuery = await baseQuery('/drinks')
+
+                if (allDrinksQuery.error) {
+                    console.log(allDrinksQuery.error)
+                } else {
+                    const allDrinksData = allDrinksQuery.data as any
+                    const allDrinks: Drink[] = allDrinksData["Drinks"] as Drink[]
+                    
+                    for (let i = 0; i < allDrinks.length; i++) {
+                        const drinkInfoQuery = await baseQuery(`/drink/${allDrinks[i]['Id']}`)
+                        
+                        if (drinkInfoQuery.error) {
+                            console.log(drinkInfoQuery.error)
+                        } else {
+                            const drinkInfo = drinkInfoQuery.data as DrinkInfo
+                            allDrinkInfo.push(drinkInfo)
+                        }
+                    }
+                }
+
+                return {
+                    data: allDrinkInfo
+                }
+            }
         })
     })
 })
 
-export const { useGetAllIngredientsQuery, useGetAllDrinksQuery, useGetDrinkInfoQuery } = barApi
+export const { useGetAllIngredientsQuery, useGetAllDrinksQuery, useGetDrinkInfoQuery, useGetAllDrinkInfoQuery } = barApi
