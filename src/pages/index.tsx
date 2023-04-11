@@ -20,19 +20,41 @@ const HomePage: NextPage = () => {
   const [drinkType, setDrinkType] = useState('')
   const [randomDrink, setRandomDrink] = useState({} as DrinkInfo)
   const allDrinkInfo = useGetAllDrinkInfoQuery()
+  const storedIngredients = useSelector((state: RootState) => state.ingredients.stored)
+  const possibleDrinks: DrinkInfo[] = []
 
-  const getIngredientNames = createSelector(
-    (inputData: any) => inputData,
-    (data: any) => {
-      data.map((ingredient: Item) => ingredient['Name'])
+  useEffect(() => {
+    for (const drink of (allDrinkInfo.data || [])) {
+      if (possibleDrinks.includes(drink)) {
+        continue
+      } else {
+        const hasIngredients: boolean[] = []
+
+        for (const recipeItem of drink['Recipe']) {
+          let hasIngredient = false
+  
+          for (const ingredient of storedIngredients) {
+            if (recipeItem['Name'] === ingredient['Name']) {
+              hasIngredient = true
+            }
+          }
+
+          if (hasIngredient) {
+            hasIngredients.push(true)
+          }
+        }
+
+        if (hasIngredients.length === drink['Recipe'].length) {
+          possibleDrinks.push(drink)
+        }
+      }
     }
-  )
+  }, [storedIngredients])
 
   function getRandomDrink () {
     setRandomDrink(() => {
-      const randomIndex = Math.floor(Math.random() * (allDrinkInfo.data || []).length)
-
-      const randomDrink = (allDrinkInfo.data || [])[randomIndex]
+      const randomIndex = Math.floor(Math.random() * possibleDrinks.length)
+      const randomDrink = possibleDrinks[randomIndex] || {}
 
       return randomDrink
     })
