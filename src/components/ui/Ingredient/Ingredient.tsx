@@ -8,12 +8,13 @@ import Image from 'next/image'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingredientModal.slice'
 import { addIngredient, removeIngredient } from '@/store/slices/ingredients.slice'
+import { addPossibleDrink, removePossibleDrink } from '@/store/slices/drinks.slice'
 import { RootState } from '@/store/store'
-import { useGetAllIngredientsQuery } from '@/store/api/api'
+import { useGetAllIngredientsQuery, useGetAllDrinksQuery, useGetAllDrinkInfoQuery } from '@/store/api/api'
 // Local components
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox'
 // Type interfaces
-import { Item } from '@/types/index'
+import { Item, DrinkInfo } from '@/types/index'
 
 export default function Ingredient (props: { item: Item, section: Item[] }) {
     // Import props
@@ -23,7 +24,10 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
     const [isChecked, setIsChecked] = useState(false)
     // Redux components
     const storedIngredients: Item[] = useSelector((state: RootState) => state.ingredients.stored)
-    const { data, isLoading, error } = useGetAllIngredientsQuery()
+    const possibleDrinks: DrinkInfo[] = useSelector((state: RootState) => state.drinks.possible)
+    const allIngredients = useGetAllIngredientsQuery()
+    const allDrinks = useGetAllDrinksQuery()
+    const allDrinkInfo = useGetAllDrinkInfoQuery()
 
     const dispatch = useDispatch()
     const ingredientImagePath = require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)
@@ -31,12 +35,12 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
 
     // See if ingredient has child ingredients
     useEffect(() => {
-        (data as Item[]).forEach(ingredient => {
+        (allIngredients.data as Item[]).forEach(ingredient => {
             if (ingredient['AliasId'] === item['Id']) {
                 setHasChildren(true)
             }
         })
-    }, [data])
+    }, [allIngredients.data])
 
     // If parent ingredient, see if child ingredient in store
     useEffect(() => {
@@ -60,16 +64,62 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
     }, [storedIngredients])
 
     function handleClick () {
-        if (hasChildren) {
+        if (hasChildren) { // Open modal if parent ingredient
             dispatch(setModalIngredient(item))
             dispatch(toggleIngredientModal())
-        } else {
+        } else { // Update store if child ingredient
             if (JSON.stringify(storedIngredients).includes(JSON.stringify(item))) {
                 dispatch(removeIngredient(item))
+
+                if (item['AliasId']) {
+                    let otherAliasExists = false
+
+                    for (const ingredient of storedIngredients) {
+                        if (ingredient['AliasId'] === item['AliasId']) {
+                            otherAliasExists = true
+                        }
+                    }
+
+                    if (!otherAliasExists) {
+                        for (const ingredient of storedIngredients) {
+                            if (ingredient['Id'] === item['AliasId']) {
+                                dispatch(removeIngredient(ingredient))
+                            }
+                        }
+                    }
+                }
             } else {
                 dispatch(addIngredient(item))
+
+                for (const ingredient of (allIngredients.data || [])) {
+                    if (ingredient['Id'] === item['AliasId']) {
+                        dispatch(addIngredient(ingredient))
+                    }
+                }
+            }
+
+            for (const drinkInfo of (allDrinkInfo.data || [])) {
+                let hasIngredients: boolean[] = []
+
+                for (const recipeItem of drinkInfo['Recipe']) {
+                    for (const ingredient of storedIngredients) {
+                        if (ingredient['Name'] === recipeItem['Name']) {
+                            hasIngredients.push(true)
+                        } else if (ingredient['Name'] === recipeItem['Alias']) {
+                            hasIngredients.push(true)
+                        }
+                    }
+                }
+
+                if (hasIngredients.length === drinkInfo['Recipe'].length) {
+                    dispatch(addPossibleDrink(drinkInfo))
+                } else {
+                    dispatch(removePossibleDrink(drinkInfo))
+                }
             }
         }
+
+        console.log(possibleDrinks)
     }
 
     function includesAlias () {

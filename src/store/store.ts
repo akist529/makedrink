@@ -1,5 +1,5 @@
 // Redux components
-import { configureStore, createListenerMiddleware } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import rootReducer from './rootReducer'
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
@@ -12,33 +12,7 @@ const persistConfig = {
     storage,
 }
 
-import {
-    addIngredient,
-    removeIngredient
-} from '@/store/slices/ingredients.slice'
-
-import {
-    addPossibleDrink,
-    removePossibleDrink
-} from '@/store/slices/drinks.slice'
-
 const persistedReducer = persistReducer(persistConfig, rootReducer)
-
-const listenerMiddleware = createListenerMiddleware()
-
-listenerMiddleware.startListening({
-    actionCreator: addIngredient,
-    effect: async (action, listenerApi) => {
-        const appState = listenerApi.getState() as ReturnType<typeof store.getState>
-        const possibleDrinksState = appState.drinks.possible
-        listenerApi.dispatch(addPossibleDrink({
-            Name: "Test Drink",
-            Recipe: [],
-            Directions: []
-        }))
-        console.log(possibleDrinksState)
-    }
-})
 
 export const store = configureStore({
     reducer: persistedReducer,
@@ -47,7 +21,7 @@ export const store = configureStore({
             serializableCheck: {
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
             }
-        }).concat(barApi.middleware).concat(thunk).prepend(listenerMiddleware.middleware),
+        }).concat(barApi.middleware).concat(thunk),
     devTools: true
 })
 
