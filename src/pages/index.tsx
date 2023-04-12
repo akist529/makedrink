@@ -52,7 +52,7 @@ const HomePage: NextPage = () => {
   }, [storedIngredients])
 
   function getRandomDrink () {
-    if (!possibleDrinks.length) {
+    if (possibleDrinks.length === 0) {
       setDrinkError(true)
     } else {
       const randomIndex = Math.floor(Math.random() * possibleDrinks.length)
