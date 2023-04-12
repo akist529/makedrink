@@ -25,7 +25,7 @@ export const ingredientsSlice = createSlice({
         [HYDRATE]: (state, action) => {
             return {
                 ...state,
-                ...action.payload.availableIngredients
+                ...action.payload.stored
             }
         }
     }

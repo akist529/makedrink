@@ -7,17 +7,17 @@ import type { NextPage } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 // Redux components
-import { createSelector } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store/store'
-import { useGetAllDrinksQuery, useGetDrinkInfoQuery, useGetAllDrinkInfoQuery } from '@/store/api/api'
+import { useGetAllDrinkInfoQuery } from '@/store/api/api'
 // Local components
 import IngredientFilter from '@/components/ui/IngredientFilter/IngredientFilter'
 // Type interfaces
-import { Item, DrinkInfo, Ingredient } from '@/types/index'
+import { DrinkInfo } from '@/types/index'
 
 const HomePage: NextPage = () => {
   const [drinkType, setDrinkType] = useState('')
+  const [drinkError, setDrinkError] = useState(false)
   const [randomDrink, setRandomDrink] = useState({} as DrinkInfo)
   const allDrinkInfo = useGetAllDrinkInfoQuery()
   const storedIngredients = useSelector((state: RootState) => state.ingredients.stored)
@@ -52,12 +52,14 @@ const HomePage: NextPage = () => {
   }, [storedIngredients])
 
   function getRandomDrink () {
-    setRandomDrink(() => {
+    if (!possibleDrinks.length) {
+      setDrinkError(true)
+    } else {
       const randomIndex = Math.floor(Math.random() * possibleDrinks.length)
       const randomDrink = possibleDrinks[randomIndex] || {}
-
-      return randomDrink
-    })
+      setRandomDrink(randomDrink)
+      setDrinkError(false)
+    }
   }
 
   return (
@@ -86,6 +88,10 @@ const HomePage: NextPage = () => {
             <Image alt="Go to Drink" src={require('/public/images/ui/local_bar.svg')} width="16" height="16" />
           </button>
         </div> }
+        { drinkError &&
+          <div>
+            <span>{ 'You don\'t have enough ingredients to make a drink.' }</span>
+          </div> }
         <h2>Or...</h2>
         <div>
           <button onClick={() => setDrinkType('cocktail')}>
