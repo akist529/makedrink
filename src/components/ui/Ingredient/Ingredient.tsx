@@ -68,9 +68,11 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
             dispatch(setModalIngredient(item))
             dispatch(toggleIngredientModal())
         } else { // Update store if child ingredient
+            // Remove ingredient from store if there
             if (JSON.stringify(storedIngredients).includes(JSON.stringify(item))) {
                 dispatch(removeIngredient(item))
 
+                // Remove parent ingredient from store if no child ingredients are left
                 if (item['AliasId']) {
                     let otherAliasExists = false
 
@@ -88,9 +90,10 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
                         }
                     }
                 }
-            } else {
+            } else { // Add ingredient to store if not there
                 dispatch(addIngredient(item))
 
+                // Add parent ingredient to store if applicable
                 for (const ingredient of (allIngredients.data || [])) {
                     if (ingredient['Id'] === item['AliasId']) {
                         dispatch(addIngredient(ingredient))
@@ -98,6 +101,7 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
                 }
             }
 
+            // Find possible drink recipes based on new ingredient
             for (const drinkInfo of (allDrinkInfo.data || [])) {
                 let hasIngredients: boolean[] = []
 
@@ -113,13 +117,12 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
 
                 if (hasIngredients.length === drinkInfo['Recipe'].length) {
                     dispatch(addPossibleDrink(drinkInfo))
+                    console.log(drinkInfo)
                 } else {
                     dispatch(removePossibleDrink(drinkInfo))
                 }
             }
         }
-
-        console.log(possibleDrinks)
     }
 
     function includesAlias () {
