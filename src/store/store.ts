@@ -29,7 +29,14 @@ const listenerMiddleware = createListenerMiddleware()
 listenerMiddleware.startListening({
     actionCreator: addIngredient,
     effect: async (action, listenerApi) => {
-        console.log(action.payload)
+        const appState = listenerApi.getState() as ReturnType<typeof store.getState>
+        const possibleDrinksState = appState.drinks.possible
+        listenerApi.dispatch(addPossibleDrink({
+            Name: "Test Drink",
+            Recipe: [],
+            Directions: []
+        }))
+        console.log(possibleDrinksState)
     }
 })
 
