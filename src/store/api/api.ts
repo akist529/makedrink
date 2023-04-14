@@ -23,7 +23,7 @@ export const barApi = createApi({
                 const allDrinksQuery = await baseQuery('/drinks')
 
                 if (allDrinksQuery.error) {
-                    console.log(allDrinksQuery.error)
+                    console.log('allDrinksQuery', allDrinksQuery.error)
                 } else {
                     const allDrinksData = allDrinksQuery.data as any
                     const allDrinks: Drink[] = allDrinksData["Drinks"] as Drink[]
@@ -32,7 +32,7 @@ export const barApi = createApi({
                         const drinkInfoQuery = await baseQuery(`/drink/${allDrinks[i]['Id']}`)
                         
                         if (drinkInfoQuery.error) {
-                            console.log(drinkInfoQuery.error)
+                            console.log('drinkInfoQuery', drinkInfoQuery.error)
                         } else {
                             const drinkInfo = drinkInfoQuery.data as DrinkInfo
                             allDrinkInfo.push(drinkInfo)

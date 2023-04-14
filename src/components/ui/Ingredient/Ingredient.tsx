@@ -8,13 +8,14 @@ import Image from 'next/image'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingredientModal.slice'
 import { addIngredient, removeIngredient } from '@/store/slices/ingredients.slice'
-import { addPossibleDrink, removePossibleDrink } from '@/store/slices/drinks.slice'
+import { addPossibleDrink } from '@/store/slices/drinks.slice'
 import { RootState } from '@/store/store'
-import { useGetAllIngredientsQuery, useGetAllDrinksQuery, useGetAllDrinkInfoQuery } from '@/store/api/api'
+import { useGetAllIngredientsQuery, useGetAllDrinkInfoQuery } from '@/store/api/api'
 // Local components
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox'
 // Type interfaces
 import { Item, DrinkInfo } from '@/types/index'
+import { cp } from 'fs/promises'
 
 export default function Ingredient (props: { item: Item, section: Item[] }) {
     // Import props
@@ -26,7 +27,6 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
     const storedIngredients: Item[] = useSelector((state: RootState) => state.ingredients.stored)
     const possibleDrinks: DrinkInfo[] = useSelector((state: RootState) => state.drinks.possible)
     const allIngredients = useGetAllIngredientsQuery()
-    const allDrinks = useGetAllDrinksQuery()
     const allDrinkInfo = useGetAllDrinkInfoQuery()
 
     const dispatch = useDispatch()
@@ -63,7 +63,7 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
         }
     }, [storedIngredients])
 
-    function handleClick () {
+    function updateIngredients () {
         if (hasChildren) { // Open modal if parent ingredient
             dispatch(setModalIngredient(item))
             dispatch(toggleIngredientModal())
@@ -101,28 +101,44 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
                 }
             }
 
-            // Find possible drink recipes based on new ingredient
-            for (const drinkInfo of (allDrinkInfo.data || [])) {
-                let hasIngredients: boolean[] = []
+            updatePossibleDrinks()
+        }
+    }
 
-                for (const recipeItem of drinkInfo['Recipe']) {
-                    for (const ingredient of storedIngredients) {
-                        if (ingredient['Name'] === recipeItem['Name']) {
-                            hasIngredients.push(true)
-                        } else if (ingredient['Name'] === recipeItem['Alias']) {
-                            hasIngredients.push(true)
-                        }
+    function updatePossibleDrinks () {
+        // Find possible drink recipes based on new ingredient
+        const onlyNewDrinks: DrinkInfo[] = (allDrinkInfo.data || []).filter(drink => {
+            return !possibleDrinks.find(possibleDrink => {
+                return drink['Name'] === possibleDrink['Name']
+            })
+        })
+
+        const drinksToAdd: DrinkInfo[] = []
+        
+        onlyNewDrinks.forEach(drink => {
+            const haveIngredients = drink['Recipe'].every(ingredient => {
+                for (const item of storedIngredients) {
+                    if (item['Name'] === ingredient['Name']) {
+                        return true
+                    } else if (item['Name'] === ingredient['Alias']) {
+                        return true
                     }
                 }
 
-                if (hasIngredients.length === drinkInfo['Recipe'].length) {
-                    dispatch(addPossibleDrink(drinkInfo))
-                    console.log(drinkInfo)
-                } else {
-                    dispatch(removePossibleDrink(drinkInfo))
-                }
+                return false
+            })
+
+            if (haveIngredients) {
+                drinksToAdd.push(drink)
             }
-        }
+        })
+
+        console.log(drinksToAdd)
+        
+        drinksToAdd.forEach(drink => {
+            dispatch(addPossibleDrink(drink))
+            console.log(drink)
+        })
     }
 
     function includesAlias () {
@@ -135,7 +151,7 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
 
     return (
         <li className={styles.Ingredient}>
-            <button className={styles.info} onClick={() => handleClick()}>
+            <button className={styles.info} onClick={() => updateIngredients()}>
                 { hasChildren &&
                     <Image className={styles.children} alt="Show Varieties" src={childrenImagePath} width="8" height="64" /> }
                 <div className={styles.icon}>
