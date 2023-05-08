@@ -38,6 +38,8 @@ export const drinksSlice = createSlice({
         [HYDRATE]: (state, action) => {
             return {
                 ...state,
+                ...state.possible,
+                ...state.favorites,
                 ...action.payload.possible,
                 ...action.payload.favorites
             }

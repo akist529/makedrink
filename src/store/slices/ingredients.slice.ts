@@ -7,18 +7,29 @@ import { Item } from '@/types/index'
 export const ingredientsSlice = createSlice({
     name: 'ingredients',
     initialState: {
-        stored: [] as Item[]
+        stored: {} as any
     },
     reducers: {
         addIngredient: (state, action: PayloadAction<Item>) => {
-            if (!JSON.stringify(state.stored).includes(JSON.stringify(action.payload))) {
-                state.stored.push(action.payload)
+            const type = action.payload['Type'];
+            const key = action.payload['Name'].charAt(0);
+
+            if (!state.stored.hasOwnProperty(type)) {
+                state.stored[`${type}`] = [];
             }
+
+            if (!state.stored[`${type}`].hasOwnProperty(key)) {
+                state.stored[`${type}`][`${key}`] = [];
+            }
+
+            state.stored[`${type}`][`${key}`].push(action.payload);
         },
         removeIngredient: (state, action: PayloadAction<Item>) => {
-            state.stored = state.stored.filter(ingredient => {
-                return JSON.stringify(ingredient) !== JSON.stringify(action.payload)
-            })
+            const type = action.payload.Type;
+            const letter = action.payload.Name.charAt(0);
+            const index = state.stored.type.letter.indexOf(action.payload);
+            
+            state.stored[`${type}`][`${letter}`].splice(index, 1);
         }
     },
     extraReducers: {

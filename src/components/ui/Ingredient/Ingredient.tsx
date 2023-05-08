@@ -24,8 +24,8 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
     const [hasChildren, setHasChildren] = useState(false)
     const [isChecked, setIsChecked] = useState(false)
     // Redux components
-    const storedIngredients: Item[] = useSelector((state: RootState) => state.ingredients.stored)
-    const possibleDrinks: DrinkInfo[] = useSelector((state: RootState) => state.drinks.possible)
+    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored)
+    const possibleDrinks = useSelector((state: RootState) => state.drinks.possible)
     const allIngredients = useGetAllIngredientsQuery()
     const allDrinkInfo = useGetAllDrinkInfoQuery()
 
@@ -35,31 +35,50 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
 
     // See if ingredient has child ingredients
     useEffect(() => {
-        (allIngredients.data as Item[]).forEach(ingredient => {
-            if (ingredient['AliasId'] === item['Id']) {
-                setHasChildren(true)
+        for (const ingredient of (allIngredients.data as Item[])) {
+            if (ingredient.AliasId === item.Id) {
+                setHasChildren(true);
+                break;
             }
-        })
+        }
     }, [allIngredients.data])
 
     // If parent ingredient, see if child ingredient in store
     useEffect(() => {
         if (hasChildren) {
-            storedIngredients.forEach(ingredient => {
-                if (ingredient['AliasId'] === item['Id']) {
-                    setIsChecked(true)
+            for (const type of Object.keys(storedIngredients)) {
+                for (const key of Object.keys(storedIngredients[`${type}`])) {
+                    for (const ingredient of storedIngredients[`${type}`][`${key}`]) {
+                        if (ingredient.AliasId === item.Id) {
+                            setIsChecked(true);
+                            break;
+                        }
+                    }
+
+                    if (isChecked) {
+                        break;
+                    }
                 }
-            })
+
+                if (isChecked) {
+                    break;
+                }
+            }
         }
     }, [hasChildren])
 
     useEffect(() => {
-        if (JSON.stringify(storedIngredients).includes(JSON.stringify(item))) {
-            setIsChecked(true)
-        } else if (includesAlias()) {
-            setIsChecked(true)
-        } else {
-            setIsChecked(false)
+        const type = item.Type;
+        const letter = item.Name.charAt(0);
+
+        if (type in storedIngredients && letter in storedIngredients[`${type}`]) {
+            const key = storedIngredients[`${type}`][`${letter}`];
+
+            if (key.includes(item) || includesAlias()) {
+                setIsChecked(true);
+            } else {
+                setIsChecked(false);
+            }
         }
     }, [storedIngredients])
 
@@ -69,23 +88,53 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
             dispatch(toggleIngredientModal())
         } else { // Update store if child ingredient
             // Remove ingredient from store if there
-            if (JSON.stringify(storedIngredients).includes(JSON.stringify(item))) {
-                dispatch(removeIngredient(item))
+            const type = item.Type;
+            const letter = item.Name.charAt(0);
 
-                // Remove parent ingredient from store if no child ingredients are left
-                if (item['AliasId']) {
-                    let otherAliasExists = false
+            if (type in storedIngredients && letter in storedIngredients[`${type}`]) {
+                const key = storedIngredients[`${type}`][`${letter}`];
 
-                    for (const ingredient of storedIngredients) {
-                        if (ingredient['AliasId'] === item['AliasId']) {
-                            otherAliasExists = true
+                if (key.includes(item)) {
+                    dispatch(removeIngredient(item))
+
+                    // Remove parent ingredient from store if no child ingredients are left
+                    if (item.AliasId) {
+                        let otherAliasExists = false;
+
+                        for (const type of Object.keys(storedIngredients)) {
+                            for (const key of Object.keys(storedIngredients[`${type}`])) {
+                                for (const ingredient of storedIngredients[`${type}`][`${key}`]) {
+                                    if (ingredient.AliasId === item.AliasId) {
+                                        otherAliasExists = true;
+                                        break;
+                                    }
+                                }
+        
+                                if (otherAliasExists) {
+                                    break;
+                                }
+                            }
+
+                            if (otherAliasExists) {
+                                break;
+                            }
                         }
-                    }
 
-                    if (!otherAliasExists) {
-                        for (const ingredient of storedIngredients) {
-                            if (ingredient['Id'] === item['AliasId']) {
-                                dispatch(removeIngredient(ingredient))
+                        if (!otherAliasExists) {
+                            let aliasRemoved = false;
+
+                            for (const key of Object.keys(storedIngredients[`${type}`])) {
+                                for (const ingredient of storedIngredients[`${type}`][`${key}`]) {
+                                    if (ingredient.Id === item.AliasId) {
+                                        dispatch(removeIngredient(ingredient));
+                                        aliasRemoved = true;
+                                        break;
+                                    }
+                                }
+
+                                if (aliasRemoved) {
+                                    break;
+                                }
                             }
                         }
                     }
@@ -95,8 +144,9 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
 
                 // Add parent ingredient to store if applicable
                 for (const ingredient of (allIngredients.data || [])) {
-                    if (ingredient['Id'] === item['AliasId']) {
+                    if (ingredient.Id === item.AliasId) {
                         dispatch(addIngredient(ingredient))
+                        break;
                     }
                 }
             }
@@ -108,20 +158,26 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
     function updatePossibleDrinks () {
         // Find possible drink recipes based on new ingredient
         const onlyNewDrinks: DrinkInfo[] = (allDrinkInfo.data || []).filter(drink => {
-            return !possibleDrinks.find(possibleDrink => {
-                return drink['Name'] === possibleDrink['Name']
-            })
+            for (const possibleDrink of possibleDrinks) {
+                if (possibleDrink.Name === drink.Name) {
+                    return true;
+                }
+            }
+            
+            return false;
         })
 
         const drinksToAdd: DrinkInfo[] = []
         
         onlyNewDrinks.forEach(drink => {
-            const haveIngredients = drink['Recipe'].every(ingredient => {
-                for (const item of storedIngredients) {
-                    if (item['Name'] === ingredient['Name']) {
-                        return true
-                    } else if (item['Name'] === ingredient['Alias']) {
-                        return true
+            const haveIngredients = drink.Recipe.every(ingredient => {
+                for (const type of Object.keys(storedIngredients)) {
+                    for (const key of Object.keys(storedIngredients[`${type}`])) {
+                        for (const item of storedIngredients[`${type}`][`${key}`]) {
+                            if ((item.Name === ingredient.Name) || (item.Name === ingredient.Alias)) {
+                                return true
+                            }
+                        }
                     }
                 }
 
@@ -132,19 +188,20 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
                 drinksToAdd.push(drink)
             }
         })
-
-        console.log(drinksToAdd)
         
         drinksToAdd.forEach(drink => {
             dispatch(addPossibleDrink(drink))
-            console.log(drink)
         })
     }
 
     function includesAlias () {
-        for (const ingredient of storedIngredients) {
-            if (ingredient['AliasId'] === item['Id']) {
-                return true
+        const type = item.Type;
+
+        for (const key of Object.keys(storedIngredients[`${type}`])) {
+            for (const ingredient of storedIngredients[`${type}`][`${key}`]) {
+                if (ingredient.AliasId === item.Id) {
+                    return true
+                }
             }
         }
     }
