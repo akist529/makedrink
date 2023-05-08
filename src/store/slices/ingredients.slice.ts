@@ -11,25 +11,59 @@ export const ingredientsSlice = createSlice({
     },
     reducers: {
         addIngredient: (state, action: PayloadAction<Item>) => {
-            const type = action.payload['Type'];
-            const key = action.payload['Name'].charAt(0);
+            const type = action.payload.Type;
+            const letter = action.payload.Name.charAt(0);
 
             if (!state.stored.hasOwnProperty(type)) {
-                state.stored[`${type}`] = [];
+                state.stored = {
+                    ...state.stored,
+                    [`${type}`]: {}
+                }
             }
 
-            if (!state.stored[`${type}`].hasOwnProperty(key)) {
-                state.stored[`${type}`][`${key}`] = [];
+            if (!state.stored[`${type}`].hasOwnProperty(letter)) {
+                state.stored = {
+                    ...state.stored,
+                    [`${type}`]: {
+                        ...state.stored[`${type}`],
+                        [`${letter}`]: []
+                    }
+                }
             }
 
-            state.stored[`${type}`][`${key}`].push(action.payload);
+            const newArr = state.stored[`${type}`][`${letter}`];
+            newArr.push(action.payload);
+
+            state.stored = {
+                ...state.stored,
+                [`${type}`]: {
+                    ...state.stored[`${type}`],
+                    [`${letter}`]: newArr
+                }
+            }
         },
         removeIngredient: (state, action: PayloadAction<Item>) => {
             const type = action.payload.Type;
             const letter = action.payload.Name.charAt(0);
-            const index = state.stored.type.letter.indexOf(action.payload);
-            
-            state.stored[`${type}`][`${letter}`].splice(index, 1);
+            const index = state.stored[`${type}`][`${letter}`].findIndex((item: Item) => item.Name === action.payload.Name);
+            const newArr = state.stored[`${type}`][`${letter}`];
+            newArr.splice(index, 1);
+
+            state.stored = {
+                ...state.stored,
+                [`${type}`]: {
+                    ...state.stored[`${type}`],
+                    [`${letter}`]: newArr
+                }
+            }
+
+            if (state.stored[`${type}`][`${letter}`].length === 0) {
+                delete state.stored[`${type}`][`${letter}`]
+            }
+
+            if (Object.keys(state.stored[`${type}`]).length === 0) {
+                delete state.stored[`${type}`]
+            }
         }
     },
     extraReducers: {
