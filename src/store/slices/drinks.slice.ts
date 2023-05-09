@@ -13,13 +13,15 @@ export const drinksSlice = createSlice({
     reducers: {
         addPossibleDrink: (state, action: PayloadAction<DrinkInfo>) => {
             if (!JSON.stringify(state.possible).includes(JSON.stringify(action.payload))) {
-                state.possible.push(action.payload)
+                state.possible.push(action.payload);
             }
         },
         removePossibleDrink: (state, action: PayloadAction<DrinkInfo>) => {
             if (JSON.stringify(state.possible).includes(JSON.stringify(action.payload))) {
-                const index = state.possible.indexOf(action.payload)
-                state.possible.splice(index, 1)
+                const index = state.possible.findIndex((drink: DrinkInfo) => drink.Name === action.payload.Name);
+                const newPossible = state.possible;
+                newPossible.splice(index, 1);
+                state.possible = newPossible;
             }
         },
         addFavoriteDrink: (state, action: PayloadAction<DrinkInfo>) => {
@@ -29,8 +31,10 @@ export const drinksSlice = createSlice({
         },
         removeFavoriteDrink: (state, action: PayloadAction<DrinkInfo>) => {
             if (JSON.stringify(state.favorites).includes(JSON.stringify(action.payload))) {
-                const index = state.favorites.indexOf(action.payload)
-                state.favorites.splice(index, 1)
+                const index = state.favorites.findIndex((drink: DrinkInfo) => drink.Name === action.payload.Name);
+                const newFavorites = state.favorites;
+                newFavorites.splice(index, 1);
+                state.favorites = newFavorites;
             }
         }
     },

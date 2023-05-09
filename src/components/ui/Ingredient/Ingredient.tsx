@@ -26,30 +26,24 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
     // Redux components
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored)
     const possibleDrinks = useSelector((state: RootState) => state.drinks.possible)
-    const allIngredients = useGetAllIngredientsQuery()
     const allDrinkInfo = useGetAllDrinkInfoQuery()
 
     const dispatch = useDispatch()
     const ingredientImagePath = require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)
     const childrenImagePath = require(`/public/images/ui/more_vert.svg`)
 
-
     // See if ingredient has child ingredients
     useEffect(() => {
-        const filteredData = (allIngredients.data as Item[]).filter(ingredient => {
-            return ingredient.Type === item.Type;
-        })
-
-        for (const ingredient of filteredData) {
+        for (const ingredient of section) {
             if (ingredient.AliasId === item.Id) {
                 setHasChildren(true);
                 break;
             }
         }
-    }, [allIngredients.data]) // Execute upon querying ingredient data from API
+    }, [])
 
 
-    // If parent ingredient, see if child ingredient in store
+    // If parent ingredient, see if child ingredient is in store
     useEffect(() => {
         if (hasChildren && !isChecked && storedIngredients.hasOwnProperty(item.Type)) {
             for (const key of Object.keys(storedIngredients[item.Type])) {
@@ -111,11 +105,7 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
                 dispatch(addIngredient(item))
 
                 // Add parent ingredient to store if applicable
-                const filteredData = (allIngredients.data || []).filter((ingredient: Item) => {
-                    return ingredient.Type === item.Type
-                })
-
-                for (const ingredient of filteredData) {
+                for (const ingredient of section) {
                     if (ingredient.Id === item.AliasId) {
                         dispatch(addIngredient(ingredient))
                         break;
@@ -134,20 +124,22 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
         const onlyNewDrinks: DrinkInfo[] = (allDrinkInfo.data || []).filter(drink => {
             for (const possibleDrink of possibleDrinks) {
                 if (possibleDrink.Name === drink.Name) {
-                    return true;
+                    return false;
                 }
             }
             
-            return false;
+            return true;
         })
 
         const drinksToAdd: DrinkInfo[] = []
         
         onlyNewDrinks.forEach(drink => {
             const haveIngredients = drink.Recipe.every(ingredient => {
+                const letter = ingredient.Name.charAt(0);
+
                 for (const type of Object.keys(storedIngredients)) {
-                    for (const key of Object.keys(storedIngredients[`${type}`])) {
-                        for (const item of storedIngredients[`${type}`][`${key}`]) {
+                    if (storedIngredients[`${type}`].hasOwnProperty(letter)) {
+                        for (const item of storedIngredients[`${type}`][`${letter}`]) {
                             if ((item.Name === ingredient.Name) || (item.Name === ingredient.Alias)) {
                                 return true
                             }

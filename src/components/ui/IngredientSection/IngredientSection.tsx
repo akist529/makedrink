@@ -4,9 +4,12 @@ import styles from './IngredientSection.module.scss'
 import Ingredient from '@/components/ui/Ingredient/Ingredient'
 // Type interfaces
 import { Item } from '@/types/index'
+// Redux components
+import { useGetAllIngredientsQuery } from '@/store/api/api'
 
 export default function IngredientSection (props: {section: Item[]}) {
     const {section} = props
+    const allIngredients = useGetAllIngredientsQuery()
 
     // Remove ingredients that are variants of another ingredient
     const filteredSection = (() => {
