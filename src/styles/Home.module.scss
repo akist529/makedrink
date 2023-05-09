@@ -1,10 +1,12 @@
 .HomePage {
     padding-top: 120px;
+    padding-bottom: 120px;
     background-color: #020202;
     opacity: 0.8;
     background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 42px 42px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 42px 42px;
     font-family: 'Nunito';
     color: white;
+    min-height: 100vh;
 
     .Home {
         display: flex;
