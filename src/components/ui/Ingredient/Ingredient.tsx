@@ -8,22 +8,20 @@ import Image from 'next/image'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingredientModal.slice'
 import { addIngredient, removeIngredient } from '@/store/slices/ingredients.slice'
-import { addPossibleDrink } from '@/store/slices/drinks.slice'
 import { RootState } from '@/store/store'
 // Local components
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox'
 // Type interfaces
 import { Item, DrinkInfo } from '@/types/index'
 
-export default function Ingredient (props: { item: Item, section: Item[], allDrinkInfo: DrinkInfo[] }) {
+export default function Ingredient (props: { item: Item, section: Item[] }) {
     // Import props
-    const {item, section, allDrinkInfo} = props
+    const {item, section} = props
     // React states
     const [hasChildren, setHasChildren] = useState(false)
     const [isChecked, setIsChecked] = useState(false)
     // Redux components
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored)
-    const possibleDrinks = useSelector((state: RootState) => state.drinks.possible)
     const dispatch = useDispatch()
     const ingredientImagePath = require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)
     const childrenImagePath = require(`/public/images/ui/more_vert.svg`)
@@ -125,51 +123,6 @@ export default function Ingredient (props: { item: Item, section: Item[], allDri
                     break;
                 }
             }
-        }
-
-        updatePossibleDrinks()
-    }
-
-
-    // See if new drinks can be made based on currently stored ingredients
-    function updatePossibleDrinks () {
-        // Find possible drink recipes based on new ingredient
-        const onlyNewDrinks: DrinkInfo[] = (allDrinkInfo || []).filter(drink => {
-            for (const possibleDrink of possibleDrinks) {
-                if (possibleDrink.Name === drink.Name) {
-                    return false;
-                }
-            }
-            
-            return true;
-        })
-
-        const drinksToAdd: DrinkInfo[] = []
-
-        for (let i = 0; i < onlyNewDrinks.length; i++) {
-            const haveIngredients = onlyNewDrinks[i].Recipe.every(ingredient => {
-                const letter = ingredient.Name.charAt(0);
-
-                for (const type of Object.keys(storedIngredients)) {
-                    if (storedIngredients[`${type}`].hasOwnProperty(letter)) {
-                        for (const item of storedIngredients[`${type}`][`${letter}`]) {
-                            if ((item.Name === ingredient.Name) || (item.Name === ingredient.Alias)) {
-                                return true
-                            }
-                        }
-                    }
-                }
-
-                return false
-            })
-
-            if (haveIngredients) {
-                drinksToAdd.push(onlyNewDrinks[i])
-            }
-        }
-
-        for (let i = 0; i < drinksToAdd.length; i++) {
-            dispatch(addPossibleDrink(drinksToAdd[i]));
         }
     }
 

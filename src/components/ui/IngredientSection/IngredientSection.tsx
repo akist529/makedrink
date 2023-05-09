@@ -5,11 +5,18 @@ import Ingredient from '@/components/ui/Ingredient/Ingredient'
 // Type interfaces
 import { Item, DrinkInfo } from '@/types/index'
 // Redux components
+import { useSelector, useDispatch } from 'react-redux'
 import { useGetAllDrinkInfoQuery } from '@/store/api/api'
+import { RootState } from '@/store/store'
+import { addPossibleDrink } from '@/store/slices/drinks.slice'
+import { useEffect } from 'react'
 
 export default function IngredientSection (props: {section: Item[]}) {
     const {section} = props
     const allDrinkInfo = (useGetAllDrinkInfoQuery().data || []);
+    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored)
+    const possibleDrinks = useSelector((state: RootState) => state.drinks.possible)
+    const dispatch = useDispatch()
 
 
     // Remove ingredients that are variants of another ingredient
@@ -32,6 +39,49 @@ export default function IngredientSection (props: {section: Item[]}) {
     })()
 
 
+    // See if new drinks can be made based on currently stored ingredients
+    useEffect(() => {
+        // Find possible drink recipes based on new ingredient
+        const onlyNewDrinks: DrinkInfo[] = (allDrinkInfo || []).filter(drink => {
+            for (const possibleDrink of possibleDrinks) {
+                if (possibleDrink.Name === drink.Name) {
+                    return false;
+                }
+            }
+            
+            return true;
+        })
+
+        const drinksToAdd: DrinkInfo[] = []
+
+        for (let i = 0; i < onlyNewDrinks.length; i++) {
+            const haveIngredients = onlyNewDrinks[i].Recipe.every(ingredient => {
+                const letter = ingredient.Name.charAt(0);
+
+                for (const type of Object.keys(storedIngredients)) {
+                    if (storedIngredients[`${type}`].hasOwnProperty(letter)) {
+                        for (const item of storedIngredients[`${type}`][`${letter}`]) {
+                            if ((item.Name === ingredient.Name) || (item.Name === ingredient.Alias)) {
+                                return true
+                            }
+                        }
+                    }
+                }
+
+                return false
+            })
+
+            if (haveIngredients) {
+                drinksToAdd.push(onlyNewDrinks[i])
+            }
+        }
+
+        for (let i = 0; i < drinksToAdd.length; i++) {
+            dispatch(addPossibleDrink(drinksToAdd[i]));
+        }
+    }, [storedIngredients])
+
+
     return (
         <ul className={styles.IngredientSection}>
             {sortedSection.map((item: Item) => {
@@ -40,7 +90,6 @@ export default function IngredientSection (props: {section: Item[]}) {
                         key={item['Id']}
                         item={item}
                         section={section}
-                        allDrinkInfo={allDrinkInfo}
                     />
                 )
             })}
