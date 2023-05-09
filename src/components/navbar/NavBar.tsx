@@ -7,6 +7,8 @@ import { RootState } from '@/store/store'
 import BurgerButton from '@/components/buttons/BurgerButton/BurgerButton'
 import SearchButton from '@/components/buttons/SearchButton/SearchButton'
 import SearchInput from '@/components/inputs/SearchInput/SearchInput'
+// Next components
+import Link from 'next/link'
 
 export default function NavBar() {
     // Redux selectors
@@ -16,13 +18,15 @@ export default function NavBar() {
         <nav className={styles.navbar}>
             <BurgerButton />
             {!searchOpen && 
-                <h1>
-                    {('BAR.HOME'.split('')).map((letter, index) => {
-                        return (
-                            <span key={index}>{letter}</span>
-                        )
-                    })}
-                </h1>}
+                <Link href='/'>
+                    <h1>
+                        {('BAR.HOME'.split('')).map((letter, index) => {
+                            return (
+                                <span key={index}>{letter}</span>
+                            )
+                        })}
+                    </h1>
+                </Link>}
             {!searchOpen && <SearchButton />}
             {searchOpen && <SearchInput />}
         </nav>
