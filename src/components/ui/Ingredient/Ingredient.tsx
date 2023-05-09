@@ -10,24 +10,20 @@ import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingred
 import { addIngredient, removeIngredient } from '@/store/slices/ingredients.slice'
 import { addPossibleDrink } from '@/store/slices/drinks.slice'
 import { RootState } from '@/store/store'
-import { useGetAllIngredientsQuery, useGetAllDrinkInfoQuery } from '@/store/api/api'
 // Local components
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox'
 // Type interfaces
 import { Item, DrinkInfo } from '@/types/index'
-import { cp } from 'fs/promises'
 
-export default function Ingredient (props: { item: Item, section: Item[] }) {
+export default function Ingredient (props: { item: Item, section: Item[], allDrinkInfo: DrinkInfo[] }) {
     // Import props
-    const {item, section} = props
+    const {item, section, allDrinkInfo} = props
     // React states
     const [hasChildren, setHasChildren] = useState(false)
     const [isChecked, setIsChecked] = useState(false)
     // Redux components
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored)
     const possibleDrinks = useSelector((state: RootState) => state.drinks.possible)
-    const allDrinkInfo = useGetAllDrinkInfoQuery()
-
     const dispatch = useDispatch()
     const ingredientImagePath = require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)
     const childrenImagePath = require(`/public/images/ui/more_vert.svg`)
@@ -138,7 +134,7 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
     // See if new drinks can be made based on currently stored ingredients
     function updatePossibleDrinks () {
         // Find possible drink recipes based on new ingredient
-        const onlyNewDrinks: DrinkInfo[] = (allDrinkInfo.data || []).filter(drink => {
+        const onlyNewDrinks: DrinkInfo[] = (allDrinkInfo || []).filter(drink => {
             for (const possibleDrink of possibleDrinks) {
                 if (possibleDrink.Name === drink.Name) {
                     return false;
