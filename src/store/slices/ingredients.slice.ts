@@ -14,6 +14,12 @@ export const ingredientsSlice = createSlice({
             const type = action.payload.Type;
             const letter = action.payload.Name.charAt(0);
 
+            if (state.stored.hasOwnProperty(type) 
+                && state.stored[`${type}`].hasOwnProperty(letter) 
+                && state.stored[`${type}`][`${letter}`].find(((item: Item) => item.Name === action.payload.Name))) {
+                    return;
+                }
+
             if (!state.stored.hasOwnProperty(type)) {
                 state.stored = {
                     ...state.stored,

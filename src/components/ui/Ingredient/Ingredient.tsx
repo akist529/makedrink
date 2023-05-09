@@ -34,10 +34,12 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
 
     // See if ingredient has child ingredients
     useEffect(() => {
-        for (const ingredient of section) {
-            if (ingredient.AliasId === item.Id) {
-                setHasChildren(true);
-                break;
+        if (!item.AliasId) {
+            for (const ingredient of section) {
+                if (ingredient.AliasId === item.Id) {
+                    setHasChildren(true);
+                    break;
+                }
             }
         }
     }, [])
@@ -64,10 +66,26 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
 
     // Fill checkbox if ingredient is in store
     useEffect(() => {
+        // See if child ingredient is in store
+        function includesAlias () {
+            for (const key of Object.keys(storedIngredients[`${item.Type}`])) {
+                for (const ingredient of storedIngredients[`${item.Type}`][`${key}`]) {
+                    if (ingredient.AliasId === item.Id) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         const letter = item.Name.charAt(0);
 
-        if (storedIngredients.hasOwnProperty(item.Type) && storedIngredients[`${item.Type}`].hasOwnProperty(letter)) {
-            if (storedIngredients[`${item.Type}`][`${letter}`].find((ingredient: Item) => ingredient.Name === item.Name) || includesAlias()) {
+        if (hasChildren && storedIngredients.hasOwnProperty(item.Type) && includesAlias()) {
+            setIsChecked(true);
+        } else if (storedIngredients.hasOwnProperty(item.Type) 
+            && storedIngredients[`${item.Type}`].hasOwnProperty(letter)) {
+            if (storedIngredients[`${item.Type}`][`${letter}`].find((ingredient: Item) => ingredient.Name === item.Name)) {
                 setIsChecked(true);
             } else {
                 setIsChecked(false);
@@ -78,43 +96,42 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
     }, [storedIngredients]) // Execute if stored ingredients updates
 
 
+    // Open modal if parent ingredient
+    function openModal () {
+        dispatch(setModalIngredient(item));
+        dispatch(toggleIngredientModal());
+    }
+
+
     // Update store based on state of ingredient checkbox (add or remove)
     function updateIngredients () {
-        if (hasChildren) { // Open modal if parent ingredient
-            dispatch(setModalIngredient(item))
-            dispatch(toggleIngredientModal())
-        } else { // Update store if child ingredient
-            // Remove ingredient from store if there
-            const letter = item.Name.charAt(0);
+        const letter = item.Name.charAt(0);
 
-            const ingredientInStore = (() => {
-                if (storedIngredients.hasOwnProperty(item.Type)) {
-                    if (storedIngredients[item.Type].hasOwnProperty(letter)) {
-                        if (storedIngredients[item.Type][`${letter}`].find((ingredient: Item) => ingredient.Name === item.Name)) {
-                            return true;
-                        }
-                    }
+        const ingredientInStore = (() => {
+            if (storedIngredients.hasOwnProperty(item.Type)
+                && storedIngredients[item.Type].hasOwnProperty(letter)
+                && storedIngredients[item.Type][`${letter}`].find((ingredient: Item) => ingredient.Name === item.Name)) {
+                    return true;
                 }
 
-                return false;
-            })()
+            return false;
+        })()
 
-            if (ingredientInStore) {
-                dispatch(removeIngredient(item))
-            } else { // Add ingredient to store if not there
-                dispatch(addIngredient(item))
+        if (ingredientInStore) {
+            dispatch(removeIngredient(item))
+        } else { // Add ingredient to store if not there
+            dispatch(addIngredient(item))
 
-                // Add parent ingredient to store if applicable
-                for (const ingredient of section) {
-                    if (ingredient.Id === item.AliasId) {
-                        dispatch(addIngredient(ingredient))
-                        break;
-                    }
+            // Add parent ingredient to store if applicable
+            for (const ingredient of section) {
+                if (ingredient.Id === item.AliasId) {
+                    dispatch(addIngredient(ingredient))
+                    break;
                 }
             }
-
-            updatePossibleDrinks()
         }
+
+        updatePossibleDrinks()
     }
 
 
@@ -161,23 +178,9 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
     }
 
 
-    // See if child ingredient is in store
-    function includesAlias () {
-        for (const key of Object.keys(storedIngredients[`${item.Type}`])) {
-            for (const ingredient of storedIngredients[`${item.Type}`][`${key}`]) {
-                if (ingredient.AliasId === item.Id) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-
     return (
         <li className={styles.Ingredient}>
-            <button className={styles.info} onClick={() => updateIngredients()}>
+            <button className={styles.info} onClick={() => hasChildren ? openModal() : updateIngredients()}>
                 { hasChildren &&
                     <Image className={styles.children} alt="Show Varieties" src={childrenImagePath} width="8" height="64" /> }
                 <div className={styles.icon}>
