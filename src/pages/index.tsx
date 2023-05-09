@@ -49,17 +49,21 @@ const HomePage: NextPage = () => {
           <span>Give Me A Drink, Bartender!</span>
           <Image alt="Cocktail" src={require('/public/images/ui/cocktail.webp')} width="48" height="48" />
         </button>
-        { (Object.keys(randomDrink).length > 0) && <div className={styles.randomDrink}>
-          <span>{randomDrink['Name']}</span>
-          <span>DRINK IMAGE</span>
-          { randomDrink['Recipe'].map((ingredient, index) => {
-            return <span key={index}>{ingredient['Name']}</span>
-          }) }
-          <button>
-            <span>GO TO DRINK</span>
-            <Image alt="Go to Drink" src={require('/public/images/ui/local_bar.svg')} width="16" height="16" />
-          </button>
-        </div> }
+        { (Object.keys(randomDrink).length > 0) && 
+        <>
+          <span>{Object.keys(possibleDrinks).length} drink{Object.keys(possibleDrinks).length > 1 && 's'} found!</span>
+          <div className={styles.randomDrink}>
+            <span>{randomDrink['Name']}</span>
+            <span>DRINK IMAGE</span>
+            { randomDrink['Recipe'].map((ingredient, index) => {
+              return <span key={index}>{ingredient['Name']}</span>
+            }) }
+            <button>
+              <span>GO TO DRINK</span>
+              <Image alt="Go to Drink" src={require('/public/images/ui/local_bar.svg')} width="16" height="16" />
+            </button>
+          </div>
+        </> }
         { drinkError &&
           <div>
             <span>{ 'You don\'t have enough ingredients to make a drink.' }</span>

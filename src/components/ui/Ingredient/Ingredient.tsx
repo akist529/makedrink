@@ -8,13 +8,13 @@ import Image from 'next/image'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingredientModal.slice'
 import { addIngredient, removeIngredient } from '@/store/slices/ingredients.slice'
-import { RootState } from '@/store/store'
+import { RootState, store } from '@/store/store'
 // Local components
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox'
 // Type interfaces
 import { Item, DrinkInfo } from '@/types/index'
 
-export default function Ingredient (props: { item: Item, section: Item[] }) {
+export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Import props
     const {item, section} = props
     // React states

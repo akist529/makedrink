@@ -14,9 +14,9 @@ import { useEffect } from 'react'
 export default function IngredientSection (props: {section: Item[]}) {
     const {section} = props
     const allDrinkInfo = (useGetAllDrinkInfoQuery().data || []);
-    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored)
-    const possibleDrinks = useSelector((state: RootState) => state.drinks.possible)
-    const dispatch = useDispatch()
+    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
+    const possibleDrinks = useSelector((state: RootState) => state.drinks.possible);
+    const dispatch = useDispatch();
 
 
     // Remove ingredients that are variants of another ingredient
@@ -38,13 +38,11 @@ export default function IngredientSection (props: {section: Item[]}) {
         return sorted
     })()
 
-
-    // See if new drinks can be made based on currently stored ingredients
     useEffect(() => {
         // Find possible drink recipes based on new ingredient
         const onlyNewDrinks: DrinkInfo[] = (allDrinkInfo || []).filter(drink => {
-            for (const possibleDrink of possibleDrinks) {
-                if (possibleDrink.Name === drink.Name) {
+            for (let i = 0; i < possibleDrinks.length; i++) {
+                if (possibleDrinks[i].Name === drink.Name) {
                     return false;
                 }
             }
@@ -79,7 +77,7 @@ export default function IngredientSection (props: {section: Item[]}) {
         for (let i = 0; i < drinksToAdd.length; i++) {
             dispatch(addPossibleDrink(drinksToAdd[i]));
         }
-    }, [storedIngredients])
+    }, [storedIngredients, dispatch])
 
 
     return (
