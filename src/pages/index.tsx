@@ -58,10 +58,12 @@ const HomePage: NextPage = () => {
             { randomDrink['Recipe'].map((ingredient, index) => {
               return <span key={index}>{ingredient['Name']}</span>
             }) }
-            <button>
-              <span>GO TO DRINK</span>
-              <Image alt="Go to Drink" src={require('/public/images/ui/local_bar.svg')} width="16" height="16" />
-            </button>
+            <Link href={`/drink/${randomDrink.Name.toLowerCase().replaceAll(' ', '-')}`}>
+              <button>
+                <span>GO TO DRINK</span>
+                <Image alt="Go to Drink" src={require('/public/images/ui/local_bar.svg')} width="16" height="16" />
+              </button>
+            </Link>
           </div>
         </> }
         { drinkError &&
@@ -108,6 +110,11 @@ const HomePage: NextPage = () => {
           <h3>Other</h3>
           <IngredientFilter type='mixer' />
         </div> }
+        { drinkType && <Link href='/drinks'>
+          <button>
+            See Drinks
+          </button>
+        </Link> }
       </div>
       <footer>
         <a>Bartender icon created by Iconduck</a>
