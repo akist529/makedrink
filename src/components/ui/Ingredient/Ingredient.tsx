@@ -171,10 +171,10 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
                 drinksToAdd.push(onlyNewDrinks[i])
             }
         }
-        
-        drinksToAdd.forEach(drink => {
-            dispatch(addPossibleDrink(drink))
-        })
+
+        for (let i = 0; i < drinksToAdd.length; i++) {
+            dispatch(addPossibleDrink(drinksToAdd[i]));
+        }
     }
 
 
