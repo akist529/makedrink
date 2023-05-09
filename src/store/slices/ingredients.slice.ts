@@ -32,7 +32,10 @@ export const ingredientsSlice = createSlice({
             }
 
             const newArr = state.stored[`${type}`][`${letter}`];
-            newArr.push(action.payload);
+
+            if (!newArr.find((ingredient: Item) => ingredient.Name === action.payload.Name)) {
+                newArr.push(action.payload);
+            }
 
             state.stored = {
                 ...state.stored,
@@ -54,6 +57,55 @@ export const ingredientsSlice = createSlice({
                 [`${type}`]: {
                     ...state.stored[`${type}`],
                     [`${letter}`]: newArr
+                }
+            }
+
+            if (action.payload.AliasId) {
+                let hasSibling = false;
+
+                for (const key of Object.keys(state.stored[`${type}`])) {
+                    for (const ingredient of state.stored[`${type}`][`${key}`]) {
+                        if (ingredient.AliasId === action.payload.AliasId) {
+                            hasSibling = true;
+                            break;
+                        }
+                    }
+
+                    if (hasSibling) {
+                        break;
+                    }
+                }
+
+                // Remove parent ingredient from store if no child ingredients are left
+                if (!hasSibling) {
+                    let parentRemoved = false;
+
+                    for (const key of Object.keys(state.stored[`${type}`])) {
+                        for (const ingredient of state.stored[`${type}`][`${key}`]) {
+                            if (ingredient.Id === action.payload.AliasId) {
+                                const letter = ingredient.Name.charAt(0);
+                                const index = state.stored[`${type}`][`${letter}`].findIndex((item: Item) => item.Name === ingredient.Name);
+                                const newArr = state.stored[`${type}`][`${letter}`];
+                                newArr.splice(index, 1);
+
+                                state.stored = {
+                                    ...state.stored,
+                                    [`${type}`]: {
+                                        ...state.stored[`${type}`],
+                                        [`${letter}`]: newArr
+                                    }
+                                }
+                            }
+
+                            if (parentRemoved) {
+                                break;
+                            }
+                        }
+
+                        if (parentRemoved) {
+                            break;
+                        }
+                    }
                 }
             }
 

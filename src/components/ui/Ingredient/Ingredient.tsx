@@ -33,6 +33,7 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
     const ingredientImagePath = require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)
     const childrenImagePath = require(`/public/images/ui/more_vert.svg`)
 
+
     // See if ingredient has child ingredients
     useEffect(() => {
         const filteredData = (allIngredients.data as Item[]).filter(ingredient => {
@@ -45,7 +46,8 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
                 break;
             }
         }
-    }, [allIngredients.data])
+    }, [allIngredients.data]) // Execute upon querying ingredient data from API
+
 
     // If parent ingredient, see if child ingredient in store
     useEffect(() => {
@@ -63,8 +65,10 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
                 }
             }
         }
-    }, [hasChildren])
+    }, [hasChildren]) // Execute if ingredient is denoted as having children
 
+
+    // Fill checkbox if ingredient is in store
     useEffect(() => {
         const letter = item.Name.charAt(0);
 
@@ -77,8 +81,10 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
         } else {
             setIsChecked(false);
         }
-    }, [storedIngredients])
+    }, [storedIngredients]) // Execute if stored ingredients updates
 
+
+    // Update store based on state of ingredient checkbox (add or remove)
     function updateIngredients () {
         if (hasChildren) { // Open modal if parent ingredient
             dispatch(setModalIngredient(item))
@@ -101,42 +107,6 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
 
             if (ingredientInStore) {
                 dispatch(removeIngredient(item))
-
-                // Remove parent ingredient from store if no child ingredients are left
-                if (item.AliasId) {
-                    let otherAliasExists = false;
-
-                    for (const key of Object.keys(storedIngredients[item.Type])) {
-                        for (const ingredient of storedIngredients[item.Type][`${key}`]) {
-                            if (ingredient.AliasId === item.AliasId) {
-                                otherAliasExists = true;
-                                break;
-                            }
-                        }
-
-                        if (otherAliasExists) {
-                            break;
-                        }
-                    }
-
-                    if (!otherAliasExists) {
-                        let aliasRemoved = false;
-
-                        for (const key of Object.keys(storedIngredients[item.Type])) {
-                            for (const ingredient of storedIngredients[item.Type][`${key}`]) {
-                                if (ingredient.Id === item.AliasId) {
-                                    dispatch(removeIngredient(ingredient));
-                                    aliasRemoved = true;
-                                    break;
-                                }
-                            }
-
-                            if (aliasRemoved) {
-                                break;
-                            }
-                        }
-                    }
-                }
             } else { // Add ingredient to store if not there
                 dispatch(addIngredient(item))
 
@@ -157,6 +127,8 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
         }
     }
 
+
+    // See if new drinks can be made based on currently stored ingredients
     function updatePossibleDrinks () {
         // Find possible drink recipes based on new ingredient
         const onlyNewDrinks: DrinkInfo[] = (allDrinkInfo.data || []).filter(drink => {
@@ -196,15 +168,20 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
         })
     }
 
+
+    // See if child ingredient is in store
     function includesAlias () {
         for (const key of Object.keys(storedIngredients[`${item.Type}`])) {
             for (const ingredient of storedIngredients[`${item.Type}`][`${key}`]) {
                 if (ingredient.AliasId === item.Id) {
-                    return true
+                    return true;
                 }
             }
         }
+
+        return false;
     }
+
 
     return (
         <li className={styles.Ingredient}>
