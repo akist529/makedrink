@@ -149,9 +149,9 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
         })
 
         const drinksToAdd: DrinkInfo[] = []
-        
-        onlyNewDrinks.forEach(drink => {
-            const haveIngredients = drink.Recipe.every(ingredient => {
+
+        for (let i = 0; i < onlyNewDrinks.length; i++) {
+            const haveIngredients = onlyNewDrinks[i].Recipe.every(ingredient => {
                 const letter = ingredient.Name.charAt(0);
 
                 for (const type of Object.keys(storedIngredients)) {
@@ -168,9 +168,9 @@ export default function Ingredient (props: { item: Item, section: Item[] }) {
             })
 
             if (haveIngredients) {
-                drinksToAdd.push(drink)
+                drinksToAdd.push(onlyNewDrinks[i])
             }
-        })
+        }
         
         drinksToAdd.forEach(drink => {
             dispatch(addPossibleDrink(drink))
