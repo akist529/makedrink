@@ -7,9 +7,10 @@ import type { NextPage } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 // Redux components
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/store/store'
 import { useGetAllDrinkInfoQuery } from '@/store/api/api'
+import { clearSelected } from '@/store/slices/ingredients.slice'
 // Local components
 import RandomDrink from '@/components/ui/RandomDrink/RandomDrink'
 import IngredientFilter from '@/components/ui/IngredientFilter/IngredientFilter'
@@ -21,6 +22,7 @@ const HomePage: NextPage = () => {
   const [drinkError, setDrinkError] = useState(false)
   const [randomDrink, setRandomDrink] = useState({} as DrinkInfo)
   const possibleDrinks = useSelector((state: RootState) => state.drinks.possible)
+  const dispatch = useDispatch();
 
   function getRandomDrink () {
     if (!possibleDrinks.length) {
@@ -32,6 +34,10 @@ const HomePage: NextPage = () => {
       setDrinkError(false)
     }
   }
+
+  useEffect(() => {
+    dispatch(clearSelected());
+  }, [drinkType, dispatch])
 
   return (
     <div className={styles.Home}>
@@ -68,30 +74,30 @@ const HomePage: NextPage = () => {
         <h2>Alcohol</h2> }
       { (drinkType === 'cocktail') && <div>
         <h3>Spirits</h3>
-        <IngredientFilter type='liquor' />
+        <IngredientFilter type='liquor' drinkType={drinkType} />
       </div> }
       { (drinkType === 'cocktail') && <div>
         <h3>Liqueurs</h3>
-        <IngredientFilter type='liqueur' />
+        <IngredientFilter type='liqueur' drinkType={drinkType} />
       </div> }
       { (drinkType === 'cocktail') && <div>
         <h3>Other</h3>
-        <IngredientFilter type='other' />
-        <IngredientFilter type='wine' />
+        <IngredientFilter type='other' drinkType={drinkType} />
+        <IngredientFilter type='wine' drinkType={drinkType} />
       </div> }
       { drinkType &&
         <h2>Mixers</h2> }
       { drinkType && <div>
         <h3>Carbonated</h3>
-        <IngredientFilter type='carbonated' />
+        <IngredientFilter type='carbonated' drinkType={drinkType} />
       </div> }
       { drinkType && <div>
         <h3>Juices</h3>
-        <IngredientFilter type='juice' />
+        <IngredientFilter type='juice' drinkType={drinkType} />
       </div> }
       { drinkType && <div>
         <h3>Other</h3>
-        <IngredientFilter type='mixer' />
+        <IngredientFilter type='mixer' drinkType={drinkType} />
       </div> }
       { drinkType && <Link href='/drinks'>
         <button>

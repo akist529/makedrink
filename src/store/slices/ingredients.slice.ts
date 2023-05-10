@@ -236,6 +236,9 @@ export const ingredientsSlice = createSlice({
             if (Object.keys(state.selected[`${type}`]).length === 0) {
                 delete state.selected[`${type}`]
             }
+        },
+        clearSelected: (state) => {
+            state.selected = {};
         }
     },
     extraReducers: {
@@ -249,5 +252,5 @@ export const ingredientsSlice = createSlice({
     }
 })
 
-export const { addIngredient, removeIngredient, selectIngredient, unselectIngredient } = ingredientsSlice.actions
+export const { addIngredient, removeIngredient, selectIngredient, unselectIngredient, clearSelected } = ingredientsSlice.actions
 export default ingredientsSlice.reducer
