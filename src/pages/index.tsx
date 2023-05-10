@@ -47,7 +47,8 @@ const HomePage: NextPage = () => {
         <span>Give Me A Drink, Bartender!</span>
         <Image alt="Cocktail" src={require('/public/images/ui/cocktail.webp')} width="48" height="48" />
       </button>
-      { (Object.keys(randomDrink).length > 0) && <RandomDrink randomDrink={randomDrink} /> }
+      { (Object.keys(randomDrink).length > 0) 
+        && <RandomDrink randomDrink={randomDrink} /> }
       { drinkError &&
         <div>
           <span>{ 'You don\'t have enough ingredients to make a drink.' }</span>
