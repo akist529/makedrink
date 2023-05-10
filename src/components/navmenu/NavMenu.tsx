@@ -21,6 +21,9 @@ export default function NavMenu () {
     return (
         <nav className={navStyles}>
             <ul>
+                <Link href='/' onClick={() => dispatch(toggleNavMenu())}>
+                    <NavMenuItem item='Make A Drink' />
+                </Link>
                 <Link href='/ingredients' onClick={() => dispatch(toggleNavMenu())}>
                     <NavMenuItem item='Select Ingredients' />
                 </Link>

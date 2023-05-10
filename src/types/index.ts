@@ -13,7 +13,7 @@ export interface Ingredient {
     Unit: string
 }
 
-export interface Recipe {
+export interface DrinkInfo {
     Name: string
     Recipe: Ingredient[]
     Directions: string[]
@@ -22,5 +22,4 @@ export interface Recipe {
 export interface Drink {
     Id: number
     Name: string
-    Recipe: Recipe[]
 }
