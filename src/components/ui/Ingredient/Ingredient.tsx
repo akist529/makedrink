@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 // Redux components
 import { useSelector, useDispatch } from 'react-redux'
+import { useGetAllIngredientsQuery } from '@/store/api/api'
 import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingredientModal.slice'
 import { addIngredient, removeIngredient } from '@/store/slices/ingredients.slice'
 import { RootState, store } from '@/store/store'
@@ -16,7 +17,7 @@ import { Item, DrinkInfo } from '@/types/index'
 
 export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Import props
-    const {item, section} = props
+    const {item, section} = props;
     // React states
     const [hasChildren, setHasChildren] = useState(false)
     const [isChecked, setIsChecked] = useState(false)
@@ -25,6 +26,8 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     const dispatch = useDispatch()
     const ingredientImagePath = require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)
     const childrenImagePath = require(`/public/images/ui/more_vert.svg`)
+    const allIngredients = (useGetAllIngredientsQuery().data || []);
+
 
     // See if ingredient has child ingredients
     useEffect(() => {
@@ -117,10 +120,12 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
             dispatch(addIngredient(item))
 
             // Add parent ingredient to store if applicable
-            for (const ingredient of section) {
-                if (ingredient.Id === item.AliasId) {
-                    dispatch(addIngredient(ingredient))
-                    break;
+            if (item.AliasId) {
+                for (let i = 0; i < allIngredients.length; i++) {
+                    if (allIngredients[i].Id === item.AliasId) {
+                        dispatch(addIngredient(allIngredients[i]))
+                        break;
+                    }
                 }
             }
         }
