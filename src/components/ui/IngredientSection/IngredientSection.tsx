@@ -54,7 +54,13 @@ export default function IngredientSection (props: {section: Item[]}) {
 
         for (let i = 0; i < onlyNewDrinks.length; i++) {
             const haveIngredients = onlyNewDrinks[i].Recipe.every(ingredient => {
-                const letter = ingredient.Name.charAt(0);
+                let letter;
+
+                if (ingredient.IsAlias) {
+                    letter = ingredient.Alias.charAt(0);
+                } else {
+                    letter = ingredient.Name.charAt(0);
+                }
 
                 for (const type of Object.keys(storedIngredients)) {
                     if (storedIngredients[`${type}`].hasOwnProperty(letter)) {
