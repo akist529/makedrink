@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/store/store'
 import { useGetAllDrinkInfoQuery } from '@/store/api/api'
 // Local components
+import RandomDrink from '@/components/ui/RandomDrink/RandomDrink'
 import IngredientFilter from '@/components/ui/IngredientFilter/IngredientFilter'
 // Type interfaces
 import { DrinkInfo } from '@/types/index'
@@ -19,8 +20,6 @@ const HomePage: NextPage = () => {
   const [drinkType, setDrinkType] = useState('')
   const [drinkError, setDrinkError] = useState(false)
   const [randomDrink, setRandomDrink] = useState({} as DrinkInfo)
-  const allDrinkInfo = useGetAllDrinkInfoQuery()
-  const storedIngredients = useSelector((state: RootState) => state.ingredients.stored)
   const possibleDrinks = useSelector((state: RootState) => state.drinks.possible)
 
   function getRandomDrink () {
@@ -35,87 +34,69 @@ const HomePage: NextPage = () => {
   }
 
   return (
-    <div className={styles.HomePage}>
-      <div className={styles.Home}>
-        <h1>What Can I Make?</h1>
-        <Link href="/ingredients">
-          <button className={styles.selectBtn}>
-            <span>Select Your Ingredients</span>
-            <Image alt="Select Ingredients" src={require('/public/images/ui/select-ingredients.webp')} width="48" height="48" />
-          </button>
-        </Link>
-        <span>Then</span>
-        <button className={styles.randomBtn} onClick={() => getRandomDrink()}>
-          <span>Give Me A Drink, Bartender!</span>
-          <Image alt="Cocktail" src={require('/public/images/ui/cocktail.webp')} width="48" height="48" />
+    <div className={styles.Home}>
+      <h1>What Can I Make?</h1>
+      <Link href="/ingredients">
+        <button className={styles.selectBtn}>
+          <span>Select Your Ingredients</span>
+          <Image alt="Select Ingredients" src={require('/public/images/ui/select-ingredients.webp')} width="48" height="48" />
         </button>
-        { (Object.keys(randomDrink).length > 0) && 
-        <>
-          <span>{Object.keys(possibleDrinks).length} drink{Object.keys(possibleDrinks).length > 1 && 's'} found!</span>
-          <div className={styles.randomDrink}>
-            <span>{randomDrink['Name']}</span>
-            <span>DRINK IMAGE</span>
-            { randomDrink['Recipe'].map((ingredient, index) => {
-              return <span key={index}>{ingredient['Name']}</span>
-            }) }
-            <Link href={`/drink/${randomDrink.Name.toLowerCase().replaceAll(' ', '-')}`}>
-              <button>
-                <span>GO TO DRINK</span>
-                <Image alt="Go to Drink" src={require('/public/images/ui/local_bar.svg')} width="16" height="16" />
-              </button>
-            </Link>
-          </div>
-        </> }
-        { drinkError &&
-          <div>
-            <span>{ 'You don\'t have enough ingredients to make a drink.' }</span>
-          </div> }
-        <h2>Or...</h2>
+      </Link>
+      <span>Then...</span>
+      <button className={styles.randomBtn} onClick={() => getRandomDrink()}>
+        <span>Give Me A Drink, Bartender!</span>
+        <Image alt="Cocktail" src={require('/public/images/ui/cocktail.webp')} width="48" height="48" />
+      </button>
+      { (Object.keys(randomDrink).length > 0) && <RandomDrink randomDrink={randomDrink} /> }
+      { drinkError &&
         <div>
-          <button onClick={() => setDrinkType('cocktail')}>
-            <span>Cocktail</span>
-            <Image alt="Cocktail" src={require('/public/images/ui/local_bar.svg')} width="16" height="16" />
-          </button>
-          <button onClick={() => setDrinkType('mocktail')}>
-            <span>Mocktail</span>
-            <Image alt="Mocktail" src={require('/public/images/ui/no_drinks.svg')} width="16" height="16" />
-          </button>
-        </div>
-        { (drinkType === 'cocktail') &&
-          <h2>Alcohol</h2> }
-        { (drinkType === 'cocktail') && <div>
-          <h3>Spirits</h3>
-          <IngredientFilter type='liquor' />
+          <span>{ 'You don\'t have enough ingredients to make a drink.' }</span>
         </div> }
-        { (drinkType === 'cocktail') && <div>
-          <h3>Liqueurs</h3>
-          <IngredientFilter type='liqueur' />
-        </div> }
-        { (drinkType === 'cocktail') && <div>
-          <h3>Other</h3>
-          <IngredientFilter type='other' />
-          <IngredientFilter type='wine' />
-        </div> }
-        { drinkType &&
-          <h2>Mixers</h2> }
-        { drinkType && <div>
-          <h3>Carbonated</h3>
-          <IngredientFilter type='carbonated' />
-        </div> }
-        { drinkType && <div>
-          <h3>Juices</h3>
-          <IngredientFilter type='juice' />
-        </div> }
-        { drinkType && <div>
-          <h3>Other</h3>
-          <IngredientFilter type='mixer' />
-        </div> }
-        { drinkType && <Link href='/drinks'>
-          <button>
-            See Drinks
-          </button>
-        </Link> }
+      <h2>Or...</h2>
+      <div>
+        <button onClick={() => setDrinkType('cocktail')}>
+          <span>Cocktail</span>
+          <Image alt="Cocktail" src={require('/public/images/ui/local_bar.svg')} width="16" height="16" />
+        </button>
+        <button onClick={() => setDrinkType('mocktail')}>
+          <span>Mocktail</span>
+          <Image alt="Mocktail" src={require('/public/images/ui/no_drinks.svg')} width="16" height="16" />
+        </button>
       </div>
+      { (drinkType === 'cocktail') &&
+        <h2>Alcohol</h2> }
+      { (drinkType === 'cocktail') && <div>
+        <h3>Spirits</h3>
+        <IngredientFilter type='liquor' />
+      </div> }
+      { (drinkType === 'cocktail') && <div>
+        <h3>Liqueurs</h3>
+        <IngredientFilter type='liqueur' />
+      </div> }
+      { (drinkType === 'cocktail') && <div>
+        <h3>Other</h3>
+        <IngredientFilter type='other' />
+        <IngredientFilter type='wine' />
+      </div> }
+      { drinkType &&
+        <h2>Mixers</h2> }
+      { drinkType && <div>
+        <h3>Carbonated</h3>
+        <IngredientFilter type='carbonated' />
+      </div> }
+      { drinkType && <div>
+        <h3>Juices</h3>
+        <IngredientFilter type='juice' />
+      </div> }
+      { drinkType && <div>
+        <h3>Other</h3>
+        <IngredientFilter type='mixer' />
+      </div> }
+      { drinkType && <Link href='/drinks'>
+        <button>
+          See Drinks
+        </button>
+      </Link> }
     </div>
   )
 }

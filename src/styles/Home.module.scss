@@ -1,4 +1,10 @@
-.HomePage {
+.Home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
     padding-top: 120px;
     padding-bottom: 120px;
     background-color: #020202;
@@ -8,61 +14,27 @@
     color: white;
     min-height: 100vh;
 
-    .Home {
+    h1 {
+        font-size: 32px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+    
+    .selectBtn,
+    .randomBtn {
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 20px;
+        font-family: 'Nunito';
+        max-width: 250px;
+        padding: 5px 10px;
+        cursor: pointer;
 
-        h1 {
-            font-size: 32px;
-        }
-
-        a {
-            text-decoration: none;
-        }
-        
-        .selectBtn,
-        .randomBtn {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Nunito';
-            max-width: 250px;
-            padding: 5px 10px;
-            cursor: pointer;
-
-            span {
-                font-size: 20px;
-                text-align: left;
-            }
-        }
-
-        .randomDrink {
-            background-color: #111111;
-            background-image:  linear-gradient(135deg, #141414 25%, transparent 25%), linear-gradient(225deg, #141414 25%, transparent 25%), linear-gradient(45deg, #141414 25%, transparent 25%), linear-gradient(315deg, #141414 25%, #111111 25%);
-            background-position:  24px 0, 24px 0, 0 0, 0 0;
-            background-size: 48px 48px;
-            background-repeat: repeat;
-            width: 300px;
-            height: auto;
-            padding: 20px;
-            border: 2px solid rgb(215,215,215);
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            button {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 5px;
-                cursor: pointer;
-                font-family: 'Nunito';
-            }
+        span {
+            font-size: 20px;
+            text-align: left;
         }
     }
 }
