@@ -15,6 +15,7 @@ export default function RandomDrink (props: { randomDrink: any }) {
     function getIngredientFromStore (ingredient: any, index: number) {
         const letter = ingredient.Name.charAt(0);
 
+        // Try to find recipe ingredient
         for (const key of Object.keys(storedIngredients)) {
             if (storedIngredients[key].hasOwnProperty(letter)
                 && storedIngredients[key][letter].find((item: any) => item.Name === ingredient.Name)) {
@@ -24,11 +25,24 @@ export default function RandomDrink (props: { randomDrink: any }) {
             }
         }
 
+        // Try to find recipe substitute
         for (const key of Object.keys(storedIngredients)) {
             for (const letter of Object.keys(storedIngredients[key])) {
                 if (storedIngredients[key][letter].find((item: any) => item.Name === ingredient.Alias)) {
+                    const alias = storedIngredients[key][letter].find((item: any) => item.Name === ingredient.Alias);
+
+                    for (const letter of Object.keys(storedIngredients[key])) {
+                        if (storedIngredients[key][letter].find((item: any) => item.AliasId === alias.Id)) {
+                            const substitute = storedIngredients[key][letter].find((item: any) => item.AliasId === alias.Id);
+
+                            return (
+                                <span key={index}>{substitute.Name}</span>
+                            );
+                        }
+                    }
+
                     return (
-                        <span key={index}>{ingredient.Alias}</span>
+                        <span key={index}>{alias.Name}</span>
                     );
                 }
             }
