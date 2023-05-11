@@ -13,4 +13,18 @@
     font-family: 'Nunito';
     color: white;
     min-height: 100vh;
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .missing {
+        color: rgb(125, 125, 125);
+
+        img {
+            filter: invert(1);
+        }
+    }
 }
