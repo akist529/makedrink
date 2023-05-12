@@ -10,15 +10,16 @@ import Image from 'next/image';
 export default function DrinkPage () {
     const allDrinkInfo: DrinkInfo[] = (useGetAllDrinkInfoQuery().data || []);
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
-    const { query, isReady } = useRouter();
+    const router = useRouter();
     const [displayName, setDisplayName] = useState('');
+    const [drinkError, setDrinkError] = useState(false);
     const [drinkInfo, setDrinkInfo] = useState({} as DrinkInfo);
 
     useEffect(() => {
-        if (isReady) {
+        if (router.isReady) {
             getDrinkName();
         }
-    }, [isReady]);
+    }, [router.isReady]);
 
     useEffect(() => {
         if (displayName) {
@@ -29,8 +30,8 @@ export default function DrinkPage () {
     function getDrinkName () {
         let urlName;
 
-        if (query.name) {
-            urlName = query.name.toString().split('-');
+        if (router.query.name) {
+            urlName = router.query.name.toString().split('-');
 
             for (let i = 0; i < urlName.length; i++) {
                 urlName[i] = urlName[i][0].toUpperCase() + urlName[i].slice(1);
@@ -81,6 +82,8 @@ export default function DrinkPage () {
             }
         }
 
+        setDrinkError(true);
+
         return (
             <li className={styles.missing} key={index}>
                 <span>{ingredient.Alias ? ingredient.Alias : ingredient.Name}</span>
@@ -107,6 +110,8 @@ export default function DrinkPage () {
             }
         }
 
+        setDrinkError(true);
+
         return (
             <li className={styles.missing} key={index}>
                 <span>{ingredient.Name}</span>
@@ -119,6 +124,7 @@ export default function DrinkPage () {
             { !drinkInfo.Name && <h1>Waiting...</h1> }
             { drinkInfo.Name && 
             <div>
+                { drinkError && <strong>You are missing ingredients for this recipe!</strong> }
                 <h1>{drinkInfo.Name}</h1>
                 <h2>Recipe</h2>
                 <ul>

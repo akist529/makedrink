@@ -18,31 +18,31 @@ export const barApi = createApi({
         }),
         getAllDrinkInfo: builder.query<DrinkInfo[],void>({
             async queryFn(arg, queryApi, extraOptions, baseQuery) {
-                const allDrinkInfo: DrinkInfo[] = []
+                const allDrinkInfo: DrinkInfo[] = [];
 
-                const allDrinksQuery = await baseQuery('/drinks')
+                const allDrinksQuery = await baseQuery('/drinks');
 
                 if (allDrinksQuery.error) {
-                    console.log('allDrinksQuery', allDrinksQuery.error)
+                    console.log('allDrinksQuery', allDrinksQuery.error);
                 } else {
-                    const allDrinksData = allDrinksQuery.data as any
-                    const allDrinks: Drink[] = allDrinksData["Drinks"] as Drink[]
+                    const allDrinksData = allDrinksQuery.data as any;
+                    const allDrinks: Drink[] = allDrinksData["Drinks"] as Drink[];
                     
-                    for (let i = 0; i < allDrinks.length; i++) {
-                        const drinkInfoQuery = await baseQuery(`/drink/${allDrinks[i]['Id']}`)
+                    for (const drink of allDrinks) {
+                        const drinkInfoQuery = await baseQuery(`/drink/${drink.Id}`);
                         
                         if (drinkInfoQuery.error) {
-                            console.log('drinkInfoQuery', drinkInfoQuery.error)
+                            console.log('drinkInfoQuery', drinkInfoQuery.error);
                         } else {
-                            const drinkInfo = drinkInfoQuery.data as DrinkInfo
-                            allDrinkInfo.push(drinkInfo)
+                            const drinkInfo = drinkInfoQuery.data as DrinkInfo;
+                            allDrinkInfo.push(drinkInfo);
                         }
                     }
                 }
 
-                return {
+                return ({
                     data: allDrinkInfo
-                }
+                });
             }
         })
     })
