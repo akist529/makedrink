@@ -19,7 +19,18 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Import props
     const {item, section} = props;
     // React states
-    const [hasChildren, setHasChildren] = useState(false)
+    const [hasChildren, setHasChildren] = useState(() => {
+        if (!item.AliasId) {
+            for (const ingredient of section) {
+                if (ingredient.AliasId === item.Id) {
+                    return true;
+                    break;
+                }
+            }
+        }
+
+        return false;
+    });
     const [isChecked, setIsChecked] = useState(false)
     // Redux components
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored)
@@ -27,19 +38,6 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     const ingredientImagePath = require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)
     const childrenImagePath = require(`/public/images/ui/more_vert.svg`)
     const allIngredients = (useGetAllIngredientsQuery().data || []);
-
-
-    // See if ingredient has child ingredients
-    useEffect(() => {
-        if (!item.AliasId) {
-            for (const ingredient of section) {
-                if (ingredient.AliasId === item.Id) {
-                    setHasChildren(true);
-                    break;
-                }
-            }
-        }
-    }, [])
 
 
     // If parent ingredient, see if child ingredient is in store
@@ -62,71 +60,73 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
 
 
     // Fill checkbox if ingredient is in store
-    useEffect(() => {
-        // See if child ingredient is in store
-        function includesAlias () {
-            for (const key of Object.keys(storedIngredients[`${item.Type}`])) {
-                for (const ingredient of storedIngredients[`${item.Type}`][`${key}`]) {
-                    if (ingredient.AliasId === item.Id) {
-                        return true;
-                    }
+    // useEffect(() => {
+    //     // See if child ingredient is in store
+    //     function includesAlias () {
+    //         for (const key of Object.keys(storedIngredients[`${item.Type}`])) {
+    //             for (const ingredient of storedIngredients[`${item.Type}`][`${key}`]) {
+    //                 if (ingredient.AliasId === item.Id) {
+    //                     return true;
+    //                 }
+    //             }
+    //         }
+
+    //         return false;
+    //     }
+
+    //     const letter = item.Name.charAt(0);
+
+    //     if (hasChildren && storedIngredients.hasOwnProperty(item.Type) && includesAlias()) {
+    //         setIsChecked(true);
+    //     } else if (storedIngredients.hasOwnProperty(item.Type) 
+    //         && storedIngredients[`${item.Type}`].hasOwnProperty(letter)) {
+    //         if (storedIngredients[`${item.Type}`][`${letter}`].find((ingredient: Item) => ingredient.Name === item.Name)) {
+    //             setIsChecked(true);
+    //         } else {
+    //             setIsChecked(false);
+    //         }
+    //     } else {
+    //         setIsChecked(false);
+    //     }
+    // }, [storedIngredients]) // Execute if stored ingredients updates
+
+
+    function addIngredientToStore () {
+        dispatch(addIngredient(item))
+
+        // Add parent ingredient to store if applicable
+        if (item.AliasId) {
+            for (let i = 0; i < allIngredients.length; i++) {
+                if (allIngredients[i].Id === item.AliasId) {
+                    dispatch(addIngredient(allIngredients[i]))
+                    break;
                 }
             }
-
-            return false;
         }
-
-        const letter = item.Name.charAt(0);
-
-        if (hasChildren && storedIngredients.hasOwnProperty(item.Type) && includesAlias()) {
-            setIsChecked(true);
-        } else if (storedIngredients.hasOwnProperty(item.Type) 
-            && storedIngredients[`${item.Type}`].hasOwnProperty(letter)) {
-            if (storedIngredients[`${item.Type}`][`${letter}`].find((ingredient: Item) => ingredient.Name === item.Name)) {
-                setIsChecked(true);
-            } else {
-                setIsChecked(false);
-            }
-        } else {
-            setIsChecked(false);
-        }
-    }, [storedIngredients]) // Execute if stored ingredients updates
-
-
-    // Open modal if parent ingredient
-    function openModal () {
-        dispatch(setModalIngredient(item));
-        dispatch(toggleIngredientModal());
     }
 
+    function handleClick () {
+        if (hasChildren) {
+            dispatch(setModalIngredient(item));
+            dispatch(toggleIngredientModal());
+        } else {
+            setIsChecked(prevState => !prevState);
 
-    // Update store based on state of ingredient checkbox (add or remove)
-    function updateIngredients () {
-        const letter = item.Name.charAt(0);
-
-        const ingredientInStore = (() => {
-            if (storedIngredients.hasOwnProperty(item.Type)
-                && storedIngredients[item.Type].hasOwnProperty(letter)
-                && storedIngredients[item.Type][`${letter}`].find((ingredient: Item) => ingredient.Name === item.Name)) {
-                    return true;
-                }
-
-            return false;
-        })()
-
-        if (ingredientInStore) {
-            dispatch(removeIngredient(item))
-        } else { // Add ingredient to store if not there
-            dispatch(addIngredient(item))
-
-            // Add parent ingredient to store if applicable
-            if (item.AliasId) {
-                for (let i = 0; i < allIngredients.length; i++) {
-                    if (allIngredients[i].Id === item.AliasId) {
-                        dispatch(addIngredient(allIngredients[i]))
-                        break;
+            const letter = item.Name.charAt(0);
+            const ingredientInStore = (() => {
+                if (storedIngredients.hasOwnProperty(item.Type)
+                    && storedIngredients[item.Type].hasOwnProperty(letter)
+                    && storedIngredients[item.Type][`${letter}`].find((ingredient: Item) => ingredient.Name === item.Name)) {
+                        return true;
                     }
-                }
+    
+                return false;
+            })()
+
+            if (ingredientInStore) {
+                dispatch(removeIngredient(item));
+            } else {
+                addIngredientToStore();
             }
         }
     }
@@ -134,7 +134,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
 
     return (
         <li className={styles.Ingredient}>
-            <button className={styles.info} onClick={() => hasChildren ? openModal() : updateIngredients()}>
+            <button className={styles.info} onClick={handleClick}>
                 { hasChildren &&
                     <Image className={styles.children} alt="Show Varieties" src={childrenImagePath} width="8" height="64" /> }
                 <div className={styles.icon}>

@@ -39,82 +39,52 @@ export default function IngredientSection (props: {section: Item[]}) {
         return sorted
     })()
 
-    useEffect(() => {
-        const ingredientIds: number[] = [];
-
-        for (const type of Object.keys(storedIngredients)) {
-            for (const key of Object.keys(storedIngredients[type])) {
-                for (let i = 0; i < storedIngredients[type][key].length; i++) {
-                    ingredientIds.push(storedIngredients[type][key][i].Id);
-                }
-            }
-        }
-
-        const fetchDrinks = async () => {
-            await fetch('http://15.204.244.7:8585/drinks', {
-                method: 'POST',
-                mode: 'cors',
-                credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(ingredientIds.join())
-            }).then(res => {
-                if (res.ok) {
-                    console.log(res.json());
-                }
-            }).catch(err => {
-                console.log(err);
-            });
-        }
-
-        fetchDrinks();
-
-        // // Find possible drink recipes based on new ingredient
-        // const onlyNewDrinks: DrinkInfo[] = (allDrinkInfo || []).filter(drink => {
-        //     for (let i = 0; i < possibleDrinks.length; i++) {
-        //         if (possibleDrinks[i].Name === drink.Name) {
-        //             return false;
-        //         }
-        //     }
+    // useEffect(() => {
+    //     // // Find possible drink recipes based on new ingredient
+    //     // const onlyNewDrinks: DrinkInfo[] = (allDrinkInfo || []).filter(drink => {
+    //     //     for (let i = 0; i < possibleDrinks.length; i++) {
+    //     //         if (possibleDrinks[i].Name === drink.Name) {
+    //     //             return false;
+    //     //         }
+    //     //     }
             
-        //     return true;
-        // })
+    //     //     return true;
+    //     // })
 
-        // const drinksToAdd: DrinkInfo[] = []
+    //     // const drinksToAdd: DrinkInfo[] = []
 
-        // for (let i = 0; i < onlyNewDrinks.length; i++) {
-        //     const haveIngredients = onlyNewDrinks[i].Recipe.every(ingredient => {
-        //         let letter;
+    //     // for (let i = 0; i < onlyNewDrinks.length; i++) {
+    //     //     const haveIngredients = onlyNewDrinks[i].Recipe.every(ingredient => {
+    //     //         let letter;
 
-        //         if (ingredient.IsAlias) {
-        //             letter = ingredient.Alias.charAt(0);
-        //         } else {
-        //             letter = ingredient.Name.charAt(0);
-        //         }
+    //     //         if (ingredient.IsAlias) {
+    //     //             letter = ingredient.Alias.charAt(0);
+    //     //         } else {
+    //     //             letter = ingredient.Name.charAt(0);
+    //     //         }
 
-        //         for (const type of Object.keys(storedIngredients)) {
-        //             if (storedIngredients[`${type}`].hasOwnProperty(letter)) {
-        //                 for (const item of storedIngredients[`${type}`][`${letter}`]) {
-        //                     if ((item.Name === ingredient.Name) || (item.Name === ingredient.Alias)) {
-        //                         return true
-        //                     }
-        //                 }
-        //             }
-        //         }
+    //     //         for (const type of Object.keys(storedIngredients)) {
+    //     //             if (storedIngredients[`${type}`].hasOwnProperty(letter)) {
+    //     //                 for (const item of storedIngredients[`${type}`][`${letter}`]) {
+    //     //                     if ((item.Name === ingredient.Name) || (item.Name === ingredient.Alias)) {
+    //     //                         return true
+    //     //                     }
+    //     //                 }
+    //     //             }
+    //     //         }
 
-        //         return false
-        //     })
+    //     //         return false
+    //     //     })
 
-        //     if (haveIngredients) {
-        //         drinksToAdd.push(onlyNewDrinks[i])
-        //     }
-        // }
+    //     //     if (haveIngredients) {
+    //     //         drinksToAdd.push(onlyNewDrinks[i])
+    //     //     }
+    //     // }
 
-        // for (let i = 0; i < drinksToAdd.length; i++) {
-        //     dispatch(addPossibleDrink(drinksToAdd[i]));
-        // }
-    }, [storedIngredients, dispatch])
+    //     // for (let i = 0; i < drinksToAdd.length; i++) {
+    //     //     dispatch(addPossibleDrink(drinksToAdd[i]));
+    //     // }
+    // }, [storedIngredients, dispatch])
 
 
     return (
