@@ -19,18 +19,6 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Import props
     const {item, section} = props;
     // React states
-    const [hasChildren, setHasChildren] = useState(() => {
-        if (!item.AliasId) {
-            for (const ingredient of section) {
-                if (ingredient.AliasId === item.Id) {
-                    return true;
-                    break;
-                }
-            }
-        }
-
-        return false;
-    });
     const [isChecked, setIsChecked] = useState(false)
     // Redux components
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored)
@@ -39,6 +27,17 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     const childrenImagePath = require(`/public/images/ui/more_vert.svg`)
     const allIngredients = (useGetAllIngredientsQuery().data || []);
 
+    const hasChildren = (() => {
+        if (!item.AliasId) {
+            for (const ingredient of section) {
+                if (ingredient.AliasId === item.Id) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    })();
 
     // If parent ingredient, see if child ingredient is in store
     useEffect(() => {
