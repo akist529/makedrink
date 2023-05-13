@@ -1,0 +1,16 @@
+.RecipeItem {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    .missing {
+        color: rgb(125, 125, 125);
+
+        display: flex;
+        gap: 10px;
+    }
+
+    img {
+        filter: invert(1);
+    }
+}

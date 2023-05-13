@@ -25,40 +25,9 @@ export interface Drink {
 }
 
 export interface Type {
-    A?: Item[];
-    B?: Item[];
-    C?: Item[];
-    D?: Item[];
-    E?: Item[];
-    F?: Item[];
-    G?: Item[];
-    H?: Item[];
-    I?: Item[];
-    J?: Item[];
-    K?: Item[];
-    L?: Item[];
-    M?: Item[];
-    N?: Item[];
-    O?: Item[];
-    P?: Item[];
-    Q?: Item[];
-    R?: Item[];
-    S?: Item[];
-    T?: Item[];
-    U?: Item[];
-    V?: Item[];
-    W?: Item[];
-    X?: Item[];
-    Y?: Item[];
-    Z?: Item[];
+    [index: string]: Item[];
 }
 
 export interface Dictionary {
-    liquor?: Type;
-    liqueur?: Type;
-    other?: Type;
-    wine?: Type;
-    carbonated?: Type;
-    juice?: Type;
-    mixer?: Type;
+    [index: string]: Type;
 }

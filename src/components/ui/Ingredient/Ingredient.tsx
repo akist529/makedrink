@@ -13,16 +13,16 @@ import { RootState } from '@/store/store'
 // Local components
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox'
 // Type interfaces
-import { Item, Dictionary, Type } from '@/types/index'
+import { Item, Dictionary } from '@/types/index'
 
 export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Import props
     const {item, section} = props;
     // Redux components
-    const storedIngredients: { [key: string]: Type } = useSelector((state: RootState) => state.ingredients.stored)
+    const storedIngredients: Dictionary = useSelector((state: RootState) => state.ingredients.stored)
     const dispatch = useDispatch()
-    const ingredientImagePath: typeof Image = require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)
-    const childrenImagePath: typeof Image = require(`/public/images/ui/more_vert.svg`)
+    const ingredientImagePath = require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)
+    const childrenImagePath = require(`/public/images/ui/more_vert.svg`)
     const allIngredients: Item[] = (useGetAllIngredientsQuery().data || []);
     // React states
     const [isChecked, setIsChecked] = useState(itemInStore(item));
@@ -39,7 +39,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
 
     function itemInStore (item: Item) {
         const letter = item.Name.charAt(0);
-        const type = item.Type;
+        const type: string = item.Type;
 
         if (storedIngredients.hasOwnProperty(type)
             && storedIngredients[type].hasOwnProperty(letter)) {
@@ -124,7 +124,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
                 { hasChildren &&
                     <Image className={styles.children} alt="Show Varieties" src={childrenImagePath} width="8" height="64" /> }
                 <div className={styles.icon}>
-                    <Image alt={item['Name']} src={ingredientImagePath} />
+                    <Image alt={item.Name} src={ingredientImagePath} />
                 </div>
                 <IngredientCheckbox item={item} isChecked={isChecked} />
             </button>

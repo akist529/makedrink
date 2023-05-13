@@ -10,7 +10,7 @@ export const barApi = createApi({
         getAllIngredients: builder.query<Item[],void>({
             query: () => "/ingredients"
         }),
-        getAllDrinks: builder.query<Drink[],void>({
+        getAllDrinks: builder.query<any,void>({
             query: () => "/drinks"
         }),
         getDrinkInfo: builder.query<DrinkInfo,number>({

@@ -1,31 +1,33 @@
 import styles from '@/styles/Drink.module.scss'
-import { useGetAllDrinkInfoQuery } from '@/store/api/api'
+import { useGetAllDrinksQuery, useLazyGetDrinkInfoQuery } from '@/store/api/api'
 import { useRouter } from 'next/router';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { DrinkInfo, Ingredient, Item } from '@/types/index';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import Image from 'next/image';
+import RecipeItem from '@/components/ui/RecipeItem/RecipeItem';
 
 export default function DrinkPage () {
-    const allDrinkInfo: DrinkInfo[] = (useGetAllDrinkInfoQuery().data || []);
+    const allDrinks = useGetAllDrinksQuery().data || [];
+    const [getDrinkInfo, result] = useLazyGetDrinkInfoQuery();
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const router = useRouter();
-    const [displayName, setDisplayName] = useState('');
     const [drinkError, setDrinkError] = useState(false);
+    const [recipeError, setRecipeError] = useState(false);
     const [drinkInfo, setDrinkInfo] = useState({} as DrinkInfo);
 
     useEffect(() => {
         if (router.isReady) {
-            getDrinkName();
+            const displayName = getDrinkName();
+            fetchDrinkInfo(displayName);
         }
     }, [router.isReady]);
 
     useEffect(() => {
-        if (displayName) {
-            getDrinkInfo();
+        if (result && result.data) {
+            setDrinkInfo(result.data);
         }
-    }, [displayName]);
+    }, [result]);
 
     function getDrinkName () {
         let urlName;
@@ -37,14 +39,16 @@ export default function DrinkPage () {
                 urlName[i] = urlName[i][0].toUpperCase() + urlName[i].slice(1);
             }
 
-            setDisplayName(urlName.toString().replaceAll(',', ' '));
+            return urlName.toString().replaceAll(',', ' ');
+        } else {
+            return '';
         }
     }
 
-    function getDrinkInfo () {
-        for (const drink of allDrinkInfo) {
+    function fetchDrinkInfo(displayName: string) {
+        for (const drink of allDrinks.Drinks) {
             if (drink.Name === displayName) {
-                setDrinkInfo(drink);
+                getDrinkInfo(drink.Id);
             }
         }
     }
@@ -57,9 +61,7 @@ export default function DrinkPage () {
                 for (const item of storedIngredients[type][letter]) {
                     if (item.Name === ingredient.Name) {
                         return (
-                            <li key={index}>
-                                <span>{item.Name}</span>
-                            </li>
+                            <RecipeItem key={index} ingredient={ingredient} missing={false} />
                         );
                     }
                 }
@@ -82,54 +84,47 @@ export default function DrinkPage () {
             }
         }
 
-        setDrinkError(true);
-
-        return (
-            <li className={styles.missing} key={index}>
-                <span>{ingredient.Alias ? ingredient.Alias : ingredient.Name}</span>
-                <Image 
-                    alt='Ingredient Missing'
-                    src={require('public/images/ui/cancel.svg')}
-                    width="24"
-                    height="24"
-                />
-            </li>
-        );
+        if (!recipeError) {
+            setRecipeError(true);
+        }
+        
+        return <RecipeItem key={index} ingredient={ingredient} missing={true} />
     }
 
     function getAltIngredient (ingredient: Item, index: number) {
         for (const key of Object.keys(storedIngredients[ingredient.Type])) {
             for (let i = 0; i < storedIngredients[ingredient.Type][key].length; i++) {
                 if (storedIngredients[ingredient.Type][key][i].AliasId === ingredient.Id) {
-                    return (
-                        <li key={index}>
-                            <span>{storedIngredients[ingredient.Type][key][i].Name}</span>
-                        </li>
-                    );
+                    return <RecipeItem key={index} ingredient={ingredient} missing={false} />
                 }
             }
         }
 
-        setDrinkError(true);
+        if (!recipeError) {
+            setRecipeError(true);
+        }
 
-        return (
-            <li className={styles.missing} key={index}>
-                <span>{ingredient.Name}</span>
-            </li>
-        );
+        return <RecipeItem key={index} ingredient={ingredient} missing={true} />
     }
 
     return (
         <div className={styles.Drink}>
-            { !drinkInfo.Name && <h1>Waiting...</h1> }
+            { !drinkError && !drinkInfo.Name && <h1>Waiting...</h1> }
+            { drinkError && <h1>The drink you entered does not exist!</h1> }
             { drinkInfo.Name && 
             <div>
-                { drinkError && <strong>You are missing ingredients for this recipe!</strong> }
+                { recipeError && <strong>You are missing ingredients for this recipe!</strong> }
                 <h1>{drinkInfo.Name}</h1>
                 <h2>Recipe</h2>
+                <h3>Ingredients</h3>
                 <ul>
                     { drinkInfo.Recipe.map((ingredient, index) => {
                         return getIngredient(ingredient, index)
+                    }) }
+                </ul>
+                <ul>
+                    { drinkInfo.Directions.map((direction, index) => {
+                        return <li key={index}>{direction}</li>
                     }) }
                 </ul>
             </div> }
