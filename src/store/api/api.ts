@@ -13,7 +13,7 @@ export const barApi = createApi({
         getAllDrinks: builder.query<Drink[],void>({
             query: () => "/drinks"
         }),
-        getDrinkInfo: builder.query<DrinkInfo,void>({
+        getDrinkInfo: builder.query<DrinkInfo,number>({
             query: (id) => `/drink/${id}`
         }),
         getAllDrinkInfo: builder.query<DrinkInfo[],void>({
@@ -48,4 +48,4 @@ export const barApi = createApi({
     })
 })
 
-export const { useGetAllIngredientsQuery, useGetAllDrinksQuery, useGetDrinkInfoQuery, useGetAllDrinkInfoQuery } = barApi
+export const { useGetAllIngredientsQuery, useGetAllDrinksQuery, useLazyGetDrinkInfoQuery, useGetAllDrinkInfoQuery } = barApi

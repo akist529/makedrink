@@ -4,19 +4,21 @@ import styles from '@/styles/Ingredients.module.scss'
 import Image from 'next/image'
 // Redux components
 import { useSelector, useDispatch } from 'react-redux'
-import { useGetAllIngredientsQuery } from '@/store/api/api'
+import { useGetAllIngredientsQuery, useLazyGetDrinkInfoQuery } from '@/store/api/api'
 import { RootState } from '@/store/store'
+import { addPossibleDrink } from '@/store/slices/drinks.slice'
 // Type interfaces
-import { Item } from '@/types/index'
+import { Item, Drink } from '@/types/index'
 // Local components
 import IngredientCatBtn from '@/components/buttons/IngredientCatBtn/IngredientCatBtn'
 import IngredientSection from '@/components/ui/IngredientSection/IngredientSection'
 import { useEffect } from 'react'
 
 export default function IngredientsPage() {
-    const { data, isLoading, error } = useGetAllIngredientsQuery()
+    const allIngredients = useGetAllIngredientsQuery()
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
+    const [getDrinkInfo, result] = useLazyGetDrinkInfoQuery();
 
     const ingredientsImagePath = require('/public/images/ui/local_bar.svg')
     const alcoholImagePath = require('/public/images/ui/drunk.webp')
@@ -26,7 +28,7 @@ export default function IngredientsPage() {
         let filteredData: Item[] = []
 
         for (let i = 0; i < type.length; i++) {
-            const categoryData = (data as Item[]).filter(ingredient => {
+            const categoryData = (allIngredients.data as Item[]).filter(ingredient => {
                 return ingredient['Type'] === type[i]
             })
 
@@ -49,32 +51,40 @@ export default function IngredientsPage() {
             }
         }
 
-        const fetchDrinks = () => {
-            var urlencoded = new URLSearchParams();
-            urlencoded.append('ingredients', ingredientIds.join());
-
-            fetch('http://15.204.244.7:8585/drinks', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: urlencoded,
-                redirect: 'follow'
-            }).then(res => {
-                if (res.ok) {
-                    console.log(res.text());
-                }
-            }).catch(err => {
-                console.log(err);
-            });
-        }
-
-        fetchDrinks();
+        getDrinks(ingredientIds.join());
     }, [storedIngredients, dispatch]);
+
+    useEffect(() => {
+        if (result && result.data) {
+            dispatch(addPossibleDrink(result.data));
+        }
+    }, [result])
+
+    function getDrinks (ids: string) {
+        var urlencoded = new URLSearchParams();
+        urlencoded.append('ingredients', ids);
+
+        fetch('http://15.204.244.7:8585/drinks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: urlencoded,
+            redirect: 'follow'
+        }).then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+        }).then(data => {
+            data.Drinks.forEach((drink: Drink) => getDrinkInfo(drink.Id));
+        }).catch(err => {
+            console.log(err);
+        });
+    }
 
     return (
         <>
-            { data && <div className={styles.IngredientsPage}>
+            { allIngredients.data && <div className={styles.IngredientsPage}>
                 <h1>
                     <div>
                         {'Select'.split('').map((letter, index) => {
@@ -117,9 +127,9 @@ export default function IngredientsPage() {
                     <IngredientSection section={filterData(['mixer'])} />
                 </div>
             </div> }
-            { isLoading &&
+            { allIngredients.isLoading &&
                 <h1>Loading...</h1> }
-            { error &&
+            { allIngredients.error &&
                 <h1>Error!</h1> }
         </>
     )
