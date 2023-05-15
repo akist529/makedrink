@@ -28,6 +28,10 @@ export interface Type {
     [index: string]: Item[];
 }
 
-export interface Dictionary {
+export interface IngredientDict {
     [index: string]: Type;
+}
+
+export interface DrinkDict {
+    [index: string]: DrinkInfo[];
 }

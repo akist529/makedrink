@@ -12,6 +12,16 @@ export default function RandomDrink (props: { randomDrink: any }) {
     const possibleDrinks = useSelector((state: RootState) => state.drinks.possible);
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
+    const drinksNum = (() => {
+        let num = 0;
+
+        for (const key of Object.keys(possibleDrinks)) {
+            num += possibleDrinks[key].length;
+        }
+
+        return num;
+    })();
+
     function getIngredientFromStore (ingredient: any, index: number) {
         const letter = ingredient.Name.charAt(0);
 
@@ -51,7 +61,7 @@ export default function RandomDrink (props: { randomDrink: any }) {
 
     return (
         <div>
-            <span>{Object.keys(possibleDrinks).length} drink{Object.keys(possibleDrinks).length > 1 && 's'} found!</span>
+            <span>{drinksNum} drink{drinksNum > 1 && 's'} found!</span>
             <div className={styles.RandomDrink}>
                 <span>{randomDrink['Name']}</span>
                 <span>DRINK IMAGE</span>

@@ -25,13 +25,22 @@ const HomePage: NextPage = () => {
   const dispatch = useDispatch();
 
   function getRandomDrink () {
-    if (!possibleDrinks.length) {
-      setDrinkError(true)
+    const keyLength = Object.keys(possibleDrinks).length;
+    
+    if (!keyLength) {
+      setDrinkError(true);
     } else {
-      const randomIndex = Math.floor(Math.random() * possibleDrinks.length)
-      const randomDrink = possibleDrinks[randomIndex] || {}
-      setRandomDrink(randomDrink)
-      setDrinkError(false)
+      setDrinkError(false);
+
+      const key = Object.keys(possibleDrinks)[Math.floor(Math.random() * keyLength)];
+      const index = Math.floor(Math.random() * possibleDrinks[key].length);
+      const drink = possibleDrinks[key][index];
+
+      if (drink === randomDrink) {
+        getRandomDrink();
+      } else {
+        setRandomDrink(drink);
+      }
     }
   }
 

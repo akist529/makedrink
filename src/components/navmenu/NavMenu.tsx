@@ -12,7 +12,8 @@ import NavMenuItem from '@/components/navmenu/item/NavMenuItem'
 
 export default function NavMenu () {
     // Redux selectors
-    const { navMenuOpen } = useSelector((state: RootState) => state.navMenu)
+    const { navMenuOpen } = useSelector((state: RootState) => state.navMenu);
+    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
     const spirits = ['Whiskey', 'Brandy', 'Gin', 'Rum', 'Scotch', 'Tequila', 'Vermouth', 'Vodka', 'Absinthe']
     const dispatch = useDispatch()
@@ -27,7 +28,9 @@ export default function NavMenu () {
                 <Link href='/ingredients' onClick={() => dispatch(toggleNavMenu())}>
                     <NavMenuItem item='Select Ingredients' />
                 </Link>
-                <NavMenuCategory category='Spirits' items={spirits} />
+                { Object.keys(storedIngredients).map((type, index) => {
+                    return <NavMenuCategory key={index} type={type} />
+                }) }
             </ul>
         </nav>
     )

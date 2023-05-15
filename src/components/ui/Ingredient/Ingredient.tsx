@@ -13,13 +13,13 @@ import { RootState } from '@/store/store'
 // Local components
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox'
 // Type interfaces
-import { Item, Dictionary } from '@/types/index'
+import { Item, IngredientDict } from '@/types/index'
 
 export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Import props
     const {item, section} = props;
     // Redux components
-    const storedIngredients: Dictionary = useSelector((state: RootState) => state.ingredients.stored)
+    const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored)
     const dispatch = useDispatch()
     const ingredientImagePath = require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)
     const childrenImagePath = require(`/public/images/ui/more_vert.svg`)

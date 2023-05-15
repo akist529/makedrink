@@ -7,14 +7,12 @@ export default function NavMenuItem(props: {item: string}) {
     // Import props
     const {item} = props
 
-    const imagePath = require(`/public/images/ui/${item.toLowerCase().split(' ').join('-')}.webp`)
+    const imagePath = require(`/public/images/ui/${item.toLowerCase().split(' ').join('-').replaceAll('/', '-')}.webp`)
 
     return (
-        <li className={styles.item}>
-            <button>
-                <span>{item}</span>
-                <Image alt={item} src={imagePath} width='48' height='48' />
-            </button>
-        </li>
+        <button className={styles.item}>
+            <span>{item}</span>
+            <Image alt={item} src={imagePath} width='48' height='48' />
+        </button>
     )
 }

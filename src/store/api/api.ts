@@ -16,6 +16,26 @@ export const barApi = createApi({
         getDrinkInfo: builder.query<DrinkInfo,number>({
             query: (id) => `/drink/${id}`
         }),
+        getMultipleDrinkInfo: builder.query<DrinkInfo[],number[]>({
+            async queryFn(arg, queryApi, extraOptions, baseQuery) {
+                const ids = arg;;
+                const info: DrinkInfo[] = [];
+
+                for (const id of ids) {
+                    const drinkData = await baseQuery(`/drink/${id}`);
+
+                    if (drinkData.error) {
+                        console.log('multipleDrinksQuery', drinkData.error);
+                    } else {
+                        info.push(drinkData.data as DrinkInfo);
+                    }
+                }
+
+                return ({
+                    data: info
+                })
+            }
+        }),
         getAllDrinkInfo: builder.query<DrinkInfo[],void>({
             async queryFn(arg, queryApi, extraOptions, baseQuery) {
                 const allDrinkInfo: DrinkInfo[] = [];
@@ -26,7 +46,7 @@ export const barApi = createApi({
                     console.log('allDrinksQuery', allDrinksQuery.error);
                 } else {
                     const allDrinksData = allDrinksQuery.data as any;
-                    const allDrinks: Drink[] = allDrinksData["Drinks"] as Drink[];
+                    const allDrinks: Drink[] = allDrinksData.Drinks as Drink[];
                     
                     for (const drink of allDrinks) {
                         const drinkInfoQuery = await baseQuery(`/drink/${drink.Id}`);
@@ -48,4 +68,4 @@ export const barApi = createApi({
     })
 })
 
-export const { useGetAllIngredientsQuery, useGetAllDrinksQuery, useLazyGetDrinkInfoQuery, useGetAllDrinkInfoQuery } = barApi
+export const { useGetAllIngredientsQuery, useGetAllDrinksQuery, useLazyGetDrinkInfoQuery, useGetMultipleDrinkInfoQuery, useLazyGetMultipleDrinkInfoQuery, useGetAllDrinkInfoQuery } = barApi

@@ -4,7 +4,7 @@ import styles from '@/styles/Ingredients.module.scss'
 import Image from 'next/image'
 // Redux components
 import { useSelector, useDispatch } from 'react-redux'
-import { useGetAllIngredientsQuery, useLazyGetDrinkInfoQuery } from '@/store/api/api'
+import { useGetAllIngredientsQuery, useLazyGetMultipleDrinkInfoQuery } from '@/store/api/api'
 import { RootState } from '@/store/store'
 import { addPossibleDrink } from '@/store/slices/drinks.slice'
 // Type interfaces
@@ -15,10 +15,10 @@ import IngredientSection from '@/components/ui/IngredientSection/IngredientSecti
 import { useEffect } from 'react'
 
 export default function IngredientsPage() {
-    const allIngredients = useGetAllIngredientsQuery()
+    const allIngredients = useGetAllIngredientsQuery();
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
-    const [getDrinkInfo, result] = useLazyGetDrinkInfoQuery();
+    const [getDrinkInfo, result] = useLazyGetMultipleDrinkInfoQuery();
 
     const ingredientsImagePath = require('/public/images/ui/local_bar.svg')
     const alcoholImagePath = require('/public/images/ui/drunk.webp')
@@ -51,12 +51,16 @@ export default function IngredientsPage() {
             }
         }
 
-        getDrinks(ingredientIds.join());
+        if (ingredientIds.length) {
+            getDrinks(ingredientIds.join());
+        }
     }, [storedIngredients, dispatch]);
 
     useEffect(() => {
         if (result && result.data) {
-            dispatch(addPossibleDrink(result.data));
+            for (const drink of result.data) {
+                dispatch(addPossibleDrink(drink));
+            }
         }
     }, [result])
 
@@ -72,11 +76,15 @@ export default function IngredientsPage() {
             body: urlencoded,
             redirect: 'follow'
         }).then(res => {
-            if (res.ok) {
-                return res.json();
-            }
+            return res.json();
         }).then(data => {
-            data.Drinks.forEach((drink: Drink) => getDrinkInfo(drink.Id));
+            const ids: number[] = [];
+
+            data.Drinks.forEach((drink: Drink) => {
+                ids.push(drink.Id);
+            })
+
+            getDrinkInfo(ids);
         }).catch(err => {
             console.log(err);
         });
