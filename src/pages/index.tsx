@@ -15,13 +15,14 @@ import { clearSelected } from '@/store/slices/ingredients.slice'
 import RandomDrink from '@/components/ui/RandomDrink/RandomDrink'
 import IngredientFilter from '@/components/ui/IngredientFilter/IngredientFilter'
 // Type interfaces
-import { DrinkInfo } from '@/types/index'
+import { DrinkInfo, Item } from '@/types/index'
 
 const HomePage: NextPage = () => {
   const [drinkType, setDrinkType] = useState('')
   const [drinkError, setDrinkError] = useState(false)
   const [randomDrink, setRandomDrink] = useState({} as DrinkInfo)
   const possibleDrinks = useSelector((state: RootState) => state.drinks.possible)
+  const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
   const dispatch = useDispatch();
 
   function getRandomDrink () {
@@ -44,75 +45,160 @@ const HomePage: NextPage = () => {
     }
   }
 
+  function parentIngredients (type: string) {
+    const parentIngredients = [];
+
+    if (storedIngredients.hasOwnProperty(type)) {
+      for (const key of Object.keys(storedIngredients[type])) {
+        for (const ingredient of storedIngredients[type][key]) {
+          if (ingredient.AliasId === 0 && findChildren(ingredient)) {
+            parentIngredients.push(ingredient);
+          }
+        }
+      }
+    }
+
+    return parentIngredients;
+  }
+
+  function childIngredients (item: Item) {
+    const childIngredients = [];
+
+    if (storedIngredients.hasOwnProperty(item.Type)) {
+      for (const key of Object.keys(storedIngredients[item.Type])) {
+        for (const ingredient of storedIngredients[item.Type][key]) {
+          if (ingredient.AliasId === item.Id) {
+            childIngredients.push(ingredient);
+          }
+        }
+      }
+    }
+
+    return childIngredients;
+  }
+
+  function findChildren (item: Item) {
+    for (const key of Object.keys(storedIngredients[item.Type])) {
+      if (storedIngredients[item.Type][key].find((ingredient: Item) => ingredient.AliasId === item.Id)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  function filterIngredients (type: string) {
+    const filteredIngredients = [];
+
+    if (storedIngredients.hasOwnProperty(type)) {
+        for (const key of Object.keys(storedIngredients[type])) {
+            for (const ingredient of storedIngredients[type][key]) {
+                filteredIngredients.push(ingredient);
+            }
+        }
+    }
+
+    return filteredIngredients;
+  }
+
   useEffect(() => {
     dispatch(clearSelected());
   }, [drinkType, dispatch])
 
   return (
     <div className={styles.Home}>
-      <h1>What Can I Make?</h1>
-      <Link href="/ingredients">
-        <button className={styles.selectBtn}>
-          <span>Select Your Ingredients</span>
-          <Image alt="Select Ingredients" src={require('/public/images/ui/select-ingredients.webp')} width="48" height="48" />
+      <header>
+        <h1>What Can I Make?</h1>
+        <Link href="/ingredients">
+          <button className={styles.selectBtn}>
+            <span>Select Your Ingredients</span>
+            <Image alt="Select Ingredients" src={require('/public/images/ui/select-ingredients.webp')} width="48" height="48" />
+          </button>
+        </Link>
+        <span>Then...</span>
+        <button className={styles.randomBtn} onClick={() => getRandomDrink()}>
+          <span>Give Me A Drink, Bartender!</span>
+          <Image alt="Cocktail" src={require('/public/images/ui/cocktail.webp')} width="48" height="48" />
         </button>
-      </Link>
-      <span>Then...</span>
-      <button className={styles.randomBtn} onClick={() => getRandomDrink()}>
-        <span>Give Me A Drink, Bartender!</span>
-        <Image alt="Cocktail" src={require('/public/images/ui/cocktail.webp')} width="48" height="48" />
-      </button>
-      { (Object.keys(randomDrink).length > 0) 
-        && <RandomDrink randomDrink={randomDrink} /> }
-      { drinkError &&
+      </header>
+      <main>
+        <section>
+          { (Object.keys(randomDrink).length > 0) && 
+            <RandomDrink randomDrink={randomDrink} /> }
+          { drinkError &&
+            <strong>{ 'You don\'t have enough ingredients to make a drink.' }</strong> }
+        </section>
+        <h2>Or...</h2>
         <div>
-          <span>{ 'You don\'t have enough ingredients to make a drink.' }</span>
-        </div> }
-      <h2>Or...</h2>
-      <div>
-        <button onClick={() => setDrinkType('cocktail')}>
-          <span>Cocktail</span>
-          <Image alt="Cocktail" src={require('/public/images/ui/local_bar.svg')} width="16" height="16" />
-        </button>
-        <button onClick={() => setDrinkType('mocktail')}>
-          <span>Mocktail</span>
-          <Image alt="Mocktail" src={require('/public/images/ui/no_drinks.svg')} width="16" height="16" />
-        </button>
-      </div>
-      { (drinkType === 'cocktail') &&
-        <h2>Alcohol</h2> }
-      { (drinkType === 'cocktail') && <div>
-        <h3>Spirits</h3>
-        <IngredientFilter type='liquor' drinkType={drinkType} />
-      </div> }
-      { (drinkType === 'cocktail') && <div>
-        <h3>Liqueurs</h3>
-        <IngredientFilter type='liqueur' drinkType={drinkType} />
-      </div> }
-      { (drinkType === 'cocktail') && <div>
-        <h3>Other</h3>
-        <IngredientFilter type='other' drinkType={drinkType} />
-        <IngredientFilter type='wine' drinkType={drinkType} />
-      </div> }
-      { drinkType &&
-        <h2>Mixers</h2> }
-      { drinkType && <div>
-        <h3>Carbonated</h3>
-        <IngredientFilter type='carbonated' drinkType={drinkType} />
-      </div> }
-      { drinkType && <div>
-        <h3>Juices</h3>
-        <IngredientFilter type='juice' drinkType={drinkType} />
-      </div> }
-      { drinkType && <div>
-        <h3>Other</h3>
-        <IngredientFilter type='mixer' drinkType={drinkType} />
-      </div> }
-      { drinkType && <Link href='/drinks'>
-        <button>
-          See Drinks
-        </button>
-      </Link> }
+          <button onClick={() => setDrinkType('cocktail')}>
+            <span>Cocktail</span>
+            <Image alt="Cocktail" src={require('/public/images/ui/local_bar.svg')} width="16" height="16" />
+          </button>
+          <button onClick={() => setDrinkType('mocktail')}>
+            <span>Mocktail</span>
+            <Image alt="Mocktail" src={require('/public/images/ui/no_drinks.svg')} width="16" height="16" />
+          </button>
+        </div>
+        <form>
+          { (drinkType === 'cocktail') && 
+          <>
+            <fieldset>
+              <legend>Liquor</legend>
+              { parentIngredients('liquor').map((ingredient: Item, index: number) => {
+                return (
+                  <fieldset key={index}>
+                    <legend>{ingredient.Name}</legend>
+                    { childIngredients(ingredient).map((ingredient: Item, index: number) => {
+                      return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
+                    }) }
+                  </fieldset>
+                );
+              }) }
+            </fieldset>
+            <fieldset>
+              <legend>Liqueur</legend>
+              { filterIngredients('liqueur').map((ingredient: Item, index: number) => {
+                return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
+              }) }
+            </fieldset>
+            <fieldset>
+              <legend>Other Alcohol</legend>
+              { filterIngredients('other').map((ingredient: Item, index: number) => {
+                return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
+              }) }
+              { filterIngredients('wine').map((ingredient: Item, index: number) => {
+                return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
+              }) }
+            </fieldset>
+          </> }
+          { drinkType && 
+          <>
+            <fieldset>
+              <legend>Carbonated</legend>
+              { filterIngredients('carbonated').map((ingredient: Item, index: number) => {
+                return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
+              }) }
+            </fieldset>
+            <fieldset>
+              <legend>Juice</legend>
+              { filterIngredients('juice').map((ingredient: Item, index: number) => {
+                return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
+              }) }
+            </fieldset>
+            <fieldset>
+              <legend>Other Mixers</legend>
+              { filterIngredients('mixer').map((ingredient: Item, index: number) => {
+                return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
+              }) }
+            </fieldset>
+          </> }
+        </form>
+        { drinkType && <Link href='/drinks'>
+          <button>
+            See Drinks
+          </button>
+        </Link> }
+      </main>
     </div>
   )
 }
