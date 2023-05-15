@@ -1,7 +1,6 @@
 .RecipeItem {
     display: flex;
-    align-items: center;
-    gap: 5px;
+    width: 100%;
 
     .missing {
         color: rgb(125, 125, 125);
@@ -10,7 +9,12 @@
         gap: 10px;
     }
 
-    img {
-        filter: invert(1);
+    div {
+        display: grid;
+        grid-template-columns: 32px 1fr 64px;
+        grid-template-rows: auto;
+        width: 100%;
+        justify-items: center;
+        align-items: center;
     }
 }

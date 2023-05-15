@@ -68,6 +68,7 @@ export default function RandomDrink (props: { randomDrink: any }) {
                 { randomDrink['Recipe'].map((ingredient: any, index: number) => {
                     return getIngredientFromStore(ingredient, index)
                 }) }
+                <Image alt='Cocktail' src={require('/public/images/ui/cocktail-placeholder.jpg')} width="256" />
                 <Link href={`/drink/${randomDrink.Name.toLowerCase().replaceAll(' ', '-')}`}>
                     <button>
                         <span>GO TO DRINK</span>
