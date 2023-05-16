@@ -78,15 +78,15 @@ export default function IngredientForm (props: { ingredientType: string, drinkTy
     }
 
     return (
-        <fieldset className={styles.IngredientForm}>
+        <fieldset className={formOpen ? [styles.IngredientForm, styles.formOpen].join(' ') : styles.IngredientForm}>
             <legend>
                 <button onClick={toggleForm}>
                     <span>{ingredientType}</span>
                     <Image alt='Close Form Field' src={require('/public/images/ui/expand_more.svg')} />
                 </button>
             </legend>
-            { formOpen && 
-                getIngredients(ingredientType).filter((ingredient: Item) => ingredientIsParent(ingredient)).map((ingredient: Item, index: number) => {
+            <div className={formOpen ? [styles.gradient, styles.gradientOpen].join(' ') : [styles.gradient, styles.gradientClosed].join(' ')}>
+                { getIngredients(ingredientType).filter((ingredient: Item) => ingredientIsParent(ingredient)).map((ingredient: Item, index: number) => {
                     return (
                         <fieldset key={index}>
                             <legend>
@@ -101,20 +101,17 @@ export default function IngredientForm (props: { ingredientType: string, drinkTy
                             }) }
                         </fieldset>
                     );
-                })
-            }
-            { formOpen && 
-                getIngredients(ingredientType).filter((ingredient: Item) => (!ingredientIsParent(ingredient) && !ingredientIsChild(ingredient))).map((ingredient: Item, index: number) => {
+                }) }
+                { getIngredients(ingredientType).filter((ingredient: Item) => (!ingredientIsParent(ingredient) && !ingredientIsChild(ingredient))).map((ingredient: Item, index: number) => {
                     return (
-                        <>
-                            <div>
-                                <label htmlFor={ingredient.Name}>{ingredient.Name}</label>
-                                <Image alt={ingredient.Name} src={require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} height="48" />
-                            </div>
+                        <div key={index} className={styles.filter}>
+                            <label htmlFor={ingredient.Name}>{ingredient.Name}</label>
+                            <Image alt={ingredient.Name} src={require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} height="48" />
                             <input type="checkbox" id={ingredient.Name} name={ingredient.Name} value={ingredient.Name}/>
-                        </>
+                        </div>
                     );
                 }) }
+            </div>
         </fieldset>
     );
 }

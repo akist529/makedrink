@@ -1,10 +1,12 @@
 .IngredientForm {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     gap: 10px;
     width: 100%;
+    height: 100px;
+    overflow: hidden;
+    padding-top: 10px;
 
     > legend {
         padding: 0 10px;
@@ -29,31 +31,74 @@
         }
     }
 
-    fieldset {
-        padding: 5px 20px;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(auto-fill, 40px);
+    .gradient {
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        grid-gap: 10px;
-        width: 90%;
+        gap: 10px;
+        width: 100%;
+        padding-bottom: 20px;
+        overflow: hidden;
 
-        legend {
+        fieldset {
+            padding: 5px 20px;
             display: grid;
-            grid-template-columns: auto auto;
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(auto-fill, 40px);
+            align-items: center;
+            grid-gap: 10px;
+            width: 90%;
+    
+            legend {
+                display: grid;
+                grid-template-columns: auto auto;
+                grid-template-rows: auto;
+                justify-items: center;
+                align-items: center;
+                grid-gap: 10px;
+                padding: 0 10px;
+                text-transform: uppercase;
+                line-height: 32px;
+                font-size: 28px;
+    
+                span {
+                    max-width: 160px;
+                    text-align: center;
+                }
+            }
+        }
+    
+        .filter {
+            display: grid;
+            grid-template-columns: 140px 1fr auto;
             grid-template-rows: auto;
             justify-items: center;
             align-items: center;
-            grid-gap: 10px;
-            padding: 0 10px;
-            text-transform: uppercase;
-            line-height: 32px;
-            font-size: 28px;
-
-            span {
-                max-width: 160px;
-                text-align: center;
+            width: 100%;
+            padding: 0 35px;
+    
+            label {
+                justify-self: left;
+                font-family: 'Oswald';
+                font-size: 20px;
+            }
+    
+            input {
+                transform: scale(2);
             }
         }
     }
+}
+
+.formOpen {
+    height: auto;
+    padding-bottom: 20px;
+}
+
+.gradientOpen {
+    height: auto;
+}
+
+.gradientClosed {
+    mask-image: linear-gradient(black, transparent);
 }
