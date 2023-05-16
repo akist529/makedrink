@@ -39,54 +39,7 @@ export default function IngredientSection (props: {section: Item[]}) {
         return sorted
     })()
 
-    // useEffect(() => {
-    //     // // Find possible drink recipes based on new ingredient
-    //     // const onlyNewDrinks: DrinkInfo[] = (allDrinkInfo || []).filter(drink => {
-    //     //     for (let i = 0; i < possibleDrinks.length; i++) {
-    //     //         if (possibleDrinks[i].Name === drink.Name) {
-    //     //             return false;
-    //     //         }
-    //     //     }
-            
-    //     //     return true;
-    //     // })
-
-    //     // const drinksToAdd: DrinkInfo[] = []
-
-    //     // for (let i = 0; i < onlyNewDrinks.length; i++) {
-    //     //     const haveIngredients = onlyNewDrinks[i].Recipe.every(ingredient => {
-    //     //         let letter;
-
-    //     //         if (ingredient.IsAlias) {
-    //     //             letter = ingredient.Alias.charAt(0);
-    //     //         } else {
-    //     //             letter = ingredient.Name.charAt(0);
-    //     //         }
-
-    //     //         for (const type of Object.keys(storedIngredients)) {
-    //     //             if (storedIngredients[`${type}`].hasOwnProperty(letter)) {
-    //     //                 for (const item of storedIngredients[`${type}`][`${letter}`]) {
-    //     //                     if ((item.Name === ingredient.Name) || (item.Name === ingredient.Alias)) {
-    //     //                         return true
-    //     //                     }
-    //     //                 }
-    //     //             }
-    //     //         }
-
-    //     //         return false
-    //     //     })
-
-    //     //     if (haveIngredients) {
-    //     //         drinksToAdd.push(onlyNewDrinks[i])
-    //     //     }
-    //     // }
-
-    //     // for (let i = 0; i < drinksToAdd.length; i++) {
-    //     //     dispatch(addPossibleDrink(drinksToAdd[i]));
-    //     // }
-    // }, [storedIngredients, dispatch])
-
-
+    
     return (
         <ul className={styles.IngredientSection}>
             {sortedSection.map((item: Item) => {

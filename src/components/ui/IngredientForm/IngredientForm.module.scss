@@ -1,0 +1,59 @@
+.IngredientForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+
+    > legend {
+        padding: 0 10px;
+        
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            span {
+                color: white;
+                font-size: 40px;
+            }
+
+            img {
+                filter: invert(1);
+            }
+        }
+    }
+
+    fieldset {
+        padding: 5px 20px;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(auto-fill, 40px);
+        align-items: center;
+        grid-gap: 10px;
+        width: 90%;
+
+        legend {
+            display: grid;
+            grid-template-columns: auto auto;
+            grid-template-rows: auto;
+            justify-items: center;
+            align-items: center;
+            grid-gap: 10px;
+            padding: 0 10px;
+            text-transform: uppercase;
+            line-height: 32px;
+            font-size: 28px;
+
+            span {
+                max-width: 160px;
+                text-align: center;
+            }
+        }
+    }
+}

@@ -1,4 +1,17 @@
 .IngredientFilter {
     display: grid;
-    grid-template-columns: repeat(3, 100px);
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 40px;
+    align-items: center;
+    grid-gap: 20px;
+    font-size: 20px;
+    font-family: 'Oswald';
+
+    label {
+        line-height: 25px;
+    }
+
+    input {
+        transform: scale(2);
+    }
 }

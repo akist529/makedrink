@@ -1,28 +1,28 @@
 // Page styles
-import styles from '@/styles/Home.module.scss'
+import styles from '@/styles/Home.module.scss';
 // React components
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react';
 // Next components
-import type { NextPage } from 'next'
-import Image from 'next/image'
-import Link from 'next/link'
+import type { NextPage } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
 // Redux components
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '@/store/store'
-import { useGetAllDrinkInfoQuery } from '@/store/api/api'
-import { clearSelected } from '@/store/slices/ingredients.slice'
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store/store';
+import { useGetAllDrinkInfoQuery } from '@/store/api/api';
+import { clearSelected } from '@/store/slices/ingredients.slice';
 // Local components
-import RandomDrink from '@/components/ui/RandomDrink/RandomDrink'
-import IngredientFilter from '@/components/ui/IngredientFilter/IngredientFilter'
+import RandomDrink from '@/components/ui/RandomDrink/RandomDrink';
+import IngredientFilter from '@/components/ui/IngredientFilter/IngredientFilter';
+import IngredientForm from '@/components/ui/IngredientForm/IngredientForm';
 // Type interfaces
-import { DrinkInfo, Item } from '@/types/index'
+import { DrinkInfo, Item } from '@/types/index';
 
 const HomePage: NextPage = () => {
   const [drinkType, setDrinkType] = useState('')
   const [drinkError, setDrinkError] = useState(false)
   const [randomDrink, setRandomDrink] = useState({} as DrinkInfo)
   const possibleDrinks = useSelector((state: RootState) => state.drinks.possible)
-  const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
   const dispatch = useDispatch();
 
   function getRandomDrink () {
@@ -43,62 +43,6 @@ const HomePage: NextPage = () => {
         setRandomDrink(drink);
       }
     }
-  }
-
-  function parentIngredients (type: string) {
-    const parentIngredients = [];
-
-    if (storedIngredients.hasOwnProperty(type)) {
-      for (const key of Object.keys(storedIngredients[type])) {
-        for (const ingredient of storedIngredients[type][key]) {
-          if (ingredient.AliasId === 0 && findChildren(ingredient)) {
-            parentIngredients.push(ingredient);
-          }
-        }
-      }
-    }
-
-    return parentIngredients;
-  }
-
-  function childIngredients (item: Item) {
-    const childIngredients = [];
-
-    if (storedIngredients.hasOwnProperty(item.Type)) {
-      for (const key of Object.keys(storedIngredients[item.Type])) {
-        for (const ingredient of storedIngredients[item.Type][key]) {
-          if (ingredient.AliasId === item.Id) {
-            childIngredients.push(ingredient);
-          }
-        }
-      }
-    }
-
-    return childIngredients;
-  }
-
-  function findChildren (item: Item) {
-    for (const key of Object.keys(storedIngredients[item.Type])) {
-      if (storedIngredients[item.Type][key].find((ingredient: Item) => ingredient.AliasId === item.Id)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  function filterIngredients (type: string) {
-    const filteredIngredients = [];
-
-    if (storedIngredients.hasOwnProperty(type)) {
-        for (const key of Object.keys(storedIngredients[type])) {
-            for (const ingredient of storedIngredients[type][key]) {
-                filteredIngredients.push(ingredient);
-            }
-        }
-    }
-
-    return filteredIngredients;
   }
 
   useEffect(() => {
@@ -142,55 +86,16 @@ const HomePage: NextPage = () => {
         <form>
           { (drinkType === 'cocktail') && 
           <>
-            <fieldset>
-              <legend>Liquor</legend>
-              { parentIngredients('liquor').map((ingredient: Item, index: number) => {
-                return (
-                  <fieldset key={index}>
-                    <legend>{ingredient.Name}</legend>
-                    { childIngredients(ingredient).map((ingredient: Item, index: number) => {
-                      return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
-                    }) }
-                  </fieldset>
-                );
-              }) }
-            </fieldset>
-            <fieldset>
-              <legend>Liqueur</legend>
-              { filterIngredients('liqueur').map((ingredient: Item, index: number) => {
-                return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
-              }) }
-            </fieldset>
-            <fieldset>
-              <legend>Other Alcohol</legend>
-              { filterIngredients('other').map((ingredient: Item, index: number) => {
-                return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
-              }) }
-              { filterIngredients('wine').map((ingredient: Item, index: number) => {
-                return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
-              }) }
-            </fieldset>
+            <IngredientForm ingredientType='liquor' drinkType='cocktail' />
+            <IngredientForm ingredientType='liqueur' drinkType='cocktail' />
+            <IngredientForm ingredientType='wine' drinkType='cocktail' />
+            <IngredientForm ingredientType='other' drinkType='cocktail' />
           </> }
           { drinkType && 
           <>
-            <fieldset>
-              <legend>Carbonated</legend>
-              { filterIngredients('carbonated').map((ingredient: Item, index: number) => {
-                return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
-              }) }
-            </fieldset>
-            <fieldset>
-              <legend>Juice</legend>
-              { filterIngredients('juice').map((ingredient: Item, index: number) => {
-                return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
-              }) }
-            </fieldset>
-            <fieldset>
-              <legend>Other Mixers</legend>
-              { filterIngredients('mixer').map((ingredient: Item, index: number) => {
-                return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
-              }) }
-            </fieldset>
+            <IngredientForm ingredientType='carbonated' drinkType='cocktail' />
+            <IngredientForm ingredientType='juice' drinkType='cocktail' />
+            <IngredientForm ingredientType='mixer' drinkType='cocktail' />
           </> }
         </form>
         { drinkType && <Link href='/drinks'>

@@ -30,9 +30,9 @@ export default function IngredientFilter (props: { ingredient: Item, drinkType: 
     }, [drinkType, dispatch]);
 
     return (
-        <>
+        <div className={styles.IngredientFilter}>
             <label htmlFor={ingredient.Name}>{ingredient.Name}</label>
             <input type="checkbox" id={ingredient.Name} name={ingredient.Name} value={ingredient.Name} onClick={(e) => changeState(e, ingredient)}/>
-        </>
+        </div>
     );
 }
