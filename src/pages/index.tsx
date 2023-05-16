@@ -15,6 +15,7 @@ import { clearSelected } from '@/store/slices/ingredients.slice';
 import RandomDrink from '@/components/ui/RandomDrink/RandomDrink';
 import IngredientFilter from '@/components/ui/IngredientFilter/IngredientFilter';
 import IngredientForm from '@/components/ui/IngredientForm/IngredientForm';
+import DrinkTypes from '@/components/ui/DrinkTypes/DrinkTypes';
 // Type interfaces
 import { DrinkInfo, Item } from '@/types/index';
 
@@ -73,16 +74,7 @@ const HomePage: NextPage = () => {
             <strong>{ 'You don\'t have enough ingredients to make a drink.' }</strong> }
         </section>
         <h2>Or...</h2>
-        <div>
-          <button onClick={() => setDrinkType('cocktail')}>
-            <span>Cocktail</span>
-            <Image alt="Cocktail" src={require('/public/images/ui/local_bar.svg')} width="16" height="16" />
-          </button>
-          <button onClick={() => setDrinkType('mocktail')}>
-            <span>Mocktail</span>
-            <Image alt="Mocktail" src={require('/public/images/ui/no_drinks.svg')} width="16" height="16" />
-          </button>
-        </div>
+        <DrinkTypes drinkType={drinkType} setDrinkType={setDrinkType} />
         <form>
           { (drinkType === 'cocktail') && 
           <>
