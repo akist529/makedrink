@@ -8,18 +8,74 @@
     height: auto;
     padding: 20px;
     border: 2px solid rgb(215,215,215);
+    font-family: 'Oswald';
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 10px;
+
+    .drinkName {
+        font-size: 32px;
+        font-family: 'Nunito';
+    }
+
+    .ingredients {
+        display: grid;
+        grid-template-rows: repeat(auto-fill, auto);
+        grid-template-columns: auto;
+        row-gap: 5px;
+
+        .ingredient {
+            display: grid;
+            grid-template-columns: 200px 24px;
+            grid-template-rows: auto;
+            justify-items: center;
+            align-items: center;
+            column-gap: 5px;
+    
+            span {
+                justify-self: left;
+                font-size: 20px;
+            }
+        }
+    }
 
     button {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 5px;
         cursor: pointer;
         font-family: 'Nunito';
+        background: none;
+        border: none;
+        color: rgb(255, 215, 222);
+        transition: 0.125s;
+        text-shadow: 0 0 5px rgb(255, 0, 43);
+
+        span {
+            font-size: 32px;
+            font-family: 'Oswald';
+            letter-spacing: 3px;
+        }
+
+        img {
+            filter: invert(81%) sepia(16%) saturate(359%) hue-rotate(302deg) brightness(104%) contrast(102%) drop-shadow(0 0 5px rgb(255, 0, 43));
+            transition: 0.125s;
+        }
+
+        &:hover {
+            color: rgb(255, 0, 43);
+
+            img {
+                filter: invert(9%) sepia(82%) saturate(5950%) hue-rotate(344deg) brightness(134%) contrast(112%);
+            }
+        }
+    }
+
+    > img {
+        border: 0px solid black;
+        box-shadow: 10px 10px 5px #000000;
     }
 }

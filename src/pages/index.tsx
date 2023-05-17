@@ -56,14 +56,20 @@ const HomePage: NextPage = () => {
         <h1>What Can I Make?</h1>
         <Link href="/ingredients">
           <button className={styles.selectBtn}>
+            <div>
+              <Image alt='Select Ingredients' src={require('/public/images/ui/carbonated.webp')} height="32" />
+              <Image alt='Select Ingredients' src={require('/public/images/ui/liqueurs.webp')} height="32" />
+              <Image alt='Select Ingredients' src={require('/public/images/ui/mixers.webp')} height="32" />
+              <Image alt='Select Ingredients' src={require('/public/images/ui/other.webp')} height="32" />
+              <Image alt='Select Ingredients' src={require('/public/images/ui/spirits.webp')} height="32" />
+            </div>
             <span>Select Your Ingredients</span>
-            <Image alt="Select Ingredients" src={require('/public/images/ui/select-ingredients.webp')} width="48" height="48" />
           </button>
         </Link>
         <span>Then...</span>
         <button className={styles.randomBtn} onClick={() => getRandomDrink()}>
-          <span>Give Me A Drink, Bartender!</span>
-          <Image alt="Cocktail" src={require('/public/images/ui/cocktail.webp')} width="48" height="48" />
+          <Image alt="Make a Drink" src={require('/public/images/ui/select-ingredients.webp')} width="48" height="48" />
+          <span>Make Me A Drink!</span>
         </button>
       </header>
       <main>
@@ -90,9 +96,11 @@ const HomePage: NextPage = () => {
             <IngredientForm ingredientType='mixer' drinkType='cocktail' />
           </> }
         </form>
-        { drinkType && <Link href='/drinks'>
-          <button>
-            See Drinks
+        { drinkType && 
+        <Link href='/drinks'>
+          <button className={styles.seeDrinksBtn}>
+            <span>See Drinks</span>
+            <Image alt='See Drinks' src={require('/public/images/ui/cocktail.webp')} width="64" height="64" />
           </button>
         </Link> }
       </main>

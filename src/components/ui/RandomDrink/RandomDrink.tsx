@@ -30,7 +30,10 @@ export default function RandomDrink (props: { randomDrink: any }) {
             if (storedIngredients[key].hasOwnProperty(letter)
                 && storedIngredients[key][letter].find((item: any) => item.Name === ingredient.Name)) {
                 return (
-                    <span key={index}>{ingredient.Name}</span>
+                    <div key={index} className={styles.ingredient}>
+                        <span>{ingredient.Name}</span>
+                        <Image alt={ingredient.Name} src={require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} height="24" />
+                    </div>
                 );
             }
         }
@@ -63,16 +66,18 @@ export default function RandomDrink (props: { randomDrink: any }) {
         <div>
             <span>{drinksNum} drink{drinksNum > 1 && 's'} found!</span>
             <div className={styles.RandomDrink}>
-                <span>{randomDrink['Name']}</span>
-                <span>DRINK IMAGE</span>
-                { randomDrink['Recipe'].map((ingredient: any, index: number) => {
-                    return getIngredientFromStore(ingredient, index)
-                }) }
+                <strong className={styles.drinkName}>{randomDrink['Name']}</strong>
+                <span>Ingredients</span>
+                <div className={styles.ingredients}>
+                    { randomDrink['Recipe'].map((ingredient: any, index: number) => {
+                        return getIngredientFromStore(ingredient, index)
+                    }) }
+                </div>
                 <Image alt='Cocktail' src={require('/public/images/ui/cocktail-placeholder.jpg')} width="256" />
                 <Link href={`/drink/${randomDrink.Name.toLowerCase().replaceAll(' ', '-')}`}>
                     <button>
                         <span>GO TO DRINK</span>
-                        <Image alt="Go to Drink" src={require('/public/images/ui/local_bar.svg')} width="16" height="16" />
+                        <Image alt="Go to Drink" src={require('/public/images/ui/keyboard_double_arrow_right.svg')} width="56" height="56" />
                     </button>
                 </Link>
             </div>
