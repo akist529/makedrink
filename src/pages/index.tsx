@@ -51,9 +51,11 @@ const HomePage: NextPage = () => {
   }, [drinkType, dispatch])
 
   return (
-    <div className={styles.Home}>
-      <header>
-        <h1>What Can I Make?</h1>
+    <main className={styles.Home}>
+      <section className={styles.landingSection}>
+        <header>
+          <h1>What Can I Make?</h1>
+        </header>
         <Link href="/ingredients">
           <button className={styles.selectBtn}>
             <div>
@@ -67,20 +69,24 @@ const HomePage: NextPage = () => {
           </button>
         </Link>
         <span>Then...</span>
-        <button className={styles.randomBtn} onClick={() => getRandomDrink()}>
-          <Image alt="Make a Drink" src={require('/public/images/ui/select-ingredients.webp')} width="48" height="48" />
-          <span>Make Me A Drink!</span>
-        </button>
-      </header>
-      <main>
-        <section>
-          { (Object.keys(randomDrink).length > 0) && 
-            <RandomDrink randomDrink={randomDrink} /> }
-          { drinkError &&
-            <strong>{ 'You don\'t have enough ingredients to make a drink.' }</strong> }
-        </section>
-        <h2>Or...</h2>
-        <DrinkTypes drinkType={drinkType} setDrinkType={setDrinkType} />
+        <nav>
+          <button className={styles.randomBtn} onClick={() => getRandomDrink()}>
+            <Image alt="Make a Drink" src={require('/public/images/ui/select-ingredients.webp')} width="48" height="48" />
+            <span>Make A Drink!</span>
+          </button>
+          <h2>Or...</h2>
+          <div>
+            <DrinkTypes drinkType={drinkType} setDrinkType={setDrinkType} />
+          </div>
+        </nav>
+      </section>
+      <section className={styles.drinkSection}>
+        { (Object.keys(randomDrink).length > 0) && 
+          <RandomDrink randomDrink={randomDrink} /> }
+        { drinkError &&
+          <strong>{ 'You don\'t have enough ingredients to make a drink.' }</strong> }
+      </section>
+      <section className={styles.formSection}>
         <form>
           { (drinkType === 'cocktail') && 
           <>
@@ -103,8 +109,8 @@ const HomePage: NextPage = () => {
             <Image alt='See Drinks' src={require('/public/images/ui/cocktail.webp')} width="64" height="64" />
           </button>
         </Link> }
-      </main>
-    </div>
+      </section>
+    </main>
   )
 }
 
