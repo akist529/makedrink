@@ -63,23 +63,25 @@ export default function RandomDrink (props: { randomDrink: any }) {
     }
 
     return (
-        <div className={styles.RandomDrink}>
-            <div className={styles.drinkContent}>
-                <strong className={styles.drinkName}>{randomDrink['Name']}</strong>
+        <main className={styles.RandomDrink}>
+            <header className={styles.drinkName}>{randomDrink['Name']}</header>
+            <section>
                 <span>Ingredients</span>
                 <div className={styles.ingredients}>
                     { randomDrink['Recipe'].map((ingredient: any, index: number) => {
                         return getIngredientFromStore(ingredient, index)
                     }) }
                 </div>
+            </section>
+            <figure>
                 <Image alt='Cocktail' src={require('/public/images/ui/cocktail-placeholder.jpg')} width="256" />
-                <Link href={`/drink/${randomDrink.Name.toLowerCase().replaceAll(' ', '-')}`}>
-                    <button>
-                        <span>GO TO DRINK</span>
-                        <Image alt="Go to Drink" src={require('/public/images/ui/keyboard_double_arrow_right.svg')} width="56" height="56" />
-                    </button>
-                </Link>
-            </div>
-        </div>
+            </figure>
+            <Link href={`/drink/${randomDrink.Name.toLowerCase().replaceAll(' ', '-')}`}>
+                <button>
+                    <span>GO TO DRINK</span>
+                    <Image alt="Go to Drink" src={require('/public/images/ui/keyboard_double_arrow_right.svg')} width="56" height="56" />
+                </button>
+            </Link>
+        </main>
     )
 }
