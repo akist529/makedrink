@@ -9,22 +9,24 @@
     }
 
     .drinkContent {
-        background-color: #111111;
-        background-image:  linear-gradient(135deg, #141414 25%, transparent 25%), linear-gradient(225deg, #141414 25%, transparent 25%), linear-gradient(45deg, #141414 25%, transparent 25%), linear-gradient(315deg, #141414 25%, #111111 25%);
-        background-position:  24px 0, 24px 0, 0 0, 0 0;
-        background-size: 48px 48px;
-        background-repeat: repeat;
-        width: 300px;
-        height: auto;
-        padding: 20px;
-        border: 2px solid rgb(215,215,215);
-        font-family: 'Oswald';
-    
+        /* Positioning */
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         gap: 10px;
+        width: 300px;
+        height: auto;
+        padding: 20px;
+
+        /* Visual */
+        background-color: #111111;
+        background-image:  linear-gradient(135deg, #141414 25%, transparent 25%), linear-gradient(225deg, #141414 25%, transparent 25%), linear-gradient(45deg, #141414 25%, transparent 25%), linear-gradient(315deg, #141414 25%, #111111 25%);
+        background-position:  24px 0, 24px 0, 0 0, 0 0;
+        background-size: 48px 48px;
+        background-repeat: repeat;
+        border: 2px solid rgb(215,215,215);
+        font-family: 'Oswald';
     
         .drinkName {
             font-size: 32px;
@@ -53,9 +55,12 @@
         }
     
         button {
+            /* Positioning */
             display: flex;
             justify-content: center;
             align-items: center;
+
+            /* Visual */
             cursor: pointer;
             font-family: 'Nunito';
             background: none;

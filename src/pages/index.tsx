@@ -1,7 +1,7 @@
 // Page styles
 import styles from '@/styles/Home.module.scss';
 // React components
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 // Next components
 import type { NextPage } from 'next';
 import Image from 'next/image';
@@ -9,15 +9,13 @@ import Link from 'next/link';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
-import { useGetAllDrinkInfoQuery } from '@/store/api/api';
 import { clearSelected } from '@/store/slices/ingredients.slice';
 // Local components
 import RandomDrink from '@/components/ui/RandomDrink/RandomDrink';
-import IngredientFilter from '@/components/ui/IngredientFilter/IngredientFilter';
 import IngredientForm from '@/components/ui/IngredientForm/IngredientForm';
 import DrinkTypes from '@/components/ui/DrinkTypes/DrinkTypes';
 // Type interfaces
-import { DrinkInfo, Item } from '@/types/index';
+import { DrinkInfo } from '@/types/index';
 
 const HomePage: NextPage = () => {
   const [drinkType, setDrinkType] = useState('')
@@ -44,15 +42,18 @@ const HomePage: NextPage = () => {
         setRandomDrink(drink);
       }
     }
+
+    document.getElementById('drink')?.scrollIntoView({ behavior: 'smooth' });
   }
 
   useEffect(() => {
     dispatch(clearSelected());
-  }, [drinkType, dispatch])
+    document.getElementById('form')?.scrollIntoView({ behavior: 'smooth' });
+  }, [drinkType, dispatch]);
 
   return (
     <main className={styles.Home}>
-      <section className={styles.landingSection}>
+      <section id="landing" className={styles.landingSection}>
         <header>
           <h1>What Can I Make?</h1>
         </header>
@@ -79,14 +80,17 @@ const HomePage: NextPage = () => {
             <DrinkTypes drinkType={drinkType} setDrinkType={setDrinkType} />
           </div>
         </nav>
+        <Image className={styles.scrollDown} alt='Scroll Down' src={require('/public/images/ui/arrow_circle_down.svg')} height="64" />
       </section>
-      <section className={styles.drinkSection}>
+      <section id="drink" className={styles.drinkSection}>
+        <Image className={styles.scrollUp} alt='Scroll Up' src={require('/public/images/ui/arrow_circle_up.svg')} height="64" />
         { (Object.keys(randomDrink).length > 0) && 
           <RandomDrink randomDrink={randomDrink} /> }
         { drinkError &&
           <strong>{ 'You don\'t have enough ingredients to make a drink.' }</strong> }
+        <Image className={styles.scrollDown} alt='Scroll Down' src={require('/public/images/ui/arrow_circle_down.svg')} height="64" />
       </section>
-      <section className={styles.formSection}>
+      <section id="form" className={styles.formSection}>
         <form>
           { (drinkType === 'cocktail') && 
           <>

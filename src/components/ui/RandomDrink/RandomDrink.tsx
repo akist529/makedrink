@@ -64,7 +64,6 @@ export default function RandomDrink (props: { randomDrink: any }) {
 
     return (
         <div className={styles.RandomDrink}>
-            <span>{drinksNum} drink{drinksNum > 1 && 's'} found!</span>
             <div className={styles.drinkContent}>
                 <strong className={styles.drinkName}>{randomDrink['Name']}</strong>
                 <span>Ingredients</span>
