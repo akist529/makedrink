@@ -1,31 +1,28 @@
 .Home {
     /* Positioning */
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, auto);
+    justify-items: center;
     align-items: center;
-    margin-top: 100px;
-    padding-bottom: 100px;
-    overflow: scroll;
-    height: calc(100vh - 100px);
+    padding: 120px 60px;
+    min-height: 100vh;
+    text-align: center;
 
     /* Visual */
-    background-color: #020202;
-    opacity: 0.8;
     background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 42px 42px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 42px 42px;
+    opacity: 0.8;
 
     /* Textography */
     font-family: 'Nunito';
     color: white;
 
-    /* Scroll Snap */
-    scroll-snap-type: y mandatory;
-
     .landingSection {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: space-evenly;
         align-items: center;
-        padding: 100px 0;
+        height: calc(80vh - 120px);
 
         h1 {
             font-size: 32px;
@@ -34,7 +31,6 @@
         nav {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             gap: 10px;
 
@@ -43,12 +39,22 @@
             }
         }
 
+        strong {
+            font-size: 24px;
+            height: 24px;
+            color: rgb(255, 160, 231);
+            font-family: 'Oswald';
+        }
+
+        .error {
+            animation: error-spawn 1s forwards;
+        }
+
         .selectBtn,
         .randomBtn {
             /* Positioning */
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             padding: 5px 10px;
 
@@ -86,23 +92,18 @@
         }
     }
 
-    .drinkSection {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
     .formSection {
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 30px;
+        height: auto;
 
         .seeDrinksBtn {
             /* Positioning */
             display: grid;
-            grid-template-columns: auto auto;
+            grid-template-columns: repeat(2, auto);
             grid-template-rows: auto;
-            justify-items: center;
             align-items: center;
             gap: 10px;
             max-width: 250px;
@@ -133,25 +134,34 @@
         text-decoration: none;
     }
 
-    section {
-        scroll-snap-align: start;
-        min-height: calc(100vh - 100px);
-        height: auto;
-        scroll-padding: 100px 0;
+    > nav {
+        height: calc(40vh - 120px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-        .scrollDown,
-        .scrollUp {
-            filter: invert(100%) sepia(1%) saturate(7488%) hue-rotate(188deg) brightness(119%) contrast(57%);
-        }
+    .drinkAnchor {
+        position: absolute;
+        transform: translateY(-80vh);
+    }
 
-        .scrollDown {
-            position: fixed;
-            bottom: 0px;
-        }
+    .formAnchor {
+        position: absolute;
+        transform: translateY(-100px);
+    }
+}
 
-        .scrollUp {
-            position: fixed;
-            top: 100px;
-        }
+@keyframes error-spawn {
+    0% {
+        color: rgb(255, 160, 231);
+    } 10% {
+        color: rgb(255, 0, 191);
+    } 20% {
+        color: rgb(255, 160, 231);
+    } 30% {
+        color: rgb(255, 0, 191);
+    } 40% {
+        color: rgb(255, 160, 231);
     }
 }

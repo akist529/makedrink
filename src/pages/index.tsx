@@ -14,13 +14,15 @@ import { clearSelected } from '@/store/slices/ingredients.slice';
 import RandomDrink from '@/components/ui/RandomDrink/RandomDrink';
 import IngredientForm from '@/components/ui/IngredientForm/IngredientForm';
 import DrinkTypes from '@/components/ui/DrinkTypes/DrinkTypes';
+import ScrollButton from '@/components/buttons/ScrollButton/ScrollButton';
 // Type interfaces
 import { DrinkInfo } from '@/types/index';
 
 const HomePage: NextPage = () => {
-  const [drinkType, setDrinkType] = useState('')
-  const [drinkError, setDrinkError] = useState(false)
+  const [drinkType, setDrinkType] = useState('');
+  const [drinkError, setDrinkError] = useState('');
   const [randomDrink, setRandomDrink] = useState({} as DrinkInfo)
+  const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
   const possibleDrinks = useSelector((state: RootState) => state.drinks.possible)
   const dispatch = useDispatch();
 
@@ -28,9 +30,9 @@ const HomePage: NextPage = () => {
     const keyLength = Object.keys(possibleDrinks).length;
     
     if (!keyLength) {
-      setDrinkError(true);
+      setDrinkError('You don\'t have enough ingredients to make a drink');
     } else {
-      setDrinkError(false);
+      setDrinkError('');
 
       const key = Object.keys(possibleDrinks)[Math.floor(Math.random() * keyLength)];
       const index = Math.floor(Math.random() * possibleDrinks[key].length);
@@ -44,6 +46,14 @@ const HomePage: NextPage = () => {
     }
 
     document.getElementById('drink')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function findIngredientType(type: string) {
+    if (storedIngredients.hasOwnProperty(type)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   useEffect(() => {
@@ -77,42 +87,47 @@ const HomePage: NextPage = () => {
           </button>
           <h2>Or...</h2>
           <div>
-            <DrinkTypes drinkType={drinkType} setDrinkType={setDrinkType} />
+            <DrinkTypes drinkType={drinkType} setDrinkType={setDrinkType} drinkError={drinkError} setDrinkError={setDrinkError} />
           </div>
         </nav>
-        <Image className={styles.scrollDown} alt='Scroll Down' src={require('/public/images/ui/arrow_circle_down.svg')} height="64" />
+        <strong className={drinkError ? styles.error : ''}>{drinkError}</strong>
       </section>
-      <section id="drink" className={styles.drinkSection}>
-        <Image className={styles.scrollUp} alt='Scroll Up' src={require('/public/images/ui/arrow_circle_up.svg')} height="64" />
+      { (drinkType || Object.keys(randomDrink).length > 0) && <nav>
+        <ScrollButton link='#drink' />
+      </nav> }
+      { randomDrink && <section className={styles.drinkSection}>
         { (Object.keys(randomDrink).length > 0) && 
           <RandomDrink randomDrink={randomDrink} /> }
-        { drinkError &&
-          <strong>{ 'You don\'t have enough ingredients to make a drink.' }</strong> }
-        <Image className={styles.scrollDown} alt='Scroll Down' src={require('/public/images/ui/arrow_circle_down.svg')} height="64" />
-      </section>
-      <section id="form" className={styles.formSection}>
+        <span className={styles.drinkAnchor} id='drink'></span>
+      </section> }
+      { (drinkType && Object.keys(randomDrink).length > 0) && <nav>
+        <ScrollButton link='#form' />
+      </nav> }
+      <section className={styles.formSection}>
+        { Object.keys(storedIngredients).length > 0 && 
         <form>
           { (drinkType === 'cocktail') && 
           <>
-            <IngredientForm ingredientType='liquor' drinkType='cocktail' />
-            <IngredientForm ingredientType='liqueur' drinkType='cocktail' />
-            <IngredientForm ingredientType='wine' drinkType='cocktail' />
-            <IngredientForm ingredientType='other' drinkType='cocktail' />
+            { findIngredientType('liquor') && <IngredientForm ingredientType='liquor' drinkType='cocktail' /> }
+            { findIngredientType('liqueur') && <IngredientForm ingredientType='liqueur' drinkType='cocktail' /> }
+            { findIngredientType('wine') && <IngredientForm ingredientType='wine' drinkType='cocktail' /> }
+            { findIngredientType('other') && <IngredientForm ingredientType='other' drinkType='cocktail' /> }
           </> }
           { drinkType && 
           <>
-            <IngredientForm ingredientType='carbonated' drinkType='cocktail' />
-            <IngredientForm ingredientType='juice' drinkType='cocktail' />
-            <IngredientForm ingredientType='mixer' drinkType='cocktail' />
+            { findIngredientType('carbonated') && <IngredientForm ingredientType='carbonated' drinkType='cocktail' /> }
+            { findIngredientType('juice') && <IngredientForm ingredientType='juice' drinkType='cocktail' /> }
+            { findIngredientType('mixer') && <IngredientForm ingredientType='mixer' drinkType='cocktail' /> }
           </> }
-        </form>
-        { drinkType && 
+        </form> }
+        { (drinkType && Object.keys(storedIngredients).length > 0) && 
         <Link href='/drinks'>
           <button className={styles.seeDrinksBtn}>
             <span>See Drinks</span>
             <Image alt='See Drinks' src={require('/public/images/ui/cocktail.webp')} width="64" height="64" />
           </button>
         </Link> }
+        <span className={styles.formAnchor} id='form'></span>
       </section>
     </main>
   )

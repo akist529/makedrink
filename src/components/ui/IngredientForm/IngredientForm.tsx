@@ -15,7 +15,7 @@ import Image from 'next/image';
 export default function IngredientForm (props: { ingredientType: string, drinkType: string }) {
     const { ingredientType, drinkType } = props;
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
-    const [formOpen, setFormOpen] = useState(false);
+    const [formOpen, setFormOpen] = useState(true);
 
     function getIngredients (type: string) {
         const filteredIngredients: Item[] = [];
@@ -85,33 +85,35 @@ export default function IngredientForm (props: { ingredientType: string, drinkTy
                     <Image alt='Close Form Field' src={require('/public/images/ui/expand_more.svg')} />
                 </button>
             </legend>
-            <div className={formOpen ? [styles.gradient, styles.gradientOpen].join(' ') : [styles.gradient, styles.gradientClosed].join(' ')}>
+            <ul className={formOpen ? [styles.gradient, styles.gradientOpen].join(' ') : [styles.gradient, styles.gradientClosed].join(' ')}>
                 { getIngredients(ingredientType).filter((ingredient: Item) => ingredientIsParent(ingredient)).map((ingredient: Item, index: number) => {
                     return (
-                        <fieldset key={index}>
-                            <legend>
-                                <span>{ingredient.Name}</span>
-                                <Image alt={ingredient.Name} src={require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} height="48" />
-                            </legend>
-                            { childIngredients(ingredient).filter((ingredient: Item) => ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
-                                return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
-                            }) }
-                            { childIngredients(ingredient).filter((ingredient: Item) => !ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
-                                return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
-                            }) }
-                        </fieldset>
+                        <li key={index}>
+                            <fieldset>
+                                <legend>
+                                    <span>{ingredient.Name}</span>
+                                    <Image alt={ingredient.Name} src={require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} height="48" />
+                                </legend>
+                                { childIngredients(ingredient).filter((ingredient: Item) => ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
+                                    return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
+                                }) }
+                                { childIngredients(ingredient).filter((ingredient: Item) => !ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
+                                    return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
+                                }) }
+                            </fieldset>
+                        </li>
                     );
                 }) }
                 { getIngredients(ingredientType).filter((ingredient: Item) => (!ingredientIsParent(ingredient) && !ingredientIsChild(ingredient))).map((ingredient: Item, index: number) => {
                     return (
-                        <div key={index} className={styles.filter}>
+                        <li key={index} className={styles.filter}>
                             <label htmlFor={ingredient.Name}>{ingredient.Name}</label>
                             <Image alt={ingredient.Name} src={require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} height="48" />
                             <input type="checkbox" id={ingredient.Name} name={ingredient.Name} value={ingredient.Name}/>
-                        </div>
+                        </li>
                     );
                 }) }
-            </div>
+            </ul>
         </fieldset>
     );
 }
