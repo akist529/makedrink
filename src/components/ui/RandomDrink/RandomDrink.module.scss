@@ -57,9 +57,7 @@
         text-shadow: 0 0 5px rgb(255, 0, 43);
 
         span {
-            font-size: 32px;
             font-family: 'Oswald';
-            letter-spacing: 3px;
         }
 
         img {
@@ -85,5 +83,10 @@
     
     span {
         font-size: 24px;
+    }
+
+    .goBtn {
+        font-size: 32px;
+        letter-spacing: 3px;
     }
 }

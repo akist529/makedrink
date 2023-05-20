@@ -21,9 +21,9 @@ import { DrinkInfo } from '@/types/index';
 const HomePage: NextPage = () => {
   const [drinkType, setDrinkType] = useState('');
   const [drinkError, setDrinkError] = useState('');
-  const [randomDrink, setRandomDrink] = useState({} as DrinkInfo)
+  const [randomDrink, setRandomDrink] = useState({} as DrinkInfo);
   const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
-  const possibleDrinks = useSelector((state: RootState) => state.drinks.possible)
+  const possibleDrinks = useSelector((state: RootState) => state.drinks.possible);
   const dispatch = useDispatch();
 
   function getRandomDrink () {
@@ -86,9 +86,7 @@ const HomePage: NextPage = () => {
             <span>Make A Drink!</span>
           </button>
           <h2>Or...</h2>
-          <div>
-            <DrinkTypes drinkType={drinkType} setDrinkType={setDrinkType} drinkError={drinkError} setDrinkError={setDrinkError} />
-          </div>
+          <DrinkTypes drinkType={drinkType} setDrinkType={setDrinkType} drinkError={drinkError} setDrinkError={setDrinkError} />
         </nav>
         <strong className={drinkError ? styles.error : ''}>{drinkError}</strong>
       </section>
@@ -97,7 +95,7 @@ const HomePage: NextPage = () => {
       </nav> }
       { randomDrink && <section className={styles.drinkSection}>
         { (Object.keys(randomDrink).length > 0) && 
-          <RandomDrink randomDrink={randomDrink} /> }
+          <RandomDrink randomDrink={randomDrink} getRandomDrink={getRandomDrink} /> }
         <span className={styles.drinkAnchor} id='drink'></span>
       </section> }
       { (drinkType && Object.keys(randomDrink).length > 0) && <nav>
@@ -133,4 +131,4 @@ const HomePage: NextPage = () => {
   )
 }
 
-export default HomePage
+export default HomePage;

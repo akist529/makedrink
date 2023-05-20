@@ -1,26 +1,18 @@
 // Component styles
-import styles from './RandomDrink.module.scss'
+import styles from './RandomDrink.module.scss';
 // Redux components
-import { useSelector } from 'react-redux'
-import { RootState } from '@/store/store'
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 // Next components
-import Link from 'next/link'
-import Image from 'next/image'
+import Link from 'next/link';
+import Image from 'next/image';
+// Type imports
+import { Drink } from '@/types/index';
 
-export default function RandomDrink (props: { randomDrink: any }) {
-    const { randomDrink } = props;
+export default function RandomDrink (props: { randomDrink: any, getRandomDrink: Function }) {
+    const { randomDrink, getRandomDrink } = props;
     const possibleDrinks = useSelector((state: RootState) => state.drinks.possible);
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
-
-    const drinksNum = (() => {
-        let num = 0;
-
-        for (const key of Object.keys(possibleDrinks)) {
-            num += possibleDrinks[key].length;
-        }
-
-        return num;
-    })();
 
     function getIngredientFromStore (ingredient: any, index: number) {
         const letter = ingredient.Name.charAt(0);
@@ -77,11 +69,14 @@ export default function RandomDrink (props: { randomDrink: any }) {
                 <Image alt='Cocktail' src={require('/public/images/ui/cocktail-placeholder.jpg')} width="256" />
             </figure>
             <Link href={`/drink/${randomDrink.Name.toLowerCase().replaceAll(' ', '-')}`}>
-                <button>
+                <button className={styles.goBtn}>
                     <span>GO TO DRINK</span>
                     <Image alt="Go to Drink" src={require('/public/images/ui/keyboard_double_arrow_right.svg')} width="56" height="56" />
                 </button>
             </Link>
+            <button onClick={() => getRandomDrink()}>
+                <span>GET NEW DRINK</span>
+            </button>
         </main>
     )
 }
