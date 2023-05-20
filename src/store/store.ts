@@ -5,7 +5,7 @@ import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 import thunk from 'redux-thunk'
 // Store APIs
-import { ingredientsApi } from '@/store/api/api'
+import { barApi } from '@/store/api/api'
 
 const persistConfig = {
     key: 'root',
@@ -21,7 +21,7 @@ export const store = configureStore({
             serializableCheck: {
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
             }
-        }).concat(ingredientsApi.middleware).concat(thunk),
+        }).concat(barApi.middleware).concat(thunk),
     devTools: true
 })
 

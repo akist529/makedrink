@@ -1,26 +1,37 @@
 export interface Item {
-    Id: number
-    Name: string
-    AliasId: number
-    Type: string
+    Id: number;
+    Name: string;
+    AliasId: number;
+    Type: string;
 }
 
 export interface Ingredient {
-    Name: string
-    IsAlias: boolean
-    Alias: string
-    Amount: number
-    Unit: string
+    Name: string;
+    IsAlias: boolean;
+    Alias: string;
+    Amount: number;
+    Unit: string;
 }
 
-export interface Recipe {
-    Name: string
-    Recipe: Ingredient[]
-    Directions: string[]
+export interface DrinkInfo {
+    Name: string;
+    Recipe: Ingredient[];
+    Directions: string[];
 }
 
 export interface Drink {
-    Id: number
-    Name: string
-    Recipe: Recipe[]
+    Id: number;
+    Name: string;
+}
+
+export interface Type {
+    [index: string]: Item[];
+}
+
+export interface IngredientDict {
+    [index: string]: Type;
+}
+
+export interface DrinkDict {
+    [index: string]: DrinkInfo[];
 }

@@ -1,59 +1,135 @@
 // Page styles
-import styles from '@/styles/Home.module.scss'
+import styles from '@/styles/Home.module.scss';
+// React components
+import { useState, useEffect } from 'react';
 // Next components
-import type { NextPage } from 'next'
-import Image from 'next/image'
+import type { NextPage } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
+// Redux components
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store/store';
+import { clearSelected } from '@/store/slices/ingredients.slice';
+// Local components
+import RandomDrink from '@/components/ui/RandomDrink/RandomDrink';
+import IngredientForm from '@/components/ui/IngredientForm/IngredientForm';
+import DrinkTypes from '@/components/ui/DrinkTypes/DrinkTypes';
+import ScrollButton from '@/components/buttons/ScrollButton/ScrollButton';
+// Type interfaces
+import { DrinkInfo } from '@/types/index';
 
 const HomePage: NextPage = () => {
+  const [drinkType, setDrinkType] = useState('');
+  const [drinkError, setDrinkError] = useState('');
+  const [randomDrink, setRandomDrink] = useState({} as DrinkInfo)
+  const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
+  const possibleDrinks = useSelector((state: RootState) => state.drinks.possible)
+  const dispatch = useDispatch();
+
+  function getRandomDrink () {
+    const keyLength = Object.keys(possibleDrinks).length;
+    
+    if (!keyLength) {
+      setDrinkError('You don\'t have enough ingredients to make a drink');
+    } else {
+      setDrinkError('');
+
+      const key = Object.keys(possibleDrinks)[Math.floor(Math.random() * keyLength)];
+      const index = Math.floor(Math.random() * possibleDrinks[key].length);
+      const drink = possibleDrinks[key][index];
+
+      if (drink === randomDrink) {
+        getRandomDrink();
+      } else {
+        setRandomDrink(drink);
+      }
+    }
+
+    document.getElementById('drink')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function findIngredientType(type: string) {
+    if (storedIngredients.hasOwnProperty(type)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  useEffect(() => {
+    dispatch(clearSelected());
+    document.getElementById('form')?.scrollIntoView({ behavior: 'smooth' });
+  }, [drinkType, dispatch]);
 
   return (
-    <div className={styles.HomePage}>
-      <div>
-        <h1>What Can I Make?</h1>
-        <button>
-          <span>Give Me A Drink, Bartender!</span>
-        </button>
-        <div>
-          <span>DRINK NAME</span>
-          <span>DRINK IMAGE</span>
-          <span>DRINK INGREDIENTS</span>
-          <button>GO TO DRINK</button>
-        </div>
-        <h2>Or...</h2>
-        <div>
-          <button>Cocktail</button>
-          <button>Mocktail</button>
-        </div>
-      </div>
-      <footer>
-        <a>Bartender icon created by Iconduck</a>
-        <a href="https://www.flaticon.com/free-icons" title="spirit icons">Spirit icons created by Freepik - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/beer-can" title="beer can icons">Beer can icons created by Flat Icons - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/soda" title="soda icons">Soda icons created by AmethystDesign - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/liqueur" title="liqueur icons">Liqueur icons created by surang - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/liquor" title="liquor icons">Liquor icons created by BZZRINCANTATION - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/liquor" title="liquor icons">Liquor icons created by Triangle Squad - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/liquor" title="liquor icons">Liquor icons created by Pause08 - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/rice-wine" title="rice wine icons">Rice wine icons created by imaginationlol - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/cranberry" title="cranberry icons">Cranberry icons created by shmai - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/grapefruit" title="grapefruit icons">Grapefruit icons created by amonrat rungreangfangsai - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/jug" title="jug icons">Jug icons created by DinosoftLabs - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/food-and-restaurant" title="food and restaurant icons">Food and restaurant icons created by rizky maulidhani - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/sauce" title="sauce icons">Sauce icons created by Talha Dogar - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/almond" title="almond icons">Almond icons created by shmai - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/whiskey" title="whiskey icons">Whiskey icons created by Smashicons - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/alcohol" title="alcohol icons">Alcohol icons created by Flat Icons Design - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/alcohol" title="alcohol icons">Alcohol icons created by photo3idea_studio - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/drink" title="drink icons">Drink icons created by monkik - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/bottle" title="bottle icons">Bottle icons created by Ina Mella - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/white-wine" title="white wine icons">White wine icons created by Kanyanee Watanajitkasem - Flaticon</a>
-        <a href="http://freefrontend.com/css-liquid-effects">CSS liquid effect by Dave Quah</a>
-        <a href="https://www.flaticon.com/free-icons/drunk" title="drunk icons">Drunk icons created by Prosymbols Premium - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/bartender" title="bartender icons">Bartender icons created by photo3idea_studio - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/bottle" title="bottle icons">Bottle icons created by Aranagraphics - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/rum" title="rum icons">Rum icons created by small.smiles - Flaticon</a>
-      </footer>
-    </div>
+    <main className={styles.Home}>
+      <section id="landing" className={styles.landingSection}>
+        <header>
+          <h1>What Can I Make?</h1>
+        </header>
+        <Link href="/ingredients">
+          <button className={styles.selectBtn}>
+            <div>
+              <Image alt='Select Ingredients' src={require('/public/images/ui/carbonated.webp')} height="32" />
+              <Image alt='Select Ingredients' src={require('/public/images/ui/liqueurs.webp')} height="32" />
+              <Image alt='Select Ingredients' src={require('/public/images/ui/mixers.webp')} height="32" />
+              <Image alt='Select Ingredients' src={require('/public/images/ui/other.webp')} height="32" />
+              <Image alt='Select Ingredients' src={require('/public/images/ui/spirits.webp')} height="32" />
+            </div>
+            <span>Select Your Ingredients</span>
+          </button>
+        </Link>
+        <span>Then...</span>
+        <nav>
+          <button className={styles.randomBtn} onClick={() => getRandomDrink()}>
+            <Image alt="Make a Drink" src={require('/public/images/ui/select-ingredients.webp')} width="48" height="48" />
+            <span>Make A Drink!</span>
+          </button>
+          <h2>Or...</h2>
+          <div>
+            <DrinkTypes drinkType={drinkType} setDrinkType={setDrinkType} drinkError={drinkError} setDrinkError={setDrinkError} />
+          </div>
+        </nav>
+        <strong className={drinkError ? styles.error : ''}>{drinkError}</strong>
+      </section>
+      { (drinkType || Object.keys(randomDrink).length > 0) && <nav>
+        <ScrollButton link='#drink' />
+      </nav> }
+      { randomDrink && <section className={styles.drinkSection}>
+        { (Object.keys(randomDrink).length > 0) && 
+          <RandomDrink randomDrink={randomDrink} /> }
+        <span className={styles.drinkAnchor} id='drink'></span>
+      </section> }
+      { (drinkType && Object.keys(randomDrink).length > 0) && <nav>
+        <ScrollButton link='#form' />
+      </nav> }
+      <section className={styles.formSection}>
+        { Object.keys(storedIngredients).length > 0 && 
+        <form>
+          { (drinkType === 'cocktail') && 
+          <>
+            { findIngredientType('liquor') && <IngredientForm ingredientType='liquor' drinkType='cocktail' /> }
+            { findIngredientType('liqueur') && <IngredientForm ingredientType='liqueur' drinkType='cocktail' /> }
+            { findIngredientType('wine') && <IngredientForm ingredientType='wine' drinkType='cocktail' /> }
+            { findIngredientType('other') && <IngredientForm ingredientType='other' drinkType='cocktail' /> }
+          </> }
+          { drinkType && 
+          <>
+            { findIngredientType('carbonated') && <IngredientForm ingredientType='carbonated' drinkType='cocktail' /> }
+            { findIngredientType('juice') && <IngredientForm ingredientType='juice' drinkType='cocktail' /> }
+            { findIngredientType('mixer') && <IngredientForm ingredientType='mixer' drinkType='cocktail' /> }
+          </> }
+        </form> }
+        { (drinkType && Object.keys(storedIngredients).length > 0) && 
+        <Link href='/drinks'>
+          <button className={styles.seeDrinksBtn}>
+            <span>See Drinks</span>
+            <Image alt='See Drinks' src={require('/public/images/ui/cocktail.webp')} width="64" height="64" />
+          </button>
+        </Link> }
+        <span className={styles.formAnchor} id='form'></span>
+      </section>
+    </main>
   )
 }
 

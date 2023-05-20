@@ -1,0 +1,109 @@
+.IngredientForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    height: auto;
+    max-height: 100px;
+    overflow: hidden;
+    padding-top: 10px;
+    transition: 0.5s;
+
+    > legend {
+        padding: 0 10px;
+        
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            span {
+                color: white;
+                font-size: 40px;
+            }
+
+            img {
+                filter: invert(1);
+            }
+        }
+    }
+
+    .gradient {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding-bottom: 20px;
+        overflow: hidden;
+        transition: 0.5s;
+        list-style-type: none;
+
+        fieldset {
+            padding: 5px 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(auto-fill, 40px);
+            align-items: center;
+            grid-gap: 10px;
+            width: 90%;
+    
+            legend {
+                display: grid;
+                grid-template-columns: auto auto;
+                grid-template-rows: auto;
+                justify-items: center;
+                align-items: center;
+                grid-gap: 10px;
+                padding: 0 10px;
+                text-transform: uppercase;
+                line-height: 32px;
+                font-size: 28px;
+    
+                span {
+                    max-width: 160px;
+                    text-align: center;
+                }
+            }
+        }
+    
+        .filter {
+            display: grid;
+            grid-template-columns: 140px 1fr auto;
+            grid-template-rows: auto;
+            justify-items: center;
+            align-items: center;
+            width: 100%;
+            padding: 0 35px;
+    
+            label {
+                justify-self: left;
+                font-family: 'Oswald';
+                font-size: 20px;
+            }
+    
+            input {
+                transform: scale(2);
+            }
+        }
+    }
+}
+
+.formOpen {
+    max-height: 2000px;
+    padding-bottom: 20px;
+}
+
+.gradientOpen {
+    height: auto;
+    mask-image: none;
+}
+
+.gradientClosed {
+    mask-image: linear-gradient(black, transparent);
+}
