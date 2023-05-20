@@ -22,10 +22,10 @@ export default function RandomDrink (props: { randomDrink: any, getRandomDrink: 
             if (storedIngredients[key].hasOwnProperty(letter)
                 && storedIngredients[key][letter].find((item: any) => item.Name === ingredient.Name)) {
                 return (
-                    <div key={index} className={styles.ingredient}>
+                    <li key={index} className={styles.ingredient}>
                         <span>{ingredient.Name}</span>
                         <Image alt={ingredient.Name} src={require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} height="24" />
-                    </div>
+                    </li>
                 );
             }
         }
@@ -41,13 +41,13 @@ export default function RandomDrink (props: { randomDrink: any, getRandomDrink: 
                             const substitute = storedIngredients[key][letter].find((item: any) => item.AliasId === alias.Id);
 
                             return (
-                                <span key={index}>{substitute.Name}</span>
+                                <li key={index}>{substitute.Name}</li>
                             );
                         }
                     }
 
                     return (
-                        <span key={index}>{alias.Name}</span>
+                        <li key={index}>{alias.Name}</li>
                     );
                 }
             }
@@ -59,11 +59,11 @@ export default function RandomDrink (props: { randomDrink: any, getRandomDrink: 
             <header className={styles.drinkName}>{randomDrink['Name']}</header>
             <section>
                 <span>Ingredients</span>
-                <div className={styles.ingredients}>
+                <ul className={styles.ingredients}>
                     { randomDrink['Recipe'].map((ingredient: any, index: number) => {
                         return getIngredientFromStore(ingredient, index)
                     }) }
-                </div>
+                </ul>
             </section>
             <figure>
                 <Image alt='Cocktail' src={require('/public/images/ui/cocktail-placeholder.jpg')} width="256" />

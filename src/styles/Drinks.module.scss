@@ -1,7 +1,7 @@
 .DrinksPage {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    justify-content: center;
+    align-items: center;
 
     padding: 120px 10px;
     background-color: #020202;
@@ -10,5 +10,20 @@
     font-family: 'Oswald';
     color: white;
     min-height: 100vh;
-    width: 100%;
+
+    section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+
+        ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 250px);
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+        }
+    }
 }
