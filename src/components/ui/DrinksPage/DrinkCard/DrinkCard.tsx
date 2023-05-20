@@ -1,3 +1,5 @@
+// Next components
+import Image from 'next/image';
 // Type interfaces
 import { DrinkInfo, Ingredient } from '@/types/index';
 
@@ -16,6 +18,7 @@ export default function DrinkCard (props: { drink: DrinkInfo }) {
                     );
                 }) }
             </ul>
+            <Image alt={drink.Name} src={require('/public/images/ui/cocktail-placeholder.jpg')} height="128" />
         </article>
     );
 }
