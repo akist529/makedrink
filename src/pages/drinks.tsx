@@ -8,14 +8,10 @@ import { RootState } from '@/store/store';
 // Local components
 import DrinkCard from '@/components/ui/DrinksPage/DrinkCard/DrinkCard';
 // Type interfaces
-import { DrinkInfo } from '@/types/index';
+import { DrinkDict, DrinkInfo } from '@/types/index';
 
 const DrinksPage: NextPage = () => {
-    const possibleDrinks = useSelector((state: RootState) => state.drinks.possible);
-
-    function getDrinksByKey(key: string) {
-
-    }
+    const possibleDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.possible);
 
     return (
         <main className={styles.DrinksPage}>
