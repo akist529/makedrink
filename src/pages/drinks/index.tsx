@@ -3,58 +3,57 @@ import styles from '@/styles/Drinks.module.scss';
 // Next components
 import type { NextPage } from 'next';
 // React components
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // Redux components
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
+import { useGetAllDrinkInfoQuery } from '@/store/api/api';
 // Local components
 import DrinkCard from '@/components/ui/DrinksPage/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
 // Type interfaces
-import { DrinkDict, DrinkInfo } from '@/types/index';
+import { DrinkInfo } from '@/types/index';
 
 const AllDrinksPage: NextPage = () => {
-    const possibleDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.possible);
+    const allDrinks = useGetAllDrinkInfoQuery();
     const [firstDrink, setFirstDrink] = useState(0);
     const [lastDrink, setLastDrink] = useState(20);
+    const [pageNums, setPageNums] = useState([] as string[]);
 
-    const drinksList = (() => {
-        const arr = [];
+    useEffect(() => {
+        if (!allDrinks.isLoading) {
+            const pageNumsArr = (() => {
+                const arr = [];
+        
+                for (let i = 0; i < (allDrinks.data || []).length; i++) {
+                    const firstNum = i;
+                    const secondNum = ((i + 20) > (allDrinks.data || []).length) ? (allDrinks.data || []).length : (i + 20);
+                    arr.push(`${firstNum} - ${secondNum}`);
+                    i += 20;
+                }
+        
+                return arr;
+            })();
 
-        for (const key of Object.keys(possibleDrinks)) {
-            for (const item of possibleDrinks[key]) {
-                arr.push(item);
-            }
+            setPageNums(pageNumsArr);
         }
-
-        return arr;
-    })();
-
-    const pageNums = (() => {
-        const arr = [];
-
-        for (let i = 0; i < drinksList.length; i++) {
-            const firstNum = i;
-            const secondNum = ((i + 20) > drinksList.length) ? drinksList.length : (i + 20);
-            arr.push(`${firstNum} - ${secondNum}`);
-            i += 20;
-        }
-
-        return arr;
-    })();
+    }, [allDrinks])
 
     return (
-        <main className={styles.DrinksPage}>
+        <>
+        { allDrinks.isLoading && <main className={styles.DrinksPage}>
+            <h1>Loading...</h1>
+        </main> }
+        { !allDrinks.isLoading && <main className={styles.DrinksPage}>
             <PaginationLinks pageNums={pageNums} setFirstDrink={setFirstDrink} setLastDrink={setLastDrink} />
             <section>
                 <ul>
-                    { drinksList.slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
+                    { (allDrinks.data || []).slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
                         return <DrinkCard drink={drink} key={index} />
                     }) }
                 </ul>
             </section>
             <PaginationLinks pageNums={pageNums} setFirstDrink={setFirstDrink} setLastDrink={setLastDrink} />
-        </main>
+        </main> }
+        </>
     );
 }
 
