@@ -36,7 +36,7 @@ const PossibleDrinksPage: NextPage = () => {
         for (let i = 0; i < drinksList.length; i++) {
             const firstNum = i;
             const secondNum = ((i + 20) > drinksList.length) ? drinksList.length : (i + 20);
-            arr.push(`${firstNum} - ${secondNum}`);
+            arr.push(`${firstNum + 1} - ${secondNum + 1}`);
             i += 20;
         }
 

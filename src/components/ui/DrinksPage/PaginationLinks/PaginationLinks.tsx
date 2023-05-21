@@ -8,8 +8,8 @@ export default function PaginationLinks (props: { pageNums: string[], setFirstDr
         const firstNum = Number(pages.replaceAll(' ', '').split('-')[0]);
         const secondNum = Number(pages.replaceAll(' ', '').split('-')[1]);
 
-        setFirstDrink(firstNum);
-        setLastDrink(secondNum);
+        setFirstDrink(firstNum - 1);
+        setLastDrink(secondNum - 1);
     }
 
     return (

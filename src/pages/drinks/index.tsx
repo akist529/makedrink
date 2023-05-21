@@ -26,7 +26,7 @@ const AllDrinksPage: NextPage = () => {
                 for (let i = 0; i < (allDrinks.data || []).length; i++) {
                     const firstNum = i;
                     const secondNum = ((i + 20) > (allDrinks.data || []).length) ? (allDrinks.data || []).length : (i + 20);
-                    arr.push(`${firstNum} - ${secondNum}`);
+                    arr.push(`${firstNum + 1} - ${secondNum + 1}`);
                     i += 20;
                 }
         
