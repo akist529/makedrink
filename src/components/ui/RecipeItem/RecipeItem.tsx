@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function RecipeItem (props: { ingredient: any, missing: boolean }) {
     const { ingredient, missing } = props;
-    const filename = ingredient.Name.split(' ').join('-').toLowerCase();
+    const filename = ingredient.Name.split(' ').join('-').toLowerCase().replaceAll('/', '-');
     
     return (
         <li className={styles.RecipeItem}>
