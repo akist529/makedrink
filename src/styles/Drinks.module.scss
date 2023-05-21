@@ -1,5 +1,6 @@
 .DrinksPage {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
@@ -10,6 +11,25 @@
     font-family: 'Oswald';
     color: white;
     min-height: 100vh;
+
+    nav {
+        ul {
+            list-style-type: none;
+            display: grid;
+            grid-template-columns: repeat(4, 80px);
+            justify-items: center;
+            align-items: center;
+
+            li {
+                .pageBtn {
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    color: white;
+                }
+            }
+        }
+    }
 
     section {
         display: flex;
