@@ -33,7 +33,7 @@ const DrinksPage: NextPage = () => {
     const pageNums = (() => {
         const arr = [];
 
-        for (let i = 1; i < drinksList.length; i++) {
+        for (let i = 0; i < drinksList.length; i++) {
             const firstNum = i;
             const secondNum = ((i + 20) > drinksList.length) ? drinksList.length : (i + 20);
             arr.push(`${firstNum} - ${secondNum}`);
