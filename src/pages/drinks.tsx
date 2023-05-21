@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 // Local components
 import DrinkCard from '@/components/ui/DrinksPage/DrinkCard/DrinkCard';
+import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
 // Type interfaces
 import { DrinkDict, DrinkInfo } from '@/types/index';
 
@@ -29,40 +30,22 @@ const DrinksPage: NextPage = () => {
         return arr;
     })();
 
-    function changePage (pages: string) {
-        const firstNum = Number(pages.replaceAll(' ', '').split('-')[0]);
-        const secondNum = Number(pages.replaceAll(' ', '').split('-')[1]);
+    const pageNums = (() => {
+        const arr = [];
 
-        setFirstDrink(firstNum);
-        setLastDrink(secondNum);
-    }
+        for (let i = 1; i < drinksList.length; i++) {
+            const firstNum = i;
+            const secondNum = ((i + 20) > drinksList.length) ? drinksList.length : (i + 20);
+            arr.push(`${firstNum} - ${secondNum}`);
+            i += 20;
+        }
+
+        return arr;
+    })();
 
     return (
         <main className={styles.DrinksPage}>
-            <nav>
-                <ul>
-                    { (() => {
-                        const pageNums = [];
-
-                        for (let i = 1; i < drinksList.length; i++) {
-                            const firstNum = i;
-                            const secondNum = ((i + 20) > drinksList.length) ? drinksList.length : (i + 20);
-                            pageNums.push(`${firstNum} - ${secondNum}`);
-                            i += 20;
-                        }
-
-                        return pageNums;
-                    })().map((pages: string, index: number) => {
-                        return (
-                            <li key={index}>
-                                <button className={styles.pageBtn} onClick={() => changePage(pages)}>
-                                    <span>{pages}</span>
-                                </button>
-                            </li>
-                        );
-                    }) }
-                </ul>
-            </nav>
+            <PaginationLinks pageNums={pageNums} setFirstDrink={setFirstDrink} setLastDrink={setLastDrink} />
             <section>
                 <ul>
                     { drinksList.slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
@@ -70,6 +53,7 @@ const DrinksPage: NextPage = () => {
                     }) }
                 </ul>
             </section>
+            <PaginationLinks pageNums={pageNums} setFirstDrink={setFirstDrink} setLastDrink={setLastDrink} />
         </main>
     );
 }
