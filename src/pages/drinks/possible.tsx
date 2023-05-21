@@ -13,7 +13,7 @@ import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/Paginati
 // Type interfaces
 import { DrinkDict, DrinkInfo } from '@/types/index';
 
-const DrinksPage: NextPage = () => {
+const PossibleDrinksPage: NextPage = () => {
     const possibleDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.possible);
     const [firstDrink, setFirstDrink] = useState(0);
     const [lastDrink, setLastDrink] = useState(20);
@@ -58,4 +58,4 @@ const DrinksPage: NextPage = () => {
     );
 }
 
-export default DrinksPage;
+export default PossibleDrinksPage;
