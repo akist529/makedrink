@@ -1,4 +1,7 @@
-export default function CreditsPage () {
+// Next components
+import type { NextPage } from 'next';
+
+const CreditsPage: NextPage = () => {
     return (
         <main>
             <a>Bartender icon created by Iconduck</a>
@@ -30,3 +33,5 @@ export default function CreditsPage () {
         </main>
     );
 }
+
+export default CreditsPage;

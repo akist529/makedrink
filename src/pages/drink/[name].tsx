@@ -1,14 +1,21 @@
-import styles from '@/styles/Drink.module.scss'
-import { useGetAllDrinksQuery, useLazyGetDrinkInfoQuery } from '@/store/api/api'
-import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
-import { DrinkInfo, Ingredient, Item } from '@/types/index';
+// Page styles
+import styles from '@/styles/Drink.module.scss';
+// Redux components
+import { useGetAllDrinksQuery, useLazyGetDrinkInfoQuery } from '@/store/api/api';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import RecipeItem from '@/components/ui/RecipeItem/RecipeItem';
+// Next components
+import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
+// React components
+import { useState, useEffect } from 'react';
+// Type interfaces
+import { DrinkInfo, Ingredient, Item } from '@/types/index';
+// Local components
+import RecipeItem from '@/components/ui/RecipeItem/RecipeItem';
 
-export default function DrinkPage () {
+const DrinkPage: NextPage = () => {
     const allDrinks = useGetAllDrinksQuery().data || [];
     const [getDrinkInfo, result] = useLazyGetDrinkInfoQuery();
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
@@ -138,3 +145,5 @@ export default function DrinkPage () {
         </div>
     );
 }
+
+export default DrinkPage;

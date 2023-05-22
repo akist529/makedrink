@@ -1,26 +1,18 @@
 // Component styles
-import styles from './RandomDrink.module.scss'
+import styles from './RandomDrink.module.scss';
 // Redux components
-import { useSelector } from 'react-redux'
-import { RootState } from '@/store/store'
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 // Next components
-import Link from 'next/link'
-import Image from 'next/image'
+import Link from 'next/link';
+import Image from 'next/image';
+// Type imports
+import { Drink } from '@/types/index';
 
-export default function RandomDrink (props: { randomDrink: any }) {
-    const { randomDrink } = props;
+export default function RandomDrink (props: { randomDrink: any, getRandomDrink: Function }) {
+    const { randomDrink, getRandomDrink } = props;
     const possibleDrinks = useSelector((state: RootState) => state.drinks.possible);
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
-
-    const drinksNum = (() => {
-        let num = 0;
-
-        for (const key of Object.keys(possibleDrinks)) {
-            num += possibleDrinks[key].length;
-        }
-
-        return num;
-    })();
 
     function getIngredientFromStore (ingredient: any, index: number) {
         const letter = ingredient.Name.charAt(0);
@@ -30,10 +22,10 @@ export default function RandomDrink (props: { randomDrink: any }) {
             if (storedIngredients[key].hasOwnProperty(letter)
                 && storedIngredients[key][letter].find((item: any) => item.Name === ingredient.Name)) {
                 return (
-                    <div key={index} className={styles.ingredient}>
+                    <li key={index} className={styles.ingredient}>
                         <span>{ingredient.Name}</span>
                         <Image alt={ingredient.Name} src={require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} height="24" />
-                    </div>
+                    </li>
                 );
             }
         }
@@ -49,13 +41,13 @@ export default function RandomDrink (props: { randomDrink: any }) {
                             const substitute = storedIngredients[key][letter].find((item: any) => item.AliasId === alias.Id);
 
                             return (
-                                <span key={index}>{substitute.Name}</span>
+                                <li key={index}>{substitute.Name}</li>
                             );
                         }
                     }
 
                     return (
-                        <span key={index}>{alias.Name}</span>
+                        <li key={index}>{alias.Name}</li>
                     );
                 }
             }
@@ -67,21 +59,24 @@ export default function RandomDrink (props: { randomDrink: any }) {
             <header className={styles.drinkName}>{randomDrink['Name']}</header>
             <section>
                 <span>Ingredients</span>
-                <div className={styles.ingredients}>
+                <ul className={styles.ingredients}>
                     { randomDrink['Recipe'].map((ingredient: any, index: number) => {
                         return getIngredientFromStore(ingredient, index)
                     }) }
-                </div>
+                </ul>
             </section>
             <figure>
                 <Image alt='Cocktail' src={require('/public/images/ui/cocktail-placeholder.jpg')} width="256" />
             </figure>
             <Link href={`/drink/${randomDrink.Name.toLowerCase().replaceAll(' ', '-')}`}>
-                <button>
+                <button className={styles.goBtn}>
                     <span>GO TO DRINK</span>
                     <Image alt="Go to Drink" src={require('/public/images/ui/keyboard_double_arrow_right.svg')} width="56" height="56" />
                 </button>
             </Link>
+            <button onClick={() => getRandomDrink()}>
+                <span>GET NEW DRINK</span>
+            </button>
         </main>
     )
 }

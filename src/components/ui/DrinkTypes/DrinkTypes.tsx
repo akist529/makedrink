@@ -29,5 +29,5 @@ export default function DrinkTypes (props: { drinkType: string, setDrinkType: Fu
             <Image alt="Mocktail" src={require('/public/images/ui/no_drinks.svg')} width="24" height="24" />
         </button>
     </div>
-    )
+    );
 }

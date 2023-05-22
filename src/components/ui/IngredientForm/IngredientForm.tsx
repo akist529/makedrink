@@ -8,13 +8,13 @@ import { RootState } from '@/store/store';
 // Local components
 import IngredientFilter from '@/components/ui/IngredientFilter/IngredientFilter';
 // Type interfaces
-import { Item } from '@/types/index';
+import { Item, IngredientDict } from '@/types/index';
 // Next components
 import Image from 'next/image';
 
 export default function IngredientForm (props: { ingredientType: string, drinkType: string }) {
     const { ingredientType, drinkType } = props;
-    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
+    const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored);
     const [formOpen, setFormOpen] = useState(true);
 
     function getIngredients (type: string) {

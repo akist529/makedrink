@@ -1,7 +1,8 @@
 // Page styles
 import styles from '@/styles/Ingredients.module.scss'
 // Next components
-import Image from 'next/image'
+import Image from 'next/image';
+import type { NextPage } from 'next';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux'
 import { useGetAllIngredientsQuery, useLazyGetMultipleDrinkInfoQuery } from '@/store/api/api'
@@ -14,7 +15,7 @@ import IngredientCatBtn from '@/components/buttons/IngredientCatBtn/IngredientCa
 import IngredientSection from '@/components/ui/IngredientSection/IngredientSection'
 import { useEffect } from 'react'
 
-export default function IngredientsPage() {
+const IngredientsPage: NextPage = () => {
     const allIngredients = useGetAllIngredientsQuery();
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
@@ -140,5 +141,7 @@ export default function IngredientsPage() {
             { allIngredients.error &&
                 <h1>Error!</h1> }
         </>
-    )
+    );
 }
+
+export default IngredientsPage;
