@@ -1,7 +1,7 @@
 // Import styles
 import styles from './IngredientFilter.module.scss'
 // React components
-import { useEffect } from 'react'
+import { MouseEventHandler, useEffect } from 'react'
 // Redux components
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/store/store'
@@ -14,8 +14,8 @@ export default function IngredientFilter (props: { ingredient: Item, drinkType: 
     const dispatch = useDispatch();
     const selectedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.selected);
 
-    function changeState (e: any, ingredient: Item) {
-        if (e.target.checked) {
+    function changeState (e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
+        if (e.currentTarget.checked) {
             dispatch(selectIngredient(ingredient));
         } else {
             dispatch(unselectIngredient(ingredient));
@@ -34,7 +34,7 @@ export default function IngredientFilter (props: { ingredient: Item, drinkType: 
     return (
         <div className={styles.IngredientFilter}>
             <label htmlFor={ingredient.Name}>{ingredient.Name}</label>
-            <input type="checkbox" id={ingredient.Name} name={ingredient.Name} value={ingredient.Name} onClick={(e) => changeState(e, ingredient)}  />
+            <input type="checkbox" id={ingredient.Name} name={ingredient.Name} value={ingredient.Name} onClick={(e) => changeState(e)}  />
         </div>
     );
 }
