@@ -11,9 +11,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { clearSelected } from '@/store/slices/ingredients.slice';
 // Local components
-import RandomDrink from '@/components/ui/RandomDrink/RandomDrink';
-import IngredientForm from '@/components/ui/IngredientForm/IngredientForm';
-import DrinkTypes from '@/components/ui/DrinkTypes/DrinkTypes';
+import RandomDrink from '@/components/ui/HomePage/RandomDrink/RandomDrink';
+import IngredientForm from '@/components/ui/HomePage/IngredientForm/IngredientForm';
+import DrinkTypes from '@/components/ui/HomePage/DrinkTypes/DrinkTypes';
 import ScrollButton from '@/components/buttons/ScrollButton/ScrollButton';
 // Type interfaces
 import { DrinkInfo } from '@/types/index';

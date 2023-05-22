@@ -1,7 +1,7 @@
 // Component styles
 import styles from './IngredientSection.module.scss'
 // Local components
-import Ingredient from '@/components/ui/Ingredient/Ingredient'
+import Ingredient from '@/components/ui/IngredientsPage/Ingredient/Ingredient'
 // Type interfaces
 import { Item, DrinkInfo, Drink } from '@/types/index'
 // Redux components

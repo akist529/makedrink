@@ -12,7 +12,7 @@ import { addPossibleDrink } from '@/store/slices/drinks.slice'
 import { Item, Drink } from '@/types/index'
 // Local components
 import IngredientCatBtn from '@/components/buttons/IngredientCatBtn/IngredientCatBtn'
-import IngredientSection from '@/components/ui/IngredientSection/IngredientSection'
+import IngredientSection from '@/components/ui/IngredientsPage/IngredientSection/IngredientSection'
 import { useEffect } from 'react'
 
 const IngredientsPage: NextPage = () => {

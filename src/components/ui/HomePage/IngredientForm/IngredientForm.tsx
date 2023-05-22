@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 // Local components
-import IngredientFilter from '@/components/ui/IngredientFilter/IngredientFilter';
+import IngredientFilter from '@/components/ui/HomePage/IngredientFilter/IngredientFilter';
 // Type interfaces
 import { Item, IngredientDict } from '@/types/index';
 // Next components

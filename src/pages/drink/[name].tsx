@@ -13,7 +13,7 @@ import { useState, useEffect } from 'react';
 // Type interfaces
 import { DrinkInfo, Ingredient, Item } from '@/types/index';
 // Local components
-import RecipeItem from '@/components/ui/RecipeItem/RecipeItem';
+import RecipeItem from '@/components/ui/DrinkPage/RecipeItem/RecipeItem';
 
 const DrinkPage: NextPage = () => {
     const allDrinks = useGetAllDrinksQuery().data || [];

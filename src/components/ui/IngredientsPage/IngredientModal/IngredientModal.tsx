@@ -8,7 +8,7 @@ import { RootState } from '@/store/store'
 import { toggleIngredientModal } from '@/store/slices/ingredientModal.slice'
 import { useGetAllIngredientsQuery } from '@/store/api/api'
 // Local components
-import Ingredient from '@/components/ui/Ingredient/Ingredient'
+import Ingredient from '@/components/ui/IngredientsPage/Ingredient/Ingredient'
 // Type interfaces
 import { Item } from '@/types/index'
 
