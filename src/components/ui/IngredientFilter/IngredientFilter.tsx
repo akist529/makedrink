@@ -23,19 +23,11 @@ export default function IngredientFilter (props: { ingredient: Item, drinkType: 
     }
 
     useEffect(() => {
-        const inputs = document.querySelectorAll('input');
-
-        inputs.forEach(input => {
-            input.checked = false;
-        });
-    }, [drinkType, dispatch])
-
-    useEffect(() => {
         if (selectedIngredients.hasOwnProperty(ingredient.Type) && 
             selectedIngredients[ingredient.Type].hasOwnProperty(ingredient.Name.charAt(0)) &&
             selectedIngredients[ingredient.Type][ingredient.Name.charAt(0)].find((item: Item) => item.Name === ingredient.Name))
         {
-            (document.getElementById(ingredient.Name) as HTMLInputElement).checked;
+            (document.getElementById(ingredient.Name) as HTMLInputElement).checked = true;
         }
     }, []);
 

@@ -57,7 +57,6 @@ const HomePage: NextPage = () => {
   }
 
   useEffect(() => {
-    dispatch(clearSelected());
     document.getElementById('form')?.scrollIntoView({ behavior: 'smooth' });
   }, [drinkType, dispatch]);
 
