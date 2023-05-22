@@ -125,7 +125,7 @@ const HomePage: NextPage = () => {
           </> }
         </form> }
         { (drinkType && Object.keys(storedIngredients).length > 0) && 
-        <Link href='/drinks'>
+        <Link href='/drinks/filtered'>
           <button className={styles.seeDrinksBtn}>
             <span>See Drinks</span>
             <Image alt='See Drinks' src={require('/public/images/ui/cocktail.webp')} width="64" height="64" />

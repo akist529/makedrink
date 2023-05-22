@@ -39,20 +39,26 @@ const AllDrinksPage: NextPage = () => {
 
     return (
         <>
-        { allDrinks.isLoading && <main className={styles.DrinksPage}>
-            <h1>Loading...</h1>
-        </main> }
-        { !allDrinks.isLoading && <main className={styles.DrinksPage}>
-            <PaginationLinks pageNums={pageNums} setFirstDrink={setFirstDrink} setLastDrink={setLastDrink} />
-            <section>
-                <ul>
-                    { (allDrinks.data || []).slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
-                        return <DrinkCard drink={drink} key={index} />
-                    }) }
-                </ul>
-            </section>
-            <PaginationLinks pageNums={pageNums} setFirstDrink={setFirstDrink} setLastDrink={setLastDrink} />
-        </main> }
+        { allDrinks.isLoading && 
+            <main className={styles.DrinksPage}>
+                <h1>Loading...</h1>
+            </main> }
+        { !allDrinks.isLoading && (allDrinks.data || []).length === 0 && 
+            <main className={styles.DrinksPage}>
+                <h1>No drinks available!</h1>
+            </main> }
+        { !allDrinks.isLoading && (allDrinks.data || []).length > 0 && 
+            <main className={styles.DrinksPage}>
+                <PaginationLinks pageNums={pageNums} setFirstDrink={setFirstDrink} setLastDrink={setLastDrink} />
+                <section>
+                    <ul>
+                        { (allDrinks.data || []).slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
+                            return <DrinkCard drink={drink} key={index} />
+                        }) }
+                    </ul>
+                </section>
+                <PaginationLinks pageNums={pageNums} setFirstDrink={setFirstDrink} setLastDrink={setLastDrink} />
+            </main> }
         </>
     );
 }
