@@ -106,16 +106,23 @@ const HomePage: NextPage = () => {
         <form>
           { (drinkType === 'cocktail') && 
           <>
-            { findIngredientType('liquor') && <IngredientForm ingredientType='liquor' drinkType='cocktail' /> }
-            { findIngredientType('liqueur') && <IngredientForm ingredientType='liqueur' drinkType='cocktail' /> }
-            { findIngredientType('wine') && <IngredientForm ingredientType='wine' drinkType='cocktail' /> }
-            { findIngredientType('other') && <IngredientForm ingredientType='other' drinkType='cocktail' /> }
+            { findIngredientType('liquor') && 
+              <IngredientForm ingredientType='liquor' drinkType='cocktail' /> }
+            { findIngredientType('liqueur') && 
+              <IngredientForm ingredientType='liqueur' drinkType='cocktail' /> }
+            { findIngredientType('wine') && 
+              <IngredientForm ingredientType='wine' drinkType='cocktail' /> }
+            { findIngredientType('other') && 
+              <IngredientForm ingredientType='other' drinkType='cocktail' /> }
           </> }
           { drinkType && 
           <>
-            { findIngredientType('carbonated') && <IngredientForm ingredientType='carbonated' drinkType='cocktail' /> }
-            { findIngredientType('juice') && <IngredientForm ingredientType='juice' drinkType='cocktail' /> }
-            { findIngredientType('mixer') && <IngredientForm ingredientType='mixer' drinkType='cocktail' /> }
+            { findIngredientType('carbonated') && 
+              <IngredientForm ingredientType='carbonated' drinkType='cocktail' /> }
+            { findIngredientType('juice') && 
+              <IngredientForm ingredientType='juice' drinkType='cocktail' /> }
+            { findIngredientType('mixer') && 
+              <IngredientForm ingredientType='mixer' drinkType='cocktail' /> }
           </> }
         </form> }
         { (drinkType && Object.keys(storedIngredients).length > 0) && 

@@ -11,10 +11,11 @@ import { RootState } from '@/store/store';
 import DrinkCard from '@/components/ui/DrinksPage/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
 // Type interfaces
-import { DrinkDict, DrinkInfo } from '@/types/index';
+import { DrinkDict, DrinkInfo, Ingredient, IngredientDict, Item } from '@/types/index';
 
 const FilteredDrinksPage: NextPage = () => {
     const possibleDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.possible);
+    const selectedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.selected);
     const [firstDrink, setFirstDrink] = useState(0);
     const [lastDrink, setLastDrink] = useState(20);
 
@@ -23,7 +24,19 @@ const FilteredDrinksPage: NextPage = () => {
 
         for (const key of Object.keys(possibleDrinks)) {
             for (const item of possibleDrinks[key]) {
-                arr.push(item);
+                if (item.Recipe.every((ingredient: Ingredient) => {
+                    for (const type of Object.keys(selectedIngredients)) {
+                        for (const key of Object.keys(selectedIngredients[type])) {
+                            if (selectedIngredients[type][key].find((item: Item) => item.Name === ingredient.Name)) {
+                                return true;
+                            }
+                        }
+                    }
+
+                    return false;
+                })) {
+                    arr.push(item);
+                }
             }
         }
 
