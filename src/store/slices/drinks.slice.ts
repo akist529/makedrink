@@ -1,8 +1,8 @@
 // Redux components
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 // Type interfaces
-import { DrinkInfo, DrinkDict } from '@/types/index'
+import { DrinkInfo, DrinkDict } from '@/types/index';
 
 export const drinksSlice = createSlice({
     name: 'drinks',
@@ -14,8 +14,8 @@ export const drinksSlice = createSlice({
         addPossibleDrink: (state, action: PayloadAction<DrinkInfo>) => {
             const letter = action.payload.Name.charAt(0);
 
-            if (state.possible.hasOwnProperty(letter) 
-                && state.possible[letter].find(((item: DrinkInfo) => item.Name === action.payload.Name))) {
+            if (state.possible.hasOwnProperty(letter) && 
+                state.possible[letter].find(((item: DrinkInfo) => item.Name === action.payload.Name))) {
                     return;
                 }
 

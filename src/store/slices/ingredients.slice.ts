@@ -1,44 +1,44 @@
 // Redux components
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 // Type interfaces
-import { Item } from '@/types/index'
+import { Item, IngredientDict } from '@/types/index';
 
 export const ingredientsSlice = createSlice({
     name: 'ingredients',
     initialState: {
-        stored: {} as any,
-        selected: {} as any
+        stored: {} as IngredientDict,
+        selected: {} as IngredientDict
     },
     reducers: {
         addIngredient: (state, action: PayloadAction<Item>) => {
             const type = action.payload.Type;
             const letter = action.payload.Name.charAt(0);
 
-            if (state.stored.hasOwnProperty(type) 
-                && state.stored[`${type}`].hasOwnProperty(letter) 
-                && state.stored[`${type}`][`${letter}`].find(((item: Item) => item.Name === action.payload.Name))) {
+            if (state.stored.hasOwnProperty(type) && 
+                state.stored[type].hasOwnProperty(letter) && 
+                state.stored[type][letter].find(((item: Item) => item.Name === action.payload.Name))) {
                     return;
                 }
 
             if (!state.stored.hasOwnProperty(type)) {
                 state.stored = {
                     ...state.stored,
-                    [`${type}`]: {}
+                    [type]: {}
                 }
             }
 
-            if (!state.stored[`${type}`].hasOwnProperty(letter)) {
+            if (!state.stored[type].hasOwnProperty(letter)) {
                 state.stored = {
                     ...state.stored,
-                    [`${type}`]: {
-                        ...state.stored[`${type}`],
-                        [`${letter}`]: []
+                    [type]: {
+                        ...state.stored[type],
+                        [letter]: []
                     }
                 }
             }
 
-            const newArr = state.stored[`${type}`][`${letter}`];
+            const newArr = state.stored[type][letter];
 
             if (!newArr.find((ingredient: Item) => ingredient.Name === action.payload.Name)) {
                 newArr.push(action.payload);
@@ -46,32 +46,32 @@ export const ingredientsSlice = createSlice({
 
             state.stored = {
                 ...state.stored,
-                [`${type}`]: {
-                    ...state.stored[`${type}`],
-                    [`${letter}`]: newArr
+                [type]: {
+                    ...state.stored[type],
+                    [letter]: newArr
                 }
             }
         },
         removeIngredient: (state, action: PayloadAction<Item>) => {
             const type = action.payload.Type;
             const letter = action.payload.Name.charAt(0);
-            const index = state.stored[`${type}`][`${letter}`].findIndex((item: Item) => item.Name === action.payload.Name);
-            const newArr = state.stored[`${type}`][`${letter}`];
+            const index = state.stored[type][letter].findIndex((item: Item) => item.Name === action.payload.Name);
+            const newArr = state.stored[type][letter];
             newArr.splice(index, 1);
 
             state.stored = {
                 ...state.stored,
-                [`${type}`]: {
-                    ...state.stored[`${type}`],
-                    [`${letter}`]: newArr
+                [type]: {
+                    ...state.stored[type],
+                    [letter]: newArr
                 }
             }
 
             if (action.payload.AliasId) {
                 let hasSibling = false;
 
-                for (const key of Object.keys(state.stored[`${type}`])) {
-                    for (const ingredient of state.stored[`${type}`][`${key}`]) {
+                for (const key of Object.keys(state.stored[type])) {
+                    for (const ingredient of state.stored[type][key]) {
                         if (ingredient.AliasId === action.payload.AliasId) {
                             hasSibling = true;
                             break;
@@ -87,19 +87,19 @@ export const ingredientsSlice = createSlice({
                 if (!hasSibling) {
                     let parentRemoved = false;
 
-                    for (const key of Object.keys(state.stored[`${type}`])) {
-                        for (const ingredient of state.stored[`${type}`][`${key}`]) {
+                    for (const key of Object.keys(state.stored[type])) {
+                        for (const ingredient of state.stored[type][key]) {
                             if (ingredient.Id === action.payload.AliasId) {
                                 const letter = ingredient.Name.charAt(0);
-                                const index = state.stored[`${type}`][`${letter}`].findIndex((item: Item) => item.Name === ingredient.Name);
-                                const newArr = state.stored[`${type}`][`${letter}`];
+                                const index = state.stored[type][letter].findIndex((item: Item) => item.Name === ingredient.Name);
+                                const newArr = state.stored[type][letter];
                                 newArr.splice(index, 1);
 
                                 state.stored = {
                                     ...state.stored,
-                                    [`${type}`]: {
-                                        ...state.stored[`${type}`],
-                                        [`${letter}`]: newArr
+                                    [type]: {
+                                        ...state.stored[type],
+                                        [letter]: newArr
                                     }
                                 }
                             }
@@ -116,42 +116,42 @@ export const ingredientsSlice = createSlice({
                 }
             }
 
-            if (state.stored[`${type}`][`${letter}`].length === 0) {
-                delete state.stored[`${type}`][`${letter}`]
+            if (!state.stored[type][letter].length) {
+                delete state.stored[type][letter]
             }
 
-            if (Object.keys(state.stored[`${type}`]).length === 0) {
-                delete state.stored[`${type}`]
+            if (!Object.keys(state.stored[type]).length) {
+                delete state.stored[type]
             }
         },
         selectIngredient: (state, action: PayloadAction<Item>) => {
             const type = action.payload.Type;
             const letter = action.payload.Name.charAt(0);
 
-            if (state.selected.hasOwnProperty(type) 
-                && state.selected[`${type}`].hasOwnProperty(letter) 
-                && state.selected[`${type}`][`${letter}`].find(((item: Item) => item.Name === action.payload.Name))) {
+            if (state.selected.hasOwnProperty(type) && 
+                state.selected[type].hasOwnProperty(letter) && 
+                state.selected[type][letter].find(((item: Item) => item.Name === action.payload.Name))) {
                     return;
                 }
 
             if (!state.selected.hasOwnProperty(type)) {
                 state.selected = {
                     ...state.selected,
-                    [`${type}`]: {}
+                    [type]: {}
                 }
             }
 
-            if (!state.selected[`${type}`].hasOwnProperty(letter)) {
+            if (!state.selected[type].hasOwnProperty(letter)) {
                 state.selected = {
                     ...state.selected,
-                    [`${type}`]: {
-                        ...state.selected[`${type}`],
-                        [`${letter}`]: []
+                    [type]: {
+                        ...state.selected[type],
+                        [letter]: []
                     }
                 }
             }
 
-            const newArr = state.selected[`${type}`][`${letter}`];
+            const newArr = state.selected[type][letter];
 
             if (!newArr.find((ingredient: Item) => ingredient.Name === action.payload.Name)) {
                 newArr.push(action.payload);
@@ -159,32 +159,32 @@ export const ingredientsSlice = createSlice({
 
             state.selected = {
                 ...state.selected,
-                [`${type}`]: {
-                    ...state.selected[`${type}`],
-                    [`${letter}`]: newArr
+                [type]: {
+                    ...state.selected[type],
+                    [letter]: newArr
                 }
             }
         },
         unselectIngredient: (state, action: PayloadAction<Item>) => {
             const type = action.payload.Type;
             const letter = action.payload.Name.charAt(0);
-            const index = state.selected[`${type}`][`${letter}`].findIndex((item: Item) => item.Name === action.payload.Name);
-            const newArr = state.selected[`${type}`][`${letter}`];
+            const index = state.selected[type][letter].findIndex((item: Item) => item.Name === action.payload.Name);
+            const newArr = state.selected[type][letter];
             newArr.splice(index, 1);
 
             state.selected = {
                 ...state.selected,
-                [`${type}`]: {
-                    ...state.selected[`${type}`],
-                    [`${letter}`]: newArr
+                [type]: {
+                    ...state.selected[type],
+                    [letter]: newArr
                 }
             }
 
             if (action.payload.AliasId) {
                 let hasSibling = false;
 
-                for (const key of Object.keys(state.selected[`${type}`])) {
-                    for (const ingredient of state.selected[`${type}`][`${key}`]) {
+                for (const key of Object.keys(state.selected[type])) {
+                    for (const ingredient of state.selected[type][key]) {
                         if (ingredient.AliasId === action.payload.AliasId) {
                             hasSibling = true;
                             break;
@@ -200,19 +200,19 @@ export const ingredientsSlice = createSlice({
                 if (!hasSibling) {
                     let parentRemoved = false;
 
-                    for (const key of Object.keys(state.selected[`${type}`])) {
-                        for (const ingredient of state.selected[`${type}`][`${key}`]) {
+                    for (const key of Object.keys(state.selected[type])) {
+                        for (const ingredient of state.selected[type][key]) {
                             if (ingredient.Id === action.payload.AliasId) {
                                 const letter = ingredient.Name.charAt(0);
-                                const index = state.selected[`${type}`][`${letter}`].findIndex((item: Item) => item.Name === ingredient.Name);
-                                const newArr = state.selected[`${type}`][`${letter}`];
+                                const index = state.selected[type][letter].findIndex((item: Item) => item.Name === ingredient.Name);
+                                const newArr = state.selected[type][letter];
                                 newArr.splice(index, 1);
 
                                 state.selected = {
                                     ...state.selected,
-                                    [`${type}`]: {
-                                        ...state.selected[`${type}`],
-                                        [`${letter}`]: newArr
+                                    [type]: {
+                                        ...state.selected[type],
+                                        [letter]: newArr
                                     }
                                 }
                             }
@@ -229,12 +229,12 @@ export const ingredientsSlice = createSlice({
                 }
             }
 
-            if (state.selected[`${type}`][`${letter}`].length === 0) {
-                delete state.selected[`${type}`][`${letter}`]
+            if (!state.selected[type][letter].length) {
+                delete state.selected[type][letter];
             }
 
-            if (Object.keys(state.selected[`${type}`]).length === 0) {
-                delete state.selected[`${type}`]
+            if (!Object.keys(state.selected[type]).length) {
+                delete state.selected[type];
             }
         },
         clearSelected: (state) => {
@@ -252,5 +252,5 @@ export const ingredientsSlice = createSlice({
     }
 })
 
-export const { addIngredient, removeIngredient, selectIngredient, unselectIngredient, clearSelected } = ingredientsSlice.actions
-export default ingredientsSlice.reducer
+export const { addIngredient, removeIngredient, selectIngredient, unselectIngredient, clearSelected } = ingredientsSlice.actions;
+export default ingredientsSlice.reducer;
