@@ -1,5 +1,7 @@
 // Page styles
 import styles from './DrinkCard.module.scss';
+// React components
+import { useState } from 'react';
 // Next components
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,7 +20,10 @@ export default function DrinkCard (props: { drink: DrinkInfo }) {
                     return (
                         <li key={index}>
                             <span>{item.Name}</span>
-                            <Image alt={item.Name} src={require(`/public/images/ui/${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} height="24" />
+                            <Image 
+                                alt={item.Name} 
+                                src={require(`/public/images/ui/${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} 
+                                height="24" />
                         </li>
                     );
                 }) }

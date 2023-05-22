@@ -26,5 +26,5 @@ export default function BurgerButton() {
         <button className={styles.BurgerButton} onClick={() => dispatch(toggleNavMenu())}>
             <Image alt='Open Nav Menu' src={imagePath} width="40" height="40" />
         </button>
-    )
+    );
 }

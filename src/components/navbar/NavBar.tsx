@@ -1,34 +1,34 @@
 // Component styles
-import styles from './NavBar.module.scss'
+import styles from './NavBar.module.scss';
 // Redux components
-import { useSelector } from 'react-redux'
-import { RootState } from '@/store/store'
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 // Local components
-import BurgerButton from '@/components/buttons/BurgerButton/BurgerButton'
-import SearchButton from '@/components/buttons/SearchButton/SearchButton'
-import SearchInput from '@/components/inputs/SearchInput/SearchInput'
+import BurgerButton from '@/components/buttons/BurgerButton/BurgerButton';
+import SearchButton from '@/components/buttons/SearchButton/SearchButton';
+import SearchInput from '@/components/inputs/SearchInput/SearchInput';
 // Next components
-import Link from 'next/link'
+import Link from 'next/link';
 
 export default function NavBar() {
-    // Redux selectors
-    const { searchOpen } = useSelector((state: RootState) => state.search)
+    const { searchOpen } = useSelector((state: RootState) => state.search);
+    const arrOfLetters = 'BAR.HOME'.split('');
 
     return (
-        <nav className={styles.navbar}>
+        <nav className={styles.NavBar}>
             <BurgerButton />
-            {!searchOpen && 
+            { !searchOpen && 
                 <Link href='/'>
                     <h1>
-                        {('BAR.HOME'.split('')).map((letter, index) => {
+                        {arrOfLetters.map((letter: string, index: number) => {
                             return (
                                 <span key={index}>{letter}</span>
                             )
                         })}
                     </h1>
-                </Link>}
-            {!searchOpen && <SearchButton />}
-            {searchOpen && <SearchInput />}
+                </Link> }
+            { !searchOpen && <SearchButton /> }
+            { searchOpen && <SearchInput /> }
         </nav>
-    )
+    );
 }
