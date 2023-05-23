@@ -20,15 +20,15 @@ export const ingredientModalSlice = createSlice({
     },
     extraReducers: {
         [HYDRATE]: (state, action) => {
-            return {
+            return ({
                 ...state,
                 ...state.ingredient,
                 ...action.payload.open,
                 ...action.payload.ingredient
-            }
+            });
         }
     }
-})
+});
 
-export const { toggleIngredientModal, setModalIngredient } = ingredientModalSlice.actions
-export default ingredientModalSlice.reducer
+export const { toggleIngredientModal, setModalIngredient } = ingredientModalSlice.actions;
+export default ingredientModalSlice.reducer;

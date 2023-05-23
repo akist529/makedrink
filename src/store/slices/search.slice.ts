@@ -14,13 +14,13 @@ export const searchSlice = createSlice({
     },
     extraReducers: {
         [HYDRATE]: (state, action) => {
-            return {
+            return ({
                 ...state,
                 ...action.payload.searchOpen
-            }
+            });
         }
     }
-})
+});
 
 export const { toggleSearch } = searchSlice.actions;
 export default searchSlice.reducer;

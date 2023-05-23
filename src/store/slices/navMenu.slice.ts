@@ -14,13 +14,13 @@ export const navMenuSlice = createSlice({
     },
     extraReducers: {
         [HYDRATE]: (state, action) => {
-            return {
+            return ({
                 ...state,
                 ...action.payload.navMenuOpen
-            }
+            });
         }
     }
-})
+});
 
 export const { toggleNavMenu } = navMenuSlice.actions;
 export default navMenuSlice.reducer;

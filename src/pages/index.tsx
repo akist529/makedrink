@@ -9,7 +9,6 @@ import Link from 'next/link';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
-import { clearSelected } from '@/store/slices/ingredients.slice';
 // Local components
 import RandomDrink from '@/components/ui/HomePage/RandomDrink/RandomDrink';
 import IngredientForm from '@/components/ui/HomePage/IngredientForm/IngredientForm';
@@ -56,6 +55,10 @@ const HomePage: NextPage = () => {
     }
   }
 
+  function updateWidth (e: HTMLImageElement) {
+    e.width = (e.height / e.naturalHeight) * e.naturalWidth;
+  }
+
   useEffect(() => {
     document.getElementById('form')?.scrollIntoView({ behavior: 'smooth' });
   }, [drinkType, dispatch]);
@@ -69,11 +72,36 @@ const HomePage: NextPage = () => {
         <Link href="/ingredients">
           <button className={styles.selectBtn}>
             <div>
-              <Image alt='Select Ingredients' src={require('/public/images/ui/carbonated.webp')} height="32" />
-              <Image alt='Select Ingredients' src={require('/public/images/ui/liqueurs.webp')} height="32" />
-              <Image alt='Select Ingredients' src={require('/public/images/ui/mixers.webp')} height="32" />
-              <Image alt='Select Ingredients' src={require('/public/images/ui/other.webp')} height="32" />
-              <Image alt='Select Ingredients' src={require('/public/images/ui/spirits.webp')} height="32" />
+              <Image 
+                alt='Select Ingredients' 
+                src={require('/public/images/ui/carbonated.webp')} 
+                width="0" 
+                height="32" 
+                onLoadingComplete={e => updateWidth(e)} />
+              <Image 
+                alt='Select Ingredients' 
+                src={require('/public/images/ui/liqueurs.webp')} 
+                width="0" 
+                height="32" 
+                onLoadingComplete={e => updateWidth(e)} />
+              <Image 
+                alt='Select Ingredients' 
+                src={require('/public/images/ui/mixers.webp')} 
+                width="0" 
+                height="32" 
+                onLoadingComplete={e => updateWidth(e)} />
+              <Image 
+                alt='Select Ingredients' 
+                src={require('/public/images/ui/other.webp')} 
+                width="0" 
+                height="32" 
+                onLoadingComplete={e => updateWidth(e)} />
+              <Image 
+                alt='Select Ingredients' 
+                src={require('/public/images/ui/spirits.webp')} 
+                width="0" 
+                height="32" 
+                onLoadingComplete={e => updateWidth(e)} />
             </div>
             <span>Select Your Ingredients</span>
           </button>
@@ -81,11 +109,19 @@ const HomePage: NextPage = () => {
         <span>Then...</span>
         <nav>
           <button className={styles.randomBtn} onClick={() => getRandomDrink()}>
-            <Image alt="Make a Drink" src={require('/public/images/ui/select-ingredients.webp')} width="48" height="48" />
+            <Image 
+              alt="Make a Drink" 
+              src={require('/public/images/ui/select-ingredients.webp')} 
+              width="48" 
+              height="48" />
             <span>Make A Drink!</span>
           </button>
           <h2>Or...</h2>
-          <DrinkTypes drinkType={drinkType} setDrinkType={setDrinkType} drinkError={drinkError} setDrinkError={setDrinkError} />
+          <DrinkTypes 
+            drinkType={drinkType} 
+            setDrinkType={setDrinkType} 
+            drinkError={drinkError} 
+            setDrinkError={setDrinkError} />
         </nav>
         <strong className={drinkError ? styles.error : ''}>{drinkError}</strong>
       </section>
@@ -94,7 +130,9 @@ const HomePage: NextPage = () => {
       </nav> }
       { randomDrink && <section className={styles.drinkSection}>
         { (Object.keys(randomDrink).length > 0) && 
-          <RandomDrink randomDrink={randomDrink} getRandomDrink={getRandomDrink} /> }
+          <RandomDrink 
+            randomDrink={randomDrink} 
+            getRandomDrink={getRandomDrink} /> }
         <span className={styles.drinkAnchor} id='drink'></span>
       </section> }
       { (drinkType && Object.keys(randomDrink).length > 0) && <nav>
@@ -106,29 +144,33 @@ const HomePage: NextPage = () => {
           { (drinkType === 'cocktail') && 
           <>
             { findIngredientType('liquor') && 
-              <IngredientForm ingredientType='liquor' drinkType='cocktail' /> }
+              <IngredientForm ingredientType='liquor' /> }
             { findIngredientType('liqueur') && 
-              <IngredientForm ingredientType='liqueur' drinkType='cocktail' /> }
+              <IngredientForm ingredientType='liqueur' /> }
             { findIngredientType('wine') && 
-              <IngredientForm ingredientType='wine' drinkType='cocktail' /> }
+              <IngredientForm ingredientType='wine' /> }
             { findIngredientType('other') && 
-              <IngredientForm ingredientType='other' drinkType='cocktail' /> }
+              <IngredientForm ingredientType='other' /> }
           </> }
           { drinkType && 
           <>
             { findIngredientType('carbonated') && 
-              <IngredientForm ingredientType='carbonated' drinkType='cocktail' /> }
+              <IngredientForm ingredientType='carbonated' /> }
             { findIngredientType('juice') && 
-              <IngredientForm ingredientType='juice' drinkType='cocktail' /> }
+              <IngredientForm ingredientType='juice' /> }
             { findIngredientType('mixer') && 
-              <IngredientForm ingredientType='mixer' drinkType='cocktail' /> }
+              <IngredientForm ingredientType='mixer' /> }
           </> }
         </form> }
         { (drinkType && Object.keys(storedIngredients).length > 0) && 
         <Link href='/drinks/filtered'>
           <button className={styles.seeDrinksBtn}>
             <span>See Drinks</span>
-            <Image alt='See Drinks' src={require('/public/images/ui/cocktail.webp')} width="64" height="64" />
+            <Image 
+              alt='See Drinks' 
+              src={require('/public/images/ui/cocktail.webp')} 
+              width="64" 
+              height="64" />
           </button>
         </Link> }
         <span className={styles.formAnchor} id='form'></span>

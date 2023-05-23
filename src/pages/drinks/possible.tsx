@@ -45,21 +45,27 @@ const PossibleDrinksPage: NextPage = () => {
 
     return (
         <>
-        { drinksList.length === 0 && 
+        { (drinksList.length === 0) && 
             <main className={styles.DrinksPage}>
                 <h1>No drinks available!</h1>
             </main> }
-        { drinksList.length > 0 && 
+        { (drinksList.length > 0) && 
             <main className={styles.DrinksPage}>
-                <PaginationLinks pageNums={pageNums} setFirstDrink={setFirstDrink} setLastDrink={setLastDrink} />
+                <PaginationLinks 
+                    pageNums={pageNums} 
+                    setFirstDrink={setFirstDrink} 
+                    setLastDrink={setLastDrink} />
                 <section>
                     <ul>
                         { drinksList.slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
-                            return <DrinkCard drink={drink} key={index} />
+                            return (<DrinkCard drink={drink} key={index} />);
                         }) }
                     </ul>
                 </section>
-                <PaginationLinks pageNums={pageNums} setFirstDrink={setFirstDrink} setLastDrink={setLastDrink} />
+                <PaginationLinks 
+                    pageNums={pageNums} 
+                    setFirstDrink={setFirstDrink} 
+                    setLastDrink={setLastDrink} />
             </main> }
         </>
     );

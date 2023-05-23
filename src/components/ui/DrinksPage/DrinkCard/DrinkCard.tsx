@@ -1,7 +1,7 @@
 // Page styles
 import styles from './DrinkCard.module.scss';
 // React components
-import { useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 // Next components
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,6 +10,14 @@ import { DrinkInfo, Ingredient } from '@/types/index';
 
 export default function DrinkCard (props: { drink: DrinkInfo }) {
     const { drink } = props;
+
+    function updateWidth (e: HTMLImageElement) {
+        e.width = (e.height / e.naturalHeight) * e.naturalWidth;
+    }
+
+    function slug (item: Ingredient | DrinkInfo) {
+        return `${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
+    }
 
     return (
         <article className={styles.DrinkCard}>
@@ -22,17 +30,28 @@ export default function DrinkCard (props: { drink: DrinkInfo }) {
                             <span>{item.Name}</span>
                             <Image 
                                 alt={item.Name} 
-                                src={require(`/public/images/ui/${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} 
-                                height="24" />
+                                src={require(`/public/images/ui/${slug(item)}.webp`)} 
+                                width="0"
+                                height="24"
+                                onLoadingComplete={e => updateWidth(e)} />
                         </li>
                     );
                 }) }
             </ul>
-            <Image alt={drink.Name} src={require('/public/images/ui/cocktail-placeholder.jpg')} height="128" />
-            <Link href={`/drink/${drink.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`}>
+            <Image 
+                alt={drink.Name} 
+                src={require('/public/images/ui/cocktail-placeholder.jpg')} 
+                width="0" 
+                height="128"
+                onLoadingComplete={e => updateWidth(e)} />
+            <Link href={`/drink/${slug(drink)}`}>
                 <button className={styles.goBtn}>
                     <span>GO TO DRINK</span>
-                    <Image alt="Go to Drink" src={require('/public/images/ui/keyboard_double_arrow_right.svg')} width="32" height="32" />
+                    <Image 
+                        alt="Go to Drink" 
+                        src={require('/public/images/ui/keyboard_double_arrow_right.svg')} 
+                        width="32" 
+                        height="32" />
                 </button>
             </Link>
         </article>

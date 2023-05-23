@@ -20,10 +20,10 @@ export const drinksSlice = createSlice({
                 }
 
             if (!state.possible.hasOwnProperty(letter)) {
-                state.possible = {
+                state.possible = ({
                     ...state.possible,
                     [letter]: []
-                }
+                });
             }
 
             const newArr = state.possible[letter];
@@ -32,10 +32,10 @@ export const drinksSlice = createSlice({
                 newArr.push(action.payload);
             }
 
-            state.possible = {
+            state.possible = ({
                 ...state.possible,
                 [letter]: newArr
-            }
+            });
         },
         addPossibleDrinks: (state, action: PayloadAction<DrinkInfo[]>) => {
             for (const drink of action.payload) {
@@ -46,16 +46,16 @@ export const drinksSlice = createSlice({
                         return;
                     }
     
-                    state.possible = {
+                    state.possible = ({
                         ...state.possible,
                         [letter]: [...state.possible[letter], drink]
-                    }
+                    });
                 }
     
-                state.possible = {
+                state.possible = ({
                     ...state.possible,
                     [letter]: [drink]
-                }
+                });
             }
         },
         removePossibleDrink: (state, action: PayloadAction<DrinkInfo>) => {
@@ -66,10 +66,10 @@ export const drinksSlice = createSlice({
                     const index = state.possible[letter].findIndex((drink: DrinkInfo) => drink.Name === action.payload.Name);
                     const newArr = state.possible[letter];
                     newArr.splice(index, 1);
-                    state.possible = {
+                    state.possible = ({
                         ...state.possible,
                         [letter]: newArr
-                    }
+                    });
                 }
             }
         },
@@ -104,16 +104,16 @@ export const drinksSlice = createSlice({
     },
     extraReducers: {
         [HYDRATE]: (state, action) => {
-            return {
+            return ({
                 ...state,
                 ...state.possible,
                 ...state.favorites,
                 ...action.payload.possible,
                 ...action.payload.favorites
-            }
+            });
         }
     }
-})
+});
 
-export const { addPossibleDrink, addPossibleDrinks, removePossibleDrink, addFavoriteDrink, removeFavoriteDrink } = drinksSlice.actions
-export default drinksSlice.reducer
+export const { addPossibleDrink, addPossibleDrinks, removePossibleDrink, addFavoriteDrink, removeFavoriteDrink } = drinksSlice.actions;
+export default drinksSlice.reducer;

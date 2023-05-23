@@ -1,16 +1,16 @@
 // Import styles
-import styles from './IngredientFilter.module.scss'
+import styles from './IngredientFilter.module.scss';
 // React components
-import { MouseEventHandler, useEffect } from 'react'
+import { MouseEventHandler, useEffect } from 'react';
 // Redux components
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '@/store/store'
-import { selectIngredient, unselectIngredient } from '@/store/slices/ingredients.slice'
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store/store';
+import { selectIngredient, unselectIngredient } from '@/store/slices/ingredients.slice';
 // Type interfaces
-import { Item, IngredientDict } from '@/types/index'
+import { Item, IngredientDict } from '@/types/index';
 
-export default function IngredientFilter (props: { ingredient: Item, drinkType: string }) {
-    const { ingredient, drinkType } = props;
+export default function IngredientFilter (props: { ingredient: Item }) {
+    const { ingredient } = props;
     const dispatch = useDispatch();
     const selectedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.selected);
 
@@ -34,7 +34,12 @@ export default function IngredientFilter (props: { ingredient: Item, drinkType: 
     return (
         <div className={styles.IngredientFilter}>
             <label htmlFor={ingredient.Name}>{ingredient.Name}</label>
-            <input type="checkbox" id={ingredient.Name} name={ingredient.Name} value={ingredient.Name} onClick={(e) => changeState(e)}  />
+            <input 
+                type="checkbox" 
+                id={ingredient.Name} 
+                name={ingredient.Name} 
+                value={ingredient.Name} 
+                onClick={(e) => changeState(e)} />
         </div>
     );
 }

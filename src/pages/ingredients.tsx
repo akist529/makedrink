@@ -1,19 +1,19 @@
 // Page styles
-import styles from '@/styles/Ingredients.module.scss'
+import styles from '@/styles/Ingredients.module.scss';
 // Next components
 import Image from 'next/image';
 import type { NextPage } from 'next';
 // Redux components
-import { useSelector, useDispatch } from 'react-redux'
-import { useGetAllIngredientsQuery, useLazyGetMultipleDrinkInfoQuery } from '@/store/api/api'
-import { RootState } from '@/store/store'
-import { addPossibleDrink } from '@/store/slices/drinks.slice'
+import { useSelector, useDispatch } from 'react-redux';
+import { useGetAllIngredientsQuery, useLazyGetMultipleDrinkInfoQuery } from '@/store/api/api';
+import { RootState } from '@/store/store';
+import { addPossibleDrink } from '@/store/slices/drinks.slice';
 // Type interfaces
-import { Item, Drink } from '@/types/index'
+import { Item, Drink } from '@/types/index';
 // Local components
-import IngredientCatBtn from '@/components/buttons/IngredientCatBtn/IngredientCatBtn'
-import IngredientSection from '@/components/ui/IngredientsPage/IngredientSection/IngredientSection'
-import { useEffect } from 'react'
+import IngredientCatBtn from '@/components/buttons/IngredientCatBtn/IngredientCatBtn';
+import IngredientSection from '@/components/ui/IngredientsPage/IngredientSection/IngredientSection';
+import { useEffect } from 'react';
 
 const IngredientsPage: NextPage = () => {
     const allIngredients = useGetAllIngredientsQuery();
@@ -21,24 +21,24 @@ const IngredientsPage: NextPage = () => {
     const dispatch = useDispatch();
     const [getDrinkInfo, result] = useLazyGetMultipleDrinkInfoQuery();
 
-    const ingredientsImagePath = require('/public/images/ui/local_bar.svg')
-    const alcoholImagePath = require('/public/images/ui/drunk.webp')
-    const mixerImagePath = require('/public/images/ui/shaker.webp')
+    const ingredientsImagePath = require('/public/images/ui/local_bar.svg');
+    const alcoholImagePath = require('/public/images/ui/drunk.webp');
+    const mixerImagePath = require('/public/images/ui/shaker.webp');
 
     function filterData (type: string[]) {
-        let filteredData: Item[] = []
+        let filteredData: Item[] = [];
 
         for (let i = 0; i < type.length; i++) {
             const categoryData = (allIngredients.data as Item[]).filter(ingredient => {
-                return ingredient['Type'] === type[i]
-            })
+                return ingredient.Type === type[i];
+            });
 
             for (const item of categoryData) {
-                filteredData.push(item)
+                filteredData.push(item);
             }
         }
 
-        return filteredData
+        return filteredData;
     }
 
     useEffect(() => {
@@ -63,7 +63,7 @@ const IngredientsPage: NextPage = () => {
                 dispatch(addPossibleDrink(drink));
             }
         }
-    }, [result])
+    }, [result]);
 
     function getDrinks (ids: string) {
         var urlencoded = new URLSearchParams();
@@ -91,49 +91,85 @@ const IngredientsPage: NextPage = () => {
         });
     }
 
+    function updateWidth (e: HTMLImageElement) {
+        e.width = (e.height / e.naturalHeight) * e.naturalWidth;
+    }
+
     return (
         <>
             { allIngredients.data && <div className={styles.IngredientsPage}>
                 <h1>
                     <div>
-                        {'Select'.split('').map((letter, index) => {
+                        {'Select'.split('').map((letter: string, index: number) => {
                             return (
                                 <span key={index}>{letter}</span>
-                            )
+                            );
                         })}
                     </div>
                     <div>
-                        {'Ingredients'.split('').map((letter, index) => {
+                        {'Ingredients'.split('').map((letter: string, index: number) => {
                             return (
                                 <span key={index}>{letter}</span>
-                            )
+                            );
                         })}
                     </div>
-                    <Image alt='Select Ingredients' src={ingredientsImagePath} width='64' height='64' />
+                    <Image 
+                        alt='Select Ingredients' 
+                        src={ingredientsImagePath} 
+                        width='64' 
+                        height='64' />
                 </h1>
                 <div>
                     <div className={styles.category}>
                         <h2>Alcohol</h2>
-                        <Image alt="Alcohol" src={alcoholImagePath} width="64" />
+                        <Image 
+                            alt="Alcohol" 
+                            src={alcoholImagePath} 
+                            width="0"
+                            height="48" 
+                            onLoadingComplete={e => updateWidth(e)} />
                     </div>
-                    <IngredientCatBtn category="Spirits" color="pink" />
-                    <IngredientSection section={filterData(['liquor'])} />
-                    <IngredientCatBtn category="Liqueurs" color="green" />
-                    <IngredientSection section={filterData(['liqueur'])} />
-                    <IngredientCatBtn category="Other" color="red" />
-                    <IngredientSection section={filterData(['other', 'wine'])} />
+                    <IngredientCatBtn 
+                        category="Spirits" 
+                        color="pink" />
+                    <IngredientSection 
+                        section={filterData(['liquor'])} />
+                    <IngredientCatBtn 
+                        category="Liqueurs" 
+                        color="green" />
+                    <IngredientSection 
+                        section={filterData(['liqueur'])} />
+                    <IngredientCatBtn 
+                        category="Other" 
+                        color="red" />
+                    <IngredientSection 
+                        section={filterData(['other', 'wine'])} />
                 </div>
                 <div>
                     <div className={styles.category}>
                         <h2>Mixers</h2>
-                        <Image alt="Mixers" src={mixerImagePath} height="64" />
+                        <Image 
+                            alt="Mixers" 
+                            src={mixerImagePath} 
+                            width="0"
+                            height="48" 
+                            onLoadingComplete={e => updateWidth(e)} />
                     </div>
-                    <IngredientCatBtn category="Carbonated" color="yellow" />
-                    <IngredientSection section={filterData(['carbonated'])} />
-                    <IngredientCatBtn category="Juices" color="orange" />
-                    <IngredientSection section={filterData(['juice'])} />
-                    <IngredientCatBtn category="Other" color="blue" />
-                    <IngredientSection section={filterData(['mixer'])} />
+                    <IngredientCatBtn 
+                        category="Carbonated" 
+                        color="yellow" />
+                    <IngredientSection 
+                        section={filterData(['carbonated'])} />
+                    <IngredientCatBtn 
+                        category="Juices" 
+                        color="orange" />
+                    <IngredientSection 
+                        section={filterData(['juice'])} />
+                    <IngredientCatBtn 
+                        category="Other" 
+                        color="blue" />
+                    <IngredientSection 
+                        section={filterData(['mixer'])} />
                 </div>
             </div> }
             { allIngredients.isLoading &&

@@ -68,9 +68,7 @@ const DrinkPage: NextPage = () => {
             if (storedIngredients[type].hasOwnProperty(letter)) {
                 for (const item of storedIngredients[type][letter]) {
                     if (item.Name === ingredient.Name) {
-                        return (
-                            <RecipeItem key={index} ingredient={ingredient} missing={false} />
-                        );
+                        return (<RecipeItem key={index} ingredient={ingredient} missing={false} />);
                     }
                 }
             }
@@ -96,14 +94,14 @@ const DrinkPage: NextPage = () => {
             setRecipeError(true);
         }
         
-        return <RecipeItem key={index} ingredient={ingredient} missing={true} />
+        return (<RecipeItem key={index} ingredient={ingredient} missing={true} />);
     }
 
     function getAltIngredient (ingredient: Item, index: number) {
         for (const key of Object.keys(storedIngredients[ingredient.Type])) {
             for (let i = 0; i < storedIngredients[ingredient.Type][key].length; i++) {
                 if (storedIngredients[ingredient.Type][key][i].AliasId === ingredient.Id) {
-                    return <RecipeItem key={index} ingredient={ingredient} missing={false} />
+                    return (<RecipeItem key={index} ingredient={ingredient} missing={false} />);
                 }
             }
         }
@@ -112,7 +110,11 @@ const DrinkPage: NextPage = () => {
             setRecipeError(true);
         }
 
-        return <RecipeItem key={index} ingredient={ingredient} missing={true} />
+        return (<RecipeItem key={index} ingredient={ingredient} missing={true} />);
+    }
+
+    function updateWidth (e: HTMLImageElement) {
+        e.width = (e.height / e.naturalHeight) * e.naturalWidth;
     }
 
     return (
@@ -127,19 +129,29 @@ const DrinkPage: NextPage = () => {
                     <h2>Ingredients</h2>
                     <ul>
                         { drinkInfo.Recipe.map((ingredient, index) => {
-                            return getIngredient(ingredient, index)
+                            return getIngredient(ingredient, index);
                         }) }
                     </ul>
                 </section>
                 <section>
                     <article>
                         { drinkInfo.Directions.map((direction, index) => {
-                            return <><p key={index}>{direction}</p><hr/></>
+                            return (
+                                <>
+                                    <p key={index}>{direction}</p>
+                                    <hr/>
+                                </>
+                            );
                         }) }
                     </article>
                 </section>
                 <figure>
-                    <Image alt='Cocktail' src={require('/public/images/ui/cocktail-placeholder.jpg')} width="256" />
+                    <Image 
+                        alt='Cocktail' 
+                        src={require('/public/images/ui/cocktail-placeholder.jpg')} 
+                        width="0" 
+                        height="256" 
+                        onLoadingComplete={e => updateWidth(e)} />
                 </figure>
             </main> }
         </div>

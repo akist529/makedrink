@@ -1,7 +1,7 @@
 // Redux components
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 // Type interfaces
-import { Item, Drink, DrinkInfo } from '@/types/index'
+import { Item, Drink, DrinkInfo } from '@/types/index';
 
 export const barApi = createApi({
     reducerPath: "ingredientsApi",
@@ -33,7 +33,7 @@ export const barApi = createApi({
 
                 return ({
                     data: info
-                })
+                });
             }
         }),
         getAllDrinkInfo: builder.query<DrinkInfo[],void>({
@@ -66,6 +66,13 @@ export const barApi = createApi({
             }
         })
     })
-})
+});
 
-export const { useGetAllIngredientsQuery, useGetAllDrinksQuery, useLazyGetDrinkInfoQuery, useGetMultipleDrinkInfoQuery, useLazyGetMultipleDrinkInfoQuery, useGetAllDrinkInfoQuery } = barApi
+export const { 
+    useGetAllIngredientsQuery, 
+    useGetAllDrinksQuery, 
+    useLazyGetDrinkInfoQuery, 
+    useGetMultipleDrinkInfoQuery, 
+    useLazyGetMultipleDrinkInfoQuery, 
+    useGetAllDrinkInfoQuery 
+} = barApi;

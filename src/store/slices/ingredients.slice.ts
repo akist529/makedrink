@@ -22,20 +22,20 @@ export const ingredientsSlice = createSlice({
                 }
 
             if (!state.stored.hasOwnProperty(type)) {
-                state.stored = {
+                state.stored = ({
                     ...state.stored,
                     [type]: {}
-                }
+                });
             }
 
             if (!state.stored[type].hasOwnProperty(letter)) {
-                state.stored = {
+                state.stored = ({
                     ...state.stored,
                     [type]: {
                         ...state.stored[type],
                         [letter]: []
                     }
-                }
+                });
             }
 
             const newArr = state.stored[type][letter];
@@ -44,13 +44,13 @@ export const ingredientsSlice = createSlice({
                 newArr.push(action.payload);
             }
 
-            state.stored = {
+            state.stored = ({
                 ...state.stored,
                 [type]: {
                     ...state.stored[type],
                     [letter]: newArr
                 }
-            }
+            });
         },
         removeIngredient: (state, action: PayloadAction<Item>) => {
             const type = action.payload.Type;
@@ -59,13 +59,13 @@ export const ingredientsSlice = createSlice({
             const newArr = state.stored[type][letter];
             newArr.splice(index, 1);
 
-            state.stored = {
+            state.stored = ({
                 ...state.stored,
                 [type]: {
                     ...state.stored[type],
                     [letter]: newArr
                 }
-            }
+            });
 
             if (action.payload.AliasId) {
                 let hasSibling = false;
@@ -95,13 +95,13 @@ export const ingredientsSlice = createSlice({
                                 const newArr = state.stored[type][letter];
                                 newArr.splice(index, 1);
 
-                                state.stored = {
+                                state.stored = ({
                                     ...state.stored,
                                     [type]: {
                                         ...state.stored[type],
                                         [letter]: newArr
                                     }
-                                }
+                                });
                             }
 
                             if (parentRemoved) {
@@ -117,11 +117,11 @@ export const ingredientsSlice = createSlice({
             }
 
             if (!state.stored[type][letter].length) {
-                delete state.stored[type][letter]
+                delete state.stored[type][letter];
             }
 
             if (!Object.keys(state.stored[type]).length) {
-                delete state.stored[type]
+                delete state.stored[type];
             }
         },
         selectIngredient: (state, action: PayloadAction<Item>) => {
@@ -135,20 +135,20 @@ export const ingredientsSlice = createSlice({
                 }
 
             if (!state.selected.hasOwnProperty(type)) {
-                state.selected = {
+                state.selected = ({
                     ...state.selected,
                     [type]: {}
-                }
+                });
             }
 
             if (!state.selected[type].hasOwnProperty(letter)) {
-                state.selected = {
+                state.selected = ({
                     ...state.selected,
                     [type]: {
                         ...state.selected[type],
                         [letter]: []
                     }
-                }
+                });
             }
 
             const newArr = state.selected[type][letter];
@@ -157,13 +157,13 @@ export const ingredientsSlice = createSlice({
                 newArr.push(action.payload);
             }
 
-            state.selected = {
+            state.selected = ({
                 ...state.selected,
                 [type]: {
                     ...state.selected[type],
                     [letter]: newArr
                 }
-            }
+            });
         },
         unselectIngredient: (state, action: PayloadAction<Item>) => {
             const type = action.payload.Type;
@@ -172,13 +172,13 @@ export const ingredientsSlice = createSlice({
             const newArr = state.selected[type][letter];
             newArr.splice(index, 1);
 
-            state.selected = {
+            state.selected = ({
                 ...state.selected,
                 [type]: {
                     ...state.selected[type],
                     [letter]: newArr
                 }
-            }
+            });
 
             if (action.payload.AliasId) {
                 let hasSibling = false;
@@ -208,13 +208,13 @@ export const ingredientsSlice = createSlice({
                                 const newArr = state.selected[type][letter];
                                 newArr.splice(index, 1);
 
-                                state.selected = {
+                                state.selected = ({
                                     ...state.selected,
                                     [type]: {
                                         ...state.selected[type],
                                         [letter]: newArr
                                     }
-                                }
+                                });
                             }
 
                             if (parentRemoved) {
@@ -243,14 +243,14 @@ export const ingredientsSlice = createSlice({
     },
     extraReducers: {
         [HYDRATE]: (state, action) => {
-            return {
+            return ({
                 ...state,
                 ...action.payload.stored,
                 ...action.payload.selected
-            }
+            });
         }
     }
-})
+});
 
 export const { addIngredient, removeIngredient, selectIngredient, unselectIngredient, clearSelected } = ingredientsSlice.actions;
 export default ingredientsSlice.reducer;

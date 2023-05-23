@@ -26,5 +26,5 @@ export default function PaginationLinks (props: { pageNums: string[], setFirstDr
                 }) }
             </ul>
         </nav>
-    )
+    );
 }

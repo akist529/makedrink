@@ -1,15 +1,15 @@
 // Global styles
-import '@/styles/globals.css'
+import '@/styles/globals.css';
 // Next components
-import type { AppProps } from 'next/app'
+import type { AppProps } from 'next/app';
 // Redux components
-import { Provider } from 'react-redux'
-import { PersistGate } from 'redux-persist/integration/react'
-import { persistor, store } from '@/store/store'
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistor, store } from '@/store/store';
 // Local components
-import IngredientModal from '@/components/ui/IngredientsPage/IngredientModal/IngredientModal'
-import NavBar from '@/components/navbar/NavBar'
-import NavMenu from '@/components/navmenu/NavMenu'
+import IngredientModal from '@/components/ui/IngredientsPage/IngredientModal/IngredientModal';
+import NavBar from '@/components/navbar/NavBar';
+import NavMenu from '@/components/navmenu/NavMenu';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -23,5 +23,5 @@ export default function App({ Component, pageProps }: AppProps) {
         </div>
       </PersistGate>
     </Provider>
-  )
+  );
 }

@@ -13,19 +13,19 @@ import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/Paginati
 import { DrinkInfo } from '@/types/index';
 
 const AllDrinksPage: NextPage = () => {
-    const allDrinks = useGetAllDrinkInfoQuery();
+    const { data, isLoading } = useGetAllDrinkInfoQuery();
     const [firstDrink, setFirstDrink] = useState(0);
     const [lastDrink, setLastDrink] = useState(20);
     const [pageNums, setPageNums] = useState([] as string[]);
 
     useEffect(() => {
-        if (!allDrinks.isLoading) {
+        if (!isLoading) {
             const pageNumsArr = (() => {
                 const arr = [];
         
-                for (let i = 0; i < (allDrinks.data || []).length; i++) {
+                for (let i = 0; i < (data || []).length; i++) {
                     const firstNum = i;
-                    const secondNum = ((i + 20) > (allDrinks.data || []).length) ? (allDrinks.data || []).length : (i + 20);
+                    const secondNum = ((i + 20) > (data || []).length) ? (data || []).length : (i + 20);
                     arr.push(`${firstNum + 1} - ${secondNum + 1}`);
                     i += 20;
                 }
@@ -35,29 +35,35 @@ const AllDrinksPage: NextPage = () => {
 
             setPageNums(pageNumsArr);
         }
-    }, [allDrinks])
+    }, [isLoading]);
 
     return (
         <>
-        { allDrinks.isLoading && 
+        { isLoading && 
             <main className={styles.DrinksPage}>
                 <h1>Loading...</h1>
             </main> }
-        { !allDrinks.isLoading && (allDrinks.data || []).length === 0 && 
+        { !isLoading && !(data || []).length && 
             <main className={styles.DrinksPage}>
                 <h1>No drinks available!</h1>
             </main> }
-        { !allDrinks.isLoading && (allDrinks.data || []).length > 0 && 
+        { !isLoading && (data || []).length && 
             <main className={styles.DrinksPage}>
-                <PaginationLinks pageNums={pageNums} setFirstDrink={setFirstDrink} setLastDrink={setLastDrink} />
+                <PaginationLinks 
+                    pageNums={pageNums} 
+                    setFirstDrink={setFirstDrink} 
+                    setLastDrink={setLastDrink} />
                 <section>
                     <ul>
-                        { (allDrinks.data || []).slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
-                            return <DrinkCard drink={drink} key={index} />
+                        { (data || []).slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
+                            return (<DrinkCard drink={drink} key={index} />);
                         }) }
                     </ul>
                 </section>
-                <PaginationLinks pageNums={pageNums} setFirstDrink={setFirstDrink} setLastDrink={setLastDrink} />
+                <PaginationLinks 
+                    pageNums={pageNums} 
+                    setFirstDrink={setFirstDrink} 
+                    setLastDrink={setLastDrink} />
             </main> }
         </>
     );
