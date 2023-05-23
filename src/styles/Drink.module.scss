@@ -19,6 +19,30 @@
         gap: 20px;
         width: 100%;
 
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+
+            button {
+                background: none;
+                border: none;
+                cursor: pointer;
+                
+                img {
+                    filter: invert(52%) sepia(0%) saturate(6%) hue-rotate(200deg) brightness(94%) contrast(98%);
+                    transition: 0.125s;
+                }
+
+                &:hover {
+                    img {
+                        filter: invert(75%) sepia(35%) saturate(698%) hue-rotate(282deg) brightness(98%) contrast(107%);
+                    }
+                }
+            }
+        }
+
         section {
             display: flex;
             flex-direction: column;

@@ -2,7 +2,7 @@
 import styles from '@/styles/Drink.module.scss';
 // Redux components
 import { useGetAllDrinksQuery, useLazyGetDrinkInfoQuery } from '@/store/api/api';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 // Next components
 import type { NextPage } from 'next';
@@ -19,10 +19,12 @@ const DrinkPage: NextPage = () => {
     const allDrinks = useGetAllDrinksQuery().data || [];
     const [getDrinkInfo, result] = useLazyGetDrinkInfoQuery();
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
+    const favoriteDrinks = useSelector((state: RootState) => state.drinks.favorites);
     const router = useRouter();
     const [drinkError, setDrinkError] = useState(false);
     const [recipeError, setRecipeError] = useState(false);
     const [drinkInfo, setDrinkInfo] = useState({} as DrinkInfo);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (router.isReady && allDrinks) {
@@ -117,6 +119,10 @@ const DrinkPage: NextPage = () => {
         e.width = (e.height / e.naturalHeight) * e.naturalWidth;
     }
 
+    function favoriteDrink () {
+        dispatch();
+    }
+
     return (
         <div className={styles.Drink}>
             { !drinkError && !drinkInfo.Name && <strong>Waiting...</strong> }
@@ -124,7 +130,16 @@ const DrinkPage: NextPage = () => {
             { drinkInfo.Name && 
             <main>
                 { recipeError && <strong>You are missing ingredients for this recipe!</strong> }
-                <h1>{drinkInfo.Name}</h1>
+                <header>
+                    <h1>{drinkInfo.Name}</h1>
+                    <button onClick={favoriteDrink}>
+                        <Image 
+                            alt='Favorite Drink' 
+                            src={require('/public/images/ui/heart_plus.svg')} 
+                            width="0" 
+                            height="48" />
+                    </button>
+                </header>
                 <section>
                     <h2>Ingredients</h2>
                     <ul>
