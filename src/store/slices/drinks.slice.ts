@@ -76,18 +76,28 @@ export const drinksSlice = createSlice({
         addFavoriteDrink: (state, action: PayloadAction<DrinkInfo>) => {
             const letter = action.payload.Name.charAt(0);
 
-            if (state.favorites.hasOwnProperty(letter)) {
-                if (state.favorites[letter].find((drink: DrinkInfo) => drink.Name === action.payload.Name)) {
+            if (state.favorites.hasOwnProperty(letter) && 
+                state.favorites[letter].find(((item: DrinkInfo) => item.Name === action.payload.Name))) {
                     return;
                 }
 
-                const newFavorites = state.favorites;
-                newFavorites[letter] = [...newFavorites[letter], action.payload];
+            if (!state.favorites.hasOwnProperty(letter)) {
+                state.favorites = ({
+                    ...state.favorites,
+                    [letter]: []
+                });
             }
 
-            const newFavorites = state.favorites;
-            Object.defineProperty(newFavorites, letter, [action.payload]);
-            state.favorites = newFavorites;
+            const newArr = state.favorites[letter];
+
+            if (!newArr.find((drink: DrinkInfo) => drink.Name === action.payload.Name)) {
+                newArr.push(action.payload);
+            }
+
+            state.favorites = ({
+                ...state.favorites,
+                [letter]: newArr
+            });
         },
         removeFavoriteDrink: (state, action: PayloadAction<DrinkInfo>) => {
             const letter = action.payload.Name.charAt(0);
@@ -95,9 +105,13 @@ export const drinksSlice = createSlice({
             if (state.favorites.hasOwnProperty(letter)) {
                 if (state.favorites[letter].find((drink: DrinkInfo) => drink.Name === action.payload.Name)) {
                     const index = state.favorites[letter].findIndex((drink: DrinkInfo) => drink.Name === action.payload.Name);
-                    const newFavorites = state.favorites;
-                    newFavorites[letter].splice(index, 1);
-                    state.favorites = newFavorites;
+                    const newArr = state.favorites[letter];
+                    newArr.splice(index, 1);
+                    
+                    state.favorites = ({
+                        ...state.favorites,
+                        [letter]: newArr
+                    });
                 }
             }
         }

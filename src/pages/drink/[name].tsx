@@ -4,6 +4,7 @@ import styles from '@/styles/Drink.module.scss';
 import { useGetAllDrinksQuery, useLazyGetDrinkInfoQuery } from '@/store/api/api';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
+import { addFavoriteDrink, removeFavoriteDrink } from '@/store/slices/drinks.slice';
 // Next components
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -16,7 +17,7 @@ import { DrinkInfo, Ingredient, Item } from '@/types/index';
 import RecipeItem from '@/components/ui/DrinkPage/RecipeItem/RecipeItem';
 
 const DrinkPage: NextPage = () => {
-    const allDrinks = useGetAllDrinksQuery().data || [];
+    const allDrinks: any = useGetAllDrinksQuery().data || [];
     const [getDrinkInfo, result] = useLazyGetDrinkInfoQuery();
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const favoriteDrinks = useSelector((state: RootState) => state.drinks.favorites);
@@ -25,6 +26,8 @@ const DrinkPage: NextPage = () => {
     const [recipeError, setRecipeError] = useState(false);
     const [drinkInfo, setDrinkInfo] = useState({} as DrinkInfo);
     const dispatch = useDispatch();
+    const [drinkFavorited, setDrinkFavorited] = useState(drinkIsFavorited(drinkInfo));
+    const [favoriteImagePath, setFavoriteImagePath] = useState(require('/public/images/ui/heart_plus.svg'));
 
     useEffect(() => {
         if (router.isReady && allDrinks) {
@@ -36,8 +39,25 @@ const DrinkPage: NextPage = () => {
     useEffect(() => {
         if (result && result.data) {
             setDrinkInfo(result.data);
+            setDrinkFavorited(drinkIsFavorited(drinkInfo));
         }
     }, [result]);
+
+    useEffect(() => {
+        if (Object.keys(drinkInfo).length && drinkIsFavorited(drinkInfo)) {
+            setDrinkFavorited(true);
+        } else {
+            setDrinkFavorited(false);
+        }
+    }, [favoriteDrinks]);
+
+    useEffect(() => {
+        if (drinkFavorited) {
+            setFavoriteImagePath(require('/public/images/ui/favorite.svg'));
+        } else {
+            setFavoriteImagePath(require('/public/images/ui/heart_plus.svg'));
+        }
+    }, [drinkFavorited]);
 
     function getDrinkName () {
         let urlName;
@@ -119,8 +139,25 @@ const DrinkPage: NextPage = () => {
         e.width = (e.height / e.naturalHeight) * e.naturalWidth;
     }
 
-    function favoriteDrink () {
-        dispatch();
+    function favoriteDrink (drink: DrinkInfo) {
+        if (favoriteDrinks.hasOwnProperty(drink.Name.charAt(0))) {
+            if (favoriteDrinks[drink.Name.charAt(0)].find((item: DrinkInfo) => item.Name === drink.Name)) {
+                dispatch(removeFavoriteDrink(drink));
+                return;
+            }
+        }
+
+        dispatch(addFavoriteDrink(drink));
+    }
+
+    function drinkIsFavorited (drink: DrinkInfo) {
+        if (Object.keys(drink).length && favoriteDrinks.hasOwnProperty(drink.Name.charAt(0))) {
+            if (favoriteDrinks[drink.Name.charAt(0)].find((item: DrinkInfo) => item.Name === drink.Name)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     return (
@@ -132,12 +169,13 @@ const DrinkPage: NextPage = () => {
                 { recipeError && <strong>You are missing ingredients for this recipe!</strong> }
                 <header>
                     <h1>{drinkInfo.Name}</h1>
-                    <button onClick={favoriteDrink}>
+                    <button onClick={() => favoriteDrink(drinkInfo)} {...drinkFavorited && {className: styles.favorited}}>
                         <Image 
                             alt='Favorite Drink' 
-                            src={require('/public/images/ui/heart_plus.svg')} 
+                            src={favoriteImagePath} 
                             width="0" 
-                            height="48" />
+                            height="48"
+                            onLoadingComplete={e => updateWidth(e)} />
                     </button>
                 </header>
                 <section>
@@ -152,10 +190,10 @@ const DrinkPage: NextPage = () => {
                     <article>
                         { drinkInfo.Directions.map((direction, index) => {
                             return (
-                                <>
-                                    <p key={index}>{direction}</p>
+                                <div key={index}>
+                                    <p>{direction}</p>
                                     <hr/>
-                                </>
+                                </div>
                             );
                         }) }
                     </article>

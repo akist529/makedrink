@@ -41,6 +41,12 @@
                     }
                 }
             }
+
+            .favorited {
+                img {
+                    filter: invert(32%) sepia(74%) saturate(5818%) hue-rotate(299deg) brightness(92%) contrast(135%);
+                }
+            }
         }
 
         section {
