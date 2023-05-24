@@ -1,13 +1,13 @@
 // Redux components
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 // Store slices
-import navMenuReducer from './slices/navMenu.slice'
-import searchReducer from './slices/search.slice'
-import ingredientModalReducer from './slices/ingredientModal.slice'
-import ingredientsReducer from './slices/ingredients.slice'
-import drinksReducer from './slices/drinks.slice'
+import navMenuReducer from './slices/navMenu.slice';
+import searchReducer from './slices/search.slice';
+import ingredientModalReducer from './slices/ingredientModal.slice';
+import ingredientsReducer from './slices/ingredients.slice';
+import drinksReducer from './slices/drinks.slice';
 // Store APIs
-import { barApi } from './api/api'
+import { barApi } from './api/api';
 
 const rootReducer = combineReducers({
     navMenu: navMenuReducer,
@@ -16,6 +16,6 @@ const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
     drinks: drinksReducer,
     [barApi.reducerPath]: barApi.reducer
-})
+});
 
-export default rootReducer
+export default rootReducer;

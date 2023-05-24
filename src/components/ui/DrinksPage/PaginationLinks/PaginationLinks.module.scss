@@ -1,0 +1,18 @@
+.PaginationLinks {
+    ul {
+        list-style-type: none;
+        display: grid;
+        grid-template-columns: repeat(4, 80px);
+        justify-items: center;
+        align-items: center;
+
+        li {
+            .pageBtn {
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: white;
+            }
+        }
+    }
+}

@@ -1,18 +1,18 @@
 // Redux components
-import { configureStore } from '@reduxjs/toolkit'
-import rootReducer from './rootReducer'
-import storage from 'redux-persist/lib/storage'
-import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
-import thunk from 'redux-thunk'
+import { configureStore } from '@reduxjs/toolkit';
+import rootReducer from './rootReducer';
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
+import thunk from 'redux-thunk';
 // Store APIs
-import { barApi } from '@/store/api/api'
+import { barApi } from '@/store/api/api';
 
-const persistConfig = {
+const persistConfig = ({
     key: 'root',
     storage,
-}
+});
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
     reducer: persistedReducer,
@@ -23,8 +23,8 @@ export const store = configureStore({
             }
         }).concat(barApi.middleware).concat(thunk),
     devTools: true
-})
+});
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
-export const persistor = persistStore(store)
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export const persistor = persistStore(store);

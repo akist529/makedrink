@@ -1,20 +1,20 @@
 // Page styles
 import styles from './IngredientForm.module.scss';
 // React components
-import { useState } from 'react';
+import React, { useState } from 'react';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 // Local components
-import IngredientFilter from '@/components/ui/IngredientFilter/IngredientFilter';
+import IngredientFilter from '@/components/ui/HomePage/IngredientFilter/IngredientFilter';
 // Type interfaces
-import { Item } from '@/types/index';
+import { Item, IngredientDict } from '@/types/index';
 // Next components
 import Image from 'next/image';
 
-export default function IngredientForm (props: { ingredientType: string, drinkType: string }) {
-    const { ingredientType, drinkType } = props;
-    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
+export default function IngredientForm (props: { ingredientType: string }) {
+    const { ingredientType } = props;
+    const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored);
     const [formOpen, setFormOpen] = useState(true);
 
     function getIngredients (type: string) {
@@ -71,10 +71,17 @@ export default function IngredientForm (props: { ingredientType: string, drinkTy
         return false;
     }
 
-    function toggleForm (e: any) {
+    function toggleForm (e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
-
         setFormOpen(prevState => !prevState);
+    }
+
+    function updateWidth (e: HTMLImageElement) {
+        e.width = (e.height / e.naturalHeight) * e.naturalWidth;
+    }
+
+    function slug (item: Item) {
+        return `${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
     }
 
     return (
@@ -82,7 +89,9 @@ export default function IngredientForm (props: { ingredientType: string, drinkTy
             <legend>
                 <button onClick={toggleForm}>
                     <span>{ingredientType}</span>
-                    <Image alt='Close Form Field' src={require('/public/images/ui/expand_more.svg')} />
+                    <Image 
+                        alt='Close Form Field' 
+                        src={require('/public/images/ui/expand_more.svg')} />
                 </button>
             </legend>
             <ul className={formOpen ? [styles.gradient, styles.gradientOpen].join(' ') : [styles.gradient, styles.gradientClosed].join(' ')}>
@@ -92,13 +101,22 @@ export default function IngredientForm (props: { ingredientType: string, drinkTy
                             <fieldset>
                                 <legend>
                                     <span>{ingredient.Name}</span>
-                                    <Image alt={ingredient.Name} src={require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} height="48" />
+                                    <Image 
+                                        alt={ingredient.Name} 
+                                        src={require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} 
+                                        width="0" 
+                                        height="48" 
+                                        onLoadingComplete={e => updateWidth(e)} />
                                 </legend>
                                 { childIngredients(ingredient).filter((ingredient: Item) => ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
-                                    return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
+                                    return <IngredientFilter 
+                                                key={index} 
+                                                ingredient={ingredient} />
                                 }) }
                                 { childIngredients(ingredient).filter((ingredient: Item) => !ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
-                                    return <IngredientFilter key={index} ingredient={ingredient} drinkType={drinkType} />
+                                    return <IngredientFilter 
+                                                key={index} 
+                                                ingredient={ingredient} />
                                 }) }
                             </fieldset>
                         </li>
@@ -108,8 +126,17 @@ export default function IngredientForm (props: { ingredientType: string, drinkTy
                     return (
                         <li key={index} className={styles.filter}>
                             <label htmlFor={ingredient.Name}>{ingredient.Name}</label>
-                            <Image alt={ingredient.Name} src={require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} height="48" />
-                            <input type="checkbox" id={ingredient.Name} name={ingredient.Name} value={ingredient.Name}/>
+                            <Image 
+                                alt={ingredient.Name} 
+                                src={require(`/public/images/ui/${slug(ingredient)}.webp`)} 
+                                width="0" 
+                                height="48" 
+                                onLoadingComplete={e => updateWidth(e)} />
+                            <input 
+                                type="checkbox" 
+                                id={ingredient.Name} 
+                                name={ingredient.Name} 
+                                value={ingredient.Name}/>
                         </li>
                     );
                 }) }

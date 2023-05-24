@@ -1,0 +1,30 @@
+.DrinksPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 120px 10px;
+    background-color: #020202;
+    opacity: 0.8;
+    background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 42px 42px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 42px 42px;
+    font-family: 'Oswald';
+    color: white;
+    min-height: 100vh;
+
+    section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+
+        ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 250px);
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+        }
+    }
+}

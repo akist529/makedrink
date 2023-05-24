@@ -19,6 +19,59 @@
         gap: 20px;
         width: 100%;
 
+        header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            button {
+                background: none;
+                border: none;
+                cursor: pointer;
+
+                img {
+                    transition: 0.125s;
+                }
+            }
+
+            .unfavorited {
+                img {
+                    filter: invert(52%) sepia(0%) saturate(6%) hue-rotate(200deg) brightness(94%) contrast(98%);
+                }
+
+                &:hover {
+                    img {
+                        filter: invert(75%) sepia(35%) saturate(698%) hue-rotate(282deg) brightness(98%) contrast(107%);
+                    }
+                }
+            }
+
+            .unblocked {
+                img {
+                    filter: invert(52%) sepia(0%) saturate(6%) hue-rotate(200deg) brightness(94%) contrast(98%);
+                }
+
+                &:hover {
+                    img {
+                        filter: invert(31%) sepia(14%) saturate(6569%) hue-rotate(331deg) brightness(128%) contrast(111%);
+                    }
+                }
+            }
+
+            .favorited {
+                img {
+                    filter: invert(32%) sepia(74%) saturate(5818%) hue-rotate(299deg) brightness(92%) contrast(135%);
+                }
+            }
+
+            .blocked {
+                img {
+                    filter: invert(11%) sepia(85%) saturate(5222%) hue-rotate(359deg) brightness(123%) contrast(124%);
+                }
+            }
+        }
+
         section {
             display: flex;
             flex-direction: column;
@@ -34,15 +87,19 @@
             }
 
             article {
-                font-size: 20px;
-                display: flex;
-                flex-direction: column;
-                text-align: center;
-                align-items: center;
-                gap: 10px;
-
-                hr {
-                    width: 50%;
+                div {
+                    font-size: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    text-align: center;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+    
+                    hr {
+                        width: 50%;
+                        border-radius: 50%;
+                    }
                 }
             }
         }

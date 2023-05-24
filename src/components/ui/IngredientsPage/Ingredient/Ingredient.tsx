@@ -1,28 +1,28 @@
 // Component styles
-import styles from './Ingredient.module.scss'
+import styles from './Ingredient.module.scss';
 // React components
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 // Next components
-import Image from 'next/image'
+import Image from 'next/image';
 // Redux components
-import { useSelector, useDispatch } from 'react-redux'
-import { useGetAllIngredientsQuery } from '@/store/api/api'
-import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingredientModal.slice'
-import { addIngredient, removeIngredient } from '@/store/slices/ingredients.slice'
-import { RootState } from '@/store/store'
+import { useSelector, useDispatch } from 'react-redux';
+import { useGetAllIngredientsQuery } from '@/store/api/api';
+import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingredientModal.slice';
+import { addIngredient, removeIngredient } from '@/store/slices/ingredients.slice';
+import { RootState } from '@/store/store';
 // Local components
-import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox'
+import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox';
 // Type interfaces
-import { Item, IngredientDict } from '@/types/index'
+import { Item, IngredientDict } from '@/types/index';
 
 export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Import props
-    const {item, section} = props;
+    const { item, section } = props;
     // Redux components
-    const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored)
-    const dispatch = useDispatch()
-    const ingredientImagePath = require(`/public/images/ui/${item['Name'].toLowerCase().split(" ").join("-").replaceAll("/", "-")}.webp`)
-    const childrenImagePath = require(`/public/images/ui/more_vert.svg`)
+    const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored);
+    const dispatch = useDispatch();
+    const ingredientImagePath = require(`/public/images/ui/${slug(item)}.webp`);
+    const childrenImagePath = require(`/public/images/ui/more_vert.svg`);
     const allIngredients: Item[] = (useGetAllIngredientsQuery().data || []);
     // React states
     const [isChecked, setIsChecked] = useState(itemInStore(item));
@@ -38,7 +38,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     })();
 
     function itemInStore (item: Item) {
-        const letter = item.Name.charAt(0);
+        const letter: string = item.Name.charAt(0);
         const type: string = item.Type;
 
         if (storedIngredients.hasOwnProperty(type)
@@ -54,9 +54,11 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     }
 
     function aliasInStore(item: Item) {
-        if (storedIngredients.hasOwnProperty(item.Type)) {
-            for (const key of Object.keys(storedIngredients[item.Type])) {
-                const path = storedIngredients[item.Type][key];
+        const type: string = item.Type;
+
+        if (storedIngredients.hasOwnProperty(type)) {
+            for (const key of Object.keys(storedIngredients[type])) {
+                const path = storedIngredients[type][key];
                 
                 if (path.some((ingredient: Item) => ingredient.AliasId === item.Id)) {
                     return true;
@@ -68,7 +70,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     }
 
     function addIngredientToStore () {
-        dispatch(addIngredient(item))
+        dispatch(addIngredient(item));
 
         // Add parent ingredient to store if applicable
         if (item.AliasId) {
@@ -90,14 +92,16 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
 
             const letter = item.Name.charAt(0);
             const ingredientInStore = (() => {
-                if (storedIngredients.hasOwnProperty(item.Type)
-                    && storedIngredients[item.Type].hasOwnProperty(letter)
-                    && storedIngredients[item.Type][`${letter}`].find((ingredient: Item) => ingredient.Name === item.Name)) {
+                const type = item.Type;
+
+                if (storedIngredients.hasOwnProperty(type)
+                    && storedIngredients[type].hasOwnProperty(letter)
+                    && storedIngredients[type][letter].find((ingredient: Item) => ingredient.Name === item.Name)) {
                         return true;
                     }
     
                 return false;
-            })()
+            })();
 
             if (ingredientInStore) {
                 dispatch(removeIngredient(item));
@@ -105,6 +109,10 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
                 addIngredientToStore();
             }
         }
+    }
+
+    function slug (item: Item) {
+        return `${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
     }
 
     // If parent ingredient, see if child ingredient is in store
@@ -122,13 +130,22 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
         <li className={styles.Ingredient}>
             <button className={styles.info} onClick={handleClick}>
                 { hasChildren &&
-                    <Image className={styles.children} alt="Show Varieties" src={childrenImagePath} width="8" height="64" /> }
+                    <Image 
+                        className={styles.children} 
+                        alt="Show Varieties" 
+                        src={childrenImagePath} 
+                        width="8" 
+                        height="64" /> }
                 <div className={styles.icon}>
-                    <Image alt={item.Name} src={ingredientImagePath} />
+                    <Image 
+                        alt={item.Name} 
+                        src={ingredientImagePath} />
                 </div>
-                <IngredientCheckbox item={item} isChecked={isChecked} />
+                <IngredientCheckbox 
+                    item={item} 
+                    isChecked={isChecked} />
             </button>
-            <span>{item['Name']}</span>
+            <span>{item.Name}</span>
         </li>
-    )
+    );
 }

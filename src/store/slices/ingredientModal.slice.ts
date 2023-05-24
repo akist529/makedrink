@@ -1,8 +1,8 @@
 // Redux components
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 // Type interfaces
-import { Item } from '@/types/index'
+import { Item } from '@/types/index';
 
 export const ingredientModalSlice = createSlice({
     name: 'ingredientModal',
@@ -12,21 +12,23 @@ export const ingredientModalSlice = createSlice({
     },
     reducers: {
         toggleIngredientModal: (state) => {
-            state.open = !state.open
+            state.open = !state.open;
         },
         setModalIngredient: (state, action: PayloadAction<Item>) => {
-            state.ingredient = action.payload
+            state.ingredient = action.payload;
         }
     },
     extraReducers: {
         [HYDRATE]: (state, action) => {
-            return {
+            return ({
                 ...state,
-                ...action.payload.ingredientModal
-            }
+                ...state.ingredient,
+                ...action.payload.open,
+                ...action.payload.ingredient
+            });
         }
     }
-})
+});
 
-export const { toggleIngredientModal, setModalIngredient } = ingredientModalSlice.actions
-export default ingredientModalSlice.reducer
+export const { toggleIngredientModal, setModalIngredient } = ingredientModalSlice.actions;
+export default ingredientModalSlice.reducer;

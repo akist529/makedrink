@@ -22,12 +22,20 @@ export default function DrinkTypes (props: { drinkType: string, setDrinkType: Fu
     <div className={styles.DrinkTypes}>
         <button className={drinkType === 'cocktail' ? styles.active : ''} onClick={() => handleClick('cocktail')}>
             <span>Cocktail</span>
-            <Image alt="Cocktail" src={require('/public/images/ui/local_bar.svg')} width="24" height="24" />
+            <Image 
+                alt="Cocktail" 
+                src={require('/public/images/ui/local_bar.svg')} 
+                width="24" 
+                height="24" />
         </button>
         <button className={drinkType === 'mocktail' ? styles.active : ''} onClick={() => handleClick('mocktail')}>
             <span>Mocktail</span>
-            <Image alt="Mocktail" src={require('/public/images/ui/no_drinks.svg')} width="24" height="24" />
+            <Image 
+                alt="Mocktail" 
+                src={require('/public/images/ui/no_drinks.svg')} 
+                width="24" 
+                height="24" />
         </button>
     </div>
-    )
+    );
 }
