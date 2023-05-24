@@ -29,12 +29,15 @@
                 background: none;
                 border: none;
                 cursor: pointer;
+
+                img {
+                    transition: 0.125s;
+                }
             }
 
             .unfavorited {
                 img {
                     filter: invert(52%) sepia(0%) saturate(6%) hue-rotate(200deg) brightness(94%) contrast(98%);
-                    transition: 0.125s;
                 }
 
                 &:hover {
@@ -47,7 +50,6 @@
             .unblocked {
                 img {
                     filter: invert(52%) sepia(0%) saturate(6%) hue-rotate(200deg) brightness(94%) contrast(98%);
-                    transition: 0.125s;
                 }
 
                 &:hover {

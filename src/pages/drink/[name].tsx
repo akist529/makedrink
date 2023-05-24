@@ -42,6 +42,7 @@ const DrinkPage: NextPage = () => {
         if (result && result.data) {
             setDrinkInfo(result.data);
             setDrinkFavorited(drinkIsFavorited(drinkInfo));
+            setDrinkBlocked(drinkIsBlocked(drinkInfo));
         }
     }, [result]);
 
@@ -210,7 +211,7 @@ const DrinkPage: NextPage = () => {
                                 height="48"
                                 onLoadingComplete={e => updateWidth(e)} />
                         </button>
-                        <button className={drinkBlocked ? styles.unblocked : styles.blocked} onClick={() => blockDrink(drinkInfo)}>
+                        <button className={drinkBlocked ? styles.blocked : styles.unblocked} onClick={() => blockDrink(drinkInfo)}>
                             <Image 
                                 alt='Block Drink' 
                                 title='Block Drink' 
