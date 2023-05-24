@@ -21,15 +21,17 @@
 
         header {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 20px;
 
             button {
                 background: none;
                 border: none;
                 cursor: pointer;
-                
+            }
+
+            .unfavorited {
                 img {
                     filter: invert(52%) sepia(0%) saturate(6%) hue-rotate(200deg) brightness(94%) contrast(98%);
                     transition: 0.125s;
@@ -42,9 +44,28 @@
                 }
             }
 
+            .unblocked {
+                img {
+                    filter: invert(52%) sepia(0%) saturate(6%) hue-rotate(200deg) brightness(94%) contrast(98%);
+                    transition: 0.125s;
+                }
+
+                &:hover {
+                    img {
+                        filter: invert(31%) sepia(14%) saturate(6569%) hue-rotate(331deg) brightness(128%) contrast(111%);
+                    }
+                }
+            }
+
             .favorited {
                 img {
                     filter: invert(32%) sepia(74%) saturate(5818%) hue-rotate(299deg) brightness(92%) contrast(135%);
+                }
+            }
+
+            .blocked {
+                img {
+                    filter: invert(11%) sepia(85%) saturate(5222%) hue-rotate(359deg) brightness(123%) contrast(124%);
                 }
             }
         }

@@ -8,7 +8,8 @@ export const drinksSlice = createSlice({
     name: 'drinks',
     initialState: {
         possible: {} as DrinkDict,
-        favorites: {} as DrinkDict
+        favorites: {} as DrinkDict,
+        blocked: {} as DrinkDict
     },
     reducers: {
         addPossibleDrink: (state, action: PayloadAction<DrinkInfo>) => {
@@ -114,6 +115,48 @@ export const drinksSlice = createSlice({
                     });
                 }
             }
+        },
+        addBlockedDrink: (state, action: PayloadAction<DrinkInfo>) => {
+            const letter = action.payload.Name.charAt(0);
+
+            if (state.blocked.hasOwnProperty(letter) && 
+                state.blocked[letter].find(((item: DrinkInfo) => item.Name === action.payload.Name))) {
+                    return;
+                }
+
+            if (!state.blocked.hasOwnProperty(letter)) {
+                state.blocked = ({
+                    ...state.blocked,
+                    [letter]: []
+                });
+            }
+
+            const newArr = state.blocked[letter];
+
+            if (!newArr.find((drink: DrinkInfo) => drink.Name === action.payload.Name)) {
+                newArr.push(action.payload);
+            }
+
+            state.blocked = ({
+                ...state.blocked,
+                [letter]: newArr
+            });
+        },
+        removeBlockedDrink: (state, action: PayloadAction<DrinkInfo>) => {
+            const letter = action.payload.Name.charAt(0);
+
+            if (state.blocked.hasOwnProperty(letter)) {
+                if (state.blocked[letter].find((drink: DrinkInfo) => drink.Name === action.payload.Name)) {
+                    const index = state.blocked[letter].findIndex((drink: DrinkInfo) => drink.Name === action.payload.Name);
+                    const newArr = state.blocked[letter];
+                    newArr.splice(index, 1);
+                    
+                    state.blocked = ({
+                        ...state.blocked,
+                        [letter]: newArr
+                    });
+                }
+            }
         }
     },
     extraReducers: {
@@ -122,12 +165,23 @@ export const drinksSlice = createSlice({
                 ...state,
                 ...state.possible,
                 ...state.favorites,
+                ...state.blocked,
                 ...action.payload.possible,
-                ...action.payload.favorites
+                ...action.payload.favorites,
+                ...action.payload.blocked
             });
         }
     }
 });
 
-export const { addPossibleDrink, addPossibleDrinks, removePossibleDrink, addFavoriteDrink, removeFavoriteDrink } = drinksSlice.actions;
+export const { 
+    addPossibleDrink, 
+    addPossibleDrinks, 
+    removePossibleDrink, 
+    addFavoriteDrink, 
+    removeFavoriteDrink, 
+    addBlockedDrink, 
+    removeBlockedDrink 
+} = drinksSlice.actions;
+
 export default drinksSlice.reducer;

@@ -4,7 +4,7 @@ import styles from '@/styles/Drink.module.scss';
 import { useGetAllDrinksQuery, useLazyGetDrinkInfoQuery } from '@/store/api/api';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
-import { addFavoriteDrink, removeFavoriteDrink } from '@/store/slices/drinks.slice';
+import { addFavoriteDrink, removeFavoriteDrink, addBlockedDrink, removeBlockedDrink } from '@/store/slices/drinks.slice';
 // Next components
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -21,6 +21,7 @@ const DrinkPage: NextPage = () => {
     const [getDrinkInfo, result] = useLazyGetDrinkInfoQuery();
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const favoriteDrinks = useSelector((state: RootState) => state.drinks.favorites);
+    const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
     const router = useRouter();
     const [drinkError, setDrinkError] = useState(false);
     const [recipeError, setRecipeError] = useState(false);
@@ -28,6 +29,7 @@ const DrinkPage: NextPage = () => {
     const dispatch = useDispatch();
     const [drinkFavorited, setDrinkFavorited] = useState(drinkIsFavorited(drinkInfo));
     const [favoriteImagePath, setFavoriteImagePath] = useState(require('/public/images/ui/heart_plus.svg'));
+    const [drinkBlocked, setDrinkBlocked] = useState(drinkIsBlocked(drinkInfo));
 
     useEffect(() => {
         if (router.isReady && allDrinks) {
@@ -50,6 +52,14 @@ const DrinkPage: NextPage = () => {
             setDrinkFavorited(false);
         }
     }, [favoriteDrinks]);
+
+    useEffect(() => {
+        if (Object.keys(drinkInfo).length && drinkIsBlocked(drinkInfo)) {
+            setDrinkBlocked(true);
+        } else {
+            setDrinkBlocked(false);
+        }
+    }, [blockedDrinks]);
 
     useEffect(() => {
         if (drinkFavorited) {
@@ -150,9 +160,30 @@ const DrinkPage: NextPage = () => {
         dispatch(addFavoriteDrink(drink));
     }
 
+    function blockDrink (drink: DrinkInfo) {
+        if (blockedDrinks.hasOwnProperty(drink.Name.charAt(0))) {
+            if (blockedDrinks[drink.Name.charAt(0)].find((item: DrinkInfo) => item.Name === drink.Name)) {
+                dispatch(removeBlockedDrink(drink));
+                return;
+            }
+        }
+
+        dispatch(addBlockedDrink(drink));
+    }
+
     function drinkIsFavorited (drink: DrinkInfo) {
         if (Object.keys(drink).length && favoriteDrinks.hasOwnProperty(drink.Name.charAt(0))) {
             if (favoriteDrinks[drink.Name.charAt(0)].find((item: DrinkInfo) => item.Name === drink.Name)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    function drinkIsBlocked (drink: DrinkInfo) {
+        if (Object.keys(drink).length && blockedDrinks.hasOwnProperty(drink.Name.charAt(0))) {
+            if (blockedDrinks[drink.Name.charAt(0)].find((item: DrinkInfo) => item.Name === drink.Name)) {
                 return true;
             }
         }
@@ -169,14 +200,26 @@ const DrinkPage: NextPage = () => {
                 { recipeError && <strong>You are missing ingredients for this recipe!</strong> }
                 <header>
                     <h1>{drinkInfo.Name}</h1>
-                    <button onClick={() => favoriteDrink(drinkInfo)} {...drinkFavorited && {className: styles.favorited}}>
-                        <Image 
-                            alt='Favorite Drink' 
-                            src={favoriteImagePath} 
-                            width="0" 
-                            height="48"
-                            onLoadingComplete={e => updateWidth(e)} />
-                    </button>
+                    <div>
+                        <button className={drinkFavorited ? styles.favorited : styles.unfavorited} onClick={() => favoriteDrink(drinkInfo)}>
+                            <Image 
+                                alt='Favorite Drink' 
+                                title='Favorite Drink' 
+                                src={favoriteImagePath} 
+                                width="0" 
+                                height="48"
+                                onLoadingComplete={e => updateWidth(e)} />
+                        </button>
+                        <button className={drinkBlocked ? styles.unblocked : styles.blocked} onClick={() => blockDrink(drinkInfo)}>
+                            <Image 
+                                alt='Block Drink' 
+                                title='Block Drink' 
+                                src={require('/public/images/ui/block.svg')} 
+                                width="0" 
+                                height="48" 
+                                onLoadingComplete={e => updateWidth(e)} />
+                        </button>
+                    </div>
                 </header>
                 <section>
                     <h2>Ingredients</h2>
