@@ -32,14 +32,20 @@ export default function NavMenuCategory(props: { type: string }) {
         <li className={styles.NavMenuCategory}>
             <button>
                 <span>{type}</span>
-                <Image alt='Expand' src={imagePath} width="40" height="40" />
+                <Image 
+                    alt='Expand' 
+                    src={imagePath} 
+                    width="40" 
+                    height="40" />
             </button>
             <ul>
                 { menuItems.map((item: Item, index: number) => {
                     return (
                         <li key={index}>
                             <Link href={`/${item.Name.toLowerCase()}`}>
-                                <NavMenuItem item={item.Name} />
+                                <NavMenuItem 
+                                    item={item.Name} 
+                                    img='cocktail.webp' />
                             </Link>
                         </li>
                     );
