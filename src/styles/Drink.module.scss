@@ -87,15 +87,19 @@
             }
 
             article {
-                font-size: 20px;
-                display: flex;
-                flex-direction: column;
-                text-align: center;
-                align-items: center;
-                gap: 10px;
-
-                hr {
-                    width: 50%;
+                div {
+                    font-size: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    text-align: center;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+    
+                    hr {
+                        width: 50%;
+                        border-radius: 50%;
+                    }
                 }
             }
         }
