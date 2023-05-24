@@ -16,6 +16,7 @@ import { DrinkDict, DrinkInfo, Ingredient, IngredientDict, Item } from '@/types/
 const FilteredDrinksPage: NextPage = () => {
     const possibleDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.possible);
     const selectedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.selected);
+    const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
     const [firstDrink, setFirstDrink] = useState(0);
     const [lastDrink, setLastDrink] = useState(20);
 
@@ -24,6 +25,12 @@ const FilteredDrinksPage: NextPage = () => {
 
         for (const key of Object.keys(possibleDrinks)) {
             for (const item of possibleDrinks[key]) {
+                if (blockedDrinks.hasOwnProperty(item.Name.charAt(0))) {
+                    if (blockedDrinks[item.Name.charAt(0)].find((drink: DrinkInfo) => drink.Name === item.Name)) {
+                        continue;
+                    }
+                }
+
                 if (item.Recipe.every((ingredient: Ingredient) => {
                     for (const type of Object.keys(selectedIngredients)) {
                         for (const key of Object.keys(selectedIngredients[type])) {
