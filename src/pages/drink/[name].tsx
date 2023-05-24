@@ -159,6 +159,7 @@ const DrinkPage: NextPage = () => {
         }
 
         dispatch(addFavoriteDrink(drink));
+        dispatch(removeBlockedDrink(drink));
     }
 
     function blockDrink (drink: DrinkInfo) {
@@ -170,6 +171,7 @@ const DrinkPage: NextPage = () => {
         }
 
         dispatch(addBlockedDrink(drink));
+        dispatch(removeFavoriteDrink(drink));
     }
 
     function drinkIsFavorited (drink: DrinkInfo) {
