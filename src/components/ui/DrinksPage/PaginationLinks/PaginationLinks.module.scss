@@ -1,17 +1,46 @@
 .PaginationLinks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+        background: none;
+        border: none;
+        cursor: pointer;
+
+        img {
+            filter: invert(1);
+        }
+    }
+
     ul {
         list-style-type: none;
         display: grid;
-        grid-template-columns: repeat(4, 80px);
+        grid-template-columns: repeat(5, 40px);
         justify-items: center;
         align-items: center;
+        width: 200px;
 
         li {
-            .pageBtn {
-                background: none;
+            button {
+                background: black;
                 border: none;
+                border-radius: 50%;
                 cursor: pointer;
                 color: white;
+                font-family: 'Oswald';
+                font-size: 24px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .activeBtn {
+                color: black;
+                background: white;
+
+                span {
+                    transform: scale(1.2);
+                }
             }
         }
     }

@@ -21,6 +21,7 @@ const AllDrinksPage: NextPage = () => {
     const [pageNums, setPageNums] = useState([] as string[]);
     const [drinksList, setDrinksList] = useState([] as DrinkInfo[]);
     const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
+    const [activePage, setActivePage] = useState(1);
 
     useEffect(() => {
         if (!isLoading) {
@@ -70,7 +71,9 @@ const AllDrinksPage: NextPage = () => {
                 <PaginationLinks 
                     pageNums={pageNums} 
                     setFirstDrink={setFirstDrink} 
-                    setLastDrink={setLastDrink} />
+                    setLastDrink={setLastDrink} 
+                    activePage={activePage} 
+                    setActivePage={setActivePage} />
                 <section>
                     <ul>
                         { drinksList.slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
@@ -81,7 +84,9 @@ const AllDrinksPage: NextPage = () => {
                 <PaginationLinks 
                     pageNums={pageNums} 
                     setFirstDrink={setFirstDrink} 
-                    setLastDrink={setLastDrink} />
+                    setLastDrink={setLastDrink} 
+                    activePage={activePage} 
+                    setActivePage={setActivePage} />
             </main> }
         </>
     );
