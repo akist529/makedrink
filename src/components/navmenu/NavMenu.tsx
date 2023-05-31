@@ -7,13 +7,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { toggleNavMenu } from '@/store/slices/navMenu.slice';
 // Local components
-import NavMenuCategory from '@/components/navmenu/category/NavMenuCategory';
 import NavMenuItem from '@/components/navmenu/item/NavMenuItem';
 
 export default function NavMenu () {
     // Redux selectors
     const { navMenuOpen } = useSelector((state: RootState) => state.navMenu);
-    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
 
     const navStyles = [styles.NavMenu, (navMenuOpen ?  styles.open : styles.closed)].join(' ');
