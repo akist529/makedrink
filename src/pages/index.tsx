@@ -43,8 +43,6 @@ const HomePage: NextPage = () => {
         setRandomDrink(drink);
       }
     }
-
-    document.getElementById('drink')?.scrollIntoView({ behavior: 'smooth' });
   }
 
   function findIngredientType(type: string) {
@@ -60,8 +58,26 @@ const HomePage: NextPage = () => {
   }
 
   useEffect(() => {
-    document.getElementById('form')?.scrollIntoView({ behavior: 'smooth' });
+    const id = 'form';
+    const yOffset = -100;
+    const element = document.getElementById(id);
+
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    }
   }, [drinkType, dispatch]);
+
+  useEffect(() => {
+    const id = 'drink';
+    const yOffset = -100;
+    const element = document.getElementById(id);
+
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    }
+  }, [randomDrink]);
 
   return (
     <main className={styles.Home}>
@@ -128,17 +144,16 @@ const HomePage: NextPage = () => {
       { (drinkType || Object.keys(randomDrink).length > 0) && <nav>
         <ScrollButton link='#drink' />
       </nav> }
-      { randomDrink && <section className={styles.drinkSection}>
+      { randomDrink && <section id='drink' className={styles.drinkSection}>
         { (Object.keys(randomDrink).length > 0) && 
           <RandomDrink 
             randomDrink={randomDrink} 
             getRandomDrink={getRandomDrink} /> }
-        <span className={styles.drinkAnchor} id='drink'></span>
       </section> }
       { (drinkType && Object.keys(randomDrink).length > 0) && <nav>
         <ScrollButton link='#form' />
       </nav> }
-      <section className={styles.formSection}>
+      <section id='form' className={styles.formSection}>
         { Object.keys(storedIngredients).length > 0 && 
         <form>
           { (drinkType === 'cocktail') && 
@@ -173,7 +188,6 @@ const HomePage: NextPage = () => {
               height="64" />
           </button>
         </Link> }
-        <span className={styles.formAnchor} id='form'></span>
       </section>
     </main>
   )

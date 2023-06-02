@@ -92,6 +92,15 @@
         }
     }
 
+    .drinkSection {
+        position: relative;
+
+        .drinkAnchor {
+            position: absolute;
+            bottom: 100%;
+        }
+    }
+
     .formSection {
         display: flex;
         flex-direction: column;
@@ -128,6 +137,11 @@
                 }
             }
         }
+
+        .formAnchor {
+            position: absolute;
+            transform: translateY(-100px);
+        }
     }
 
     a {
@@ -139,16 +153,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-
-    .drinkAnchor {
-        position: absolute;
-        transform: translateY(-80vh);
-    }
-
-    .formAnchor {
-        position: absolute;
-        transform: translateY(-100px);
     }
 }
 
