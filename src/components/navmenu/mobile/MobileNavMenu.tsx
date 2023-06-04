@@ -1,34 +1,20 @@
 // Component styles
-import styles from './NavMenu.module.scss';
-// React components
-import { useEffect } from 'react';
+import styles from './MobileNavMenu.module.scss';
 // Next components
 import Link from 'next/link';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
-import { toggleNavMenu, openNavMenu, closeNavMenu } from '@/store/slices/navMenu.slice';
+import { toggleNavMenu } from '@/store/slices/navMenu.slice';
 // Local components
 import NavMenuItem from '@/components/navmenu/item/NavMenuItem';
 
-export default function NavMenu () {
+export default function MobileNavMenu () {
     // Redux selectors
     const { navMenuOpen } = useSelector((state: RootState) => state.navMenu);
     const dispatch = useDispatch();
 
     const navStyles = [styles.NavMenu, (navMenuOpen ?  styles.open : styles.closed)].join(' ');
-
-    useEffect(() => {
-        const onResize = () => {
-            if (window.innerWidth >= 768) {
-                dispatch(openNavMenu());
-            } else {
-                dispatch(closeNavMenu());
-            }
-        }
-  
-        window.addEventListener('resize', onResize);
-    }, []);
 
     return (
         <nav className={navStyles}>

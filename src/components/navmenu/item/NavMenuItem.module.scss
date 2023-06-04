@@ -11,9 +11,10 @@
     background: none;
     border: none;
     color: white;
-    font-family: 'Nunito';
+    font-family: 'Oswald';
     font-size: 24px;
     cursor: pointer;
+    text-transform: uppercase;
 
     &:hover {
         background: rgb(0, 0, 66);
@@ -21,5 +22,22 @@
 
     img {
         filter: invert(1);
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .NavMenuItem {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        justify-content: center;
+        justify-items: center;
+        gap: 0;
+        padding: 0;
+        font-size: 20px;
+        height: 100%;
+
+        img {
+            width: 32px;
+        }
     }
 }

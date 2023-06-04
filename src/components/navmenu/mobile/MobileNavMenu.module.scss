@@ -34,24 +34,8 @@
     left: -100%;
 }
 
-@keyframes navmenu-spawn {
-    from {
-        left: -100%;
-    } to {
-        left: 0%;
-    }
-}
-
-@keyframes navmenu-despawn {
-    from {
-        left: 0%;
-    } to {
-        left: -100%;
-    }
-}
-
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 600px) {
     .NavMenu {
-        animation: none;
+        transition: 0s;
     }
 }

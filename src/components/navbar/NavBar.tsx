@@ -3,35 +3,43 @@ import styles from './NavBar.module.scss';
 // React components
 import { useEffect, useState } from 'react';
 // Redux components
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
+import { openNavMenu, closeNavMenu } from '@/store/slices/navMenu.slice';
 // Local components
 import BurgerButton from '@/components/buttons/BurgerButton/BurgerButton';
 import SearchButton from '@/components/buttons/SearchButton/SearchButton';
 import SearchInput from '@/components/inputs/SearchInput/SearchInput';
+import DesktopNavMenu from '@/components/navmenu/desktop/DesktopNavMenu';
 // Next components
 import Link from 'next/link';
 
 export default function NavBar() {
     const { searchOpen } = useSelector((state: RootState) => state.search);
     const arrOfLetters = 'BAR.HOME'.split('');
-    const [showMobileNav, setShowMobileNav] = useState(true);
+    const [displayMode, setDisplayMode] = useState('');
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const onResize = () => {
-            if (window.innerWidth >= 768) {
-                setShowMobileNav(false);
+            if (window.innerWidth < 600) {
+                setDisplayMode('mobile');
+                dispatch(closeNavMenu());
+            } else if (window.innerWidth < 992) {
+                setDisplayMode('tablet');
+                dispatch(openNavMenu());
             } else {
-                setShowMobileNav(true);
+                setDisplayMode('laptop');
+                dispatch(closeNavMenu());
             }
         }
 
         window.addEventListener('resize', onResize);
-    }, []);
+    }, [dispatch]);
 
     return (
         <nav className={styles.NavBar}>
-            { showMobileNav && <BurgerButton /> }
+            { displayMode === 'mobile' && <BurgerButton /> }
             { !searchOpen && 
                 <Link href='/'>
                     <h1>
@@ -42,8 +50,10 @@ export default function NavBar() {
                         })}
                     </h1>
                 </Link> }
-            { showMobileNav && !searchOpen && <SearchButton /> }
-            { showMobileNav && searchOpen && <SearchInput /> }
+            { displayMode === 'laptop' && 
+                <DesktopNavMenu /> }
+            { !searchOpen && <SearchButton /> }
+            { searchOpen && <SearchInput /> }
         </nav>
     );
 }

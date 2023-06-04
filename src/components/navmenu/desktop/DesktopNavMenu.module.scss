@@ -1,0 +1,21 @@
+.NavMenu {
+    color: white;
+    font-family: 'Nunito';
+    font-size: 32px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+
+    ul {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+
+        a {
+            text-decoration: none;
+            width: 100%;
+        }
+    }
+}
