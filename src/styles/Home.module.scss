@@ -3,11 +3,13 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(5, auto);
-    justify-items: center;
+    justify-content: center;
     align-items: center;
-    padding: 120px 0;
+    position: relative;
+    top: 100px;
     min-height: 100vh;
     text-align: center;
+    overflow: scroll;
 
     /* Visual */
     background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 42px 42px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 42px 42px;
@@ -20,7 +22,6 @@
     .landingSection {
         display: flex;
         flex-direction: column;
-        justify-content: space-evenly;
         align-items: center;
         height: calc(80vh - 120px);
 
@@ -170,10 +171,20 @@
     }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 600px) {
     .Home {
         width: calc(100vw - 230px);
         position: relative;
         left: 230px;
+        top: 0;
+        padding: 0 10px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .Home {
+        width: 100vw;
+        left: 0;
+        padding: 180px 10px;
     }
 }

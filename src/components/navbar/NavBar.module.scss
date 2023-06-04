@@ -23,9 +23,9 @@
         border-radius: 6px;
         padding: 5px;
         box-shadow: inset 0 0 10px rgb(0, 0, 163), 0 0 30px rgb(0, 0, 190);
-        width: 210px;
+        width: auto;
 
-        @for $i from 1 to 9 {
+        @for $i from 1 to 10 {
             span:nth-child(#{$i}) {
                 color: rgb(255, 215, 222);
                 text-shadow:
@@ -64,8 +64,27 @@
     }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 600px) {
     .NavBar {
-        width: auto;
+        width: 250px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .NavBar {
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        grid-template-rows: 100px;
+        width: 100%;
+        justify-items: center;
+        align-items: center;
+        gap: 20px;
+        height: 120px;
+        padding: 10px;
+
+        h1 {
+            grid-column: 1 / 2;
+            grid-row: 1 / -1;
+        }
     }
 }

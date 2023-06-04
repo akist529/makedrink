@@ -10,7 +10,7 @@ import { persistor, store } from '@/store/store';
 // Local components
 import IngredientModal from '@/components/ui/IngredientsPage/IngredientModal/IngredientModal';
 import NavBar from '@/components/navbar/NavBar';
-import NavMenu from '@/components/navmenu/NavMenu';
+import MobileNavMenu from '@/components/navmenu/mobile/MobileNavMenu';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -19,7 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <div className="app">
           <IngredientModal />
           <NavBar />
-          <NavMenu />
+          <MobileNavMenu />
           <Component {...pageProps} className="page" />
         </div>
       </PersistGate>

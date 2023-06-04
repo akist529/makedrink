@@ -123,3 +123,20 @@
         }
     }
 }
+
+@media only screen and (min-width: 600px) {
+    .Drink {
+        width: calc(100vw - 230px);
+        position: relative;
+        left: 230px;
+        padding: 60px 10px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .Drink {
+        width: 100vw;
+        left: 0;
+        padding: 180px 10px;
+    }
+}
