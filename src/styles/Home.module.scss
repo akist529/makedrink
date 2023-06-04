@@ -92,6 +92,15 @@
         }
     }
 
+    .drinkSection {
+        position: relative;
+
+        .drinkAnchor {
+            position: absolute;
+            bottom: 100%;
+        }
+    }
+
     .formSection {
         display: flex;
         flex-direction: column;
@@ -128,6 +137,11 @@
                 }
             }
         }
+
+        .formAnchor {
+            position: absolute;
+            transform: translateY(-100px);
+        }
     }
 
     a {
@@ -139,16 +153,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-
-    .drinkAnchor {
-        position: absolute;
-        transform: translateY(-80vh);
-    }
-
-    .formAnchor {
-        position: absolute;
-        transform: translateY(-100px);
     }
 }
 
@@ -163,5 +167,13 @@
         color: rgb(255, 0, 191);
     } 40% {
         color: rgb(255, 160, 231);
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .Home {
+        width: calc(100vw - 230px);
+        position: relative;
+        left: 230px;
     }
 }

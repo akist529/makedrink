@@ -1,5 +1,7 @@
 // Component styles
 import styles from './NavBar.module.scss';
+// React components
+import { useEffect, useState } from 'react';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -13,10 +15,23 @@ import Link from 'next/link';
 export default function NavBar() {
     const { searchOpen } = useSelector((state: RootState) => state.search);
     const arrOfLetters = 'BAR.HOME'.split('');
+    const [showMobileNav, setShowMobileNav] = useState(true);
+
+    useEffect(() => {
+        const onResize = () => {
+            if (window.innerWidth >= 768) {
+                setShowMobileNav(false);
+            } else {
+                setShowMobileNav(true);
+            }
+        }
+
+        window.addEventListener('resize', onResize);
+    }, []);
 
     return (
         <nav className={styles.NavBar}>
-            <BurgerButton />
+            { showMobileNav && <BurgerButton /> }
             { !searchOpen && 
                 <Link href='/'>
                     <h1>
@@ -27,8 +42,8 @@ export default function NavBar() {
                         })}
                     </h1>
                 </Link> }
-            { !searchOpen && <SearchButton /> }
-            { searchOpen && <SearchInput /> }
+            { showMobileNav && !searchOpen && <SearchButton /> }
+            { showMobileNav && searchOpen && <SearchInput /> }
         </nav>
     );
 }

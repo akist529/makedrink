@@ -6,6 +6,7 @@ import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from '@/store/store';
+
 // Local components
 import IngredientModal from '@/components/ui/IngredientsPage/IngredientModal/IngredientModal';
 import NavBar from '@/components/navbar/NavBar';
