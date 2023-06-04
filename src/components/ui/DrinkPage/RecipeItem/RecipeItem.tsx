@@ -8,9 +8,8 @@ export default function RecipeItem (props: { ingredient: any, missing: boolean }
     const [itemWidth, setItemWidth] = useState(0);
 
     const unit = (() => {
-        if (ingredient.Amount > 1 && 
-        ingredient.Unit[ingredient.Unit.length - 1] !== 's') {
-            return `${ingredient.Unit}s`;
+        if (ingredient.Unit === 'ounce') {
+            return 'oz';
         } else {
             return ingredient.Unit;
         }

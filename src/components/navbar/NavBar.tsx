@@ -18,7 +18,7 @@ import Link from 'next/link';
 
 export default function NavBar() {
     const { searchOpen } = useSelector((state: RootState) => state.search);
-    const arrOfLetters = 'BAR.HOME'.split('');
+    const arrOfLetters = 'MAKEDRINK'.split('');
     const [displayMode, setDisplayMode] = useState('');
     const dispatch = useDispatch();
 
