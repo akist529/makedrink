@@ -1,0 +1,23 @@
+.SearchBar {
+    background: linear-gradient(to bottom, black, rgba(0,0,0,0));
+    width: calc(100vw - 230px);
+    height: 60px;
+    position: fixed;
+    top: 0;
+    left: 230px;
+    padding: 0 10px;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+@media only screen and (min-width: 992px) {
+    .SearchBar {
+        width: 100vw;
+        top: 120px;
+        left: 0;
+        flex-direction: row-reverse;
+    }
+}
