@@ -26,6 +26,14 @@
     }
 }
 
+.active {
+    color: #ff00bf;
+
+    img {
+        filter: invert(91%) sepia(13%) saturate(4913%) hue-rotate(281deg) brightness(107%) contrast(104%);
+    }
+}
+
 @media only screen and (min-width: 992px) {
     .NavMenuItem {
         display: grid;
