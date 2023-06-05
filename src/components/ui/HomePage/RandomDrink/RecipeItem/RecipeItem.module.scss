@@ -1,0 +1,25 @@
+.RecipeItem {
+    display: grid;
+    grid-template-columns: 200px 24px;
+    align-items: center;
+
+    .altIngredient {
+        display: flex;
+
+        align-items: center;
+        gap: 10px;
+
+        img {
+            filter: invert(1);
+        }
+    }
+
+    span {
+        justify-self: left;
+        font-size: 20px;
+    }
+
+    img {
+        justify-self: center;
+    }
+}

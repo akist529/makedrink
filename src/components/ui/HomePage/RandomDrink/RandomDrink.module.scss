@@ -25,18 +25,6 @@
         grid-template-rows: repeat(auto-fill, auto);
         grid-template-columns: auto;
         row-gap: 5px;
-
-        .ingredient {
-            display: grid;
-            grid-template-columns: 200px 24px;
-            justify-items: center;
-            align-items: center;
-    
-            span {
-                justify-self: left;
-                font-size: 20px;
-            }
-        }
     }
 
     button {

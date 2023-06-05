@@ -8,6 +8,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 // Type imports
 import { DrinkInfo, Item, Ingredient } from '@/types/index';
+// Local components
+import RecipeItem from './RecipeItem/RecipeItem';
 
 export default function RandomDrink (props: { randomDrink: DrinkInfo, getRandomDrink: Function }) {
     const { randomDrink, getRandomDrink } = props;
@@ -21,13 +23,10 @@ export default function RandomDrink (props: { randomDrink: DrinkInfo, getRandomD
             if (storedIngredients[key].hasOwnProperty(letter)
                 && storedIngredients[key][letter].find((item: Item) => item.Name === ingredient.Name)) {
                 return (
-                    <li key={index} className={styles.ingredient}>
-                        <span>{ingredient.Name}</span>
-                        <Image 
-                            alt={ingredient.Name} 
-                            src={require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} 
-                            height="24" />
-                    </li>
+                    <RecipeItem 
+                        index={index} 
+                        ingredient={ingredient} 
+                        isSub={false} />
                 );
             }
         }
@@ -45,13 +44,10 @@ export default function RandomDrink (props: { randomDrink: DrinkInfo, getRandomD
     
                                 if (substitute) {
                                     return (
-                                        <li key={index} className={styles.ingredient}>
-                                        <span>{substitute.Name}</span>
-                                        <Image 
-                                            alt={substitute.Name} 
-                                            src={require(`/public/images/ui/${substitute.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} 
-                                            height="24" />
-                                    </li>
+                                        <RecipeItem 
+                                            index={index} 
+                                            ingredient={substitute} 
+                                            isSub={true} />
                                     );
                                 }
                             }
@@ -60,7 +56,10 @@ export default function RandomDrink (props: { randomDrink: DrinkInfo, getRandomD
 
                     if (alias) {
                         return (
-                            <li key={index}>{alias.Name}</li>
+                            <RecipeItem 
+                                index={index} 
+                                ingredient={alias} 
+                                isSub={true} />
                         );
                     }
                 }
