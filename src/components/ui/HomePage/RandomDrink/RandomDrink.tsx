@@ -45,7 +45,13 @@ export default function RandomDrink (props: { randomDrink: DrinkInfo, getRandomD
     
                                 if (substitute) {
                                     return (
-                                        <li key={index}>{substitute.Name}</li>
+                                        <li key={index} className={styles.ingredient}>
+                                        <span>{substitute.Name}</span>
+                                        <Image 
+                                            alt={substitute.Name} 
+                                            src={require(`/public/images/ui/${substitute.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} 
+                                            height="24" />
+                                    </li>
                                     );
                                 }
                             }
