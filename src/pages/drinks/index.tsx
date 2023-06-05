@@ -77,7 +77,9 @@ const AllDrinksPage: NextPage = () => {
                 <section>
                     <ul>
                         { drinksList.slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
-                            return (<DrinkCard drink={drink} key={index} />);
+                            return (
+                                <DrinkCard drink={drink} key={index} />
+                            );
                         }) }
                     </ul>
                 </section>

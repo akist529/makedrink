@@ -42,10 +42,10 @@ export default function IngredientModal() {
                                 alt={modalIngredient.Name} 
                                 src={require(`/public/images/ui/${slug(modalIngredient)}.webp`)} />
                         </div>
-                        <div className={styles.childList}>
+                        <ul className={styles.childList}>
                             { data.filter((ingredient: Item) => ingredient.AliasId === modalIngredient.Id)
                                 .map(ingredient => <Ingredient key={ingredient.Id} item={ingredient} section={[]} />) }
-                        </div>
+                        </ul>
                     </div>
                 </div> }
             { isLoading &&
