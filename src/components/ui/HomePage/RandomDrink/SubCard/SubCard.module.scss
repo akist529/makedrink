@@ -1,17 +1,42 @@
 .SubCard {
-    width: 100%;
-    min-height: 100px;
+    width: auto;
     background: black;
     color: white;
     position: fixed;
     top: 100px;
-    left: 0px;
-    padding: 40px 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px;
     border: 2px solid white;
+    min-width: 250px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     button {
         position: absolute;
-        top: 10px;
-        right: 10px;
+        top: 0;
+        right: 0;
+    }
+
+    strong {
+        font-family: 'Nunito';
+    }
+
+    .ingredients {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        max-width: 200px;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .SubCard {
+        left: calc(50% + 125px);
+        top: 40px;
     }
 }

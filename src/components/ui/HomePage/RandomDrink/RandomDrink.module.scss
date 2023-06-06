@@ -2,9 +2,11 @@
     /* Positioning */
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     width: 300px;
     padding: 10px;
+    gap: 10px;
 
     /* Visual */
     background-color: #111111;
@@ -22,8 +24,7 @@
 
     .ingredients {
         display: grid;
-        grid-template-rows: repeat(auto-fill, auto);
-        grid-template-columns: auto;
+        grid-template-columns: 200px;
         row-gap: 5px;
         width: 100%;
     }

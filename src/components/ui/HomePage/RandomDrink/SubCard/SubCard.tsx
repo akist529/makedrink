@@ -29,8 +29,8 @@ export default function SubCard (props: { showSubCard: boolean, setShowSubCard: 
 
     return (
         <div className={styles.SubCard}>
-            <span>Other Alternatives:</span>
-            <ul>
+            <strong>Other Alternatives:</strong>
+            <ul className={styles.ingredients}>
                 { getAltIngredients().map((item: Item, index: number) => {
                     return (
                         <RecipeItem 
