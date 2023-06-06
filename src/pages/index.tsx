@@ -80,7 +80,7 @@ const HomePage: NextPage = () => {
   }, [randomDrink]);
 
   return (
-    <main className={styles.Home}>
+    <main className={styles.HomePage}>
       <section id="landing" className={styles.landingSection}>
         <header>
           <h1>What Can I Make?</h1>
@@ -144,7 +144,7 @@ const HomePage: NextPage = () => {
       { (drinkType || Object.keys(randomDrink).length > 0) && <nav>
         <ScrollButton link='#drink' />
       </nav> }
-      { randomDrink && <section id='drink' className={styles.drinkSection}>
+      { Object.keys(randomDrink).length > 0 && <section id='drink' className={styles.drinkSection}>
         { (Object.keys(randomDrink).length > 0) && 
           <RandomDrink 
             randomDrink={randomDrink} 
@@ -153,7 +153,7 @@ const HomePage: NextPage = () => {
       { (drinkType && Object.keys(randomDrink).length > 0) && <nav>
         <ScrollButton link='#form' />
       </nav> }
-      <section id='form' className={styles.formSection}>
+      { drinkType && <section id='form' className={styles.formSection}>
         { Object.keys(storedIngredients).length > 0 && 
         <form>
           { (drinkType === 'cocktail') && 
@@ -188,7 +188,7 @@ const HomePage: NextPage = () => {
               height="64" />
           </button>
         </Link> }
-      </section>
+      </section> }
     </main>
   )
 }

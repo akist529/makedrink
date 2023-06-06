@@ -1,10 +1,10 @@
-.Home {
+.HomePage {
     /* Positioning */
     display: grid;
     grid-template-columns: 1fr;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: calc(100vh - 100px);
     text-align: center;
     overflow: scroll;
     margin-top: 100px;
@@ -136,11 +136,6 @@
                 }
             }
         }
-
-        .formAnchor {
-            position: absolute;
-            transform: translateY(-100px);
-        }
     }
 
     a {
@@ -169,19 +164,20 @@
 }
 
 @media only screen and (min-width: 600px) {
-    .Home {
+    .HomePage {
         width: calc(100vw - 250px);
         position: relative;
         left: 250px;
-        top: 0px;
-        padding: 50px 10px;
+        margin-top: 0;
+        padding: 75px 20px;
     }
 }
 
 @media only screen and (min-width: 992px) {
-    .Home {
+    .HomePage {
         width: 100vw;
         left: 0;
+        margin-top: 100px;
         padding: 180px 10px;
     }
 }

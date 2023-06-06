@@ -19,6 +19,7 @@ const FilteredDrinksPage: NextPage = () => {
     const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
     const [firstDrink, setFirstDrink] = useState(0);
     const [lastDrink, setLastDrink] = useState(20);
+    const [activePage, setActivePage] = useState(0);
 
     const drinksList = (() => {
         const arr = [];
@@ -74,7 +75,9 @@ const FilteredDrinksPage: NextPage = () => {
                     <PaginationLinks 
                         pageNums={pageNums} 
                         setFirstDrink={setFirstDrink} 
-                        setLastDrink={setLastDrink} />
+                        setLastDrink={setLastDrink}
+                        activePage={activePage}
+                        setActivePage={setActivePage} />
                     <section>
                         <ul>
                             { drinksList.slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
@@ -85,7 +88,9 @@ const FilteredDrinksPage: NextPage = () => {
                     <PaginationLinks 
                         pageNums={pageNums} 
                         setFirstDrink={setFirstDrink} 
-                        setLastDrink={setLastDrink} />
+                        setLastDrink={setLastDrink}
+                        activePage={activePage}
+                        setActivePage={setActivePage} />
                 </main> }
         </>
     );

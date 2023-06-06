@@ -17,6 +17,7 @@ const FavoriteDrinksPage: NextPage = () => {
     const favoriteDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.favorites);
     const [firstDrink, setFirstDrink] = useState(0);
     const [lastDrink, setLastDrink] = useState(20);
+    const [activePage, setActivePage] = useState(0);
 
     const drinksList = (() => {
         const arr = [];
@@ -54,7 +55,9 @@ const FavoriteDrinksPage: NextPage = () => {
                 <PaginationLinks 
                     pageNums={pageNums} 
                     setFirstDrink={setFirstDrink} 
-                    setLastDrink={setLastDrink} />
+                    setLastDrink={setLastDrink}
+                    activePage={activePage}
+                    setActivePage={setActivePage} />
                 <section>
                     <ul>
                         { drinksList.slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
@@ -65,7 +68,9 @@ const FavoriteDrinksPage: NextPage = () => {
                 <PaginationLinks 
                     pageNums={pageNums} 
                     setFirstDrink={setFirstDrink} 
-                    setLastDrink={setLastDrink} />
+                    setLastDrink={setLastDrink}
+                    activePage={activePage}
+                    setActivePage={setActivePage} />
             </main> }
         </>
     );
