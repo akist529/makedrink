@@ -21,7 +21,7 @@ const AllDrinksPage: NextPage = () => {
     const [pageNums, setPageNums] = useState([] as string[]);
     const [drinksList, setDrinksList] = useState([] as DrinkInfo[]);
     const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
-    const [activePage, setActivePage] = useState(1);
+    const [activePage, setActivePage] = useState(0);
 
     useEffect(() => {
         if (!isLoading) {
