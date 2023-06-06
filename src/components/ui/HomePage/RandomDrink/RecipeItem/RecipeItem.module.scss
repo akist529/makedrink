@@ -1,11 +1,10 @@
 .RecipeItem {
     display: grid;
-    grid-template-columns: 200px 24px;
+    grid-template-columns: 1fr 24px;
     align-items: center;
 
     .altIngredient {
         display: flex;
-
         align-items: center;
         gap: 10px;
 

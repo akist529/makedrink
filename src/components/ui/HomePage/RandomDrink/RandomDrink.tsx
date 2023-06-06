@@ -20,14 +20,17 @@ export default function RandomDrink (props: { randomDrink: DrinkInfo, getRandomD
 
         // Try to find recipe ingredient
         for (const key of Object.keys(storedIngredients)) {
-            if (storedIngredients[key].hasOwnProperty(letter)
-                && storedIngredients[key][letter].find((item: Item) => item.Name === ingredient.Name)) {
-                return (
-                    <RecipeItem 
-                        index={index} 
-                        ingredient={ingredient} 
-                        isSub={false} />
-                );
+            if (storedIngredients[key].hasOwnProperty(letter)) {
+                const item = storedIngredients[key][letter].filter((item: Item) => item.Name === ingredient.Name);
+                
+                if (item.length) {
+                    return (
+                        <RecipeItem 
+                            key={index} 
+                            ingredient={item[0]} 
+                            isSub={false} />
+                    );
+                }
             }
         }
 
@@ -45,7 +48,7 @@ export default function RandomDrink (props: { randomDrink: DrinkInfo, getRandomD
                                 if (substitute) {
                                     return (
                                         <RecipeItem 
-                                            index={index} 
+                                            key={index}
                                             ingredient={substitute} 
                                             isSub={true} />
                                     );
@@ -57,7 +60,7 @@ export default function RandomDrink (props: { randomDrink: DrinkInfo, getRandomD
                     if (alias) {
                         return (
                             <RecipeItem 
-                                index={index} 
+                                key={index} 
                                 ingredient={alias} 
                                 isSub={true} />
                         );

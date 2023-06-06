@@ -3,26 +3,26 @@ import { Ingredient, Item } from '@/types/index';
 import Image from 'next/image';
 import SubCard from '../SubCard/SubCard';
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
-export default function RecipeItem (props: { index: number, ingredient: Ingredient | Item, isSub: boolean }) {
-    const { index, ingredient, isSub } = props;
+export default function RecipeItem (props: { ingredient: Item, isSub: boolean }) {
+    const { ingredient, isSub } = props;
     const slug = require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`);
     const [showSubCard, setShowSubCard] = useState(false);
-    const [screenX, setScreenX] = useState(0);
-    const [screenY, setScreenY] = useState(0);
+    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
     function handleClick (e: any) {
-        setScreenX(e.screenX);
-        setScreenY(e.screenY);
-        setShowSubCard(prevState => !prevState);
+        for (const key of Object.keys(storedIngredients[ingredient.Type])) {
+            if (storedIngredients[ingredient.Type][key].find((item: Item) => (item.AliasId === ingredient.AliasId) && (item.Name !== ingredient.Name))) {
+                setShowSubCard(prevState => !prevState);
+                return;
+            }
+        }
     }
 
-    useEffect(() => {
-        console.log(screenX, screenY);
-    }, [screenX, screenY]);
-
     return (
-        <li key={index} className={styles.RecipeItem}>
+        <li className={styles.RecipeItem}>
             { !isSub && <span>{ingredient.Name}</span> }
             { isSub && <div className={styles.altIngredient}>
                 <span>{ingredient.Name}</span>
@@ -40,10 +40,9 @@ export default function RecipeItem (props: { index: number, ingredient: Ingredie
                 height="24" />
             { showSubCard && 
                 <SubCard 
-                    screenX={screenX} 
-                    screenY={screenY} 
                     showSubCard={showSubCard} 
-                    setShowSubCard={setShowSubCard} /> }
+                    setShowSubCard={setShowSubCard}
+                    ingredient={ingredient} /> }
         </li>
     );
 }
