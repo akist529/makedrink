@@ -7,7 +7,12 @@ export default function SubCard (props: { screenX: number, screenY: number, show
     const imagePath = require('/public/images/ui/close.svg');
 
     useEffect(() => {
-        document.querySelector<Element>(`.${styles.SubCard}`)?.style.left = screenX;
+        const element = document.querySelector<HTMLElement>(`.${styles.SubCard}`);
+
+        if (element) {
+            element.style.left = `${screenX}`;
+            element.style.top = `${screenY}`;
+        }
     }, [screenX, screenY]);
 
     return (
