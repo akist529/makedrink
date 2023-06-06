@@ -15,11 +15,11 @@
 
     ul {
         list-style-type: none;
-        display: grid;
-        grid-template-columns: repeat(5, 40px);
-        justify-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         align-items: center;
-        width: 200px;
+        width: 100%;
 
         li {
             button {
