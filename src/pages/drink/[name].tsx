@@ -113,7 +113,12 @@ const DrinkPage: NextPage = () => {
                 for (const item of storedIngredients[type][letter]) {
                     if (item.Name === ingredient.Name) {
                         return (
-                            <RecipeItem key={index} ingredient={ingredient} missing={false} />
+                            <RecipeItem 
+                                key={index} 
+                                ingredient={ingredient} 
+                                unit={ingredient.Unit} 
+                                amount={ingredient.Amount}
+                                missing={false} />
                         );
                     }
                 }
@@ -130,7 +135,7 @@ const DrinkPage: NextPage = () => {
             if (storedIngredients[type].hasOwnProperty(letter)) {
                 for (const item of storedIngredients[type][letter]) {
                     if (item.Name === ingredient.Alias) {
-                        return getAltIngredient(item, index);
+                        return getAltIngredient(item, index, ingredient.Unit, ingredient.Amount);
                     }
                 }
             }
@@ -141,16 +146,26 @@ const DrinkPage: NextPage = () => {
         }
         
         return (
-            <RecipeItem key={index} ingredient={ingredient} missing={true} />
+            <RecipeItem 
+                key={index} 
+                ingredient={ingredient} 
+                unit={ingredient.Unit} 
+                amount={ingredient.Amount} 
+                missing={true} />
         );
     }
 
-    function getAltIngredient (ingredient: Item, index: number) {
+    function getAltIngredient (ingredient: Item, index: number, unit: string, amount: number) {
         for (const key of Object.keys(storedIngredients[ingredient.Type])) {
             for (let i = 0; i < storedIngredients[ingredient.Type][key].length; i++) {
                 if (storedIngredients[ingredient.Type][key][i].AliasId === ingredient.Id) {
                     return (
-                        <RecipeItem key={index} ingredient={ingredient} missing={false} />
+                        <RecipeItem 
+                            key={index} 
+                            ingredient={ingredient} 
+                            unit={unit} 
+                            amount={amount} 
+                            missing={false} />
                     );
                 }
             }
@@ -161,7 +176,12 @@ const DrinkPage: NextPage = () => {
         }
 
         return (
-            <RecipeItem key={index} ingredient={ingredient} missing={true} />
+            <RecipeItem 
+                key={index} 
+                ingredient={ingredient} 
+                unit={unit} 
+                amount={amount}
+                missing={true} />
         );
     }
 

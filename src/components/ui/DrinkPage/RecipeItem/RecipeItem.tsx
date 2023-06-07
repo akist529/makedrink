@@ -1,17 +1,18 @@
 import styles from './RecipeItem.module.scss';
 import { useState } from 'react';
 import Image from 'next/image';
+import { Item, Ingredient } from '@/types/index';
 
-export default function RecipeItem (props: { ingredient: any, missing: boolean }) {
-    const { ingredient, missing } = props;
+export default function RecipeItem (props: { ingredient: Item | Ingredient, missing: boolean, unit: string, amount: number }) {
+    const { ingredient, missing, unit, amount } = props;
     const slug = ingredient.Name.split(' ').join('-').toLowerCase().replaceAll('/', '-');
     const [itemWidth, setItemWidth] = useState(0);
 
-    const unit = (() => {
-        if (ingredient.Unit === 'ounce') {
+    const itemUnit = (() => {
+        if (unit === 'ounce') {
             return 'oz';
         } else {
-            return ingredient.Unit;
+            return unit;
         }
     })();
 
@@ -20,8 +21,8 @@ export default function RecipeItem (props: { ingredient: any, missing: boolean }
             { missing && 
                 <>
                 <div className={styles.missing}>
-                    <span>{ingredient.Alias ? ingredient.Alias : ingredient.Name}</span>
-                    <span>{`${ingredient.Amount} ${unit}`}</span>
+                    <span>{ingredient.Name}</span>
+                    <span>{`${amount} ${itemUnit}`}</span>
                 </div>
                 <Image 
                     alt='Ingredient Missing'
@@ -39,7 +40,7 @@ export default function RecipeItem (props: { ingredient: any, missing: boolean }
                         height="32" 
                         onLoadingComplete={e => setItemWidth(e.naturalWidth)} />
                     <span>{ingredient.Name}</span>
-                    <span>{`${ingredient.Amount} ${unit}`}</span>
+                    <span>{`${amount} ${itemUnit}`}</span>
                 </div> }
         </li>
     );
