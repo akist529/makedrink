@@ -35,3 +35,7 @@ export interface IngredientDict {
 export interface DrinkDict {
     [index: string]: DrinkInfo[];
 }
+
+export interface DrinkQuery {
+    Drinks: Drink[];
+}

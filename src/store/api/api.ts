@@ -1,16 +1,16 @@
 // Redux components
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 // Type interfaces
-import { Item, Drink, DrinkInfo } from '@/types/index';
+import { Item, Drink, DrinkInfo, DrinkQuery } from '@/types/index';
 
-export const barApi = createApi({
+export const barApi: any = createApi({
     reducerPath: "ingredientsApi",
     baseQuery: fetchBaseQuery({baseUrl: "http://15.204.244.7:8585"}),
     endpoints: (builder) => ({
         getAllIngredients: builder.query<Item[],void>({
             query: () => "/ingredients"
         }),
-        getAllDrinks: builder.query<any,void>({
+        getAllDrinks: builder.query<DrinkQuery,void>({
             query: () => "/drinks"
         }),
         getDrinkInfo: builder.query<DrinkInfo,number>({

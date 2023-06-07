@@ -12,42 +12,50 @@ import Image from 'next/image';
 // React components
 import { useState, useEffect } from 'react';
 // Type interfaces
-import { DrinkInfo, Ingredient, Item } from '@/types/index';
+import { DrinkInfo, Ingredient, Item, DrinkQuery } from '@/types/index';
 // Local components
 import RecipeItem from '@/components/ui/DrinkPage/RecipeItem/RecipeItem';
 
 const DrinkPage: NextPage = () => {
-    const allDrinks: any = useGetAllDrinksQuery().data || [];
-    const [getDrinkInfo, result] = useLazyGetDrinkInfoQuery();
+    // RTK Queries
+    const allDrinks = useGetAllDrinksQuery();
+    const [getDrinkInfo, drinkInfoResult] = useLazyGetDrinkInfoQuery();
+
+    // Redux store states
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const favoriteDrinks = useSelector((state: RootState) => state.drinks.favorites);
     const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
-    const router = useRouter();
+    
+    // Local state management
     const [drinkError, setDrinkError] = useState(false);
     const [recipeError, setRecipeError] = useState(false);
     const [drinkInfo, setDrinkInfo] = useState({} as DrinkInfo);
-    const dispatch = useDispatch();
     const [drinkFavorited, setDrinkFavorited] = useState(drinkIsFavorited(drinkInfo));
     const [favoriteImagePath, setFavoriteImagePath] = useState(require('/public/images/ui/heart_plus.svg'));
     const [drinkBlocked, setDrinkBlocked] = useState(drinkIsBlocked(drinkInfo));
 
+    // Next functions
+    const router = useRouter();
+    const dispatch = useDispatch();
+
     useEffect(() => {
-        if (router.isReady && allDrinks) {
+        if (router.isReady && allDrinks.isSuccess) {
             const displayName = getDrinkName();
             fetchDrinkInfo(displayName);
         }
-    }, [router.isReady, allDrinks]);
+    }, [router.isReady, allDrinks.isLoading]);
 
     useEffect(() => {
-        if (result && result.data) {
-            setDrinkInfo(result.data);
+        if (drinkInfoResult && drinkInfoResult.data) {
+            setDrinkInfo(drinkInfoResult.data);
             setDrinkFavorited(drinkIsFavorited(drinkInfo));
             setDrinkBlocked(drinkIsBlocked(drinkInfo));
         }
-    }, [result]);
+    }, [drinkInfoResult]);
 
     useEffect(() => {
-        if (Object.keys(drinkInfo).length && drinkIsFavorited(drinkInfo)) {
+        if (Object.keys(drinkInfo).length 
+            && drinkIsFavorited(drinkInfo)) {
             setDrinkFavorited(true);
         } else {
             setDrinkFavorited(false);
@@ -55,7 +63,8 @@ const DrinkPage: NextPage = () => {
     }, [favoriteDrinks]);
 
     useEffect(() => {
-        if (Object.keys(drinkInfo).length && drinkIsBlocked(drinkInfo)) {
+        if (Object.keys(drinkInfo).length 
+            && drinkIsBlocked(drinkInfo)) {
             setDrinkBlocked(true);
         } else {
             setDrinkBlocked(false);
@@ -87,9 +96,11 @@ const DrinkPage: NextPage = () => {
     }
 
     function fetchDrinkInfo(displayName: string) {
-        for (const drink of allDrinks.Drinks) {
-            if (drink.Name === displayName) {
-                getDrinkInfo(drink.Id);
+        if (allDrinks.data) {
+            for (const drink of allDrinks.data.Drinks) {
+                if (drink.Name === displayName) {
+                    getDrinkInfo(drink.Id);
+                }
             }
         }
     }
@@ -203,7 +214,7 @@ const DrinkPage: NextPage = () => {
     }
 
     return (
-        <div className={styles.Drink}>
+        <div className={styles.DrinkPage}>
             { !drinkError && !drinkInfo.Name && <strong>Waiting...</strong> }
             { drinkError && <strong>The drink you entered does not exist!</strong> }
             { drinkInfo.Name && 
