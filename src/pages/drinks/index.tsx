@@ -11,6 +11,7 @@ import { useGetAllDrinkInfoQuery } from '@/store/api/api';
 // Local components
 import DrinkCard from '@/components/ui/DrinksPage/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
+import Footer from '@/components/footer/Footer';
 // Type interfaces
 import { DrinkInfo } from '@/types/index';
 
@@ -61,11 +62,13 @@ const AllDrinksPage: NextPage = () => {
         { isLoading && 
             <main className={styles.DrinksPage}>
                 <h1>Loading...</h1>
+                <Footer />
             </main> }
         { !isLoading && !(data || []).length && 
             <main className={styles.DrinksPage}>
                 <h1>No drinks available!</h1>
                 <h2>There seems to be an error - try again later.</h2>
+                <Footer />
             </main> }
         { !isLoading && (data || []).length && 
             <main className={styles.DrinksPage}>
@@ -90,6 +93,7 @@ const AllDrinksPage: NextPage = () => {
                     setLastDrink={setLastDrink} 
                     activePage={activePage} 
                     setActivePage={setActivePage} />
+                <Footer />
             </main> }
         </>
     );

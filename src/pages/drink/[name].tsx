@@ -15,6 +15,7 @@ import { useState, useEffect } from 'react';
 import { DrinkInfo, Ingredient, Item, DrinkQuery } from '@/types/index';
 // Local components
 import RecipeItem from '@/components/ui/DrinkPage/RecipeItem/RecipeItem';
+import Footer from '@/components/footer/Footer';
 
 const DrinkPage: NextPage = () => {
     // RTK Queries
@@ -292,6 +293,7 @@ const DrinkPage: NextPage = () => {
                         onLoadingComplete={e => updateWidth(e)} />
                 </figure>
             </main> }
+            <Footer />
         </div>
     );
 }

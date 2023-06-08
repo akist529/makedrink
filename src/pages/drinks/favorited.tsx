@@ -12,6 +12,7 @@ import { RootState } from '@/store/store';
 import DrinkCard from '@/components/ui/DrinksPage/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
 import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
+import Footer from '@/components/footer/Footer';
 // Type interfaces
 import { DrinkDict, DrinkInfo } from '@/types/index';
 
@@ -57,6 +58,7 @@ const FavoriteDrinksPage: NextPage = () => {
                         <MakeDrinkButton />
                     </nav>
                 </Link>
+                <Footer />
             </main> }
         { (drinksList.length > 0) && 
             <main className={styles.DrinksPage}>
@@ -79,6 +81,7 @@ const FavoriteDrinksPage: NextPage = () => {
                     setLastDrink={setLastDrink}
                     activePage={activePage}
                     setActivePage={setActivePage} />
+                <Footer />
             </main> }
         </>
     );

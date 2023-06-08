@@ -16,6 +16,7 @@ import DrinkTypes from '@/components/ui/HomePage/DrinkTypes/DrinkTypes';
 import ScrollButton from '@/components/buttons/ScrollButton/ScrollButton';
 import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
 import SelectIngredientsButton from '@/components/buttons/SelectIngredientsButton/SelectIngredientsButton';
+import Footer from '@/components/footer/Footer';
 // Type interfaces
 import { DrinkInfo } from '@/types/index';
 
@@ -102,18 +103,21 @@ const HomePage: NextPage = () => {
         </nav>
         <strong className={drinkError ? styles.error : ''}>{drinkError}</strong>
       </section>
-      { (drinkType || Object.keys(randomDrink).length > 0) && <nav>
-        <ScrollButton link='#drink' />
-      </nav> }
-      { Object.keys(randomDrink).length > 0 && <section id='drink' className={styles.drinkSection}>
-        { (Object.keys(randomDrink).length > 0) && 
-          <RandomDrink 
-            randomDrink={randomDrink} 
-            getRandomDrink={getRandomDrink} /> }
-      </section> }
-      { (drinkType && Object.keys(randomDrink).length > 0) && <nav>
-        <ScrollButton link='#form' />
-      </nav> }
+      { (drinkType || Object.keys(randomDrink).length > 0) && 
+        <nav>
+          <ScrollButton link='#drink' />
+        </nav> }
+      { Object.keys(randomDrink).length > 0 && 
+        <section id='drink' className={styles.drinkSection}>
+          { (Object.keys(randomDrink).length > 0) && 
+            <RandomDrink 
+              randomDrink={randomDrink} 
+              getRandomDrink={getRandomDrink} /> }
+        </section> }
+      { (drinkType && Object.keys(randomDrink).length > 0) && 
+        <nav>
+          <ScrollButton link='#form' />
+        </nav> }
       { drinkType && <section id='form' className={styles.formSection}>
         { Object.keys(storedIngredients).length > 0 && 
         <form>
@@ -150,8 +154,9 @@ const HomePage: NextPage = () => {
           </button>
         </Link> }
       </section> }
+      <Footer />
     </main>
-  )
+  );
 }
 
 export default HomePage;

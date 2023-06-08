@@ -11,6 +11,7 @@ import { RootState } from '@/store/store';
 import DrinkCard from '@/components/ui/DrinksPage/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
 import SelectIngredientsButton from '@/components/buttons/SelectIngredientsButton/SelectIngredientsButton';
+import Footer from '@/components/footer/Footer';
 // Type interfaces
 import { DrinkDict, DrinkInfo } from '@/types/index';
 
@@ -59,6 +60,7 @@ const PossibleDrinksPage: NextPage = () => {
                 <h1>No drinks possible!</h1>
                 <h2>Add some ingredients to your store.</h2>
                 <SelectIngredientsButton />
+                <Footer />
             </main> }
         { (drinksList.length > 0) && 
             <main className={styles.DrinksPage}>
@@ -81,6 +83,7 @@ const PossibleDrinksPage: NextPage = () => {
                     setLastDrink={setLastDrink}
                     activePage={activePage}
                     setActivePage={setActivePage} />
+                <Footer />
             </main> }
         </>
     );
