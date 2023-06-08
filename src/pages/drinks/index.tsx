@@ -16,35 +16,38 @@ import Footer from '@/components/footer/Footer';
 import { DrinkInfo } from '@/types/index';
 
 const AllDrinksPage: NextPage = () => {
-    const { data, isLoading } = useGetAllDrinkInfoQuery();
+    // React local state
     const [firstDrink, setFirstDrink] = useState(0);
     const [lastDrink, setLastDrink] = useState(20);
     const [pageNums, setPageNums] = useState([] as string[]);
     const [drinksList, setDrinksList] = useState([] as DrinkInfo[]);
-    const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
     const [activePage, setActivePage] = useState(0);
 
-    useEffect(() => {
-        if (!isLoading) {
-            const allDrinks = data || [];
-            const arr = [];
+    // Redux store state
+    const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
 
-            for (const item of allDrinks) {
-                if (blockedDrinks.hasOwnProperty(item.Name.charAt(0))) {
-                    if (blockedDrinks[item.Name.charAt(0)].find((drink: DrinkInfo) => drink.Name === item.Name)) {
-                        continue;
+    // RTK Queries
+    const { data, isLoading, isSuccess } = useGetAllDrinkInfoQuery();
+
+    useEffect(() => {
+        if (isSuccess) {
+            const allDrinks = data || [];
+            const arr = allDrinks.filter((drink: DrinkInfo) => {
+                if (blockedDrinks.hasOwnProperty(drink.Name.charAt(0))) {
+                    if (blockedDrinks[drink.Name.charAt(0)].find((item: DrinkInfo) => drink.Name === item.Name)) {
+                        return false;
                     }
                 }
 
-                arr.push(item);
-            }
+                return true;
+            });
 
             const pageNumsArr = (() => {
                 const arr = [];
         
-                for (let i = 0; i < (data || []).length; i++) {
+                for (let i = 0; i < allDrinks.length; i++) {
                     const firstNum = i;
-                    const secondNum = ((i + 20) > (data || []).length) ? (data || []).length : (i + 20);
+                    const secondNum = ((i + 20) > allDrinks.length) ? allDrinks.length : (i + 20);
                     arr.push(`${firstNum + 1} - ${secondNum + 1}`);
                     i += 20;
                 }
@@ -56,6 +59,17 @@ const AllDrinksPage: NextPage = () => {
             setDrinksList(arr);
         }
     }, [isLoading]);
+
+    useEffect(() => {
+        setFirstDrink(activePage * 20);
+        setLastDrink(() => {
+            if ((firstDrink + 20) > drinksList.length) {
+                return drinksList.length;
+            } else {
+                return (firstDrink + 20);
+            }
+        });
+    }, [activePage]);
 
     return (
         <>

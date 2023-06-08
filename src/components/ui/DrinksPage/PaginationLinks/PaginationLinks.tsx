@@ -15,9 +15,17 @@ export default function PaginationLinks (props: { pageNums: string[], setFirstDr
         setActivePage(index);
     }
 
+    function setPageLeft () {
+        setActivePage((prevState: number) => (prevState + 11 - 1) % 11);
+    }
+
+    function setPageRight () {
+        setActivePage((prevState: number) => (prevState + 11 + 1) % 11);
+    }
+
     return (
         <nav className={styles.PaginationLinks}>
-            <button className={styles.PaginateBtn} onClick={() => setActivePage((prevState: number) => prevState--)}>
+            <button className={styles.PaginateBtn} onClick={setPageLeft}>
                 <Image alt='Left' src={require('/public/images/ui/chevron_left.svg')} />
             </button>
             <ul>
@@ -31,7 +39,7 @@ export default function PaginationLinks (props: { pageNums: string[], setFirstDr
                     );
                 }) }
             </ul>
-            <button className={styles.PaginateBtn} onClick={() => setActivePage((prevState: number) => prevState++)}>
+            <button className={styles.PaginateBtn} onClick={setPageRight}>
                 <Image alt='Right' src={require('/public/images/ui/chevron_right.svg')} />
             </button>
         </nav>
