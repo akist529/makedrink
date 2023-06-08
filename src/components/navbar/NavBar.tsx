@@ -42,6 +42,16 @@ export default function NavBar() {
         window.addEventListener('resize', onResize);
     }, [dispatch]);
 
+    useEffect(() => {
+        if (window.innerWidth < 600) {
+            setDisplayMode('mobile');
+        } else if (window.innerWidth < 992) {
+            setDisplayMode('tablet');
+        } else {
+            setDisplayMode('laptop');
+        }
+    }, []);
+
     return (
         <nav className={styles.NavBar}>
             { displayMode === 'mobile' && 
