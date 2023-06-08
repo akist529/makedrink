@@ -14,6 +14,8 @@ import RandomDrink from '@/components/ui/HomePage/RandomDrink/RandomDrink';
 import IngredientForm from '@/components/ui/HomePage/IngredientForm/IngredientForm';
 import DrinkTypes from '@/components/ui/HomePage/DrinkTypes/DrinkTypes';
 import ScrollButton from '@/components/buttons/ScrollButton/ScrollButton';
+import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
+import SelectIngredientsButton from '@/components/buttons/SelectIngredientsButton/SelectIngredientsButton';
 // Type interfaces
 import { DrinkInfo } from '@/types/index';
 
@@ -85,53 +87,12 @@ const HomePage: NextPage = () => {
         <header>
           <h1>What Can I Make?</h1>
         </header>
-        <Link href="/ingredients">
-          <button className={styles.selectBtn}>
-            <div>
-              <Image 
-                alt='Select Ingredients' 
-                src={require('/public/images/ui/carbonated.webp')} 
-                width="0" 
-                height="32" 
-                onLoadingComplete={e => updateWidth(e)} />
-              <Image 
-                alt='Select Ingredients' 
-                src={require('/public/images/ui/liqueurs.webp')} 
-                width="0" 
-                height="32" 
-                onLoadingComplete={e => updateWidth(e)} />
-              <Image 
-                alt='Select Ingredients' 
-                src={require('/public/images/ui/mixers.webp')} 
-                width="0" 
-                height="32" 
-                onLoadingComplete={e => updateWidth(e)} />
-              <Image 
-                alt='Select Ingredients' 
-                src={require('/public/images/ui/other.webp')} 
-                width="0" 
-                height="32" 
-                onLoadingComplete={e => updateWidth(e)} />
-              <Image 
-                alt='Select Ingredients' 
-                src={require('/public/images/ui/spirits.webp')} 
-                width="0" 
-                height="32" 
-                onLoadingComplete={e => updateWidth(e)} />
-            </div>
-            <span>Select Your Ingredients</span>
-          </button>
-        </Link>
+        <SelectIngredientsButton />
         <span>Then...</span>
         <nav>
-          <button className={styles.randomBtn} onClick={() => getRandomDrink()}>
-            <Image 
-              alt="Make a Drink" 
-              src={require('/public/images/ui/select-ingredients.webp')} 
-              width="48" 
-              height="48" />
-            <span>Make A Drink!</span>
-          </button>
+          <div onClick={() => getRandomDrink()}>
+            <MakeDrinkButton />
+          </div>
           <h2>Or...</h2>
           <DrinkTypes 
             drinkType={drinkType} 

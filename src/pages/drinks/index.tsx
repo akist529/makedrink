@@ -65,6 +65,7 @@ const AllDrinksPage: NextPage = () => {
         { !isLoading && !(data || []).length && 
             <main className={styles.DrinksPage}>
                 <h1>No drinks available!</h1>
+                <h2>There seems to be an error - try again later.</h2>
             </main> }
         { !isLoading && (data || []).length && 
             <main className={styles.DrinksPage}>

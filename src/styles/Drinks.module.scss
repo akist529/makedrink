@@ -12,6 +12,10 @@
     color: white;
     min-height: 100vh;
 
+    h1, h2 {
+        text-align: center;
+    }
+
     section {
         display: flex;
         justify-content: center;
@@ -30,6 +34,10 @@
                 align-self: stretch;
             }
         }
+    }
+
+    a {
+        text-decoration: none;
     }
 }
 

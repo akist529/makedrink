@@ -10,6 +10,7 @@ import { RootState } from '@/store/store';
 // Local components
 import DrinkCard from '@/components/ui/DrinksPage/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
+import SelectIngredientsButton from '@/components/buttons/SelectIngredientsButton/SelectIngredientsButton';
 // Type interfaces
 import { DrinkDict, DrinkInfo } from '@/types/index';
 
@@ -55,7 +56,9 @@ const PossibleDrinksPage: NextPage = () => {
         <>
         { (drinksList.length === 0) && 
             <main className={styles.DrinksPage}>
-                <h1>No drinks available!</h1>
+                <h1>No drinks possible!</h1>
+                <h2>Add some ingredients to your store.</h2>
+                <SelectIngredientsButton />
             </main> }
         { (drinksList.length > 0) && 
             <main className={styles.DrinksPage}>

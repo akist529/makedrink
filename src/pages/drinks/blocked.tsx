@@ -2,6 +2,7 @@
 import styles from '@/styles/Drinks.module.scss';
 // Next components
 import type { NextPage } from 'next';
+import Link from 'next/link';
 // React components
 import { useState } from 'react';
 // Redux components
@@ -10,6 +11,7 @@ import { RootState } from '@/store/store';
 // Local components
 import DrinkCard from '@/components/ui/DrinksPage/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
+import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
 // Type interfaces
 import { DrinkDict, DrinkInfo } from '@/types/index';
 
@@ -48,7 +50,13 @@ const BlockedDrinksPage: NextPage = () => {
         <>
         { (drinksList.length === 0) && 
             <main className={styles.DrinksPage}>
-                <h1>No drinks available!</h1>
+                <h1>No drinks blocked!</h1>
+                <h2>Go try some drinks to see what you like.</h2>
+                <Link href='/'>
+                    <nav>
+                        <MakeDrinkButton />
+                    </nav>
+                </Link>
             </main> }
         { (drinksList.length > 0) && 
             <main className={styles.DrinksPage}>
