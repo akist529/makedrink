@@ -7,9 +7,8 @@ import Image from 'next/image';
 // Type imports
 import { Drink, DrinkInfo } from '@/types/index';
 
-export default function PaginationLinks (props: { activePage: number, setActivePage: Function, drinksList: Drink[], loadState: boolean }) {
-    const { activePage, setActivePage, drinksList, loadState } = props;
-    const numOfPages = Math.ceil((drinksList.length / 20));
+export default function PaginationLinks (props: { activePage: number, setActivePage: Function, numOfPages: number, loadState: boolean }) {
+    const { activePage, setActivePage, numOfPages, loadState } = props;
 
     function changePage (index: number) {
         if (!loadState) {

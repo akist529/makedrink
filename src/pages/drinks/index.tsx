@@ -21,6 +21,7 @@ const AllDrinksPage: NextPage = () => {
     const [drinksList, setDrinksList] = useState([] as Drink[]);
     const [drinkInfo, setDrinkInfo] = useState([] as DrinkInfo[]);
     const [activePage, setActivePage] = useState(0);
+    const [numOfPages, setNumOfPages] = useState(0);
 
     // Redux store state
     const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
@@ -50,6 +51,7 @@ const AllDrinksPage: NextPage = () => {
     useEffect(() => {
         if (drinksList.length > 0) {
             fetchDrinkInfo();
+            setNumOfPages(Math.ceil(drinksList.length / 20));
         }
     }, [drinksList]);
 
@@ -113,7 +115,7 @@ const AllDrinksPage: NextPage = () => {
                 <PaginationLinks 
                     activePage={activePage} 
                     setActivePage={setActivePage} 
-                    drinksList={drinksList}
+                    numOfPages={numOfPages} 
                     loadState={drinkInfoResult.isLoading} />
                 { (drinkInfoResult.isLoading || drinkInfoResult.isFetching) && 
                     <LoadingAnimation /> }
@@ -130,7 +132,7 @@ const AllDrinksPage: NextPage = () => {
                 <PaginationLinks 
                     activePage={activePage} 
                     setActivePage={setActivePage} 
-                    drinksList={drinksList}
+                    numOfPages={numOfPages} 
                     loadState={drinkInfoResult.isLoading} />
                 <Footer />
             </main> }
