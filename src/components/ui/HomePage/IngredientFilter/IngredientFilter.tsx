@@ -6,11 +6,13 @@ import { MouseEventHandler, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { selectIngredient, unselectIngredient } from '@/store/slices/ingredients.slice';
+// Next components
+import Image from 'next/image';
 // Type interfaces
 import { Item, IngredientDict } from '@/types/index';
 
-export default function IngredientFilter (props: { ingredient: Item }) {
-    const { ingredient } = props;
+export default function IngredientFilter (props: { ingredient: Item, showImage: boolean }) {
+    const { ingredient, showImage } = props;
     const dispatch = useDispatch();
     const selectedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.selected);
 
@@ -20,6 +22,14 @@ export default function IngredientFilter (props: { ingredient: Item }) {
         } else {
             dispatch(unselectIngredient(ingredient));
         }
+    }
+
+    function updateWidth (e: HTMLImageElement) {
+        e.width = (e.height / e.naturalHeight) * e.naturalWidth;
+    }
+
+    function slug (item: Item) {
+        return `${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
     }
 
     useEffect(() => {
@@ -32,14 +42,22 @@ export default function IngredientFilter (props: { ingredient: Item }) {
     }, []);
 
     return (
-        <div className={styles.IngredientFilter}>
+        <li className={styles.IngredientFilter}>
             <label htmlFor={ingredient.Name}>{ingredient.Name}</label>
-            <input 
-                type="checkbox" 
-                id={ingredient.Name} 
-                name={ingredient.Name} 
-                value={ingredient.Name} 
-                onClick={(e) => changeState(e)} />
-        </div>
+            <div>
+                { showImage && <Image 
+                    alt={ingredient.Name} 
+                    src={require(`/public/images/ui/${slug(ingredient)}.webp`)} 
+                    width="0" 
+                    height="48" 
+                    onLoadingComplete={e => updateWidth(e)} /> }
+                <input 
+                    type="checkbox" 
+                    id={ingredient.Name} 
+                    name={ingredient.Name} 
+                    value={ingredient.Name} 
+                    onClick={(e) => changeState(e)} />
+            </div>
+        </li>
     );
 }

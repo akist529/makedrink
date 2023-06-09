@@ -3,10 +3,12 @@ import styles from './IngredientForm.module.scss';
 // React components
 import React, { useState } from 'react';
 // Redux components
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
+import { selectIngredient, unselectIngredient } from '@/store/slices/ingredients.slice';
 // Local components
 import IngredientFilter from '@/components/ui/HomePage/IngredientFilter/IngredientFilter';
+import FormLegend from './FormLegend/FormLegend';
 // Type interfaces
 import { Item, IngredientDict } from '@/types/index';
 // Next components
@@ -16,6 +18,7 @@ export default function IngredientForm (props: { ingredientType: string }) {
     const { ingredientType } = props;
     const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored);
     const [formOpen, setFormOpen] = useState(true);
+    const dispatch = useDispatch();
 
     function getIngredients (type: string) {
         const filteredIngredients: Item[] = [];
@@ -32,7 +35,7 @@ export default function IngredientForm (props: { ingredientType: string }) {
     }
 
     function childIngredients (item: Item) {
-        const childIngredients = [];
+        const childIngredients: Item[] = [];
 
         if (storedIngredients.hasOwnProperty(item.Type)) {
             for (const key of Object.keys(storedIngredients[item.Type])) {
@@ -71,29 +74,15 @@ export default function IngredientForm (props: { ingredientType: string }) {
         return false;
     }
 
-    function toggleForm (e: React.MouseEvent<HTMLButtonElement>) {
-        e.preventDefault();
-        setFormOpen(prevState => !prevState);
-    }
-
     function updateWidth (e: HTMLImageElement) {
         e.width = (e.height / e.naturalHeight) * e.naturalWidth;
     }
 
-    function slug (item: Item) {
-        return `${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
-    }
-
     return (
         <fieldset className={formOpen ? [styles.IngredientForm, styles.formOpen].join(' ') : styles.IngredientForm}>
-            <legend>
-                <button onClick={toggleForm}>
-                    <span>{ingredientType}</span>
-                    <Image 
-                        alt='Close Form Field' 
-                        src={require('/public/images/ui/expand_more.svg')} />
-                </button>
-            </legend>
+            <FormLegend 
+                ingredientType={ingredientType} 
+                setFormOpen={setFormOpen} />
             <ul className={formOpen ? [styles.gradient, styles.gradientOpen].join(' ') : [styles.gradient, styles.gradientClosed].join(' ')}>
                 { getIngredients(ingredientType).filter((ingredient: Item) => ingredientIsParent(ingredient)).map((ingredient: Item, index: number) => {
                     return (
@@ -108,38 +97,36 @@ export default function IngredientForm (props: { ingredientType: string }) {
                                         height="48" 
                                         onLoadingComplete={e => updateWidth(e)} />
                                 </legend>
-                                { childIngredients(ingredient).filter((ingredient: Item) => ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
-                                    return <IngredientFilter 
-                                                key={index} 
-                                                ingredient={ingredient} />
-                                }) }
-                                { childIngredients(ingredient).filter((ingredient: Item) => !ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
-                                    return <IngredientFilter 
-                                                key={index} 
-                                                ingredient={ingredient} />
-                                }) }
+                                <ul className={styles.ingredientList}>
+                                    { childIngredients(ingredient).filter((ingredient: Item) => ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
+                                        return <IngredientFilter 
+                                                    key={index} 
+                                                    ingredient={ingredient} 
+                                                    showImage={false} />
+                                    }) }
+                                </ul>
+                                <ul className={styles.ingredientList}>
+                                    { childIngredients(ingredient).filter((ingredient: Item) => !ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
+                                        return <IngredientFilter 
+                                                    key={index} 
+                                                    ingredient={ingredient} 
+                                                    showImage={false} />
+                                    }) }
+                                </ul>
                             </fieldset>
                         </li>
                     );
                 }) }
-                { getIngredients(ingredientType).filter((ingredient: Item) => (!ingredientIsParent(ingredient) && !ingredientIsChild(ingredient))).map((ingredient: Item, index: number) => {
-                    return (
-                        <li key={index} className={styles.filter}>
-                            <label htmlFor={ingredient.Name}>{ingredient.Name}</label>
-                            <Image 
-                                alt={ingredient.Name} 
-                                src={require(`/public/images/ui/${slug(ingredient)}.webp`)} 
-                                width="0" 
-                                height="48" 
-                                onLoadingComplete={e => updateWidth(e)} />
-                            <input 
-                                type="checkbox" 
-                                id={ingredient.Name} 
-                                name={ingredient.Name} 
-                                value={ingredient.Name}/>
-                        </li>
-                    );
-                }) }
+                <ul className={styles.ingredientList}>
+                    { getIngredients(ingredientType).filter((ingredient: Item) => (!ingredientIsParent(ingredient) && !ingredientIsChild(ingredient))).map((ingredient: Item, index: number) => {
+                        return (
+                            <IngredientFilter 
+                                key={index} 
+                                ingredient={ingredient} 
+                                showImage={true} />
+                        );
+                    }) }
+                </ul>
             </ul>
         </fieldset>
     );

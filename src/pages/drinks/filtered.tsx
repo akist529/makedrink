@@ -4,7 +4,7 @@ import styles from '@/styles/Drinks.module.scss';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 // React components
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -17,14 +17,16 @@ import Footer from '@/components/footer/Footer';
 import { DrinkDict, DrinkInfo, Ingredient, IngredientDict, Item } from '@/types/index';
 
 const FilteredDrinksPage: NextPage = () => {
-    const possibleDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.possible);
-    const selectedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.selected);
-    const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
-    const [firstDrink, setFirstDrink] = useState(0);
-    const [lastDrink, setLastDrink] = useState(20);
+    // React local state
+    const [drinksList, setDrinksList] = useState([] as DrinkInfo[]);
     const [activePage, setActivePage] = useState(0);
 
-    const drinksList = (() => {
+    // Redux store state
+    const possibleDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.possible);
+    const blockedDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.blocked);
+    const selectedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.selected);
+
+    const allDrinks = (() => {
         const arr = [];
 
         for (const key of Object.keys(possibleDrinks)) {
@@ -54,18 +56,20 @@ const FilteredDrinksPage: NextPage = () => {
         return arr;
     })();
 
-    const pageNums = (() => {
-        const arr = [];
+    const numOfPages = Math.ceil(allDrinks.length / 20);
 
-        for (let i = 0; i < drinksList.length; i++) {
-            const firstNum = i;
-            const secondNum = ((i + 20) > drinksList.length) ? drinksList.length : (i + 20);
-            arr.push(`${firstNum} - ${secondNum}`);
-            i += 20;
-        }
+    useEffect(() => {
+        setDrinksList(() => {
+            const firstDrink = activePage * 20;
+            let lastDrink = firstDrink + 20;
 
-        return arr;
-    })();
+            if (lastDrink > allDrinks.length) {
+                lastDrink = allDrinks.length;
+            }
+
+            return allDrinks.slice(firstDrink, lastDrink);
+        });
+    }, [activePage]);
 
     return (
         <>
@@ -83,24 +87,22 @@ const FilteredDrinksPage: NextPage = () => {
             { (drinksList.length > 0) && 
                 <main className={styles.DrinksPage}>
                     <PaginationLinks 
-                        pageNums={pageNums} 
-                        setFirstDrink={setFirstDrink} 
-                        setLastDrink={setLastDrink}
-                        activePage={activePage}
-                        setActivePage={setActivePage} />
+                        activePage={activePage} 
+                        setActivePage={setActivePage} 
+                        numOfPages={numOfPages} 
+                        loadState={false} />
                     <section>
                         <ul>
-                            { drinksList.slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
+                            { drinksList.map((drink: DrinkInfo, index: number) => {
                                 return (<DrinkCard drink={drink} key={index} />);
                             }) }
                         </ul>
                     </section>
                     <PaginationLinks 
-                        pageNums={pageNums} 
-                        setFirstDrink={setFirstDrink} 
-                        setLastDrink={setLastDrink}
-                        activePage={activePage}
-                        setActivePage={setActivePage} />
+                        activePage={activePage} 
+                        setActivePage={setActivePage} 
+                        numOfPages={numOfPages} 
+                        loadState={false} />
                     <Footer />
                 </main> }
         </>
