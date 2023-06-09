@@ -9,6 +9,7 @@ import { selectIngredient, unselectIngredient } from '@/store/slices/ingredients
 // Local components
 import IngredientFilter from '@/components/ui/HomePage/IngredientFilter/IngredientFilter';
 import FormLegend from './FormLegend/FormLegend';
+import ParentForm from './ParentForm/ParentForm';
 // Type interfaces
 import { Item, IngredientDict } from '@/types/index';
 // Next components
@@ -86,35 +87,7 @@ export default function IngredientForm (props: { ingredientType: string }) {
             <ul className={formOpen ? [styles.gradient, styles.gradientOpen].join(' ') : [styles.gradient, styles.gradientClosed].join(' ')}>
                 { getIngredients(ingredientType).filter((ingredient: Item) => ingredientIsParent(ingredient)).map((ingredient: Item, index: number) => {
                     return (
-                        <li key={index}>
-                            <fieldset>
-                                <legend>
-                                    <span>{ingredient.Name}</span>
-                                    <Image 
-                                        alt={ingredient.Name} 
-                                        src={require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} 
-                                        width="0" 
-                                        height="48" 
-                                        onLoadingComplete={e => updateWidth(e)} />
-                                </legend>
-                                <ul className={styles.ingredientList}>
-                                    { childIngredients(ingredient).filter((ingredient: Item) => ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
-                                        return <IngredientFilter 
-                                                    key={index} 
-                                                    ingredient={ingredient} 
-                                                    showImage={false} />
-                                    }) }
-                                </ul>
-                                <ul className={styles.ingredientList}>
-                                    { childIngredients(ingredient).filter((ingredient: Item) => !ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
-                                        return <IngredientFilter 
-                                                    key={index} 
-                                                    ingredient={ingredient} 
-                                                    showImage={false} />
-                                    }) }
-                                </ul>
-                            </fieldset>
-                        </li>
+                        <ParentForm key={index} ingredient={ingredient} />
                     );
                 }) }
                 <ul className={styles.ingredientList}>
