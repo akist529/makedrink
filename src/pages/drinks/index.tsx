@@ -12,6 +12,7 @@ import { useGetAllDrinksQuery, useLazyGetMultipleDrinkInfoQuery } from '@/store/
 import DrinkCard from '@/components/ui/DrinksPage/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
 import Footer from '@/components/footer/Footer';
+import LoadingAnimation from '@/components/loading/LoadingAnimation';
 // Type interfaces
 import { Drink, DrinkInfo } from '@/types/index';
 
@@ -88,7 +89,7 @@ const AllDrinksPage: NextPage = () => {
         { (allDrinks.isLoading || 
         drinkInfoResult.isLoading) && 
             <main className={styles.DrinksPage}>
-                <h1>Loading...</h1>
+                <LoadingAnimation />
                 <Footer />
             </main> }
         { (allDrinks.isError || 
@@ -115,7 +116,7 @@ const AllDrinksPage: NextPage = () => {
                     drinksList={drinksList}
                     loadState={drinkInfoResult.isLoading} />
                 { (drinkInfoResult.isLoading || drinkInfoResult.isFetching) && 
-                    <h1>Loading...</h1> }
+                    <LoadingAnimation /> }
                 { !(drinkInfoResult.isLoading || drinkInfoResult.isFetching) && 
                     <section>
                         <ul>
