@@ -1,26 +1,32 @@
 // Page styles
 import styles from './PaginationLinks.module.scss';
+// React components
+import { useEffect } from 'react';
 // Next components
 import Image from 'next/image';
+// Type imports
+import { Drink, DrinkInfo } from '@/types/index';
 
-export default function PaginationLinks (props: { pageNums: string[], setFirstDrink: Function, setLastDrink: Function, activePage: number, setActivePage: Function }) {
-    const { pageNums, setFirstDrink, setLastDrink, activePage, setActivePage } = props;
+export default function PaginationLinks (props: { activePage: number, setActivePage: Function, drinksList: Drink[], loadState: boolean }) {
+    const { activePage, setActivePage, drinksList, loadState } = props;
+    const numOfPages = Math.ceil((drinksList.length / 20));
 
-    function changePage (pages: string, index: number) {
-        const firstNum = Number(pages.replaceAll(' ', '').split('-')[0]);
-        const secondNum = Number(pages.replaceAll(' ', '').split('-')[1]);
-
-        setFirstDrink(firstNum - 1);
-        setLastDrink(secondNum - 1);
-        setActivePage(index);
+    function changePage (index: number) {
+        if (!loadState) {
+            setActivePage(index);
+        }
     }
 
     function setPageLeft () {
-        setActivePage((prevState: number) => (prevState + 11 - 1) % 11);
+        if (!loadState) {
+            setActivePage((prevState: number) => (prevState + numOfPages - 1) % numOfPages);
+        }
     }
 
     function setPageRight () {
-        setActivePage((prevState: number) => (prevState + 11 + 1) % 11);
+        if (!loadState) {
+            setActivePage((prevState: number) => (prevState + numOfPages + 1) % numOfPages);
+        }
     }
 
     return (
@@ -29,15 +35,21 @@ export default function PaginationLinks (props: { pageNums: string[], setFirstDr
                 <Image alt='Left' src={require('/public/images/ui/chevron_left.svg')} />
             </button>
             <ul>
-                { pageNums.map((pages: string, index: number) => {
-                    return (
-                        <li key={index}>
-                            <button className={(activePage === index) ? styles.activeBtn : ''} onClick={() => changePage(pages, index)}>
-                                <span>{index + 1}</span>
-                            </button>
-                        </li>
-                    );
-                }) }
+                { (() => {
+                    const arr = [];
+
+                    for (let i = 0; i < numOfPages; i++) {
+                        arr.push(
+                            <li key={i}>
+                                <button className={(activePage === i) ? styles.activeBtn : ''} onClick={() => changePage(i)}>
+                                    <span>{i + 1}</span>
+                                </button>
+                            </li>
+                        );
+                    }
+
+                    return arr;
+                })() }
             </ul>
             <button className={styles.PaginateBtn} onClick={setPageRight}>
                 <Image alt='Right' src={require('/public/images/ui/chevron_right.svg')} />

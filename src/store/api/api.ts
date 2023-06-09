@@ -18,7 +18,7 @@ export const barApi: any = createApi({
         }),
         getMultipleDrinkInfo: builder.query<DrinkInfo[],number[]>({
             async queryFn(arg, queryApi, extraOptions, baseQuery) {
-                const ids = arg;;
+                const ids = arg;
                 const info: DrinkInfo[] = [];
 
                 for (const id of ids) {
