@@ -4,19 +4,15 @@ import styles from '@/styles/Home.module.scss';
 import { useState, useEffect } from 'react';
 // Next components
 import type { NextPage } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 // Local components
-import RandomDrink from '@/components/ui/HomePage/RandomDrink/RandomDrink';
-import IngredientForm from '@/components/ui/HomePage/IngredientForm/IngredientForm';
-import DrinkTypes from '@/components/ui/HomePage/DrinkTypes/DrinkTypes';
 import ScrollButton from '@/components/buttons/ScrollButton/ScrollButton';
-import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
-import SelectIngredientsButton from '@/components/buttons/SelectIngredientsButton/SelectIngredientsButton';
 import Footer from '@/components/footer/Footer';
+import LandingSection from '@/components/ui/HomePage/LandingSection/LandingSection';
+import DrinkSection from '@/components/ui/HomePage/DrinkSection/DrinkSection';
+import FormSection from '@/components/ui/HomePage/FormSection/FormSection';
 // Type interfaces
 import { DrinkInfo } from '@/types/index';
 
@@ -24,7 +20,6 @@ const HomePage: NextPage = () => {
   const [drinkType, setDrinkType] = useState('');
   const [drinkError, setDrinkError] = useState('');
   const [randomDrink, setRandomDrink] = useState({} as DrinkInfo);
-  const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
   const possibleDrinks = useSelector((state: RootState) => state.drinks.possible);
   const dispatch = useDispatch();
 
@@ -46,18 +41,6 @@ const HomePage: NextPage = () => {
         setRandomDrink(drink);
       }
     }
-  }
-
-  function findIngredientType(type: string) {
-    if (storedIngredients.hasOwnProperty(type)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  function updateWidth (e: HTMLImageElement) {
-    e.width = (e.height / e.naturalHeight) * e.naturalWidth;
   }
 
   useEffect(() => {
@@ -84,76 +67,23 @@ const HomePage: NextPage = () => {
 
   return (
     <main className={styles.HomePage}>
-      <section id="landing" className={styles.landingSection}>
-        <header>
-          <h1>What Can I Make?</h1>
-        </header>
-        <SelectIngredientsButton />
-        <span>Then...</span>
-        <nav>
-          <div onClick={() => getRandomDrink()}>
-            <MakeDrinkButton />
-          </div>
-          <h2>Or...</h2>
-          <DrinkTypes 
-            drinkType={drinkType} 
-            setDrinkType={setDrinkType} 
-            drinkError={drinkError} 
-            setDrinkError={setDrinkError} />
-        </nav>
-        <strong className={drinkError ? styles.error : ''}>{drinkError}</strong>
-      </section>
+      <LandingSection 
+        getRandomDrink={getRandomDrink}
+        drinkType={drinkType}
+        setDrinkType={setDrinkType}
+        drinkError={drinkError}
+        setDrinkError={setDrinkError} />
       { (drinkType || Object.keys(randomDrink).length > 0) && 
-        <nav>
-          <ScrollButton link='#drink' />
-        </nav> }
+          <ScrollButton link='#drink' /> }
       { Object.keys(randomDrink).length > 0 && 
-        <section id='drink' className={styles.drinkSection}>
-          { (Object.keys(randomDrink).length > 0) && 
-            <RandomDrink 
-              randomDrink={randomDrink} 
-              getRandomDrink={getRandomDrink} /> }
-        </section> }
+        <DrinkSection 
+          randomDrink={randomDrink} 
+          getRandomDrink={getRandomDrink} /> }
       { (drinkType && Object.keys(randomDrink).length > 0) && 
-        <nav>
-          <ScrollButton link='#form' />
-        </nav> }
-      { drinkType && <section id='form' className={styles.formSection}>
-        { Object.keys(storedIngredients).length > 0 && 
-        <form>
-          { (drinkType === 'cocktail') && 
-          <>
-            { findIngredientType('liquor') && 
-              <IngredientForm ingredientType='liquor' /> }
-            { findIngredientType('liqueur') && 
-              <IngredientForm ingredientType='liqueur' /> }
-            { findIngredientType('wine') && 
-              <IngredientForm ingredientType='wine' /> }
-            { findIngredientType('other') && 
-              <IngredientForm ingredientType='other' /> }
-          </> }
-          { drinkType && 
-          <>
-            { findIngredientType('carbonated') && 
-              <IngredientForm ingredientType='carbonated' /> }
-            { findIngredientType('juice') && 
-              <IngredientForm ingredientType='juice' /> }
-            { findIngredientType('mixer') && 
-              <IngredientForm ingredientType='mixer' /> }
-          </> }
-        </form> }
-        { (drinkType && Object.keys(storedIngredients).length > 0) && 
-        <Link href='/drinks/filtered'>
-          <button className={styles.seeDrinksBtn}>
-            <span>See Drinks</span>
-            <Image 
-              alt='See Drinks' 
-              src={require('/public/images/ui/cocktail.webp')} 
-              width="64" 
-              height="64" />
-          </button>
-        </Link> }
-      </section> }
+          <ScrollButton link='#form' /> }
+      { drinkType && 
+        <FormSection 
+          drinkType={drinkType} /> }
       <Footer />
     </main>
   );

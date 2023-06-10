@@ -8,6 +8,7 @@ import { RootState } from '@/store/store';
 export default function ParentForm (props: { ingredient: Item }) {
     const { ingredient } = props;
     const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored);
+    const slug = require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`);
 
     function updateWidth (e: HTMLImageElement) {
         e.width = (e.height / e.naturalHeight) * e.naturalWidth;
@@ -48,7 +49,7 @@ export default function ParentForm (props: { ingredient: Item }) {
                     <span>{ingredient.Name}</span>
                     <Image 
                         alt={ingredient.Name} 
-                        src={require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`)} 
+                        src={slug} 
                         width="0" 
                         height="48" 
                         onLoadingComplete={e => updateWidth(e)} />

@@ -1,0 +1,32 @@
+.LandingSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: calc(100vh - 100px);
+
+    h1 {
+        font-size: 32px;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+
+        .randomBtn {
+            width: 200px;
+        }
+    }
+
+    strong {
+        font-size: 24px;
+        height: 24px;
+        color: rgb(255, 160, 231);
+        font-family: 'Oswald';
+    }
+
+    .error {
+        animation: error-spawn 1s forwards;
+    }
+}
