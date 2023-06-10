@@ -1,6 +1,6 @@
 import styles from './DrinkSection.module.scss';
 import { DrinkInfo } from '@/types/index';
-import RandomDrink from '../RandomDrink/RandomDrink';
+import RandomDrink from './RandomDrink/RandomDrink';
 
 export default function DrinkSection (props: { randomDrink: DrinkInfo, getRandomDrink: Function }) {
     const { randomDrink, getRandomDrink } = props;

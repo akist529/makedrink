@@ -1,5 +1,5 @@
 import styles from './FormSection.module.scss';
-import IngredientForm from '../IngredientForm/IngredientForm';
+import IngredientForm from './IngredientForm/IngredientForm';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import Link from 'next/link';

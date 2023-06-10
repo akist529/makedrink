@@ -1,7 +1,7 @@
 import styles from './ParentForm.module.scss';
 import Image from 'next/image';
 import { Item, IngredientDict } from '@/types/index';
-import IngredientFilter from '../../IngredientFilter/IngredientFilter';
+import IngredientFilter from '../IngredientFilter/IngredientFilter';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 

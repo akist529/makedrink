@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 // Local components
-import IngredientFilter from '@/components/ui/HomePage/IngredientFilter/IngredientFilter';
+import IngredientFilter from '@/components/ui/HomePage/FormSection/IngredientForm/IngredientFilter/IngredientFilter';
 import FormLegend from './FormLegend/FormLegend';
 import ParentForm from './ParentForm/ParentForm';
 // Type interfaces
