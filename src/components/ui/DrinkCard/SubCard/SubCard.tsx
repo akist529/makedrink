@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { Ingredient, Item } from '@/types/index';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import RecipeItem from '@/components/ui/HomePage/DrinkSection/RandomDrink/RecipeItem/RecipeItem';
+import RecipeItem from '../RecipeItem/RecipeItem';
 
 export default function SubCard (props: { showSubCard: boolean, setShowSubCard: Function, ingredient: Item }) {
     const { showSubCard, setShowSubCard, ingredient } = props;

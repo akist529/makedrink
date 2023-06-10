@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 // Local components
-import DrinkCard from '@/components/ui/DrinksPage/DrinkCard/DrinkCard';
+import DrinkCard from '@/components/ui/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
 import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
 import Footer from '@/components/footer/Footer';

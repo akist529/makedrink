@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { useGetAllDrinksQuery, useLazyGetMultipleDrinkInfoQuery } from '@/store/api/api';
 // Local components
-import DrinkCard from '@/components/ui/DrinksPage/DrinkCard/DrinkCard';
+import DrinkCard from '@/components/ui/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
 import Footer from '@/components/footer/Footer';
 import LoadingAnimation from '@/components/loading/LoadingAnimation';

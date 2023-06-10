@@ -10,8 +10,14 @@
         align-items: center;
         gap: 10px;
 
-        img {
-            filter: invert(1);
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+
+            img {
+                filter: invert(1);
+            }
         }
     }
 

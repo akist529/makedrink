@@ -1,19 +1,29 @@
-// Component styles
-import styles from './RandomDrink.module.scss';
+// Page styles
+import styles from './DrinkCard.module.scss';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+// React components
+import React, { SyntheticEvent, useState } from 'react';
 // Next components
-import Link from 'next/link';
 import Image from 'next/image';
-// Type imports
-import { DrinkInfo, Item, Ingredient } from '@/types/index';
+import Link from 'next/link';
+// Type interfaces
+import { DrinkInfo, Ingredient, Item } from '@/types/index';
 // Local components
 import RecipeItem from './RecipeItem/RecipeItem';
 
-export default function RandomDrink (props: { randomDrink: DrinkInfo, getRandomDrink: Function }) {
-    const { randomDrink, getRandomDrink } = props;
+export default function DrinkCard (props: { drink: DrinkInfo }) {
+    const { drink } = props;
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
+
+    function updateWidth (e: HTMLImageElement) {
+        e.width = (e.height / e.naturalHeight) * e.naturalWidth;
+    }
+
+    function slug (item: Ingredient | DrinkInfo) {
+        return `${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
+    }
 
     function getIngredientFromStore (ingredient: Ingredient, index: number) {
         const letter = ingredient.Name.charAt(0);
@@ -70,45 +80,31 @@ export default function RandomDrink (props: { randomDrink: DrinkInfo, getRandomD
         }
     }
 
-    function updateWidth (e: HTMLImageElement) {
-        e.width = (e.height / e.naturalHeight) * e.naturalWidth;
-    }
-
-    function slug (item: DrinkInfo) {
-        return `${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
-    }
-
     return (
-        <main className={styles.RandomDrink}>
-            <header className={styles.drinkName}>{randomDrink['Name']}</header>
-            <section>
-                <span>Ingredients</span>
-                <ul className={styles.ingredients}>
-                    { randomDrink['Recipe'].map((ingredient: Ingredient, index: number) => {
-                        return getIngredientFromStore(ingredient, index);
-                    }) }
-                </ul>
-            </section>
-            <figure>
-                <Image 
-                    alt='Cocktail' 
-                    src={require('/public/images/ui/cocktail-placeholder.jpg')} 
-                    height="224" 
-                    onLoadingComplete={e => updateWidth(e)} />
-            </figure>
-            <Link href={`/drink/${slug(randomDrink)}`}>
+        <article className={styles.DrinkCard}>
+            <h2>{drink.Name}</h2>
+            <h3>Ingredients</h3>
+            <ul className={styles.ingredients}>
+                { drink.Recipe.map((ingredient: Ingredient, index: number) => {
+                    return getIngredientFromStore(ingredient, index);
+                }) }
+            </ul>
+            <Image 
+                alt={drink.Name} 
+                src={require('/public/images/ui/cocktail-placeholder.jpg')} 
+                width="0" 
+                height="128"
+                onLoadingComplete={e => updateWidth(e)} />
+            <Link href={`/drink/${slug(drink)}`}>
                 <button className={styles.goBtn}>
                     <span>GO TO DRINK</span>
                     <Image 
                         alt="Go to Drink" 
                         src={require('/public/images/ui/keyboard_double_arrow_right.svg')} 
-                        width="56" 
-                        height="56" />
+                        width="32" 
+                        height="32" />
                 </button>
             </Link>
-            <button onClick={() => getRandomDrink()}>
-                <span>GET NEW DRINK</span>
-            </button>
-        </main>
+        </article>
     );
 }
