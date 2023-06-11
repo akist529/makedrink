@@ -18,30 +18,16 @@ export default function RecipeItem (props: { ingredient: Item | Ingredient, miss
 
     return (
         <li className={styles.RecipeItem}>
-            { missing && 
-                <>
-                <div className={styles.missing}>
-                    <span>{ingredient.Name}</span>
-                    <span>{`${amount} ${itemUnit}`}</span>
-                </div>
+            <div className={missing? styles.missing : ''}>
                 <Image 
-                    alt='Ingredient Missing'
-                    src={require('public/images/ui/cancel.svg')}
-                    width="24"
-                    height="24"
-                    title="Missing Ingredient" />
-                </> }
-            { !missing && 
-                <div>
-                    <Image 
-                        alt={ingredient.Name} 
-                        src={require(`/public/images/ui/${slug}.webp`)} 
-                        width={itemWidth} 
-                        height="32" 
-                        onLoadingComplete={e => setItemWidth(e.naturalWidth)} />
-                    <span>{ingredient.Name}</span>
-                    <span>{`${amount} ${itemUnit}`}</span>
-                </div> }
+                    alt={ingredient.Name} 
+                    src={require(`/public/images/ui/${slug}.webp`)} 
+                    width={itemWidth} 
+                    height="32" 
+                    onLoadingComplete={e => setItemWidth(e.naturalWidth)} />
+                <span>{ingredient.Name}</span>
+                <span>{`${amount} ${itemUnit}`}</span>
+            </div>
         </li>
     );
 }

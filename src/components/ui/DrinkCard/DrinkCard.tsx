@@ -13,8 +13,8 @@ import { DrinkInfo, Ingredient, Item } from '@/types/index';
 // Local components
 import RecipeItem from './RecipeItem/RecipeItem';
 
-export default function DrinkCard (props: { drink: DrinkInfo }) {
-    const { drink } = props;
+export default function DrinkCard (props: { drink: DrinkInfo, getRandomDrink: Function, isRandom: boolean }) {
+    const { drink, getRandomDrink, isRandom } = props;
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
     function updateWidth (e: HTMLImageElement) {
@@ -82,6 +82,13 @@ export default function DrinkCard (props: { drink: DrinkInfo }) {
 
     return (
         <article className={styles.DrinkCard}>
+            { isRandom && <button className={styles.reloadBtn} onClick={() => getRandomDrink()}>
+                <Image 
+                    alt='Get New Drink' 
+                    src={require('/public/images/ui/refresh.svg')} 
+                    width="48"
+                    height="48" />
+            </button> }
             <h2>{drink.Name}</h2>
             <h3>Ingredients</h3>
             <ul className={styles.ingredients}>
@@ -95,7 +102,7 @@ export default function DrinkCard (props: { drink: DrinkInfo }) {
                 width="0" 
                 height="128"
                 onLoadingComplete={e => updateWidth(e)} />
-            <Link href={`/drink/${slug(drink)}`}>
+            <Link href={`/drink/${slug(drink)}?page=drinks`}>
                 <button className={styles.goBtn}>
                     <span>GO TO DRINK</span>
                     <Image 

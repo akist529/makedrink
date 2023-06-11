@@ -47,6 +47,26 @@ const BlockedDrinksPage: NextPage = () => {
         return arr;
     })();
 
+    function getRandomDrink () {
+        const keyLength = Object.keys(possibleDrinks).length;
+        
+        if (!keyLength) {
+            setDrinkError('You don\'t have enough ingredients to make a drink');
+        } else {
+            setDrinkError('');
+
+            const key = Object.keys(possibleDrinks)[Math.floor(Math.random() * keyLength)];
+            const index = Math.floor(Math.random() * possibleDrinks[key].length);
+            const drink = possibleDrinks[key][index];
+
+            if (drink === randomDrink) {
+            getRandomDrink();
+            } else {
+            setRandomDrink(drink);
+            }
+        }
+    }
+
     return (
         <>
         { (drinksList.length === 0) && 
@@ -63,7 +83,6 @@ const BlockedDrinksPage: NextPage = () => {
         { (drinksList.length > 0) && 
             <main className={styles.DrinksPage}>
                 <PaginationLinks 
-                    pageNums={pageNums} 
                     setFirstDrink={setFirstDrink} 
                     setLastDrink={setLastDrink}
                     activePage={activePage}
@@ -71,7 +90,9 @@ const BlockedDrinksPage: NextPage = () => {
                 <section>
                     <ul>
                         { drinksList.slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
-                            return (<DrinkCard drink={drink} key={index} />);
+                            return (
+                                <DrinkCard key={index} drink={drink} getRandomDrink={getRandomDrink} isRandom={false} />
+                            );
                         }) }
                     </ul>
                 </section>

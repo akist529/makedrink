@@ -9,7 +9,9 @@ export default function DrinkSection (props: { randomDrink: DrinkInfo, getRandom
         <section id='drink' className={styles.DrinkSection}>
           { (Object.keys(randomDrink).length > 0) && 
             <DrinkCard 
-              drink={randomDrink} /> }
+              drink={randomDrink} 
+              getRandomDrink={getRandomDrink} 
+              isRandom={true} /> }
         </section>
     );
 }

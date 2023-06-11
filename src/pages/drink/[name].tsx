@@ -99,7 +99,7 @@ const DrinkPage: NextPage = () => {
     function fetchDrinkInfo(displayName: string) {
         if (allDrinks.data) {
             for (const drink of allDrinks.data.Drinks) {
-                if (drink.Name === displayName) {
+                if (drink.Name.toLowerCase() === displayName.toLowerCase()) {
                     getDrinkInfo(drink.Id);
                 }
             }

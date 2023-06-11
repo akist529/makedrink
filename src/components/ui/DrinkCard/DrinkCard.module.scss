@@ -8,6 +8,7 @@
     height: 100%;
     padding: 10px;
     gap: 10px;
+    position: relative;
 
     /* Visual */
     background-color: #111111;
@@ -17,6 +18,19 @@
     background-repeat: repeat;
     border: 2px solid rgb(215,215,215);
     font-family: 'Oswald';
+
+    .reloadBtn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        
+        img {
+            filter: invert(1);
+        }
+    }
 
     .ingredients {
         display: grid;

@@ -1,8 +1,8 @@
 import styles from './RecipeItem.module.scss';
-import { Ingredient, Item } from '@/types/index';
+import { Item } from '@/types/index';
 import Image from 'next/image';
 import SubCard from '../SubCard/SubCard';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 
@@ -21,6 +21,10 @@ export default function RecipeItem (props: { ingredient: Item, isSub: boolean })
         }
     }
 
+    function updateWidth (e: HTMLImageElement) {
+        e.width = (e.height / e.naturalHeight) * e.naturalWidth;
+    }
+
     return (
         <li className={styles.RecipeItem}>
             { !isSub && <span>{ingredient.Name}</span> }
@@ -31,7 +35,8 @@ export default function RecipeItem (props: { ingredient: Item, isSub: boolean })
                         alt='Alternate Ingredient' 
                         src={require('/public/images/ui/change_circle.svg')} 
                         height="24" 
-                        title='Alternate Ingredient' />
+                        title='Alternate Ingredient'
+                        onLoadingComplete={e => updateWidth(e)} />
                 </button>
             </div> }
             <Image 

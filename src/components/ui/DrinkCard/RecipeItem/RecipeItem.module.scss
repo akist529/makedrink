@@ -1,14 +1,15 @@
 .RecipeItem {
     display: grid;
-    grid-template-columns: 1fr 24px;
+    grid-template-columns: 1fr auto;
     align-items: center;
     width: 100%;
     gap: 5px;
 
     .altIngredient {
         display: flex;
+        justify-self: left;
         align-items: center;
-        gap: 10px;
+        gap: 5px;
 
         button {
             background: none;
