@@ -78,6 +78,13 @@ export default function DrinkCard (props: { drink: DrinkInfo, getRandomDrink: Fu
                 }
             }
         }
+
+        return (
+            <RecipeItem 
+                key={index} 
+                ingredient={ingredient} 
+                isSub={false} />
+        )
     }
 
     return (

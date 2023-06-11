@@ -1,23 +1,25 @@
 import styles from './RecipeItem.module.scss';
-import { Item } from '@/types/index';
+import { Item, Ingredient } from '@/types/index';
 import Image from 'next/image';
 import SubCard from '../SubCard/SubCard';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 
-export default function RecipeItem (props: { ingredient: Item, isSub: boolean }) {
+export default function RecipeItem (props: { ingredient: any, isSub: boolean }) {
     const { ingredient, isSub } = props;
     const slug = require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`);
     const [showSubCard, setShowSubCard] = useState(false);
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
     function handleClick (e: any) {
-        for (const key of Object.keys(storedIngredients[ingredient.Type])) {
-            if (storedIngredients[ingredient.Type][key].find((item: Item) => (item.AliasId === ingredient.AliasId) && (item.Name !== ingredient.Name))) {
-                setShowSubCard(prevState => !prevState);
-                return;
-            }
+        if (Object.keys(ingredient).includes('Type')) {
+            for (const key of Object.keys(storedIngredients[ingredient.Type])) {
+                if (storedIngredients[ingredient.Type][key].find((item: Item) => (item.AliasId === ingredient.AliasId) && (item.Name !== ingredient.Name))) {
+                    setShowSubCard(prevState => !prevState);
+                    return;
+                }
+            }    
         }
     }
 
