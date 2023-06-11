@@ -1,0 +1,47 @@
+.ErrorPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 100px);
+    overflow: scroll;
+    margin-top: 100px;
+    padding: 50px 10px;
+
+    /* Visual */
+    background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 42px 42px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 42px 42px;
+    opacity: 0.8;
+
+    /* Textography */
+    color: white;
+    text-align: center;
+
+    h1 {
+        font-family: 'Nunito';
+    }
+
+    h2 {
+        font-family: 'Oswald';
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .ErrorPage {
+        width: calc(100vw - 250px);
+        min-height: 100vh;
+        position: relative;
+        left: 250px;
+        margin-top: 0;
+        padding: 75px 20px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .ErrorPage {
+        width: 100vw;
+        min-height: calc(100vh - 100px);
+        left: 0;
+        margin-top: 100px;
+        padding: 180px 10px;
+    }
+}
