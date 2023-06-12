@@ -1,8 +1,11 @@
+// Component styles
 import styles from './FormSection.module.scss';
+// Local components
 import IngredientForm from './IngredientForm/IngredientForm';
+import SeeDrinksButton from '@/components/buttons/SeeDrinksButton/SeeDrinksButton';
+// Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import SeeDrinksButton from '@/components/buttons/SeeDrinksButton/SeeDrinksButton';
 
 export default function FormSection (props: { drinkType: string }) {
     const { drinkType } = props;

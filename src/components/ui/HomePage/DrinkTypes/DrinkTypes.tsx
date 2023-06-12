@@ -1,4 +1,4 @@
-// Page styles
+// Component styles
 import styles from './DrinkTypes.module.scss';
 // Next components
 import Image from 'next/image';

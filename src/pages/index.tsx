@@ -15,8 +15,6 @@ import DrinkSection from '@/components/ui/HomePage/DrinkSection/DrinkSection';
 import FormSection from '@/components/ui/HomePage/FormSection/FormSection';
 // Type interfaces
 import { DrinkInfo } from '@/types/index';
-// Custom hooks
-import useGetRandomDrink from '@/hooks/useGetRandomDrink';
 
 const HomePage: NextPage = () => {
   const [drinkType, setDrinkType] = useState('');

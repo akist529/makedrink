@@ -1,5 +1,8 @@
+// Component styles
 import styles from './FormLegend.module.scss';
+// Next components
 import Image from 'next/image';
+// Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
 export default function FormLegend (props: { ingredientType: string, setFormOpen: Function }) {

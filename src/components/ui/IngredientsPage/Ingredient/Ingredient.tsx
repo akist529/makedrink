@@ -24,7 +24,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
     const ingredientImagePath = require(`/public/images/ui/${slug(item)}.webp`);
-    const childrenImagePath = require(`/public/images/ui/more_vert.svg`);
+    const childrenImagePath = require('/public/images/ui/more_vert.svg');
     const allIngredients: Item[] = (useGetAllIngredientsQuery().data || []);
     // React states
     const [isChecked, setIsChecked] = useState(itemInStore(item));

@@ -1,4 +1,4 @@
-// Import styles
+// Component styles
 import styles from './IngredientFilter.module.scss';
 // React components
 import { MouseEventHandler, useEffect } from 'react';

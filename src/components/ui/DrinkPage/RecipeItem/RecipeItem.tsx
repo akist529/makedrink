@@ -1,7 +1,10 @@
+// Component styles
 import styles from './RecipeItem.module.scss';
-import { useState } from 'react';
+// Next components
 import Image from 'next/image';
+// Type interfaces
 import { Item, Ingredient } from '@/types/index';
+// Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
 export default function RecipeItem (props: { ingredient: Item | Ingredient, missing: boolean, unit: string, amount: number }) {

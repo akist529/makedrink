@@ -1,6 +1,10 @@
+// Component styles
 import styles from './LoadingAnimation.module.scss';
+// Next components
 import Image from 'next/image';
+// React components
 import { useState, useEffect } from 'react';
+// Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
 export default function LoadingAnimation () {

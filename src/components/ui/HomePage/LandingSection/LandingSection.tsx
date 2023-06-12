@@ -1,4 +1,6 @@
+// Component styles
 import styles from './LandingSection.module.scss';
+// Local components
 import SelectIngredientsButton from '@/components/buttons/SelectIngredientsButton/SelectIngredientsButton';
 import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
 import DrinkTypes from '../DrinkTypes/DrinkTypes';

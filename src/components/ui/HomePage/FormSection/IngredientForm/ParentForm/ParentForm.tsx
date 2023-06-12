@@ -1,9 +1,15 @@
+// Component styles
 import styles from './ParentForm.module.scss';
+// Next components
 import Image from 'next/image';
+// Type interfaces
 import { Item, IngredientDict } from '@/types/index';
+// Local components
 import IngredientFilter from '../IngredientFilter/IngredientFilter';
+// Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+// Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
 export default function ParentForm (props: { ingredient: Item }) {

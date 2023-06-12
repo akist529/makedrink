@@ -2,6 +2,7 @@
 import styles from './IngredientCatBtn.module.scss';
 // Next components
 import Image from 'next/image';
+// Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
 export default function IngredientCatBtn(props: {category: string, color: string}) {

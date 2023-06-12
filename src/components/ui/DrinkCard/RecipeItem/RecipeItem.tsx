@@ -1,10 +1,17 @@
+// Component styles
 import styles from './RecipeItem.module.scss';
-import { Item, Ingredient } from '@/types/index';
+// Type interfaces
+import { Item } from '@/types/index';
+// Next components
 import Image from 'next/image';
+// Local components
 import SubCard from '../SubCard/SubCard';
+// React components
 import { useState } from 'react';
+// Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+// Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
 export default function RecipeItem (props: { ingredient: any, isSub: boolean }) {

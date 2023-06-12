@@ -1,5 +1,8 @@
+// Component styles
 import styles from './DrinkSection.module.scss';
+// Local components
 import DrinkCard from '../../DrinkCard/DrinkCard';
+// Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 

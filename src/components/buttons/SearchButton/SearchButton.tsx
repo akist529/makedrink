@@ -5,6 +5,7 @@ import Image from 'next/image';
 // Redux components
 import { useDispatch } from 'react-redux';
 import { toggleSearch } from '@/store/slices/search.slice';
+// Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
 export default function SearchButton () {

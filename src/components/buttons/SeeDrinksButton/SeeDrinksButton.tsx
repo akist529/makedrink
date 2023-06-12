@@ -1,6 +1,9 @@
+// Component styles
 import styles from './SeeDrinksButton.module.scss';
+// Next components
 import Link from 'next/link';
 import Image from 'next/image';
+// Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
 export default function SeeDrinksButton () {

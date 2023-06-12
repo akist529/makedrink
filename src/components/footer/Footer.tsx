@@ -1,4 +1,6 @@
+// Component styles
 import styles from './Footer.module.scss';
+// Next components
 import Link from 'next/link';
 
 export default function Footer () {

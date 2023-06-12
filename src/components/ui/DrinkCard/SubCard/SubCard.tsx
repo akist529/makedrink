@@ -1,9 +1,15 @@
+// Component styles
 import styles from './SubCard.module.scss';
+// Next components
 import Image from 'next/image';
+// Type interfaces
 import { Item } from '@/types/index';
+// Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+// Local components
 import RecipeItem from '../RecipeItem/RecipeItem';
+// Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
 export default function SubCard (props: { showSubCard: boolean, setShowSubCard: Function, ingredient: Item }) {

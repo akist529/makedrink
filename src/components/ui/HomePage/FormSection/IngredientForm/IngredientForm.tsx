@@ -1,4 +1,4 @@
-// Page styles
+// Component styles
 import styles from './IngredientForm.module.scss';
 // React components
 import React, { useState } from 'react';

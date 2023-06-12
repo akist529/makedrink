@@ -1,4 +1,4 @@
-// Page styles
+// Component styles
 import styles from './DrinkCard.module.scss';
 // Redux components
 import { useSelector } from 'react-redux';

@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { toggleNavMenu } from '@/store/slices/navMenu.slice';
+// Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
 export default function BurgerButton() {

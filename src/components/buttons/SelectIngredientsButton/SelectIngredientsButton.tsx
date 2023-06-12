@@ -1,6 +1,9 @@
+// Component styles
 import styles from './SelectIngredientsButton.module.scss';
+// Next components
 import Image from 'next/image';
 import Link from 'next/link';
+// Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
 export default function SelectIngredientsButton () {
