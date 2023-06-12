@@ -19,16 +19,22 @@
     border: 2px solid rgb(215,215,215);
     font-family: 'Oswald';
 
-    .reloadBtn {
-        background: none;
-        border: none;
-        cursor: pointer;
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        
-        img {
-            filter: invert(1);
+    .header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        justify-items: space-between;
+        align-items: center;
+        grid-auto-flow: column;
+        width: 100%;
+
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            
+            img {
+                filter: invert(1);
+            }
         }
     }
 

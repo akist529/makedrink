@@ -4,4 +4,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    .reloadBtn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        
+        img {
+            filter: invert(1);
+        }
+    }
 }

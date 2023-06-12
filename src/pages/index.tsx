@@ -79,7 +79,6 @@ const HomePage: NextPage = () => {
           <ScrollButton link='#drink' /> }
       { Object.keys(randomDrink).length > 0 && 
         <DrinkSection 
-          randomDrink={randomDrink} 
           getRandomDrink={getRandomDrink} /> }
       { (drinkType && Object.keys(randomDrink).length > 0) && 
           <ScrollButton link='#form' /> }

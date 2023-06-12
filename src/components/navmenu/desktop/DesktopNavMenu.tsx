@@ -19,27 +19,27 @@ export default function DesktopNavMenu () {
                         item='Select Ingredients' 
                         img='blender.svg' />
                 </Link>
-                <Link href='/drinks'>
+                <Link href='/drinks?page=0'>
                     <NavMenuItem 
                         item='All Drinks' 
                         img='local_bar.svg' />
                 </Link>
-                <Link href='/drinks/possible'>
+                <Link href='/drinks/possible?page=0'>
                     <NavMenuItem 
                         item='Possible Drinks' 
                         img='done_all.svg' />
                 </Link>
-                <Link href='/drinks/filtered'>
+                <Link href='/drinks/filtered?page=0'>
                     <NavMenuItem 
                         item='Filtered Drinks' 
                         img='filter_list.svg' />
                 </Link>
-                <Link href='/drinks/favorited'>
+                <Link href='/drinks/favorited?page=0'>
                     <NavMenuItem 
                         item='Favorite Drinks' 
                         img='favorite.svg' />
                 </Link>
-                <Link href='/drinks/blocked'>
+                <Link href='/drinks/blocked?page=0'>
                     <NavMenuItem 
                         item='Blocked Drinks' 
                         img='block.svg' />

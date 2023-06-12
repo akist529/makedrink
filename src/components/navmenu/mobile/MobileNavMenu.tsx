@@ -39,34 +39,34 @@ export default function MobileNavMenu () {
                         slug='/ingredients' 
                         img='blender.svg' />
                 </Link>
-                <Link href='/drinks' onClick={handleClick}>
+                <Link href='/drinks?page=0' onClick={handleClick}>
                     <NavMenuItem 
                         item='All Drinks' 
-                        slug='/drinks' 
+                        slug='/drinks?page=0' 
                         img='local_bar.svg' />
                 </Link>
-                <Link href='/drinks/possible' onClick={handleClick}>
+                <Link href='/drinks/possible?page=0' onClick={handleClick}>
                     <NavMenuItem 
                         item='Possible Drinks' 
-                        slug='/drinks/possible' 
+                        slug='/drinks/possible?page=0' 
                         img='done_all.svg' />
                 </Link>
-                <Link href='/drinks/filtered' onClick={handleClick}>
+                <Link href='/drinks/filtered?page=0' onClick={handleClick}>
                     <NavMenuItem 
                         item='Filtered Drinks' 
-                        slug='/drinks/filtered' 
+                        slug='/drinks/filtered?page=0' 
                         img='filter_list.svg' />
                 </Link>
-                <Link href='/drinks/favorited' onClick={handleClick}>
+                <Link href='/drinks/favorited?page=0' onClick={handleClick}>
                     <NavMenuItem 
                         item='Favorite Drinks' 
-                        slug='/drinks/favorited' 
+                        slug='/drinks/favorited?page=0' 
                         img='favorite.svg' />
                 </Link>
-                <Link href='/drinks/blocked' onClick={handleClick}>
+                <Link href='/drinks/blocked?page=0' onClick={handleClick}>
                     <NavMenuItem 
                         item='Blocked Drinks' 
-                        slug='/drinks/blocked' 
+                        slug='/drinks/blocked?page=0' 
                         img='block.svg' />
                 </Link>
             </ul>

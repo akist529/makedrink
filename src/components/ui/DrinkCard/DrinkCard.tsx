@@ -89,14 +89,17 @@ export default function DrinkCard (props: { drink: DrinkInfo, getRandomDrink: Fu
 
     return (
         <article className={styles.DrinkCard}>
-            { isRandom && <button className={styles.reloadBtn} onClick={() => getRandomDrink()}>
-                <Image 
-                    alt='Get New Drink' 
-                    src={require('/public/images/ui/refresh.svg')} 
-                    width="48"
-                    height="48" />
-            </button> }
-            <h2>{drink.Name}</h2>
+            <div className={styles.header}>
+                <h2>{drink.Name}</h2>
+                { isRandom && 
+                    <button onClick={() => getRandomDrink()}>
+                        <Image 
+                            alt='Get New Drink' 
+                            src={require('/public/images/ui/refresh.svg')} 
+                            width="48"
+                            height="48" />
+                    </button> }
+            </div>
             <h3>Ingredients</h3>
             <ul className={styles.ingredients}>
                 { drink.Recipe.map((ingredient: Ingredient, index: number) => {
