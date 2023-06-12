@@ -16,6 +16,8 @@ import { Item, Drink } from '@/types/index';
 import IngredientCatBtn from '@/components/buttons/IngredientCatBtn/IngredientCatBtn';
 import IngredientSection from '@/components/ui/IngredientsPage/IngredientSection/IngredientSection';
 import Footer from '@/components/footer/Footer';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
 
 const IngredientsPage: NextPage = () => {
     const allIngredients = useGetAllIngredientsQuery();
@@ -93,10 +95,6 @@ const IngredientsPage: NextPage = () => {
         });
     }
 
-    function updateWidth (e: HTMLImageElement) {
-        e.width = (e.height / e.naturalHeight) * e.naturalWidth;
-    }
-
     return (
         <>
             { allIngredients.data && 
@@ -119,8 +117,9 @@ const IngredientsPage: NextPage = () => {
                         <Image 
                             alt='Select Ingredients' 
                             src={ingredientsImagePath} 
-                            width='64' 
-                            height='64' />
+                            width='0' 
+                            height='64' 
+                            onLoadingComplete={e => updateWidth(e)} />
                     </h1>
                     <div>
                         <div className={styles.category}>

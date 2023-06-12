@@ -1,10 +1,10 @@
 import styles from './SubCard.module.scss';
 import Image from 'next/image';
-import { useEffect } from 'react';
-import { Ingredient, Item } from '@/types/index';
+import { Item } from '@/types/index';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import RecipeItem from '../RecipeItem/RecipeItem';
+import updateWidth from '@/helpers/updateWidth';
 
 export default function SubCard (props: { showSubCard: boolean, setShowSubCard: Function, ingredient: Item }) {
     const { showSubCard, setShowSubCard, ingredient } = props;
@@ -43,7 +43,10 @@ export default function SubCard (props: { showSubCard: boolean, setShowSubCard: 
             <button onClick={() => setShowSubCard(false)}>
                 <Image 
                     alt="Close Modal" 
-                    src={imagePath} />
+                    src={imagePath} 
+                    width="0" 
+                    height="32" 
+                    onLoadingComplete={e => updateWidth(e)} />
             </button>
         </div>
     );

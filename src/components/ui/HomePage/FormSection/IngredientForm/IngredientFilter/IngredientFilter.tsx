@@ -10,6 +10,8 @@ import { selectIngredient, unselectIngredient } from '@/store/slices/ingredients
 import Image from 'next/image';
 // Type interfaces
 import { Item, IngredientDict } from '@/types/index';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
 
 export default function IngredientFilter (props: { ingredient: Item, showImage: boolean }) {
     const { ingredient, showImage } = props;
@@ -22,10 +24,6 @@ export default function IngredientFilter (props: { ingredient: Item, showImage: 
         } else {
             dispatch(unselectIngredient(ingredient));
         }
-    }
-
-    function updateWidth (e: HTMLImageElement) {
-        e.width = (e.height / e.naturalHeight) * e.naturalWidth;
     }
 
     function slug (item: Item) {

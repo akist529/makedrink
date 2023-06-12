@@ -14,6 +14,8 @@ import { RootState } from '@/store/store';
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox';
 // Type interfaces
 import { Item, IngredientDict } from '@/types/index';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
 
 export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Import props
@@ -134,12 +136,16 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
                         className={styles.children} 
                         alt="Show Varieties" 
                         src={childrenImagePath} 
-                        width="8" 
-                        height="64" /> }
+                        width="0" 
+                        height="64" 
+                        onLoadingComplete={e => updateWidth(e)} /> }
                 <div className={styles.icon}>
                     <Image 
                         alt={item.Name} 
-                        src={ingredientImagePath} />
+                        src={ingredientImagePath} 
+                        width="0" 
+                        height="32" 
+                        onLoadingComplete={e => updateWidth(e)} />
                 </div>
                 <IngredientCheckbox 
                     item={item} 

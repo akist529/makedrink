@@ -12,10 +12,12 @@ import Image from 'next/image';
 // React components
 import { useState, useEffect } from 'react';
 // Type interfaces
-import { DrinkInfo, Ingredient, Item, DrinkQuery } from '@/types/index';
+import { DrinkInfo, Ingredient, Item } from '@/types/index';
 // Local components
 import RecipeItem from '@/components/ui/DrinkPage/RecipeItem/RecipeItem';
 import Footer from '@/components/footer/Footer';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
 
 const DrinkPage: NextPage = () => {
     // RTK Queries
@@ -184,10 +186,6 @@ const DrinkPage: NextPage = () => {
                 amount={amount}
                 missing={true} />
         );
-    }
-
-    function updateWidth (e: HTMLImageElement) {
-        e.width = (e.height / e.naturalHeight) * e.naturalWidth;
     }
 
     function favoriteDrink (drink: DrinkInfo) {

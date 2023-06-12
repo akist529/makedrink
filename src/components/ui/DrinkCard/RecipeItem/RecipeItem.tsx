@@ -5,6 +5,7 @@ import SubCard from '../SubCard/SubCard';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+import updateWidth from '@/helpers/updateWidth';
 
 export default function RecipeItem (props: { ingredient: any, isSub: boolean }) {
     const { ingredient, isSub } = props;
@@ -23,10 +24,6 @@ export default function RecipeItem (props: { ingredient: any, isSub: boolean }) 
         }
     }
 
-    function updateWidth (e: HTMLImageElement) {
-        e.width = (e.height / e.naturalHeight) * e.naturalWidth;
-    }
-
     return (
         <li className={styles.RecipeItem}>
             { !isSub && <span>{ingredient.Name}</span> }
@@ -36,14 +33,16 @@ export default function RecipeItem (props: { ingredient: any, isSub: boolean }) 
                     <Image 
                         alt='Alternate Ingredient' 
                         src={require('/public/images/ui/change_circle.svg')} 
+                        width="0" 
                         height="24" 
-                        title='Alternate Ingredient'
+                        title='Alternate Ingredient' 
                         onLoadingComplete={e => updateWidth(e)} />
                 </button>
             </div> }
             <Image 
                 alt={ingredient.Name} 
                 src={slug} 
+                width="0" 
                 height="24" />
             { showSubCard && 
                 <SubCard 

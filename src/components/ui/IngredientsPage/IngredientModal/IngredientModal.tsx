@@ -11,6 +11,8 @@ import { useGetAllIngredientsQuery } from '@/store/api/api';
 import Ingredient from '@/components/ui/IngredientsPage/Ingredient/Ingredient';
 // Type interfaces
 import { Item } from '@/types/index';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
 
 export default function IngredientModal() {
     // Redux selectors
@@ -34,17 +36,23 @@ export default function IngredientModal() {
                         <button onClick={() => dispatch(toggleIngredientModal())}>
                             <Image 
                                 alt="Close Modal" 
-                                src={imagePath} />
+                                src={imagePath} 
+                                width="0" 
+                                height="32" 
+                                onLoadingComplete={e => updateWidth(e)} />
                         </button>
                         <div className={styles.header}>
                             <span>{modalIngredient.Name}</span>
                             <Image 
                                 alt={modalIngredient.Name} 
-                                src={require(`/public/images/ui/${slug(modalIngredient)}.webp`)} />
+                                src={require(`/public/images/ui/${slug(modalIngredient)}.webp`)} 
+                                width="0" 
+                                height="32" 
+                                onLoadingComplete={e => updateWidth(e)} />
                         </div>
                         <ul className={styles.childList}>
                             { data.filter((ingredient: Item) => ingredient.AliasId === modalIngredient.Id)
-                                .map(ingredient => <Ingredient key={ingredient.Id} item={ingredient} section={[]} />) }
+                                .map((ingredient: Item) => <Ingredient key={ingredient.Id} item={ingredient} section={[]} />) }
                         </ul>
                     </div>
                 </div> }

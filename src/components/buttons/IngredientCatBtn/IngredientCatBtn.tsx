@@ -2,6 +2,7 @@
 import styles from './IngredientCatBtn.module.scss';
 // Next components
 import Image from 'next/image';
+import updateWidth from '@/helpers/updateWidth';
 
 export default function IngredientCatBtn(props: {category: string, color: string}) {
     const { category, color } = props;
@@ -13,7 +14,12 @@ export default function IngredientCatBtn(props: {category: string, color: string
     return (
         <button className={ButtonStyles}>
             <span>{category}</span>
-            <Image alt={category} src={imagePath} width="64" height="64" />
+            <Image 
+                alt={category} 
+                src={imagePath} 
+                width="0" 
+                height="64" 
+                onLoadingComplete={e => updateWidth(e)} />
         </button>
     );
 }

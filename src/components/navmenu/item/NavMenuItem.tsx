@@ -3,6 +3,8 @@ import styles from './NavMenuItem.module.scss';
 // Next components
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
 
 export default function NavMenuItem(props: { item: string, slug: string, img: string }) {
     const { item, slug, img } = props;
@@ -15,8 +17,9 @@ export default function NavMenuItem(props: { item: string, slug: string, img: st
             <Image 
                 alt={item} 
                 src={imagePath} 
-                width='48' 
-                height='48' />
+                width='0' 
+                height='48' 
+                onLoadingComplete={e => updateWidth(e)} />
         </button>
     );
 }

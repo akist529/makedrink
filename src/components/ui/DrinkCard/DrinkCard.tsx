@@ -4,7 +4,7 @@ import styles from './DrinkCard.module.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 // React components
-import React, { SyntheticEvent, useState } from 'react';
+import React from 'react';
 // Next components
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,14 +12,12 @@ import Link from 'next/link';
 import { DrinkInfo, Ingredient, Item } from '@/types/index';
 // Local components
 import RecipeItem from './RecipeItem/RecipeItem';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
 
 export default function DrinkCard (props: { drink: DrinkInfo, getRandomDrink: Function, isRandom: boolean }) {
     const { drink, getRandomDrink, isRandom } = props;
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
-
-    function updateWidth (e: HTMLImageElement) {
-        e.width = (e.height / e.naturalHeight) * e.naturalWidth;
-    }
 
     function slug (item: Ingredient | DrinkInfo) {
         return `${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
@@ -96,8 +94,9 @@ export default function DrinkCard (props: { drink: DrinkInfo, getRandomDrink: Fu
                         <Image 
                             alt='Get New Drink' 
                             src={require('/public/images/ui/refresh.svg')} 
-                            width="48"
-                            height="48" />
+                            width="0"
+                            height="48" 
+                            onLoadingComplete={e => updateWidth(e)} />
                     </button> }
             </div>
             <h3>Ingredients</h3>
@@ -118,8 +117,9 @@ export default function DrinkCard (props: { drink: DrinkInfo, getRandomDrink: Fu
                     <Image 
                         alt="Go to Drink" 
                         src={require('/public/images/ui/keyboard_double_arrow_right.svg')} 
-                        width="32" 
-                        height="32" />
+                        width="0" 
+                        height="32" 
+                        onLoadingComplete={e => updateWidth(e)} />
                 </button>
             </Link>
         </article>

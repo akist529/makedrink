@@ -1,11 +1,9 @@
 // Page styles
 import styles from './PaginationLinks.module.scss';
-// React components
-import { useEffect } from 'react';
 // Next components
 import Image from 'next/image';
-// Type imports
-import { Drink, DrinkInfo } from '@/types/index';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
 
 export default function PaginationLinks (props: { activePage: number, setActivePage: Function, numOfPages: number, loadState: boolean }) {
     const { activePage, setActivePage, numOfPages, loadState } = props;
@@ -31,7 +29,12 @@ export default function PaginationLinks (props: { activePage: number, setActiveP
     return (
         <nav className={styles.PaginationLinks}>
             <button className={styles.PaginateBtn} onClick={setPageLeft}>
-                <Image alt='Left' src={require('/public/images/ui/chevron_left.svg')} />
+                <Image 
+                    alt='Left' 
+                    src={require('/public/images/ui/chevron_left.svg')} 
+                    width="0" 
+                    height="32" 
+                    onLoadingComplete={e => updateWidth(e)} />
             </button>
             <ul>
                 { (() => {
@@ -51,7 +54,12 @@ export default function PaginationLinks (props: { activePage: number, setActiveP
                 })() }
             </ul>
             <button className={styles.PaginateBtn} onClick={setPageRight}>
-                <Image alt='Right' src={require('/public/images/ui/chevron_right.svg')} />
+                <Image 
+                    alt='Right' 
+                    src={require('/public/images/ui/chevron_right.svg')} 
+                    width="0" 
+                    height="32" 
+                    onLoadingComplete={e => updateWidth(e)} />
             </button>
         </nav>
     );

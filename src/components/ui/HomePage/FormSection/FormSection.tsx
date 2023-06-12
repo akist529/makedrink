@@ -2,8 +2,6 @@ import styles from './FormSection.module.scss';
 import IngredientForm from './IngredientForm/IngredientForm';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import Link from 'next/link';
-import Image from 'next/image';
 import SeeDrinksButton from '@/components/buttons/SeeDrinksButton/SeeDrinksButton';
 
 export default function FormSection (props: { drinkType: string }) {

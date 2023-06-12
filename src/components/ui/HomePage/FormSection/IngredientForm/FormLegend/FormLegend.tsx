@@ -1,5 +1,6 @@
 import styles from './FormLegend.module.scss';
 import Image from 'next/image';
+import updateWidth from '@/helpers/updateWidth';
 
 export default function FormLegend (props: { ingredientType: string, setFormOpen: Function }) {
     const { ingredientType, setFormOpen } = props;
@@ -15,7 +16,10 @@ export default function FormLegend (props: { ingredientType: string, setFormOpen
                 <span>{ingredientType}</span>
                 <Image 
                     alt='Close Form Field' 
-                    src={require('/public/images/ui/expand_more.svg')} />
+                    src={require('/public/images/ui/expand_more.svg')} 
+                    width="0" 
+                    height="32" 
+                    onLoadingComplete={e => updateWidth(e)} />
             </button>
         </legend>
     );

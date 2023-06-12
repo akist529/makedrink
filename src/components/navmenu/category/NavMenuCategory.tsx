@@ -10,6 +10,8 @@ import Link from 'next/link';
 import NavMenuItem from '@/components/navmenu/item/NavMenuItem';
 // Type interfaces
 import { IngredientDict, Item } from '@/types/index';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
 
 export default function NavMenuCategory(props: { type: string }) {
     const { type } = props;
@@ -35,8 +37,9 @@ export default function NavMenuCategory(props: { type: string }) {
                 <Image 
                     alt='Expand' 
                     src={imagePath} 
-                    width="40" 
-                    height="40" />
+                    width="0" 
+                    height="40" 
+                    onLoadingComplete={e => updateWidth(e)} />
             </button>
             <ul>
                 { menuItems.map((item: Item, index: number) => {

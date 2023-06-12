@@ -1,6 +1,7 @@
 import styles from './LoadingAnimation.module.scss';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import updateWidth from '@/helpers/updateWidth';
 
 export default function LoadingAnimation () {
     const text = ['Loading', '.', '.', '.'];
@@ -22,7 +23,12 @@ export default function LoadingAnimation () {
                 { timer > 1 && text[2] }
                 { timer > 2 && text[3] }
             </h1>
-            <Image alt='Loading' src={require('/public/images/ui/shaker.webp')} />
+            <Image 
+                alt='Loading' 
+                src={require('/public/images/ui/shaker.webp')} 
+                width="0" 
+                height="128" 
+                onLoadingComplete={e => updateWidth(e)} />
         </div>
     );
 }

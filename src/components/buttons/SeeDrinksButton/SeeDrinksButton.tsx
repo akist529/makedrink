@@ -1,6 +1,7 @@
 import styles from './SeeDrinksButton.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
+import updateWidth from '@/helpers/updateWidth';
 
 export default function SeeDrinksButton () {
     return (
@@ -10,8 +11,9 @@ export default function SeeDrinksButton () {
             <Image 
                 alt='See Drinks' 
                 src={require('/public/images/ui/cocktail.webp')} 
-                width="64" 
-                height="64" />
+                width="0" 
+                height="64" 
+                onLoadingComplete={e => updateWidth(e)} />
             </button>
         </Link>
     );

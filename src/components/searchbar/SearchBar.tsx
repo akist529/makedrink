@@ -9,7 +9,8 @@ export default function SearchBar() {
 
     return (
         <div className={styles.SearchBar}>
-            { searchOpen && <SearchInput /> }
+            { searchOpen && 
+                <SearchInput /> }
             <SearchButton />
         </div>
     );

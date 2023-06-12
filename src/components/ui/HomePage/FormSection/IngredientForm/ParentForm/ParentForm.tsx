@@ -4,15 +4,12 @@ import { Item, IngredientDict } from '@/types/index';
 import IngredientFilter from '../IngredientFilter/IngredientFilter';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+import updateWidth from '@/helpers/updateWidth';
 
 export default function ParentForm (props: { ingredient: Item }) {
     const { ingredient } = props;
     const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored);
     const slug = require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`);
-
-    function updateWidth (e: HTMLImageElement) {
-        e.width = (e.height / e.naturalHeight) * e.naturalWidth;
-    }
 
     function childIngredients (item: Item) {
         const childIngredients: Item[] = [];
@@ -56,18 +53,22 @@ export default function ParentForm (props: { ingredient: Item }) {
                 </legend>
                 <ul className={styles.ingredientList}>
                     { childIngredients(ingredient).filter((ingredient: Item) => ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
-                        return <IngredientFilter 
-                                    key={index} 
-                                    ingredient={ingredient} 
-                                    showImage={false} />
+                        return (
+                            <IngredientFilter 
+                                key={index} 
+                                ingredient={ingredient} 
+                                showImage={false} />
+                        );
                     }) }
                 </ul>
                 <ul className={styles.ingredientList}>
                     { childIngredients(ingredient).filter((ingredient: Item) => !ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
-                        return <IngredientFilter 
-                                    key={index} 
-                                    ingredient={ingredient} 
-                                    showImage={false} />
+                        return (
+                            <IngredientFilter 
+                                key={index} 
+                                ingredient={ingredient} 
+                                showImage={false} />
+                        );
                     }) }
                 </ul>
             </fieldset>
