@@ -4,9 +4,27 @@ import styles from './LandingSection.module.scss';
 import SelectIngredientsButton from '@/components/buttons/SelectIngredientsButton/SelectIngredientsButton';
 import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
 import DrinkTypes from '../DrinkTypes/DrinkTypes';
+// Helper functions
+import getRandomDrink from '@/helpers/getRandomDrink';
+// Redux components
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store/store';
+import { setRandomDrink } from '@/store/slices/drinks.slice';
 
-export default function LandingSection (props: { getRandomDrink: Function, drinkType: string, setDrinkType: Function, drinkError: string, setDrinkError: Function }) {
-    const { getRandomDrink, drinkType, setDrinkType, drinkError, setDrinkError } = props;
+export default function LandingSection (props: { drinkType: string, setDrinkType: Function, drinkError: string, setDrinkError: Function }) {
+    const { drinkType, setDrinkType, drinkError, setDrinkError } = props;
+    const possibleDrinks = useSelector((state: RootState) => state.drinks.possible);
+    const randomDrink = useSelector((state: RootState) => state.drinks.random);
+    const dispatch = useDispatch();
+
+    function handleClick () {
+        const drink = getRandomDrink(possibleDrinks, randomDrink);
+        if (!drink) {
+            setDrinkError('You don\'t have enough ingredients to make a drink');
+        } else {
+            dispatch(setRandomDrink(drink));
+        }
+    }
 
     return (
         <section id="landing" className={styles.LandingSection}>
@@ -14,7 +32,7 @@ export default function LandingSection (props: { getRandomDrink: Function, drink
             <SelectIngredientsButton />
             <span>Then...</span>
             <nav>
-                <div onClick={() => getRandomDrink()}>
+                <div onClick={handleClick}>
                     <MakeDrinkButton />
                 </div>
                 <h2>Or...</h2>

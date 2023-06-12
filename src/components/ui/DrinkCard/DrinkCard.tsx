@@ -1,8 +1,9 @@
 // Component styles
 import styles from './DrinkCard.module.scss';
 // Redux components
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
+import { setRandomDrink } from '@/store/slices/drinks.slice';
 // React components
 import React from 'react';
 // Next components
@@ -14,10 +15,14 @@ import { DrinkInfo, Ingredient, Item } from '@/types/index';
 import RecipeItem from './RecipeItem/RecipeItem';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+import getRandomDrink from '@/helpers/getRandomDrink';
 
-export default function DrinkCard (props: { drink: DrinkInfo, getRandomDrink: Function, isRandom: boolean }) {
-    const { drink, getRandomDrink, isRandom } = props;
+export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean }) {
+    const { drink, isRandom } = props;
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
+    const possibleDrinks = useSelector((state: RootState) => state.drinks.possible);
+    const randomDrink = useSelector((state: RootState) => state.drinks.random);
+    const dispatch = useDispatch();
 
     function slug (item: Ingredient | DrinkInfo) {
         return `${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
@@ -85,12 +90,20 @@ export default function DrinkCard (props: { drink: DrinkInfo, getRandomDrink: Fu
         )
     }
 
+    function handleClick () {
+        const drink = getRandomDrink(possibleDrinks, randomDrink);
+        
+        if (drink) {
+            dispatch(setRandomDrink(drink));
+        }
+    }
+
     return (
         <article className={styles.DrinkCard}>
             <div className={styles.header}>
                 <h2>{drink.Name}</h2>
                 { isRandom && 
-                    <button onClick={() => getRandomDrink()}>
+                    <button onClick={handleClick}>
                         <Image 
                             alt='Get New Drink' 
                             src={require('/public/images/ui/refresh.svg')} 
