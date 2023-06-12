@@ -43,7 +43,7 @@ export default function ParentForm (props: { ingredient: Item }) {
     }
 
     return (
-        <li>
+        <li className={styles.ParentForm}>
             <fieldset>
                 <legend>
                     <span>{ingredient.Name}</span>

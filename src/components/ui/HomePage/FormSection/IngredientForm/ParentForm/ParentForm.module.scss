@@ -1,0 +1,29 @@
+.ParentForm {
+    fieldset {
+        padding: 5px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+
+        legend {
+            display: grid;
+            grid-template-columns: auto auto;
+            grid-template-rows: auto;
+            justify-items: center;
+            align-items: center;
+            grid-gap: 10px;
+            padding: 0 10px;
+            text-transform: uppercase;
+            line-height: 32px;
+            font-size: 28px;
+
+            span {
+                max-width: 160px;
+                text-align: center;
+            }
+        }
+    }
+}

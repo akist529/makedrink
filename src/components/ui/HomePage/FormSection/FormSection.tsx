@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import Link from 'next/link';
 import Image from 'next/image';
+import SeeDrinksButton from '@/components/buttons/SeeDrinksButton/SeeDrinksButton';
 
 export default function FormSection (props: { drinkType: string }) {
     const { drinkType } = props;
@@ -43,16 +44,7 @@ export default function FormSection (props: { drinkType: string }) {
                         </> }
                 </form> }
             { (drinkType && Object.keys(storedIngredients).length > 0) && 
-                <Link href='/drinks/filtered'>
-                    <button className={styles.seeDrinksBtn}>
-                    <span>See Drinks</span>
-                    <Image 
-                        alt='See Drinks' 
-                        src={require('/public/images/ui/cocktail.webp')} 
-                        width="64" 
-                        height="64" />
-                    </button>
-                </Link> }
+                <SeeDrinksButton /> }
         </section>
     );
 }
