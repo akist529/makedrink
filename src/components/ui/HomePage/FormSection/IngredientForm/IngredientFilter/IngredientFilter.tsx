@@ -12,22 +12,19 @@ import Image from 'next/image';
 import { Item, IngredientDict } from '@/types/index';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+import getSlug from '@/helpers/getSlug';
 
 export default function IngredientFilter (props: { ingredient: Item, showImage: boolean }) {
     const { ingredient, showImage } = props;
     const dispatch = useDispatch();
     const selectedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.selected);
 
-    function changeState (e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
+    function changeState (e: React.MouseEvent<HTMLInputElement,MouseEvent>) {
         if (e.currentTarget.checked) {
             dispatch(selectIngredient(ingredient));
         } else {
             dispatch(unselectIngredient(ingredient));
         }
-    }
-
-    function slug (item: Item) {
-        return `${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
     }
 
     useEffect(() => {
@@ -45,7 +42,7 @@ export default function IngredientFilter (props: { ingredient: Item, showImage: 
             <div>
                 { showImage && <Image 
                     alt={ingredient.Name} 
-                    src={require(`/public/images/ui/${slug(ingredient)}.webp`)} 
+                    src={require(`/public/images/ui/${getSlug(ingredient.Name)}.webp`)} 
                     width="0" 
                     height="48" 
                     onLoadingComplete={e => updateWidth(e)} /> }

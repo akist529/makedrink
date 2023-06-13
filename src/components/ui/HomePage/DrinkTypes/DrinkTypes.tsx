@@ -21,25 +21,25 @@ export default function DrinkTypes (props: { drinkType: string, setDrinkType: Fu
     }
 
     return (
-    <div className={styles.DrinkTypes}>
-        <button className={drinkType === 'cocktail' ? styles.active : ''} onClick={() => handleClick('cocktail')}>
-            <span>Cocktail</span>
-            <Image 
-                alt="Cocktail" 
-                src={require('/public/images/ui/local_bar.svg')} 
-                width="0" 
-                height="24" 
-                onLoadingComplete={e => updateWidth(e)} />
-        </button>
-        <button className={drinkType === 'mocktail' ? styles.active : ''} onClick={() => handleClick('mocktail')}>
-            <span>Mocktail</span>
-            <Image 
-                alt="Mocktail" 
-                src={require('/public/images/ui/no_drinks.svg')} 
-                width="0" 
-                height="24" 
-                onLoadingComplete={e => updateWidth(e)} />
-        </button>
-    </div>
+        <div className={styles.DrinkTypes}>
+            <button className={drinkType === 'cocktail' ? styles.active : ''} onClick={() => handleClick('cocktail')}>
+                <span>Cocktail</span>
+                <Image 
+                    alt="Cocktail" 
+                    src={require('/public/images/ui/local_bar.svg')} 
+                    width="0" 
+                    height="24" 
+                    onLoadingComplete={e => updateWidth(e)} />
+            </button>
+            <button className={drinkType === 'mocktail' ? styles.active : ''} onClick={() => handleClick('mocktail')}>
+                <span>Mocktail</span>
+                <Image 
+                    alt="Mocktail" 
+                    src={require('/public/images/ui/no_drinks.svg')} 
+                    width="0" 
+                    height="24" 
+                    onLoadingComplete={e => updateWidth(e)} />
+            </button>
+        </div>
     );
 }

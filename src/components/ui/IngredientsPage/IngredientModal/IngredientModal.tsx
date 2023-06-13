@@ -13,6 +13,7 @@ import Ingredient from '@/components/ui/IngredientsPage/Ingredient/Ingredient';
 import { Item } from '@/types/index';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+import getSlug from '@/helpers/getSlug';
 
 export default function IngredientModal() {
     // Redux selectors
@@ -23,10 +24,6 @@ export default function IngredientModal() {
 
     const dispatch = useDispatch();
     const imagePath = require('/public/images/ui/close.svg');
-
-    function slug (item: Item) {
-        return `${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
-    }
 
     return (
         <>
@@ -45,7 +42,7 @@ export default function IngredientModal() {
                             <span>{modalIngredient.Name}</span>
                             <Image 
                                 alt={modalIngredient.Name} 
-                                src={require(`/public/images/ui/${slug(modalIngredient)}.webp`)} 
+                                src={require(`/public/images/ui/${getSlug(modalIngredient.Name)}.webp`)} 
                                 width="0" 
                                 height="32" 
                                 onLoadingComplete={e => updateWidth(e)} />

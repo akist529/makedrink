@@ -8,7 +8,7 @@ import updateWidth from '@/helpers/updateWidth';
 export default function FormLegend (props: { ingredientType: string, setFormOpen: Function }) {
     const { ingredientType, setFormOpen } = props;
 
-    function toggleForm (e: React.MouseEvent<HTMLButtonElement>) {
+    function toggleForm (e: React.MouseEvent<HTMLButtonElement,MouseEvent>) {
         e.preventDefault();
         setFormOpen((prevState: boolean) => !prevState);
     }

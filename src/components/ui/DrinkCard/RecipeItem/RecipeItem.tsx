@@ -13,14 +13,15 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+import getSlug from '@/helpers/getSlug';
 
 export default function RecipeItem (props: { ingredient: any, isSub: boolean }) {
     const { ingredient, isSub } = props;
-    const slug = require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`);
+    const slug = require(`/public/images/ui/${getSlug(ingredient.Name)}.webp`);
     const [showSubCard, setShowSubCard] = useState(false);
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
-    function handleClick (e: any) {
+    function handleClick (e: React.MouseEvent<HTMLButtonElement,MouseEvent>) {
         if (Object.keys(ingredient).includes('Type')) {
             for (const key of Object.keys(storedIngredients[ingredient.Type])) {
                 if (storedIngredients[ingredient.Type][key].find((item: Item) => (item.AliasId === ingredient.AliasId) && (item.Name !== ingredient.Name))) {

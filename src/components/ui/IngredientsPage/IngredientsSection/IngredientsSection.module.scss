@@ -1,0 +1,32 @@
+.IngredientsSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: auto;
+
+    .category {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border: 2px solid white;
+        border-radius: 10px;
+        padding: 10px 10px;
+        width: auto;
+
+        img {
+            filter: invert(1);
+        }
+    }
+
+    h2 {
+        color: white;
+        font-family: 'Nunito';
+        font-size: 48px;
+        text-align: center;
+        text-transform: uppercase;
+        text-shadow: 0 0 20px rgb(80, 80, 255);  
+    }
+}

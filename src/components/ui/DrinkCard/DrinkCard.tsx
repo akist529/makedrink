@@ -16,6 +16,7 @@ import RecipeItem from './RecipeItem/RecipeItem';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 import getRandomDrink from '@/helpers/getRandomDrink';
+import getSlug from '@/helpers/getSlug';
 
 export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean }) {
     const { drink, isRandom } = props;
@@ -24,17 +25,14 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean 
     const randomDrink = useSelector((state: RootState) => state.drinks.random);
     const dispatch = useDispatch();
 
-    function slug (item: Ingredient | DrinkInfo) {
-        return `${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
-    }
-
     function getIngredientFromStore (ingredient: Ingredient, index: number) {
         const letter = ingredient.Name.charAt(0);
 
         // Try to find recipe ingredient
         for (const key of Object.keys(storedIngredients)) {
             if (storedIngredients[key].hasOwnProperty(letter)) {
-                const item = storedIngredients[key][letter].filter((item: Item) => item.Name === ingredient.Name);
+                let item = storedIngredients[key][letter];
+                item = item.filter((item: Item) => item.Name === ingredient.Name);
                 
                 if (item.length) {
                     return (
@@ -124,7 +122,7 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean 
                 width="0" 
                 height="128"
                 onLoadingComplete={e => updateWidth(e)} />
-            <Link href={`/drink/${slug(drink)}?page=drinks`}>
+            <Link href={`/drink/${getSlug(drink.Name)}?page=drinks`}>
                 <button className={styles.goBtn}>
                     <span>GO TO DRINK</span>
                     <Image 

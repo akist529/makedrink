@@ -6,10 +6,11 @@ import Image from 'next/image';
 import { Item, Ingredient } from '@/types/index';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+import getSlug from '@/helpers/getSlug';
 
 export default function RecipeItem (props: { ingredient: Item | Ingredient, missing: boolean, unit: string, amount: number }) {
     const { ingredient, missing, unit, amount } = props;
-    const slug = ingredient.Name.split(' ').join('-').toLowerCase().replaceAll('/', '-');
+    const slug = getSlug(ingredient.Name);
 
     const itemUnit = (() => {
         if (unit === 'ounce') {

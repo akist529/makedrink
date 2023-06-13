@@ -12,6 +12,7 @@ import NavMenuItem from '@/components/navmenu/item/NavMenuItem';
 import { IngredientDict, Item } from '@/types/index';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+import getSlug from '@/helpers/getSlug';
 
 export default function NavMenuCategory(props: { type: string }) {
     const { type } = props;
@@ -45,9 +46,10 @@ export default function NavMenuCategory(props: { type: string }) {
                 { menuItems.map((item: Item, index: number) => {
                     return (
                         <li key={index}>
-                            <Link href={`/${item.Name.toLowerCase()}`}>
+                            <Link href={`/${getSlug(item.Name)}`}>
                                 <NavMenuItem 
                                     item={item.Name} 
+                                    slug={getSlug(item.Name)}
                                     img='cocktail.webp' />
                             </Link>
                         </li>

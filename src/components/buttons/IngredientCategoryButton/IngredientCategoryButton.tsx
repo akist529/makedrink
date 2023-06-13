@@ -1,15 +1,16 @@
 // Component styles
-import styles from './IngredientCatBtn.module.scss';
+import styles from './IngredientCategoryButton.module.scss';
 // Next components
 import Image from 'next/image';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+import getSlug from '@/helpers/getSlug';
 
-export default function IngredientCatBtn(props: {category: string, color: string}) {
+export default function IngredientCategoryButton(props: {category: string, color: string}) {
     const { category, color } = props;
 
-    const ButtonStyles = [styles.IngredientCatBtn, styles[color]].join(' ');
-    const slug = category.toLowerCase();
+    const ButtonStyles = [styles.IngredientCategoryButton, styles[color]].join(' ');
+    const slug = getSlug(category);
     const imagePath = require(`/public/images/ui/${slug}.webp`);
     
     return (

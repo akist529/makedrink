@@ -1,13 +1,13 @@
 // Component styles
-import styles from './IngredientSection.module.scss';
+import styles from './IngredientList.module.scss';
 // Local components
 import Ingredient from '@/components/ui/IngredientsPage/Ingredient/Ingredient';
 // Type interfaces
 import { Item } from '@/types/index';
 
-export default function IngredientSection (props: { section: Item[] }) {
+export default function IngredientList (props: { section: Item[] }) {
     const { section } = props;
-
+    const colors = ['pink', 'green', 'red', 'yellow', 'orange', 'blue'];
 
     // Remove ingredients that are variants of another ingredient
     const filteredSection = (() => {
@@ -30,7 +30,7 @@ export default function IngredientSection (props: { section: Item[] }) {
 
     
     return (
-        <ul className={styles.IngredientSection}>
+        <ul className={styles.IngredientList}>
             {sortedSection.map((item: Item) => {
                 return (
                     <Ingredient

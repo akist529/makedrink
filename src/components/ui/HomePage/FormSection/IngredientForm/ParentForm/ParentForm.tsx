@@ -11,11 +11,12 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+import getSlug from '@/helpers/getSlug';
 
 export default function ParentForm (props: { ingredient: Item }) {
     const { ingredient } = props;
     const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored);
-    const slug = require(`/public/images/ui/${ingredient.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}.webp`);
+    const slug = require(`/public/images/ui/${getSlug(ingredient.Name)}.webp`);
 
     function childIngredients (item: Item) {
         const childIngredients: Item[] = [];

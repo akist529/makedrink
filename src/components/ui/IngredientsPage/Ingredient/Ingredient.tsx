@@ -16,6 +16,7 @@ import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/Ingredien
 import { Item, IngredientDict } from '@/types/index';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+import getSlug from '@/helpers/getSlug';
 
 export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Import props
@@ -23,7 +24,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Redux components
     const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
-    const ingredientImagePath = require(`/public/images/ui/${slug(item)}.webp`);
+    const ingredientImagePath = require(`/public/images/ui/${getSlug(item.Name)}.webp`);
     const childrenImagePath = require('/public/images/ui/more_vert.svg');
     const allIngredients: Item[] = (useGetAllIngredientsQuery().data || []);
     // React states
@@ -111,10 +112,6 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
                 addIngredientToStore();
             }
         }
-    }
-
-    function slug (item: Item) {
-        return `${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
     }
 
     // If parent ingredient, see if child ingredient is in store

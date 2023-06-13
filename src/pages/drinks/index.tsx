@@ -146,7 +146,8 @@ const AllDrinksPage: NextPage = () => {
                                 return (
                                     <DrinkCard 
                                         key={index} 
-                                        drink={drink} />
+                                        drink={drink} 
+                                        isRandom={false} />
                                 );
                             }) }
                         </ul>
