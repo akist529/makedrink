@@ -10,8 +10,7 @@ export default function IngredientCategoryButton(props: {category: string, color
     const { category, color } = props;
 
     const ButtonStyles = [styles.IngredientCategoryButton, styles[color]].join(' ');
-    const slug = getSlug(category);
-    const imagePath = require(`/public/images/ui/${slug}.webp`);
+    const imagePath = require(`/public/images/ui/${getSlug(category)}.webp`);
     
     return (
         <button className={ButtonStyles}>

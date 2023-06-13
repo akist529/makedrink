@@ -1,8 +1,8 @@
 export interface Item {
-    Id: number;
+    Id?: number;
     Name: string;
-    AliasId: number;
-    Type: string;
+    AliasId?: number;
+    Type?: string;
 }
 
 export interface Ingredient {

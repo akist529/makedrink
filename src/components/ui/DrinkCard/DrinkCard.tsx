@@ -17,6 +17,9 @@ import RecipeItem from './RecipeItem/RecipeItem';
 import updateWidth from '@/helpers/updateWidth';
 import getRandomDrink from '@/helpers/getRandomDrink';
 import getSlug from '@/helpers/getSlug';
+import findItemInStore from '@/helpers/findItemInStore';
+import findAltInStore from '@/helpers/findAltInStore';
+import findAliasInStore from '@/helpers/findAliasInStore';
 
 export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean }) {
     const { drink, isRandom } = props;
@@ -26,66 +29,47 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean 
     const dispatch = useDispatch();
 
     function getIngredientFromStore (ingredient: Ingredient, index: number) {
-        const letter = ingredient.Name.charAt(0);
-
         // Try to find recipe ingredient
-        for (const key of Object.keys(storedIngredients)) {
-            if (storedIngredients[key].hasOwnProperty(letter)) {
-                let item = storedIngredients[key][letter];
-                item = item.filter((item: Item) => item.Name === ingredient.Name);
-                
-                if (item.length) {
-                    return (
-                        <RecipeItem 
-                            key={index} 
-                            ingredient={item[0]} 
-                            isSub={false} />
-                    );
-                }
-            }
+        const item = findItemInStore(storedIngredients, ingredient.Name);
+
+        if (item !== undefined) {
+            return (
+                <RecipeItem 
+                    key={index} 
+                    ingredient={item} 
+                    isSub={false} />
+            );
         }
 
         // Try to find recipe substitute
-        for (const key of Object.keys(storedIngredients)) {
-            for (const letter of Object.keys(storedIngredients[key])) {
-                if (storedIngredients[key][letter].find((item: Item) => item.Name === ingredient.Alias)) {
-                    const alias = storedIngredients[key][letter].find((item: Item) => item.Name === ingredient.Alias);
+        const alias = findAliasInStore(storedIngredients, ingredient);
 
-                    if (alias) {
-                        for (const letter of Object.keys(storedIngredients[key])) {
-                            if (storedIngredients[key][letter].find((item: Item) => item.AliasId === alias.Id)) {
-                                const substitute = storedIngredients[key][letter].find((item: Item) => item.AliasId === alias.Id);
-    
-                                if (substitute) {
-                                    return (
-                                        <RecipeItem 
-                                            key={index}
-                                            ingredient={substitute} 
-                                            isSub={true} />
-                                    );
-                                }
-                            }
-                        }
-                    }
+        if (alias !== undefined) {
+            const alt = findAltInStore(storedIngredients, alias, ingredient);
 
-                    if (alias) {
-                        return (
-                            <RecipeItem 
-                                key={index} 
-                                ingredient={alias} 
-                                isSub={true} />
-                        );
-                    }
-                }
+            if (alt !== undefined) {
+                return (
+                    <RecipeItem 
+                        key={index}
+                        ingredient={alt} 
+                        isSub={true} />
+                );
             }
         }
+
+        const missingItem = ({
+            Id: undefined,
+            Name: ingredient.Name,
+            AliasId: undefined,
+            Type: undefined
+        });
 
         return (
             <RecipeItem 
                 key={index} 
-                ingredient={ingredient} 
+                ingredient={missingItem} 
                 isSub={false} />
-        )
+        );
     }
 
     function handleClick () {

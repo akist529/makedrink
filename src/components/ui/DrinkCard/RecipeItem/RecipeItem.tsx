@@ -14,44 +14,52 @@ import { RootState } from '@/store/store';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
+import findItemInStore from '@/helpers/findItemInStore';
 
-export default function RecipeItem (props: { ingredient: any, isSub: boolean }) {
+export default function RecipeItem (props: { ingredient: Item, isSub: boolean }) {
     const { ingredient, isSub } = props;
     const slug = require(`/public/images/ui/${getSlug(ingredient.Name)}.webp`);
     const [showSubCard, setShowSubCard] = useState(false);
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
+    const itemInStore = findItemInStore(storedIngredients, ingredient.Name);
 
     function handleClick (e: React.MouseEvent<HTMLButtonElement,MouseEvent>) {
-        if (Object.keys(ingredient).includes('Type')) {
-            for (const key of Object.keys(storedIngredients[ingredient.Type])) {
-                if (storedIngredients[ingredient.Type][key].find((item: Item) => (item.AliasId === ingredient.AliasId) && (item.Name !== ingredient.Name))) {
-                    setShowSubCard(prevState => !prevState);
-                    return;
-                }
-            }    
-        }
+        setShowSubCard(prevState => !prevState);
     }
 
     return (
         <li className={styles.RecipeItem}>
-            { !isSub && <span>{ingredient.Name}</span> }
-            { isSub && <div className={styles.altIngredient}>
-                <span>{ingredient.Name}</span>
-                <button onClick={(e) => handleClick(e)}>
+            { !isSub && itemInStore && <span>{ingredient.Name}</span> }
+            { isSub && itemInStore && 
+                <div className={styles.altIngredient}>
+                    <span>{ingredient.Name}</span>
+                    <button onClick={(e) => handleClick(e)}>
+                        <Image 
+                            alt='Alternate Ingredient' 
+                            src={require('/public/images/ui/change_circle.svg')} 
+                            width="0" 
+                            height="24" 
+                            title='Alternate Ingredient' 
+                            onLoadingComplete={e => updateWidth(e)} />
+                    </button>
+                </div> }
+            { !itemInStore && 
+                <div className={styles.missingIngredient}>
+                    <span>{ingredient.Name}</span>
                     <Image 
-                        alt='Alternate Ingredient' 
-                        src={require('/public/images/ui/change_circle.svg')} 
+                        alt='Ingredient Missing' 
+                        src={require('/public/images/ui/cancel.svg')} 
                         width="0" 
                         height="24" 
-                        title='Alternate Ingredient' 
+                        title='Ingredient Missing' 
                         onLoadingComplete={e => updateWidth(e)} />
-                </button>
-            </div> }
+                </div> }
             <Image 
                 alt={ingredient.Name} 
                 src={slug} 
                 width="0" 
-                height="24" />
+                height="24" 
+                onLoadingComplete={e => updateWidth(e)} />
             { showSubCard && 
                 <SubCard 
                     showSubCard={showSubCard} 
