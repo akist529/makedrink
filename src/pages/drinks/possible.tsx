@@ -2,8 +2,10 @@
 import styles from '@/styles/Drinks.module.scss';
 // Next components
 import type { NextPage } from 'next';
+import { useSearchParams, usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 // React components
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -16,9 +18,17 @@ import Footer from '@/components/footer/Footer';
 import { DrinkDict, DrinkInfo } from '@/types/index';
 
 const PossibleDrinksPage: NextPage = () => {
+    const searchParams = useSearchParams()!;
+    const pathname = usePathname();
+    const router = useRouter();
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
     // React local state
     const [drinksList, setDrinksList] = useState([] as DrinkInfo[]);
-    const [activePage, setActivePage] = useState(0);
+    const [activePage, setActivePage] = useState(() => {
+        return Number(urlParams.get('page'));
+    });
 
     // Redux store state
     const possibleDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.possible);
@@ -44,6 +54,15 @@ const PossibleDrinksPage: NextPage = () => {
 
     const numOfPages = Math.ceil(allDrinks.length / 20);
 
+    const createQueryString = useCallback(
+        (name: string, value: string) => {
+            const params = new URLSearchParams(searchParams);
+            params.set(name, value);
+            return params.toString();
+        },
+        [searchParams]
+    );
+
     useEffect(() => {
         setDrinksList(() => {
             const firstDrink = activePage * 20;
@@ -55,6 +74,8 @@ const PossibleDrinksPage: NextPage = () => {
 
             return allDrinks.slice(firstDrink, lastDrink);
         });
+
+        router.push(`${pathname}?` + createQueryString('page', activePage.toString()))
     }, [activePage]);
 
     return (
@@ -76,7 +97,9 @@ const PossibleDrinksPage: NextPage = () => {
                 <section>
                     <ul>
                         { drinksList.map((drink: DrinkInfo, index: number) => {
-                            return (<DrinkCard drink={drink} key={index} />);
+                            return (
+                                <DrinkCard key={index} drink={drink} isRandom={false} />
+                            );
                         }) }
                     </ul>
                 </section>
