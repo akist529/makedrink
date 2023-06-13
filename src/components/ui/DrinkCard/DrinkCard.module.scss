@@ -17,7 +17,11 @@
     background-size: 48px 48px;
     background-repeat: repeat;
     border: 2px solid rgb(215,215,215);
+    border-radius: 20px;
     font-family: 'Oswald';
+    box-shadow: 10px 10px 10px #000000;
+    
+    transform: rotate3d(0, 0, 0, 0deg);
 
     .header {
         display: grid;
@@ -34,6 +38,12 @@
             
             img {
                 filter: invert(1);
+            }
+
+            &:hover {
+                img {
+                    filter: invert(16%) sepia(67%) saturate(7116%) hue-rotate(307deg) brightness(106%) contrast(110%);
+                }
             }
         }
     }
@@ -100,5 +110,19 @@
 
     a {
         text-decoration: none;
+    }
+}
+
+.animating {
+    animation: 0.5s card-flip linear forwards;
+}
+
+@keyframes card-flip {
+    0% {
+        transform: rotate3d(0, 0, 0, 0deg);
+    } 50% {
+        transform: rotate3d(0, 90, 0, 90deg);
+    } 100% {
+        transform: rotate3d(0, 0, 0, 0deg);
     }
 }

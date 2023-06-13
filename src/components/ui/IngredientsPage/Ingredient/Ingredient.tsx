@@ -17,6 +17,7 @@ import { Item, IngredientDict } from '@/types/index';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
+import getItemName from '@/helpers/getItemName';
 
 export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Import props
@@ -29,6 +30,8 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     const allIngredients: Item[] = (useGetAllIngredientsQuery().data || []);
     // React states
     const [isChecked, setIsChecked] = useState(itemInStore(item));
+
+    const displayName = getItemName(item);
 
     const hasChildren = (() => {
         if (!item.AliasId) {
@@ -148,7 +151,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
                     item={item} 
                     isChecked={isChecked} />
             </button>
-            <span>{item.Name}</span>
+            <span>{displayName}</span>
         </li>
     );
 }

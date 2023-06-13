@@ -9,30 +9,34 @@ import SubCard from '../SubCard/SubCard';
 // React components
 import { useState } from 'react';
 // Redux components
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
+import { toggleSubCard, setCardIngredient } from '@/store/slices/subCard.slice';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
 import findItemInStore from '@/helpers/findItemInStore';
+import getItemName from '@/helpers/getItemName';
 
 export default function RecipeItem (props: { ingredient: Item, isSub: boolean }) {
     const { ingredient, isSub } = props;
     const slug = require(`/public/images/ui/${getSlug(ingredient.Name)}.webp`);
-    const [showSubCard, setShowSubCard] = useState(false);
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const itemInStore = findItemInStore(storedIngredients, ingredient.Name);
+    const displayName = getItemName(ingredient);
+    const dispatch = useDispatch();
 
     function handleClick (e: React.MouseEvent<HTMLButtonElement,MouseEvent>) {
-        setShowSubCard(prevState => !prevState);
+        dispatch(setCardIngredient(ingredient));
+        dispatch(toggleSubCard());
     }
 
     return (
         <li className={styles.RecipeItem}>
-            { !isSub && itemInStore && <span>{ingredient.Name}</span> }
+            { !isSub && itemInStore && <span>{displayName}</span> }
             { isSub && itemInStore && 
                 <div className={styles.altIngredient}>
-                    <span>{ingredient.Name}</span>
+                    <span>{displayName}</span>
                     <button onClick={(e) => handleClick(e)}>
                         <Image 
                             alt='Alternate Ingredient' 
@@ -45,7 +49,7 @@ export default function RecipeItem (props: { ingredient: Item, isSub: boolean })
                 </div> }
             { !itemInStore && 
                 <div className={styles.missingIngredient}>
-                    <span>{ingredient.Name}</span>
+                    <span>{displayName}</span>
                     <Image 
                         alt='Ingredient Missing' 
                         src={require('/public/images/ui/cancel.svg')} 
@@ -55,16 +59,11 @@ export default function RecipeItem (props: { ingredient: Item, isSub: boolean })
                         onLoadingComplete={e => updateWidth(e)} />
                 </div> }
             <Image 
-                alt={ingredient.Name} 
+                alt={displayName} 
                 src={slug} 
                 width="0" 
                 height="24" 
                 onLoadingComplete={e => updateWidth(e)} />
-            { showSubCard && 
-                <SubCard 
-                    showSubCard={showSubCard} 
-                    setShowSubCard={setShowSubCard}
-                    ingredient={ingredient} /> }
         </li>
     );
 }

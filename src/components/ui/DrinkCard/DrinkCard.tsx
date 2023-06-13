@@ -95,7 +95,9 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean 
         const drink = getRandomDrink(possibleDrinks, randomDrink);
         
         if (drink) {
-            dispatch(setRandomDrink(drink));
+            setTimeout(() => dispatch(setRandomDrink(drink)), 250);
+            document.querySelector(`.${styles.DrinkCard}`)?.classList.add(`${styles.animating}`);
+            setTimeout(() => document.querySelector(`.${styles.DrinkCard}`)?.classList.remove(`${styles.animating}`), 500);
         }
     }
 
@@ -110,6 +112,7 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean 
                             src={require('/public/images/ui/refresh.svg')} 
                             width="0"
                             height="48" 
+                            title='Get New Drink' 
                             onLoadingComplete={e => updateWidth(e)} />
                     </button> }
             </div>
