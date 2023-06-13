@@ -29,6 +29,24 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean 
     const dispatch = useDispatch();
 
     function getIngredientFromStore (ingredient: Ingredient, index: number) {
+        // If ingredient is parent (ie Orange Liqueur), try to swap with child ingredient 
+        if (!ingredient.IsAlias) {
+            const storeItem = findItemInStore(storedIngredients, ingredient.Name);
+            
+            if (storeItem) {
+                const sub = findAltInStore(storedIngredients, storeItem, ingredient);
+
+                if (sub !== undefined) {
+                    return (
+                        <RecipeItem 
+                            key={index} 
+                            ingredient={sub} 
+                            isSub={true} />
+                    );
+                }
+            }
+        }
+        
         // Try to find recipe ingredient
         const item = findItemInStore(storedIngredients, ingredient.Name);
 
@@ -57,6 +75,7 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean 
             }
         }
 
+        // Show ingredient as missing 
         const missingItem = ({
             Id: undefined,
             Name: ingredient.Name,
