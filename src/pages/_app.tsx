@@ -6,12 +6,12 @@ import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from '@/store/store';
-
 // Local components
 import IngredientModal from '@/components/ui/IngredientsPage/IngredientModal/IngredientModal';
 import NavBar from '@/components/navbar/NavBar';
 import MobileNavMenu from '@/components/navmenu/mobile/MobileNavMenu';
 import SubCard from '@/components/ui/DrinkCard/SubCard/SubCard';
+import SearchFeed from '@/components/search/SearchFeed/SearchFeed';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -21,6 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <SubCard />
           <IngredientModal />
           <NavBar />
+          <SearchFeed />
           <MobileNavMenu />
           <Component {...pageProps} className="page" />
         </div>

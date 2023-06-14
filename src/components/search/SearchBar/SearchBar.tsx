@@ -1,8 +1,8 @@
 // Component styles
 import styles from './SearchBar.module.scss';
 // Local components
-import SearchButton from "../buttons/SearchButton/SearchButton";
-import SearchInput from "../inputs/SearchInput/SearchInput";
+import SearchButton from '@/components/buttons/SearchButton/SearchButton';
+import SearchInput from '@/components/inputs/SearchInput/SearchInput';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';

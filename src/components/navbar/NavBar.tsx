@@ -12,7 +12,7 @@ import BurgerButton from '@/components/buttons/BurgerButton/BurgerButton';
 import SearchButton from '@/components/buttons/SearchButton/SearchButton';
 import SearchInput from '@/components/inputs/SearchInput/SearchInput';
 import DesktopNavMenu from '@/components/navmenu/desktop/DesktopNavMenu';
-import SearchBar from '../searchbar/SearchBar';
+import SearchBar from '../search/SearchBar/SearchBar';
 // Next components
 import Link from 'next/link';
 
