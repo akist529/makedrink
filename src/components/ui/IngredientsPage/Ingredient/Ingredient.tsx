@@ -45,7 +45,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
 
     function itemInStore (item: Item) {
         const letter: string = item.Name.charAt(0);
-        const type: string = item.Type;
+        const type: string = item.Type || '';
 
         if (storedIngredients.hasOwnProperty(type)
             && storedIngredients[type].hasOwnProperty(letter)) {
@@ -60,7 +60,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     }
 
     function aliasInStore(item: Item) {
-        const type: string = item.Type;
+        const type: string = item.Type || '';
 
         if (storedIngredients.hasOwnProperty(type)) {
             for (const key of Object.keys(storedIngredients[type])) {
@@ -98,7 +98,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
 
             const letter = item.Name.charAt(0);
             const ingredientInStore = (() => {
-                const type = item.Type;
+                const type = item.Type || '';
 
                 if (storedIngredients.hasOwnProperty(type)
                     && storedIngredients[type].hasOwnProperty(letter)

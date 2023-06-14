@@ -83,10 +83,10 @@ const BlockedDrinksPage: NextPage = () => {
         { (drinksList.length > 0) && 
             <main className={styles.DrinksPage}>
                 <PaginationLinks 
-                    setFirstDrink={setFirstDrink} 
-                    setLastDrink={setLastDrink}
                     activePage={activePage}
-                    setActivePage={setActivePage} />
+                    setActivePage={setActivePage} 
+                    numOfPages={numOfPages} 
+                    loadState={false} />
                 <section>
                     <ul>
                         { drinksList.slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
@@ -97,11 +97,10 @@ const BlockedDrinksPage: NextPage = () => {
                     </ul>
                 </section>
                 <PaginationLinks 
-                    pageNums={pageNums} 
-                    setFirstDrink={setFirstDrink} 
-                    setLastDrink={setLastDrink}
                     activePage={activePage}
-                    setActivePage={setActivePage} />
+                    setActivePage={setActivePage} 
+                    numOfPages={numOfPages} 
+                    loadState={false} />
                 <Footer />
             </main> }
         </>

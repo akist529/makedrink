@@ -159,9 +159,10 @@ const DrinkPage: NextPage = () => {
     }
 
     function getAltIngredient (ingredient: Item, index: number, unit: string, amount: number) {
-        for (const key of Object.keys(storedIngredients[ingredient.Type])) {
-            for (let i = 0; i < storedIngredients[ingredient.Type][key].length; i++) {
-                if (storedIngredients[ingredient.Type][key][i].AliasId === ingredient.Id) {
+        const type = ingredient.Type || '';
+        for (const key of Object.keys(storedIngredients[type])) {
+            for (let i = 0; i < storedIngredients[type][key].length; i++) {
+                if (storedIngredients[type][key][i].AliasId === ingredient.Id) {
                     return (
                         <RecipeItem 
                             key={index} 

@@ -34,7 +34,7 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean 
             const storeItem = findItemInStore(storedIngredients, ingredient.Name);
             
             if (storeItem) {
-                const sub = findAltInStore(storedIngredients, storeItem, ingredient);
+                const sub = findAltInStore(storedIngredients, storeItem, ingredient.Name);
 
                 if (sub !== undefined) {
                     return (
@@ -63,7 +63,7 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean 
         const alias = findAliasInStore(storedIngredients, ingredient);
 
         if (alias !== undefined) {
-            const alt = findAltInStore(storedIngredients, alias, ingredient);
+            const alt = findAltInStore(storedIngredients, alias, ingredient.Name);
 
             if (alt !== undefined) {
                 return (

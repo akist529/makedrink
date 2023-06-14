@@ -32,9 +32,11 @@ export default function IngredientForm (props: { ingredientType: string }) {
     }
 
     function ingredientIsParent (item: Item) {
-        if (storedIngredients.hasOwnProperty(item.Type)) {
-            for (const key of Object.keys(storedIngredients[item.Type])) {
-                if (storedIngredients[item.Type][key].find((ingredient: Item) => ingredient.AliasId === item.Id)) {
+        const type = item.Type || '';
+        
+        if (storedIngredients.hasOwnProperty(type)) {
+            for (const key of Object.keys(storedIngredients[type])) {
+                if (storedIngredients[type][key].find((ingredient: Item) => ingredient.AliasId === item.Id)) {
                     return true;
                 }
             }
@@ -44,9 +46,11 @@ export default function IngredientForm (props: { ingredientType: string }) {
     }
 
     function ingredientIsChild (item: Item) {
-        if (storedIngredients.hasOwnProperty(item.Type)) {
-            for (const key of Object.keys(storedIngredients[item.Type])) {
-                if (storedIngredients[item.Type][key].find((ingredient: Item) => item.AliasId === ingredient.Id)) {
+        const type = item.Type || '';
+
+        if (storedIngredients.hasOwnProperty(type)) {
+            for (const key of Object.keys(storedIngredients[type])) {
+                if (storedIngredients[type][key].find((ingredient: Item) => item.AliasId === ingredient.Id)) {
                     return true;
                 }
             }

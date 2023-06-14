@@ -63,24 +63,22 @@ const FavoriteDrinksPage: NextPage = () => {
         { (drinksList.length > 0) && 
             <main className={styles.DrinksPage}>
                 <PaginationLinks 
-                    pageNums={pageNums} 
-                    setFirstDrink={setFirstDrink} 
-                    setLastDrink={setLastDrink}
                     activePage={activePage}
-                    setActivePage={setActivePage} />
+                    setActivePage={setActivePage} 
+                    numOfPages={numOfPages} 
+                    loadState={false} />
                 <section>
                     <ul>
                         { drinksList.slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
-                            return (<DrinkCard drink={drink} key={index} />);
+                            return (<DrinkCard key={index}  drink={drink} isRandom={false} />);
                         }) }
                     </ul>
                 </section>
                 <PaginationLinks 
-                    pageNums={pageNums} 
-                    setFirstDrink={setFirstDrink} 
-                    setLastDrink={setLastDrink}
                     activePage={activePage}
-                    setActivePage={setActivePage} />
+                    setActivePage={setActivePage} 
+                    numOfPages={numOfPages} 
+                    loadState={false} />
                 <Footer />
             </main> }
         </>

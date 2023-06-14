@@ -52,7 +52,11 @@ const IngredientsPage: NextPage = () => {
         for (const type of Object.keys(storedIngredients)) {
             for (const key of Object.keys(storedIngredients[type])) {
                 for (let i = 0; i < storedIngredients[type][key].length; i++) {
-                    ingredientIds.push(storedIngredients[type][key][i].Id);
+                    const id = storedIngredients[type][key][i].Id;
+                    
+                    if (id) {
+                        ingredientIds.push(id);
+                    }
                 }
             }
         }
