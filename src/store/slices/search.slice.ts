@@ -1,11 +1,12 @@
 // Redux components
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
 export const searchSlice = createSlice({
     name: 'search',
     initialState: {
-        searchOpen: false
+        searchOpen: false,
+        query: '',
     },
     reducers: {
         toggleSearch: (state) => {
@@ -16,17 +17,21 @@ export const searchSlice = createSlice({
         },
         closeSearch: (state) => {
             state.searchOpen = false;
+        },
+        updateSearch: (state, action: PayloadAction<string>) => {
+            state.query = action.payload;
         }
     },
     extraReducers: {
         [HYDRATE]: (state, action) => {
             return ({
                 ...state,
-                ...action.payload.searchOpen
+                ...action.payload.searchOpen,
+                ...action.payload.query
             });
         }
     }
 });
 
-export const { toggleSearch, openSearch, closeSearch } = searchSlice.actions;
+export const { toggleSearch, openSearch, closeSearch, updateSearch } = searchSlice.actions;
 export default searchSlice.reducer;
