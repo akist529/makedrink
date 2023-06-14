@@ -2,9 +2,11 @@
 import styles from '@/styles/Drinks.module.scss';
 // Next components
 import type { NextPage } from 'next';
+import { useSearchParams, usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 // React components
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -17,12 +19,20 @@ import Footer from '@/components/footer/Footer';
 import { DrinkDict, DrinkInfo } from '@/types/index';
 
 const BlockedDrinksPage: NextPage = () => {
-    const blockedDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.blocked);
-    const [firstDrink, setFirstDrink] = useState(0);
-    const [lastDrink, setLastDrink] = useState(20);
-    const [activePage, setActivePage] = useState(0);
+    const searchParams = useSearchParams()!;
+    const pathname = usePathname();
+    const router = useRouter();
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
 
-    const drinksList = (() => {
+    const blockedDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.blocked);
+
+    const [drinksList, setDrinksList] = useState([] as DrinkInfo[]);
+    const [activePage, setActivePage] = useState(() => {
+        return Number(urlParams.get('page'));
+    });
+
+    const allDrinks = (() => {
         const arr = [];
 
         for (const key of Object.keys(blockedDrinks)) {
@@ -34,38 +44,31 @@ const BlockedDrinksPage: NextPage = () => {
         return arr;
     })();
 
-    const pageNums = (() => {
-        const arr = [];
+    const numOfPages = Math.ceil(allDrinks.length / 20);
 
-        for (let i = 0; i < drinksList.length; i++) {
-            const firstNum = i;
-            const secondNum = ((i + 20) > drinksList.length) ? drinksList.length : (i + 20);
-            arr.push(`${firstNum + 1} - ${secondNum + 1}`);
-            i += 20;
-        }
+    const createQueryString = useCallback(
+        (name: string, value: string) => {
+            const params = new URLSearchParams(searchParams);
+            params.set(name, value);
+            return params.toString();
+        },
+        [searchParams]
+    );
 
-        return arr;
-    })();
+    useEffect(() => {
+        setDrinksList(() => {
+            const firstDrink = activePage * 20;
+            let lastDrink = firstDrink + 20;
 
-    function getRandomDrink () {
-        const keyLength = Object.keys(possibleDrinks).length;
-        
-        if (!keyLength) {
-            setDrinkError('You don\'t have enough ingredients to make a drink');
-        } else {
-            setDrinkError('');
-
-            const key = Object.keys(possibleDrinks)[Math.floor(Math.random() * keyLength)];
-            const index = Math.floor(Math.random() * possibleDrinks[key].length);
-            const drink = possibleDrinks[key][index];
-
-            if (drink === randomDrink) {
-            getRandomDrink();
-            } else {
-            setRandomDrink(drink);
+            if (lastDrink > allDrinks.length) {
+                lastDrink = allDrinks.length;
             }
-        }
-    }
+
+            return allDrinks.slice(firstDrink, lastDrink);
+        });
+
+        router.push(`${pathname}?` + createQueryString('page', activePage.toString()))
+    }, [activePage]);
 
     return (
         <>
@@ -89,9 +92,9 @@ const BlockedDrinksPage: NextPage = () => {
                     loadState={false} />
                 <section>
                     <ul>
-                        { drinksList.slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
+                        { drinksList.map((drink: DrinkInfo, index: number) => {
                             return (
-                                <DrinkCard key={index} drink={drink} getRandomDrink={getRandomDrink} isRandom={false} />
+                                <DrinkCard key={index} drink={drink} isRandom={false} />
                             );
                         }) }
                     </ul>
