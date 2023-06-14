@@ -14,6 +14,10 @@ import { RootState } from '@/store/store';
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox';
 // Type interfaces
 import { Item, IngredientDict } from '@/types/index';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
+import getSlug from '@/helpers/getSlug';
+import getItemName from '@/helpers/getItemName';
 
 export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Import props
@@ -21,11 +25,13 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Redux components
     const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
-    const ingredientImagePath = require(`/public/images/ui/${slug(item)}.webp`);
-    const childrenImagePath = require(`/public/images/ui/more_vert.svg`);
+    const ingredientImagePath = require(`/public/images/ui/${getSlug(item.Name)}.webp`);
+    const childrenImagePath = require('/public/images/ui/more_vert.svg');
     const allIngredients: Item[] = (useGetAllIngredientsQuery().data || []);
     // React states
     const [isChecked, setIsChecked] = useState(itemInStore(item));
+
+    const displayName = getItemName(item);
 
     const hasChildren = (() => {
         if (!item.AliasId) {
@@ -39,7 +45,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
 
     function itemInStore (item: Item) {
         const letter: string = item.Name.charAt(0);
-        const type: string = item.Type;
+        const type: string = item.Type || '';
 
         if (storedIngredients.hasOwnProperty(type)
             && storedIngredients[type].hasOwnProperty(letter)) {
@@ -54,7 +60,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     }
 
     function aliasInStore(item: Item) {
-        const type: string = item.Type;
+        const type: string = item.Type || '';
 
         if (storedIngredients.hasOwnProperty(type)) {
             for (const key of Object.keys(storedIngredients[type])) {
@@ -92,7 +98,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
 
             const letter = item.Name.charAt(0);
             const ingredientInStore = (() => {
-                const type = item.Type;
+                const type = item.Type || '';
 
                 if (storedIngredients.hasOwnProperty(type)
                     && storedIngredients[type].hasOwnProperty(letter)
@@ -109,10 +115,6 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
                 addIngredientToStore();
             }
         }
-    }
-
-    function slug (item: Item) {
-        return `${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
     }
 
     // If parent ingredient, see if child ingredient is in store
@@ -134,18 +136,22 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
                         className={styles.children} 
                         alt="Show Varieties" 
                         src={childrenImagePath} 
-                        width="8" 
-                        height="64" /> }
+                        width="0" 
+                        height="64" 
+                        onLoadingComplete={e => updateWidth(e)} /> }
                 <div className={styles.icon}>
                     <Image 
                         alt={item.Name} 
-                        src={ingredientImagePath} />
+                        src={ingredientImagePath} 
+                        width="0" 
+                        height="32" 
+                        onLoadingComplete={e => updateWidth(e)} />
                 </div>
                 <IngredientCheckbox 
                     item={item} 
                     isChecked={isChecked} />
             </button>
-            <span>{item.Name}</span>
+            <span>{displayName}</span>
         </li>
     );
 }

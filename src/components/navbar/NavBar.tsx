@@ -22,25 +22,29 @@ export default function NavBar() {
     const [displayMode, setDisplayMode] = useState('');
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        const onResize = () => {
-            if (window.innerWidth < 600) {
-                setDisplayMode('mobile');
-                dispatch(closeNavMenu());
-                dispatch(closeSearch());
-            } else if (window.innerWidth < 992) {
-                setDisplayMode('tablet');
-                dispatch(openNavMenu());
-                dispatch(closeSearch());
-            } else {
-                setDisplayMode('laptop');
-                dispatch(closeNavMenu());
-                dispatch(closeSearch());
-            }
+    function resizeWindow () {
+        if (window.innerWidth < 600) {
+            setDisplayMode('mobile');
+            dispatch(closeNavMenu());
+            dispatch(closeSearch());
+        } else if (window.innerWidth < 992) {
+            setDisplayMode('tablet');
+            dispatch(openNavMenu());
+            dispatch(closeSearch());
+        } else {
+            setDisplayMode('laptop');
+            dispatch(closeNavMenu());
+            dispatch(closeSearch());
         }
+    }
 
-        window.addEventListener('resize', onResize);
+    useEffect(() => {
+        window.addEventListener('resize', resizeWindow);
     }, [dispatch]);
+
+    useEffect(() => {
+        resizeWindow();
+    }, []);
 
     return (
         <nav className={styles.NavBar}>

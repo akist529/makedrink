@@ -1,46 +1,37 @@
+// Component styles
 import styles from './RecipeItem.module.scss';
-import { useState } from 'react';
+// Next components
 import Image from 'next/image';
+// Type interfaces
+import { Item, Ingredient } from '@/types/index';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
+import getSlug from '@/helpers/getSlug';
 
-export default function RecipeItem (props: { ingredient: any, missing: boolean }) {
-    const { ingredient, missing } = props;
-    const slug = ingredient.Name.split(' ').join('-').toLowerCase().replaceAll('/', '-');
-    const [itemWidth, setItemWidth] = useState(0);
+export default function RecipeItem (props: { ingredient: Item | Ingredient, missing: boolean, unit: string, amount: number }) {
+    const { ingredient, missing, unit, amount } = props;
+    const slug = getSlug(ingredient.Name);
 
-    const unit = (() => {
-        if (ingredient.Unit === 'ounce') {
+    const itemUnit = (() => {
+        if (unit === 'ounce') {
             return 'oz';
         } else {
-            return ingredient.Unit;
+            return unit;
         }
     })();
 
     return (
         <li className={styles.RecipeItem}>
-            { missing && 
-                <>
-                <div className={styles.missing}>
-                    <span>{ingredient.Alias ? ingredient.Alias : ingredient.Name}</span>
-                    <span>{`${ingredient.Amount} ${unit}`}</span>
-                </div>
+            <div className={missing? styles.missing : ''}>
                 <Image 
-                    alt='Ingredient Missing'
-                    src={require('public/images/ui/cancel.svg')}
-                    width="24"
-                    height="24"
-                    title="Missing Ingredient" />
-                </> }
-            { !missing && 
-                <div>
-                    <Image 
-                        alt={ingredient.Name} 
-                        src={require(`/public/images/ui/${slug}.webp`)} 
-                        width={itemWidth} 
-                        height="32" 
-                        onLoadingComplete={e => setItemWidth(e.naturalWidth)} />
-                    <span>{ingredient.Name}</span>
-                    <span>{`${ingredient.Amount} ${unit}`}</span>
-                </div> }
+                    alt={ingredient.Name} 
+                    src={require(`/public/images/ui/${slug}.webp`)} 
+                    width="0" 
+                    height="32" 
+                    onLoadingComplete={e => updateWidth(e)} />
+                <span>{ingredient.Name}</span>
+                <span>{`${amount} ${itemUnit}`}</span>
+            </div>
         </li>
     );
 }

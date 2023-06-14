@@ -1,0 +1,26 @@
+.IngredientFilter {
+    display: grid;
+    grid-template-columns: 1fr 32px;
+    justify-items: center;
+    align-items: center;
+    font-size: 20px;
+    font-family: 'Oswald';
+    padding: 0 50px;
+    width: 100%;
+
+    label {
+        line-height: 25px;
+        justify-self: left;
+    }
+
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+
+        input {
+            transform: scale(2);
+        }
+    }
+}

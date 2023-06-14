@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 // Type interfaces
 import { Item } from '@/types/index';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
 
 export default function IngredientCheckbox(props: { item: Item, isChecked: boolean }) {
     // Import props
@@ -32,7 +34,13 @@ export default function IngredientCheckbox(props: { item: Item, isChecked: boole
     return (
         <div id={item.Name} className={boxStyles} {...isChecked && {style: {background: `var(--whiskey)`}}}>
             { !isChecked && 
-                <Image className={styles.notSelected} alt="Ingredient Not Selected" src={imagePath} width="48" height="48" /> }
+                <Image 
+                    className={styles.notSelected} 
+                    alt="Ingredient Not Selected" 
+                    src={imagePath} 
+                    width="0" 
+                    height="48" 
+                    onLoadingComplete={e => updateWidth(e)} /> }
         </div>
     );
 }

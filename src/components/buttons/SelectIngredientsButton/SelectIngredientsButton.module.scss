@@ -1,0 +1,43 @@
+.SelectIngredientsButton {
+    a {
+        button {
+            /* Positioning */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 5px 10px;
+
+            /* Visual */
+            cursor: pointer;
+            font-family: 'Oswald';
+            border: none;
+            background: none;
+
+            div {
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+            }
+
+            span {
+                /* Positioning */
+                padding: 5px 10px;
+
+                /* Visual */
+                background: linear-gradient(to bottom right, rgb(25, 25, 25), rgb(45, 19, 46));
+                font-family: 'Oswald';
+                font-size: 20px;
+                color: rgb(255, 160, 231);
+                transition: 0.125s;
+                letter-spacing: 2px;
+                text-align: left;
+            }
+
+            &:hover {
+                span {
+                    color:rgb(255, 0, 191);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,76 @@
+.IngredientsTitle {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    div {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        span {
+            color: white;
+            font-family: 'Nunito';
+            font-size: 40px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgb(80, 80, 255); 
+            animation-name: letter-flicker;
+            animation-iteration-count: infinite;
+            
+            @keyframes letter-flicker {
+                0% {
+                    color: white;
+                    text-shadow: 0 0 20px rgb(80, 80, 255); 
+                } 100% {
+                    color: rgb(200, 200, 200);
+                    text-shadow: 0 0 20px rgb(40, 40, 128); 
+                }
+            }
+        }
+    }
+
+    div:first-child {
+        span:first-child {
+            text-indent: 64px;
+        }
+
+        @for $i from 1 to 7 {
+            span:nth-child(#{$i}) {
+                animation-duration: random(4 + 2) + s;
+                animation-delay: random(7 + 3) + s;
+            }
+        }
+    }
+
+    div:nth-child(2) {
+        @for $i from 1 to 12 {
+            span:nth-child(#{$i}) {
+                animation-duration: random(4 + 2) + s;
+                animation-delay: random(7 + 3) + s;
+            }
+        }
+    }
+
+    img {
+        transform: rotate(45deg);
+        position: absolute;
+        top: -16px;
+        left: 40px;
+        filter: invert(1) drop-shadow(0 0 10px rgb(80, 80, 255));
+        animation-name: img-flicker;
+        animation-duration: random(4 + 2) + s;
+        animation-iteration-count: infinite;
+        animation-delay: random(7 + 3) + s;
+
+        @keyframes img-flicker {
+            0% {
+                filter: invert(1) drop-shadow(0 0 10px rgb(80, 80, 255));
+            } 100% {
+                filter: invert(0.8) drop-shadow(0 0 10px rgb(40, 40, 128));
+            }
+        }
+    }
+}

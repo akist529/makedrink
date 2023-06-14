@@ -1,4 +1,4 @@
-.Drink {
+.DrinkPage {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -83,7 +83,8 @@
                 display: flex;
                 flex-direction: column;
                 gap: 5px;
-                width: 90%;
+                width: 80%;
+                max-width: 300px;
             }
 
             article {
@@ -125,16 +126,16 @@
 }
 
 @media only screen and (min-width: 600px) {
-    .Drink {
-        width: calc(100vw - 230px);
+    .DrinkPage {
+        width: calc(100vw - 250px);
         position: relative;
-        left: 230px;
+        left: 250px;
         padding: 60px 10px;
     }
 }
 
 @media only screen and (min-width: 992px) {
-    .Drink {
+    .DrinkPage {
         width: 100vw;
         left: 0;
         padding: 180px 10px;

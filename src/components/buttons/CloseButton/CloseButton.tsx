@@ -5,6 +5,8 @@ import Image from 'next/image';
 // Redux components
 import { useDispatch } from 'react-redux';
 import { toggleSearch } from '@/store/slices/search.slice';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
 
 export default function CloseButton() {
     const dispatch = useDispatch();
@@ -12,7 +14,12 @@ export default function CloseButton() {
 
     return (
         <button className={styles.CloseButton} onClick={() => dispatch(toggleSearch())}>
-            <Image alt='Close' src={imagePath} width="48" height="48" />
+            <Image 
+                alt='Close' 
+                src={imagePath} 
+                width="0" 
+                height="48" 
+                onLoadingComplete={e => updateWidth(e)} />
         </button>
     );
 }

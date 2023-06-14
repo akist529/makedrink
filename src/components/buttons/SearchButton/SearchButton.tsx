@@ -5,6 +5,8 @@ import Image from 'next/image';
 // Redux components
 import { useDispatch } from 'react-redux';
 import { toggleSearch } from '@/store/slices/search.slice';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
 
 export default function SearchButton () {
     const dispatch = useDispatch();
@@ -12,7 +14,12 @@ export default function SearchButton () {
 
     return (
         <button className={styles.SearchButton} onClick={() => dispatch(toggleSearch())}>
-            <Image alt='Search' src={imagePath} width="40" height="40" />
+            <Image 
+                alt='Search' 
+                src={imagePath} 
+                width="0" 
+                height="40" 
+                onLoadingComplete={e => updateWidth(e)} />
         </button>
     );
 }

@@ -3,85 +3,9 @@
     background-color: #020202;
     opacity: 0.8;
     background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 42px 42px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 42px 42px;
-    
-    h1 {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    min-height: 100vh;
 
-        div {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-
-            span {
-                color: white;
-                font-family: 'Nunito';
-                font-size: 40px;
-                text-transform: uppercase;
-                text-shadow: 0 0 20px rgb(80, 80, 255); 
-                animation-name: letter-flicker;
-                animation-iteration-count: infinite;
-                
-                @keyframes letter-flicker {
-                    0% {
-                        color: white;
-                        text-shadow: 0 0 20px rgb(80, 80, 255); 
-                    } 100% {
-                        color: rgb(200, 200, 200);
-                        text-shadow: 0 0 20px rgb(40, 40, 128); 
-                    }
-                }
-            }
-        }
-
-        div:first-child {
-            span:first-child {
-                text-indent: 64px;
-            }
-
-            @for $i from 1 to 7 {
-                span:nth-child(#{$i}) {
-                    animation-duration: random(4 + 2) + s;
-                    animation-delay: random(7 + 3) + s;
-                }
-            }
-        }
-
-        div:nth-child(2) {
-            @for $i from 1 to 12 {
-                span:nth-child(#{$i}) {
-                    animation-duration: random(4 + 2) + s;
-                    animation-delay: random(7 + 3) + s;
-                }
-            }
-        }
-
-        img {
-            transform: rotate(45deg);
-            position: absolute;
-            top: -16px;
-            left: 40px;
-            filter: invert(1) drop-shadow(0 0 10px rgb(80, 80, 255));
-            animation-name: img-flicker;
-            animation-duration: random(4 + 2) + s;
-            animation-iteration-count: infinite;
-            animation-delay: random(7 + 3) + s;
-
-            @keyframes img-flicker {
-                0% {
-                    filter: invert(1) drop-shadow(0 0 10px rgb(80, 80, 255));
-                } 100% {
-                    filter: invert(0.8) drop-shadow(0 0 10px rgb(40, 40, 128));
-                }
-            }
-        }
-    }
-
-    > div {
+    > section {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -117,9 +41,9 @@
 
 @media only screen and (min-width: 600px) {
     .IngredientsPage {
-        width: calc(100vw - 230px);
+        width: calc(100vw - 250px);
         position: relative;
-        left: 230px;
+        left: 250px;
         padding: 75px 20px;
     }
 }

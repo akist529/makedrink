@@ -1,8 +1,8 @@
 export interface Item {
-    Id: number;
+    Id?: number;
     Name: string;
-    AliasId: number;
-    Type: string;
+    AliasId?: number;
+    Type?: string;
 }
 
 export interface Ingredient {
@@ -34,4 +34,8 @@ export interface IngredientDict {
 
 export interface DrinkDict {
     [index: string]: DrinkInfo[];
+}
+
+export interface DrinkQuery {
+    Drinks: Drink[];
 }

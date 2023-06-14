@@ -2,8 +2,9 @@
     list-style-type: none;
     width: 100%;
 
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    justify-content: center;
     align-items: center;
     gap: 10px;
     padding: 10px 20px;
@@ -22,6 +23,14 @@
 
     img {
         filter: invert(1);
+    }
+}
+
+.active {
+    color: #ff00bf;
+
+    img {
+        filter: invert(91%) sepia(13%) saturate(4913%) hue-rotate(281deg) brightness(107%) contrast(104%);
     }
 }
 

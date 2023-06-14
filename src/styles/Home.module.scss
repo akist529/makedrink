@@ -1,15 +1,14 @@
-.Home {
+.HomePage {
     /* Positioning */
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(5, auto);
     justify-content: center;
     align-items: center;
-    position: relative;
-    top: 100px;
-    min-height: 100vh;
+    min-height: calc(100vh - 100px);
     text-align: center;
     overflow: scroll;
+    margin-top: 100px;
+    padding: 50px 10px;
 
     /* Visual */
     background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 42px 42px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 42px 42px;
@@ -19,138 +18,11 @@
     font-family: 'Nunito';
     color: white;
 
-    .landingSection {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: calc(80vh - 120px);
-
-        h1 {
-            font-size: 32px;
-        }
-
-        nav {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-
-            .randomBtn {
-                width: 200px;
-            }
-        }
-
-        strong {
-            font-size: 24px;
-            height: 24px;
-            color: rgb(255, 160, 231);
-            font-family: 'Oswald';
-        }
-
-        .error {
-            animation: error-spawn 1s forwards;
-        }
-
-        .selectBtn,
-        .randomBtn {
-            /* Positioning */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 5px 10px;
-
-            /* Visual */
-            cursor: pointer;
-            font-family: 'Oswald';
-            border: none;
-            background: none;
-    
-            div {
-                display: flex;
-                justify-content: space-around;
-                width: 100%;
-            }
-    
-            span {
-                /* Positioning */
-                padding: 5px 10px;
-
-                /* Visual */
-                background: linear-gradient(to bottom right, rgb(25, 25, 25), rgb(45, 19, 46));
-                font-family: 'Oswald';
-                font-size: 20px;
-                color: rgb(255, 160, 231);
-                transition: 0.125s;
-                letter-spacing: 2px;
-                text-align: left;
-            }
-    
-            &:hover {
-                span {
-                    color:rgb(255, 0, 191);
-                }
-            }
-        }
-    }
-
-    .drinkSection {
-        position: relative;
-
-        .drinkAnchor {
-            position: absolute;
-            bottom: 100%;
-        }
-    }
-
-    .formSection {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
-        height: auto;
-
-        .seeDrinksBtn {
-            /* Positioning */
-            display: grid;
-            grid-template-columns: repeat(2, auto);
-            grid-template-rows: auto;
-            align-items: center;
-            gap: 10px;
-            max-width: 250px;
-            padding: 5px 10px;
-
-            /* Visual */
-            font-family: 'Nunito';
-            cursor: pointer;
-            background: none;
-            border: none;
-    
-            span {
-                font-size: 32px;
-                text-align: left;
-                color: rgb(255, 160, 231);
-                transition: 0.125s;
-            }
-    
-            &:hover {
-                span {
-                    color: rgb(255, 0, 191);
-                }
-            }
-        }
-
-        .formAnchor {
-            position: absolute;
-            transform: translateY(-100px);
-        }
-    }
-
     a {
         text-decoration: none;
     }
 
     > nav {
-        height: calc(40vh - 120px);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -172,19 +44,20 @@
 }
 
 @media only screen and (min-width: 600px) {
-    .Home {
-        width: calc(100vw - 230px);
+    .HomePage {
+        width: calc(100vw - 250px);
         position: relative;
-        left: 230px;
-        top: 0;
-        padding: 0 10px;
+        left: 250px;
+        margin-top: 0;
+        padding: 75px 20px;
     }
 }
 
 @media only screen and (min-width: 992px) {
-    .Home {
+    .HomePage {
         width: 100vw;
         left: 0;
+        margin-top: 100px;
         padding: 180px 10px;
     }
 }

@@ -3,6 +3,8 @@ import styles from '@/styles/Ingredients.module.scss';
 // Next components
 import Image from 'next/image';
 import type { NextPage } from 'next';
+// React components
+import { useEffect } from 'react';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { useGetAllIngredientsQuery, useLazyGetMultipleDrinkInfoQuery } from '@/store/api/api';
@@ -11,9 +13,13 @@ import { addPossibleDrink } from '@/store/slices/drinks.slice';
 // Type interfaces
 import { Item, Drink } from '@/types/index';
 // Local components
-import IngredientCatBtn from '@/components/buttons/IngredientCatBtn/IngredientCatBtn';
-import IngredientSection from '@/components/ui/IngredientsPage/IngredientSection/IngredientSection';
-import { useEffect } from 'react';
+import IngredientCategoryButton from '@/components/buttons/IngredientCategoryButton/IngredientCategoryButton';
+import IngredientSection from '@/components/ui/IngredientsPage/IngredientsSection/IngredientList/IngredientList';
+import Footer from '@/components/footer/Footer';
+import IngredientsTitle from '@/components/ui/IngredientsPage/IngredientsTitle/IngredientsTitle';
+import IngredientsSection from '@/components/ui/IngredientsPage/IngredientsSection/IngredientsSection';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
 
 const IngredientsPage: NextPage = () => {
     const allIngredients = useGetAllIngredientsQuery();
@@ -21,11 +27,10 @@ const IngredientsPage: NextPage = () => {
     const dispatch = useDispatch();
     const [getDrinkInfo, result] = useLazyGetMultipleDrinkInfoQuery();
 
-    const ingredientsImagePath = require('/public/images/ui/local_bar.svg');
     const alcoholImagePath = require('/public/images/ui/drunk.webp');
     const mixerImagePath = require('/public/images/ui/shaker.webp');
 
-    function filterData (type: string[]) {
+    function filterDataByType (type: string[]) {
         let filteredData: Item[] = [];
 
         for (let i = 0; i < type.length; i++) {
@@ -47,7 +52,11 @@ const IngredientsPage: NextPage = () => {
         for (const type of Object.keys(storedIngredients)) {
             for (const key of Object.keys(storedIngredients[type])) {
                 for (let i = 0; i < storedIngredients[type][key].length; i++) {
-                    ingredientIds.push(storedIngredients[type][key][i].Id);
+                    const id = storedIngredients[type][key][i].Id;
+                    
+                    if (id) {
+                        ingredientIds.push(id);
+                    }
                 }
             }
         }
@@ -91,91 +100,27 @@ const IngredientsPage: NextPage = () => {
         });
     }
 
-    function updateWidth (e: HTMLImageElement) {
-        e.width = (e.height / e.naturalHeight) * e.naturalWidth;
-    }
-
     return (
         <>
-            { allIngredients.data && <div className={styles.IngredientsPage}>
-                <h1>
-                    <div>
-                        {'Select'.split('').map((letter: string, index: number) => {
-                            return (
-                                <span key={index}>{letter}</span>
-                            );
-                        })}
-                    </div>
-                    <div>
-                        {'Ingredients'.split('').map((letter: string, index: number) => {
-                            return (
-                                <span key={index}>{letter}</span>
-                            );
-                        })}
-                    </div>
-                    <Image 
-                        alt='Select Ingredients' 
-                        src={ingredientsImagePath} 
-                        width='64' 
-                        height='64' />
-                </h1>
-                <div>
-                    <div className={styles.category}>
-                        <h2>Alcohol</h2>
-                        <Image 
-                            alt="Alcohol" 
-                            src={alcoholImagePath} 
-                            width="0"
-                            height="48" 
-                            onLoadingComplete={e => updateWidth(e)} />
-                    </div>
-                    <IngredientCatBtn 
-                        category="Spirits" 
-                        color="pink" />
-                    <IngredientSection 
-                        section={filterData(['liquor'])} />
-                    <IngredientCatBtn 
-                        category="Liqueurs" 
-                        color="green" />
-                    <IngredientSection 
-                        section={filterData(['liqueur'])} />
-                    <IngredientCatBtn 
-                        category="Other" 
-                        color="red" />
-                    <IngredientSection 
-                        section={filterData(['other', 'wine'])} />
-                </div>
-                <div>
-                    <div className={styles.category}>
-                        <h2>Mixers</h2>
-                        <Image 
-                            alt="Mixers" 
-                            src={mixerImagePath} 
-                            width="0"
-                            height="48" 
-                            onLoadingComplete={e => updateWidth(e)} />
-                    </div>
-                    <IngredientCatBtn 
-                        category="Carbonated" 
-                        color="yellow" />
-                    <IngredientSection 
-                        section={filterData(['carbonated'])} />
-                    <IngredientCatBtn 
-                        category="Juices" 
-                        color="orange" />
-                    <IngredientSection 
-                        section={filterData(['juice'])} />
-                    <IngredientCatBtn 
-                        category="Other" 
-                        color="blue" />
-                    <IngredientSection 
-                        section={filterData(['mixer'])} />
-                </div>
-            </div> }
+            { allIngredients.data && 
+                <main className={styles.IngredientsPage}>
+                    <IngredientsTitle />
+                    <IngredientsSection 
+                        section='Alcohol' 
+                        ingredients={(allIngredients.data as Item[])} />
+                    <IngredientsSection 
+                        section='Mixers' 
+                        ingredients={(allIngredients.data as Item[])} />
+                    <Footer />
+                </main> }
             { allIngredients.isLoading &&
-                <h1>Loading...</h1> }
-            { allIngredients.error &&
-                <h1>Error!</h1> }
+                <main className={styles.IngredientsPage}>
+                    <h1>Loading...</h1>
+                </main> }
+            { allIngredients.isError &&
+                <main className={styles.IngredientsPage}>
+                    <h1>Error!</h1>
+                </main> }
         </>
     );
 }

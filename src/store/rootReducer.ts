@@ -6,6 +6,7 @@ import searchReducer from './slices/search.slice';
 import ingredientModalReducer from './slices/ingredientModal.slice';
 import ingredientsReducer from './slices/ingredients.slice';
 import drinksReducer from './slices/drinks.slice';
+import subCardReducer from './slices/subCard.slice';
 // Store APIs
 import { barApi } from './api/api';
 
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     ingredientModal: ingredientModalReducer,
     ingredients: ingredientsReducer,
     drinks: drinksReducer,
+    subCard: subCardReducer,
     [barApi.reducerPath]: barApi.reducer
 });
 

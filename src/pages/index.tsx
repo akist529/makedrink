@@ -4,58 +4,21 @@ import styles from '@/styles/Home.module.scss';
 import { useState, useEffect } from 'react';
 // Next components
 import type { NextPage } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 // Local components
-import RandomDrink from '@/components/ui/HomePage/RandomDrink/RandomDrink';
-import IngredientForm from '@/components/ui/HomePage/IngredientForm/IngredientForm';
-import DrinkTypes from '@/components/ui/HomePage/DrinkTypes/DrinkTypes';
 import ScrollButton from '@/components/buttons/ScrollButton/ScrollButton';
-// Type interfaces
-import { DrinkInfo } from '@/types/index';
+import Footer from '@/components/footer/Footer';
+import LandingSection from '@/components/ui/HomePage/LandingSection/LandingSection';
+import DrinkSection from '@/components/ui/HomePage/DrinkSection/DrinkSection';
+import FormSection from '@/components/ui/HomePage/FormSection/FormSection';
 
 const HomePage: NextPage = () => {
   const [drinkType, setDrinkType] = useState('');
   const [drinkError, setDrinkError] = useState('');
-  const [randomDrink, setRandomDrink] = useState({} as DrinkInfo);
-  const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
-  const possibleDrinks = useSelector((state: RootState) => state.drinks.possible);
   const dispatch = useDispatch();
-
-  function getRandomDrink () {
-    const keyLength = Object.keys(possibleDrinks).length;
-    
-    if (!keyLength) {
-      setDrinkError('You don\'t have enough ingredients to make a drink');
-    } else {
-      setDrinkError('');
-
-      const key = Object.keys(possibleDrinks)[Math.floor(Math.random() * keyLength)];
-      const index = Math.floor(Math.random() * possibleDrinks[key].length);
-      const drink = possibleDrinks[key][index];
-
-      if (drink === randomDrink) {
-        getRandomDrink();
-      } else {
-        setRandomDrink(drink);
-      }
-    }
-  }
-
-  function findIngredientType(type: string) {
-    if (storedIngredients.hasOwnProperty(type)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  function updateWidth (e: HTMLImageElement) {
-    e.width = (e.height / e.naturalHeight) * e.naturalWidth;
-  }
+  const randomDrink = useSelector((state: RootState) => state.drinks.random);
 
   useEffect(() => {
     const id = 'form';
@@ -80,117 +43,24 @@ const HomePage: NextPage = () => {
   }, [randomDrink]);
 
   return (
-    <main className={styles.Home}>
-      <section id="landing" className={styles.landingSection}>
-        <header>
-          <h1>What Can I Make?</h1>
-        </header>
-        <Link href="/ingredients">
-          <button className={styles.selectBtn}>
-            <div>
-              <Image 
-                alt='Select Ingredients' 
-                src={require('/public/images/ui/carbonated.webp')} 
-                width="0" 
-                height="32" 
-                onLoadingComplete={e => updateWidth(e)} />
-              <Image 
-                alt='Select Ingredients' 
-                src={require('/public/images/ui/liqueurs.webp')} 
-                width="0" 
-                height="32" 
-                onLoadingComplete={e => updateWidth(e)} />
-              <Image 
-                alt='Select Ingredients' 
-                src={require('/public/images/ui/mixers.webp')} 
-                width="0" 
-                height="32" 
-                onLoadingComplete={e => updateWidth(e)} />
-              <Image 
-                alt='Select Ingredients' 
-                src={require('/public/images/ui/other.webp')} 
-                width="0" 
-                height="32" 
-                onLoadingComplete={e => updateWidth(e)} />
-              <Image 
-                alt='Select Ingredients' 
-                src={require('/public/images/ui/spirits.webp')} 
-                width="0" 
-                height="32" 
-                onLoadingComplete={e => updateWidth(e)} />
-            </div>
-            <span>Select Your Ingredients</span>
-          </button>
-        </Link>
-        <span>Then...</span>
-        <nav>
-          <button className={styles.randomBtn} onClick={() => getRandomDrink()}>
-            <Image 
-              alt="Make a Drink" 
-              src={require('/public/images/ui/select-ingredients.webp')} 
-              width="48" 
-              height="48" />
-            <span>Make A Drink!</span>
-          </button>
-          <h2>Or...</h2>
-          <DrinkTypes 
-            drinkType={drinkType} 
-            setDrinkType={setDrinkType} 
-            drinkError={drinkError} 
-            setDrinkError={setDrinkError} />
-        </nav>
-        <strong className={drinkError ? styles.error : ''}>{drinkError}</strong>
-      </section>
-      { (drinkType || Object.keys(randomDrink).length > 0) && <nav>
-        <ScrollButton link='#drink' />
-      </nav> }
-      { randomDrink && <section id='drink' className={styles.drinkSection}>
-        { (Object.keys(randomDrink).length > 0) && 
-          <RandomDrink 
-            randomDrink={randomDrink} 
-            getRandomDrink={getRandomDrink} /> }
-      </section> }
-      { (drinkType && Object.keys(randomDrink).length > 0) && <nav>
-        <ScrollButton link='#form' />
-      </nav> }
-      <section id='form' className={styles.formSection}>
-        { Object.keys(storedIngredients).length > 0 && 
-        <form>
-          { (drinkType === 'cocktail') && 
-          <>
-            { findIngredientType('liquor') && 
-              <IngredientForm ingredientType='liquor' /> }
-            { findIngredientType('liqueur') && 
-              <IngredientForm ingredientType='liqueur' /> }
-            { findIngredientType('wine') && 
-              <IngredientForm ingredientType='wine' /> }
-            { findIngredientType('other') && 
-              <IngredientForm ingredientType='other' /> }
-          </> }
-          { drinkType && 
-          <>
-            { findIngredientType('carbonated') && 
-              <IngredientForm ingredientType='carbonated' /> }
-            { findIngredientType('juice') && 
-              <IngredientForm ingredientType='juice' /> }
-            { findIngredientType('mixer') && 
-              <IngredientForm ingredientType='mixer' /> }
-          </> }
-        </form> }
-        { (drinkType && Object.keys(storedIngredients).length > 0) && 
-        <Link href='/drinks/filtered'>
-          <button className={styles.seeDrinksBtn}>
-            <span>See Drinks</span>
-            <Image 
-              alt='See Drinks' 
-              src={require('/public/images/ui/cocktail.webp')} 
-              width="64" 
-              height="64" />
-          </button>
-        </Link> }
-      </section>
+    <main className={styles.HomePage}>
+      <LandingSection 
+        drinkType={drinkType}
+        setDrinkType={setDrinkType}
+        drinkError={drinkError}
+        setDrinkError={setDrinkError} />
+      { (drinkType || Object.keys(randomDrink).length > 0) && 
+          <ScrollButton link='#drink' /> }
+      { Object.keys(randomDrink).length > 0 && 
+        <DrinkSection /> }
+      { (drinkType && Object.keys(randomDrink).length > 0) && 
+          <ScrollButton link='#form' /> }
+      { drinkType && 
+        <FormSection 
+          drinkType={drinkType} /> }
+      <Footer />
     </main>
-  )
+  );
 }
 
 export default HomePage;

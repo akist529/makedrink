@@ -8,6 +8,8 @@ import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { toggleNavMenu } from '@/store/slices/navMenu.slice';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
 
 export default function BurgerButton() {
     const { navMenuOpen } = useSelector((state: RootState) => state.navMenu);
@@ -24,7 +26,12 @@ export default function BurgerButton() {
 
     return (
         <button className={styles.BurgerButton} onClick={() => dispatch(toggleNavMenu())}>
-            <Image alt='Open Nav Menu' src={imagePath} width="40" height="40" />
+            <Image 
+                alt='Open Nav Menu' 
+                src={imagePath} 
+                width="0" 
+                height="40" 
+                onLoadingComplete={e => updateWidth(e)} />
         </button>
     );
 }

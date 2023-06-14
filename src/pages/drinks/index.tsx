@@ -2,91 +2,162 @@
 import styles from '@/styles/Drinks.module.scss';
 // Next components
 import type { NextPage } from 'next';
+import { useSearchParams, usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 // React components
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { useGetAllDrinkInfoQuery } from '@/store/api/api';
+import { useGetAllDrinksQuery, useLazyGetMultipleDrinkInfoQuery } from '@/store/api/api';
 // Local components
-import DrinkCard from '@/components/ui/DrinksPage/DrinkCard/DrinkCard';
+import DrinkCard from '@/components/ui/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
+import Footer from '@/components/footer/Footer';
+import LoadingAnimation from '@/components/loading/LoadingAnimation';
 // Type interfaces
-import { DrinkInfo } from '@/types/index';
+import { Drink, DrinkInfo } from '@/types/index';
 
 const AllDrinksPage: NextPage = () => {
-    const { data, isLoading } = useGetAllDrinkInfoQuery();
-    const [firstDrink, setFirstDrink] = useState(0);
-    const [lastDrink, setLastDrink] = useState(20);
-    const [pageNums, setPageNums] = useState([] as string[]);
-    const [drinksList, setDrinksList] = useState([] as DrinkInfo[]);
+    const searchParams = useSearchParams()!;
+    const pathname = usePathname();
+    const router = useRouter();
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    // React local state
+    const [drinksList, setDrinksList] = useState([] as Drink[]);
+    const [drinkInfo, setDrinkInfo] = useState([] as DrinkInfo[]);
+    const [activePage, setActivePage] = useState(() => {
+        return Number(urlParams.get('page'));
+    });
+    const [numOfPages, setNumOfPages] = useState(0);
+
+    // Redux store state
     const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
-    const [activePage, setActivePage] = useState(1);
+
+    // RTK Queries
+    const allDrinks = useGetAllDrinksQuery();
+    const [getDrinkInfo, drinkInfoResult] = useLazyGetMultipleDrinkInfoQuery();
 
     useEffect(() => {
-        if (!isLoading) {
-            const allDrinks = data || [];
-            const arr = [];
+        if (allDrinks.isSuccess) {
+            const data = allDrinks.data.Drinks as Drink[];
 
-            for (const item of allDrinks) {
-                if (blockedDrinks.hasOwnProperty(item.Name.charAt(0))) {
-                    if (blockedDrinks[item.Name.charAt(0)].find((drink: DrinkInfo) => drink.Name === item.Name)) {
-                        continue;
+            const filteredData = data.filter((drink: Drink) => {
+                if (blockedDrinks.hasOwnProperty(drink.Name.charAt(0))) {
+                    if (blockedDrinks[drink.Name.charAt(0)].find((item: DrinkInfo) => drink.Name === item.Name)) {
+                        return false;
                     }
                 }
 
-                arr.push(item);
+                return true;
+            });
+
+            setDrinksList(filteredData);
+        }
+    }, [allDrinks.isLoading]);
+
+    useEffect(() => {
+        if (drinksList.length > 0) {
+            fetchDrinkInfo();
+            setNumOfPages(Math.ceil(drinksList.length / 20));
+        }
+    }, [drinksList]);
+
+    function fetchDrinkInfo () {
+        if (allDrinks.data) {
+            const firstDrink = (activePage * 20);
+            let lastDrink = firstDrink + 20;
+
+            if (lastDrink > drinksList.length) {
+                lastDrink = drinksList.length;
             }
 
-            const pageNumsArr = (() => {
-                const arr = [];
-        
-                for (let i = 0; i < (data || []).length; i++) {
-                    const firstNum = i;
-                    const secondNum = ((i + 20) > (data || []).length) ? (data || []).length : (i + 20);
-                    arr.push(`${firstNum + 1} - ${secondNum + 1}`);
-                    i += 20;
-                }
-        
-                return arr;
-            })();
+            const drinkIds: number[] = [];
 
-            setPageNums(pageNumsArr);
-            setDrinksList(arr);
+            for (const drink of drinksList.slice(firstDrink, lastDrink)) {
+                drinkIds.push(drink.Id);
+            }
+
+            getDrinkInfo(drinkIds);
         }
-    }, [isLoading]);
+    }
+
+    useEffect(() => {
+        if (drinkInfoResult.data) {
+            setDrinkInfo(drinkInfoResult.data);
+        }
+    }, [drinkInfoResult]);
+
+    const createQueryString = useCallback(
+        (name: string, value: string) => {
+            const params = new URLSearchParams(searchParams);
+            params.set(name, value);
+            return params.toString();
+        },
+        [searchParams]
+    );
+
+    useEffect(() => {
+        if (drinkInfo.length > 0) {
+            fetchDrinkInfo();
+            router.push(`${pathname}?` + createQueryString('page', activePage.toString()))
+        }
+    }, [activePage]);
 
     return (
         <>
-        { isLoading && 
+        { (allDrinks.isLoading || 
+        drinkInfoResult.isLoading) && 
             <main className={styles.DrinksPage}>
-                <h1>Loading...</h1>
+                <LoadingAnimation />
+                <Footer />
             </main> }
-        { !isLoading && !(data || []).length && 
+        { (allDrinks.isError || 
+        drinkInfoResult.isError) && 
+            <main className={styles.DrinksPage}>
+                <h1>Error!</h1>
+                <h2>Try again later.</h2>
+            </main> }
+        { (allDrinks.isSuccess && drinkInfoResult.isSuccess) && 
+        !(allDrinks.isLoading || drinkInfoResult.isLoading) && 
+        !drinkInfo.length && 
             <main className={styles.DrinksPage}>
                 <h1>No drinks available!</h1>
+                <h2>There seems to be an error - try again later.</h2>
+                <Footer />
             </main> }
-        { !isLoading && (data || []).length && 
+        { (drinkInfoResult.isSuccess && 
+        !(allDrinks.isLoading || drinkInfoResult.isLoading) && 
+        drinkInfo.length) && 
             <main className={styles.DrinksPage}>
                 <PaginationLinks 
-                    pageNums={pageNums} 
-                    setFirstDrink={setFirstDrink} 
-                    setLastDrink={setLastDrink} 
                     activePage={activePage} 
-                    setActivePage={setActivePage} />
-                <section>
-                    <ul>
-                        { drinksList.slice(firstDrink, lastDrink).map((drink: DrinkInfo, index: number) => {
-                            return (<DrinkCard drink={drink} key={index} />);
-                        }) }
-                    </ul>
-                </section>
+                    setActivePage={setActivePage} 
+                    numOfPages={numOfPages} 
+                    loadState={drinkInfoResult.isLoading} />
+                { (drinkInfoResult.isLoading || drinkInfoResult.isFetching) && 
+                    <LoadingAnimation /> }
+                { !(drinkInfoResult.isLoading || drinkInfoResult.isFetching) && 
+                    <section>
+                        <ul>
+                            { drinkInfo.map((drink: DrinkInfo, index: number) => {
+                                return (
+                                    <DrinkCard 
+                                        key={index} 
+                                        drink={drink} 
+                                        isRandom={false} />
+                                );
+                            }) }
+                        </ul>
+                    </section> }
                 <PaginationLinks 
-                    pageNums={pageNums} 
-                    setFirstDrink={setFirstDrink} 
-                    setLastDrink={setLastDrink} 
                     activePage={activePage} 
-                    setActivePage={setActivePage} />
+                    setActivePage={setActivePage} 
+                    numOfPages={numOfPages} 
+                    loadState={drinkInfoResult.isLoading} />
+                <Footer />
             </main> }
         </>
     );

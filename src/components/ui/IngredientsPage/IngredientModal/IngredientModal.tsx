@@ -11,6 +11,9 @@ import { useGetAllIngredientsQuery } from '@/store/api/api';
 import Ingredient from '@/components/ui/IngredientsPage/Ingredient/Ingredient';
 // Type interfaces
 import { Item } from '@/types/index';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
+import getSlug from '@/helpers/getSlug';
 
 export default function IngredientModal() {
     // Redux selectors
@@ -22,10 +25,6 @@ export default function IngredientModal() {
     const dispatch = useDispatch();
     const imagePath = require('/public/images/ui/close.svg');
 
-    function slug (item: Item) {
-        return `${item.Name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
-    }
-
     return (
         <>
             { ingredientModalOpen && data && modalIngredient &&
@@ -34,18 +33,24 @@ export default function IngredientModal() {
                         <button onClick={() => dispatch(toggleIngredientModal())}>
                             <Image 
                                 alt="Close Modal" 
-                                src={imagePath} />
+                                src={imagePath} 
+                                width="0" 
+                                height="32" 
+                                onLoadingComplete={e => updateWidth(e)} />
                         </button>
                         <div className={styles.header}>
                             <span>{modalIngredient.Name}</span>
                             <Image 
                                 alt={modalIngredient.Name} 
-                                src={require(`/public/images/ui/${slug(modalIngredient)}.webp`)} />
+                                src={require(`/public/images/ui/${getSlug(modalIngredient.Name)}.webp`)} 
+                                width="0" 
+                                height="32" 
+                                onLoadingComplete={e => updateWidth(e)} />
                         </div>
-                        <div className={styles.childList}>
+                        <ul className={styles.childList}>
                             { data.filter((ingredient: Item) => ingredient.AliasId === modalIngredient.Id)
-                                .map(ingredient => <Ingredient key={ingredient.Id} item={ingredient} section={[]} />) }
-                        </div>
+                                .map((ingredient: Item) => <Ingredient key={ingredient.Id} item={ingredient} section={[]} />) }
+                        </ul>
                     </div>
                 </div> }
             { isLoading &&
