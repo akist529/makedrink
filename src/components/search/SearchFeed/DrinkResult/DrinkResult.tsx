@@ -1,6 +1,5 @@
 import styles from './DrinkResult.module.scss';
 import { Drink } from '@/types/index';
-import Link from 'next/link';
 import getSlug from '@/helpers/getSlug';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -17,24 +16,22 @@ export default function DrinkResult (props: { drink: Drink }) {
     const favoritePath = require('/public/images/ui/favorite.svg');
 
     return (
-        <Link href={`/drink/${slug}`} className={styles.DrinkResult}>
-            <div>
-                <span>{drink.Name}</span>
-                { isFavorited && <Image 
-                    className={styles.favorite}
-                    alt='Favorite Status' 
-                    src={favoritePath} 
-                    width="0" 
-                    height="36" 
-                    onLoadingComplete={e => updateWidth(e)} /> }
-                <Image 
-                    className={styles.preview}
-                    alt={drink.Name} 
-                    src={imagePath} 
-                    width="0" 
-                    height="48" 
-                    onLoadingComplete={e => updateWidth(e)} />
-            </div>
-        </Link>
+        <div className={styles.DrinkResult}>
+            <span>{drink.Name}</span>
+            { isFavorited && <Image 
+                className={styles.favorite}
+                alt='Favorite Status' 
+                src={favoritePath} 
+                width="0" 
+                height="36" 
+                onLoadingComplete={e => updateWidth(e)} /> }
+            <Image 
+                className={styles.preview}
+                alt={drink.Name} 
+                src={imagePath} 
+                width="0" 
+                height="48" 
+                onLoadingComplete={e => updateWidth(e)} />
+        </div>
     );
 }

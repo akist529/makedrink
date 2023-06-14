@@ -15,4 +15,29 @@
     align-items: center;
     padding: 10px;
     gap: 10px;
+
+    a {
+        color: white;
+        font-family: 'Oswald';
+        font-size: 20px;
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .SearchFeed {
+        width: calc(100vw - 250px);
+        left: 250px;
+        top: 55px;
+        max-height: calc(100vh - 55px);
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .SearchFeed {
+        width: 33vw;
+        left: 60px;
+        top: 175px;
+        max-height: calc(100vh - 175px);
+    }
 }

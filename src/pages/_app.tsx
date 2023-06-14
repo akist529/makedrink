@@ -2,6 +2,7 @@
 import '@/styles/globals.css';
 // Next components
 import type { AppProps } from 'next/app';
+import { useRouter } from 'next/router';
 // Redux components
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -13,6 +14,8 @@ import MobileNavMenu from '@/components/navmenu/mobile/MobileNavMenu';
 import SubCard from '@/components/ui/DrinkCard/SubCard/SubCard';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
@@ -21,7 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <IngredientModal />
           <NavBar />
           <MobileNavMenu />
-          <Component {...pageProps} className="page" />
+          <Component {...pageProps} className="page" key={router.asPath} />
         </div>
       </PersistGate>
     </Provider>

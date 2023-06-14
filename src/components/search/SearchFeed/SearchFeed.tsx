@@ -8,6 +8,10 @@ import { useState, useEffect } from 'react';
 import { Item, Drink } from '@/types/index';
 import { toggleSearch } from '@/store/slices/search.slice';
 import itemIsAlias from '@/helpers/itemIsAlias';
+import { useSearchParams, usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import getSlug from '@/helpers/getSlug';
 
 export default function SearchFeed () {
     const query = useSelector((state: RootState) => state.search.query);
@@ -22,9 +26,23 @@ export default function SearchFeed () {
     const dispatch = useDispatch();
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
+    const searchParams = useSearchParams()!;
+    const pathname = usePathname();
+    const router = useRouter();
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
     useEffect(() => {
         if (allIngredients.isSuccess) {
-            setIngredientData(allIngredients.data);
+            const filtered = allIngredients.data.filter((item: Item) => {
+                if (!item.AliasId && itemIsAlias(storedIngredients, item)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+
+            setIngredientData(filtered);
         }
     }, [allIngredients]);
 
@@ -76,20 +94,7 @@ export default function SearchFeed () {
 
     useEffect(() => {
         dispatch(toggleSearch());
-    }, [navMenuOpen]);
-
-    useEffect(() => {
-        if (ingredientData.length > 0) {
-            setIngredientData(prevState => 
-                prevState.filter((item: Item) => {
-                if (!item.AliasId && itemIsAlias(storedIngredients, item)) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }));
-        }
-    }, [ingredientData]);
+    }, [navMenuOpen, router.asPath]);
 
     return (
         <>
@@ -104,7 +109,9 @@ export default function SearchFeed () {
                     { (drinkResults.length > 0) && <h1>Drinks</h1> }
                     { drinkResults.map((drink: Drink, index: number) => {
                         return (
-                            <DrinkResult key={index} drink={drink} />
+                            <Link key={index} href={`/drink/${getSlug(drink.Name)}`}>
+                                <DrinkResult drink={drink} />
+                            </Link>
                         );
                     }) }
                 </div> }
