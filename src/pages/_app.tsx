@@ -11,7 +11,6 @@ import IngredientModal from '@/components/ui/IngredientsPage/IngredientModal/Ing
 import NavBar from '@/components/navbar/NavBar';
 import MobileNavMenu from '@/components/navmenu/mobile/MobileNavMenu';
 import SubCard from '@/components/ui/DrinkCard/SubCard/SubCard';
-import SearchFeed from '@/components/search/SearchFeed/SearchFeed';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -21,7 +20,6 @@ export default function App({ Component, pageProps }: AppProps) {
           <SubCard />
           <IngredientModal />
           <NavBar />
-          <SearchFeed />
           <MobileNavMenu />
           <Component {...pageProps} className="page" />
         </div>

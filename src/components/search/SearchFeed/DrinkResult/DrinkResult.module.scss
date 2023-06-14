@@ -1,0 +1,28 @@
+.DrinkResult {
+    width: 100%;
+
+    div {
+        color: white;
+        display: grid;
+        grid-template-columns: 1fr 48px 96px;
+        justify-items: center;
+        align-items: center;
+
+        span {
+            font-size: 20px;
+            font-family: 'Oswald';
+            justify-self: left;
+        }
+    
+        .favorite {
+            grid-column: 2 / 3;
+            filter: invert(32%) sepia(74%) saturate(5818%) hue-rotate(299deg) brightness(92%) contrast(135%);
+        }
+
+        .preview {
+            grid-column: 3 / 4;
+            border: 1px solid white;
+            border-radius: 5px;
+        }
+    }
+}

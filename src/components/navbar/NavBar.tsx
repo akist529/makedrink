@@ -13,6 +13,7 @@ import SearchButton from '@/components/buttons/SearchButton/SearchButton';
 import SearchInput from '@/components/inputs/SearchInput/SearchInput';
 import DesktopNavMenu from '@/components/navmenu/desktop/DesktopNavMenu';
 import SearchBar from '../search/SearchBar/SearchBar';
+import SearchFeed from '../search/SearchFeed/SearchFeed';
 // Next components
 import Link from 'next/link';
 
@@ -46,12 +47,16 @@ export default function NavBar() {
         resizeWindow();
     }, []);
 
+    useEffect(() => {
+        if (displayMode === 'mobile') {
+            dispatch(closeNavMenu());
+        }
+    }, [searchOpen]);
+
     return (
         <nav className={styles.NavBar}>
-            { displayMode === 'mobile' && 
-                <BurgerButton /> }
-            { displayMode === 'mobile' && 
-                !searchOpen && 
+            { displayMode === 'mobile' && <BurgerButton /> }
+            { displayMode === 'mobile' && !searchOpen && 
                 <Link href='/'>
                     <h1>
                         {arrOfLetters.map((letter: string, index: number) => {
@@ -71,16 +76,13 @@ export default function NavBar() {
                         })}
                     </h1>
                 </Link> }
-            { displayMode === 'laptop' && 
-                <DesktopNavMenu /> }
-            { displayMode === 'mobile' && 
-                !searchOpen && 
+            { displayMode === 'laptop' && <DesktopNavMenu /> }
+            { displayMode === 'mobile' && !searchOpen && 
                 <SearchButton /> }
-            { displayMode === 'mobile' && 
-                searchOpen && 
+            { displayMode === 'mobile' && searchOpen && 
                 <SearchInput /> }
-            { displayMode !== 'mobile' && 
-                <SearchBar /> }
+            { displayMode !== 'mobile' && <SearchBar /> }
+            { searchOpen && <SearchFeed /> }
         </nav>
     );
 }
