@@ -1,36 +1,42 @@
+// Component styles
 import styles from './SearchFeed.module.scss';
+// Local components
 import IngredientResult from './IngredientResult/IngredientResult';
 import DrinkResult from './DrinkResult/DrinkResult';
+// Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { useGetAllIngredientsQuery, useGetAllDrinksQuery } from '@/store/api/api';
-import { useState, useEffect } from 'react';
-import { Item, Drink } from '@/types/index';
 import { toggleSearch } from '@/store/slices/search.slice';
+// React components
+import { useState, useEffect } from 'react';
+// Type interfaces
+import { Item, Drink } from '@/types/index';
+// Helper functions
 import itemIsAlias from '@/helpers/itemIsAlias';
-import { useSearchParams, usePathname } from 'next/navigation';
+import getSlug from '@/helpers/getSlug';
+// Next components
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import getSlug from '@/helpers/getSlug';
 
 export default function SearchFeed () {
+    const router = useRouter();
+
+    // Redux store state
     const query = useSelector((state: RootState) => state.search.query);
     const navMenuOpen = useSelector((state: RootState) => state.navMenu.navMenuOpen);
-    const searchOpen = useSelector((state: RootState) => state.search.searchOpen);
+    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
+    const dispatch = useDispatch();
+
+    // RTK Queries
     const allIngredients = useGetAllIngredientsQuery();
     const allDrinks = useGetAllDrinksQuery();
+
+    // React local state
     const [ingredientData, setIngredientData] = useState([] as Item[]);
     const [drinkData, setDrinkData] = useState([] as Drink[]);
     const [ingredientResults, setIngredientResults] = useState([] as Item[]);
     const [drinkResults, setDrinkResults] = useState([] as Drink[]);
-    const dispatch = useDispatch();
-    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
-
-    const searchParams = useSearchParams()!;
-    const pathname = usePathname();
-    const router = useRouter();
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
 
     useEffect(() => {
         if (allIngredients.isSuccess) {

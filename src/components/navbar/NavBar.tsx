@@ -10,7 +10,7 @@ import { closeSearch } from '@/store/slices/search.slice';
 // Local components
 import BurgerButton from '@/components/buttons/BurgerButton/BurgerButton';
 import SearchButton from '@/components/buttons/SearchButton/SearchButton';
-import SearchInput from '@/components/inputs/SearchInput/SearchInput';
+import SearchInput from '@/components/search/SearchInput/SearchInput';
 import DesktopNavMenu from '@/components/navmenu/desktop/DesktopNavMenu';
 import SearchBar from '../search/SearchBar/SearchBar';
 import SearchFeed from '../search/SearchFeed/SearchFeed';
@@ -18,10 +18,14 @@ import SearchFeed from '../search/SearchFeed/SearchFeed';
 import Link from 'next/link';
 
 export default function NavBar() {
+    // Redux store state
     const { searchOpen } = useSelector((state: RootState) => state.search);
-    const arrOfLetters = 'MAKEDRINK'.split('');
-    const [displayMode, setDisplayMode] = useState('');
     const dispatch = useDispatch();
+
+    // React local state
+    const [displayMode, setDisplayMode] = useState('');
+
+    const arrOfLetters = 'MAKEDRINK'.split('');
 
     function resizeWindow () {
         if (window.innerWidth < 600) {

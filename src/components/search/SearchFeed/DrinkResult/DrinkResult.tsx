@@ -1,16 +1,22 @@
+// Component styles
 import styles from './DrinkResult.module.scss';
+// Type interfaces
 import { Drink } from '@/types/index';
-import getSlug from '@/helpers/getSlug';
+// Helper functions
+import findDrinkInStore from '@/helpers/findDrinkInStore';
+import updateWidth from '@/helpers/updateWidth';
+// Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import findDrinkInStore from '@/helpers/findDrinkInStore';
+// Next components
 import Image from 'next/image';
-import updateWidth from '@/helpers/updateWidth';
 
 export default function DrinkResult (props: { drink: Drink }) {
     const { drink } = props;
-    const slug = getSlug(drink.Name);
+
+    // Redux state
     const favoriteDrinks = useSelector((state: RootState) => state.drinks.favorites);
+    
     const isFavorited = findDrinkInStore(favoriteDrinks, drink.Name);
     const imagePath = require('/public/images/ui/cocktail-placeholder.jpg');
     const favoritePath = require('/public/images/ui/favorite.svg');
