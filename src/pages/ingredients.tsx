@@ -1,7 +1,6 @@
 // Page styles
 import styles from '@/styles/Ingredients.module.scss';
 // Next components
-import Image from 'next/image';
 import type { NextPage } from 'next';
 // React components
 import { useEffect } from 'react';
