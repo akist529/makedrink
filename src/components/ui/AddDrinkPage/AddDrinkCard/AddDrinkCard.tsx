@@ -14,7 +14,7 @@ import updateWidth from '@/helpers/updateWidth';
 import IngredientField from './IngredientField/IngredientField';
 
 export default function AddDrinkCard () {
-    const [recipeCount, setRecipeCount] = useState(1);
+    const [recipeCount, setRecipeCount] = useState(Array.from(Array(1).keys()));
     const [directionCount, setDirectionCount] = useState(1);
     const allIngredients = useGetAllIngredientsQuery();
     const [ingredients, setIngredients] = useState([] as Item[]);
@@ -24,6 +24,10 @@ export default function AddDrinkCard () {
             setIngredients(allIngredients.data);
         }
     }, [allIngredients]);
+
+    useEffect(() => {
+        console.log(recipeCount);
+    }, [recipeCount]);
 
     function removeDirection (e: React.MouseEvent<HTMLButtonElement>, i: number) {
         e.preventDefault();
@@ -36,12 +40,40 @@ export default function AddDrinkCard () {
 
     function addIngredient (e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
-        setRecipeCount(recipeCount + 1);
+        setRecipeCount((prev: number[]) => [...prev, (prev.length)]);
     }
 
     function addDirection (e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
         setDirectionCount(directionCount + 1);
+    }
+
+    function removeIngredient (e: React.MouseEvent<HTMLButtonElement>, i: number) {
+        e.preventDefault();
+        
+        if (recipeCount.length > 1) {
+            // document.getElementById(`item-${i}-container`)?.remove();
+
+            for (let j = i; j <= recipeCount.length; j++) {
+                const container = document.getElementById(`item-${j}-container`) as HTMLDivElement;
+                const name = document.getElementById(`item-${j}-name`) as HTMLSelectElement;
+                const amount = document.getElementById(`item-${j}-amount`) as HTMLInputElement;
+                const unit = document.getElementById(`item-${j}-unit`) as HTMLSpanElement;
+
+                container?.id === `item-${j - 1}-container`;
+                name?.id === `item-${j - 1}-name`;
+                amount?.id === `item-${j - 1}-amount`;
+                unit?.id === `item-${j - 1}-unit`;
+
+                if (j < recipeCount.length) {
+                    name.value = (document.getElementById(`item-${j + 1}-name`) as HTMLSelectElement)?.value;
+                    amount.value = (document.getElementById(`item-${j + 1}-amount`) as HTMLInputElement)?.value;
+                    unit.innerHTML = (document.getElementById(`item-${j + 1}-unit`) as HTMLSpanElement)?.innerHTML;
+                }
+            }
+
+            setRecipeCount((prev: number[]) => prev.slice(0, (prev.length - 1)));
+        }
     }
 
     return (
@@ -56,22 +88,15 @@ export default function AddDrinkCard () {
                 <input type="text" id="recipe-credit" name="recipe-credit" placeholder="Add Credit (Optional)"/><br/>
                 <fieldset>
                     <legend>Recipe</legend>
-                    { (() => {
-                        const arr = [];
-
-                        for (let i = 1; i <= recipeCount; i++) {
-                            arr.push(
-                                <IngredientField 
-                                    key={i} 
-                                    i={i} 
-                                    ingredients={ingredients} 
-                                    recipeCount={recipeCount} 
-                                    setRecipeCount={setRecipeCount} />
-                            );
-                        }
-
-                        return arr;
-                    })() }
+                    { recipeCount.map((i: number) => {
+                        return (
+                            <IngredientField 
+                            key={i} 
+                            i={i} 
+                            ingredients={ingredients} 
+                            removeIngredient={removeIngredient} />
+                        );
+                    }) }
                     <button onClick={addIngredient}>
                         <span>Add Ingredient</span>
                     </button>

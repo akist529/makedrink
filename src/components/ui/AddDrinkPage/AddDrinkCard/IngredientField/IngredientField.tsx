@@ -10,9 +10,11 @@ import Image from 'next/image';
 // React components
 import { useState, useEffect } from 'react';
 
-export default function IngredientField (props: { i: number, ingredients: Item[], recipeCount: number, setRecipeCount: Function }) {
-    const { i , ingredients, recipeCount, setRecipeCount } = props;
-    const [ingredient, setIngredient] = useState("");
+export default function IngredientField (props: { i: number, ingredients: Item[], removeIngredient: Function }) {
+    const { i, ingredients, removeIngredient } = props;
+    const [ingredient, setIngredient] = useState(() => {
+        return (document.getElementById(`item-${i}-name`) as HTMLSelectElement)?.value;
+    });
     const [unit, setUnit] = useState("oz");
 
     useEffect(() => {
@@ -29,19 +31,26 @@ export default function IngredientField (props: { i: number, ingredients: Item[]
         })
     }, [ingredient]);
 
-    function removeIngredient (e: React.MouseEvent<HTMLButtonElement>, i: number) {
-        e.preventDefault();
-        
-        if (recipeCount > 1) {
-            document.querySelector(`.item-${i}-container`)?.remove();
-            setRecipeCount(recipeCount - 1);
-        }
+    function handleChange (e: React.FormEvent<HTMLSelectElement>) {
+        setIngredient(e.currentTarget.value);
+
+        (document.getElementById(`item-${i}-unit`) as HTMLSpanElement).innerHTML = (() => {
+            if (ingredient === "21") {
+                return "dash";
+            } else if (ingredient === "40") {
+                return "leaves";
+            } else if (ingredient === "46") {
+                return "whole";
+            } else {
+                return "oz";
+            }
+        })();
     }
 
     return (
         <div id={`item-${i}-container`} className={styles.IngredientField}>
             <div>
-                <select name={`item-${i}`} id={`item-${i}`} defaultValue="" onChange={e => setIngredient(e.currentTarget.value)}>
+                <select name={`item-${i}-name`} id={`item-${i}-name`} defaultValue="" onChange={handleChange}>
                     <option value="" disabled>Select an ingredient</option>
                     <optgroup label="Liquor">
                     { ingredients.filter((ingredient: Item) => ingredient.Type === 'liquor').map((ingredient: Item, index: number) => {
@@ -100,7 +109,7 @@ export default function IngredientField (props: { i: number, ingredients: Item[]
                     id={`item-${i}-amount`} 
                     name={`item-${i}-amount`} 
                     placeholder="Amount"/>
-                <span>{unit}</span>
+                <span id={`item-${i}-unit`}>{unit}</span>
                 <button onClick={e => removeIngredient(e, i)}>
                     <Image 
                         alt="Remove Ingredient"
