@@ -1,0 +1,50 @@
+.AddDrinkCard {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    max-width: 280px;
+
+    /* Visual */
+    background-color: #111111;
+    background-image:  linear-gradient(135deg, #141414 25%, transparent 25%), linear-gradient(225deg, #141414 25%, transparent 25%), linear-gradient(45deg, #141414 25%, transparent 25%), linear-gradient(315deg, #141414 25%, #111111 25%);
+    background-position:  24px 0, 24px 0, 0 0, 0 0;
+    background-size: 48px 48px;
+    background-repeat: repeat;
+    border: 2px solid rgb(215,215,215);
+    border-radius: 20px;
+    box-shadow: 10px 10px 10px #000000;
+
+    header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Nunito';
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 24px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        font-family: 'Oswald';
+
+        label {
+            font-size: 18px;
+        }
+
+        input {
+            height: 24px;
+        }
+
+        .submit {
+            cursor: pointer;
+            font-family: 'Oswald';
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+    }
+}
