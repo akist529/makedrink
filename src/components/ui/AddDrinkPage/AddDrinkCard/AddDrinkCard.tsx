@@ -1,21 +1,18 @@
 // Component styles
 import styles from './AddDrinkCard.module.scss';
-// Next components
-import Image from 'next/image';
 // Redux components
 import { useGetAllIngredientsQuery } from '@/store/api/api';
 // React components
 import { useState, useEffect } from 'react';
 // Type interfaces
 import { Item } from '@/types/index';
-// Helper functions
-import updateWidth from '@/helpers/updateWidth';
 // Local components
 import IngredientField from './IngredientField/IngredientField';
+import DirectionField from './DirectionField/DirectionField';
 
 export default function AddDrinkCard () {
     const [recipeCount, setRecipeCount] = useState(Array.from(Array(1).keys()));
-    const [directionCount, setDirectionCount] = useState(1);
+    const [directionCount, setDirectionCount] = useState(Array.from(Array(1).keys()));
     const allIngredients = useGetAllIngredientsQuery();
     const [ingredients, setIngredients] = useState([] as Item[]);
 
@@ -32,9 +29,20 @@ export default function AddDrinkCard () {
     function removeDirection (e: React.MouseEvent<HTMLButtonElement>, i: number) {
         e.preventDefault();
         
-        if (directionCount > 1) {
-            document.querySelector(`.dir-${i}-container`)?.remove();
-            setDirectionCount(directionCount - 1);
+        if (directionCount.length > 1) {
+            for (let j = i; j <= recipeCount.length; j++) {
+                const container = document.getElementById(`dir-${j}-container`) as HTMLDivElement;
+                const direction = document.getElementById(`dir-${j}`) as HTMLInputElement;
+
+                container?.id === `dir-${j - 1}-container`;
+                direction?.id === `dir-${j - 1}`;
+
+                if (j < recipeCount.length) {
+                    direction.value = (document.getElementById(`dir-${j + 1}`) as HTMLInputElement)?.value;
+                }
+            }
+
+            setDirectionCount((prev: number[]) => prev.slice(0, (prev.length - 1)));
         }
     }
 
@@ -45,15 +53,13 @@ export default function AddDrinkCard () {
 
     function addDirection (e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
-        setDirectionCount(directionCount + 1);
+        setDirectionCount((prev: number[]) => [...prev, (prev.length)]);
     }
 
     function removeIngredient (e: React.MouseEvent<HTMLButtonElement>, i: number) {
         e.preventDefault();
         
         if (recipeCount.length > 1) {
-            // document.getElementById(`item-${i}-container`)?.remove();
-
             for (let j = i; j <= recipeCount.length; j++) {
                 const container = document.getElementById(`item-${j}-container`) as HTMLDivElement;
                 const name = document.getElementById(`item-${j}-name`) as HTMLSelectElement;
@@ -103,30 +109,14 @@ export default function AddDrinkCard () {
                 </fieldset><br/>
                 <fieldset>
                     <legend>Directions</legend>
-                    { (() => {
-                        const arr = [];
-
-                        for (let i = 1; i <= directionCount; i++) {
-                            arr.push(
-                                <div key={i} className={`dir-${i}-container`}>
-                                    <label htmlFor={`dir-${i}`}>Direction:</label>
-                                    <div>
-                                        <input type="text" id={`dir-${i}`} name={`dir-${i}`} />
-                                        <button onClick={e => removeDirection(e, i)}>
-                                            <Image 
-                                                alt="Remove Direction"
-                                                src={require('/public/images/ui/cancel.svg')} 
-                                                width="0" 
-                                                height="16" 
-                                                onLoadingComplete={e => updateWidth(e)} />
-                                        </button>
-                                    </div>
-                                </div>
-                            );
-                        }
-
-                        return arr;
-                    })() }
+                    { directionCount.map((i: number) => {
+                        return (
+                            <DirectionField 
+                                key={i} 
+                                i={i} 
+                                removeDirection={removeDirection} />
+                        );
+                    }) }
                     <button onClick={addDirection}>
                         <span>Add Direction</span>
                     </button>
