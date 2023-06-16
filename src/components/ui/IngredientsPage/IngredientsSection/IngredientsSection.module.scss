@@ -6,27 +6,44 @@
     gap: 20px;
     width: auto;
 
-    .category {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        border: 2px solid white;
-        border-radius: 10px;
-        padding: 10px 10px;
-        width: auto;
+    header {
+        button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid white;
+            border-radius: 10px;
+            padding: 10px 10px;
+            width: auto;
+            background: none;
+            cursor: pointer;
 
-        img {
-            filter: invert(1);
+            h2 {
+                color: white;
+                font-family: 'Nunito';
+                font-size: 48px;
+                text-align: center;
+                text-transform: uppercase;
+                text-shadow: 0 0 20px rgb(80, 80, 255);  
+            }
+
+            img {
+                filter: invert(1);
+            }
+        
+            .category {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                justify-content: center;
+                align-items: center;
+            }
+
+            &:hover {
+                img:nth-child(3) {
+                    filter: invert(19%) sepia(76%) saturate(6692%) hue-rotate(306deg) brightness(104%) contrast(114%);                }
+            }
         }
-    }
-
-    h2 {
-        color: white;
-        font-family: 'Nunito';
-        font-size: 48px;
-        text-align: center;
-        text-transform: uppercase;
-        text-shadow: 0 0 20px rgb(80, 80, 255);  
     }
 }

@@ -12,13 +12,9 @@ import { addPossibleDrink } from '@/store/slices/drinks.slice';
 // Type interfaces
 import { Item, Drink } from '@/types/index';
 // Local components
-import IngredientCategoryButton from '@/components/buttons/IngredientCategoryButton/IngredientCategoryButton';
-import IngredientSection from '@/components/ui/IngredientsPage/IngredientsSection/IngredientList/IngredientList';
 import Footer from '@/components/footer/Footer';
 import IngredientsTitle from '@/components/ui/IngredientsPage/IngredientsTitle/IngredientsTitle';
 import IngredientsSection from '@/components/ui/IngredientsPage/IngredientsSection/IngredientsSection';
-// Helper functions
-import updateWidth from '@/helpers/updateWidth';
 
 const IngredientsPage: NextPage = () => {
     const allIngredients = useGetAllIngredientsQuery();
@@ -28,22 +24,6 @@ const IngredientsPage: NextPage = () => {
 
     const alcoholImagePath = require('/public/images/ui/drunk.webp');
     const mixerImagePath = require('/public/images/ui/shaker.webp');
-
-    function filterDataByType (type: string[]) {
-        let filteredData: Item[] = [];
-
-        for (let i = 0; i < type.length; i++) {
-            const categoryData = (allIngredients.data as Item[]).filter(ingredient => {
-                return ingredient.Type === type[i];
-            });
-
-            for (const item of categoryData) {
-                filteredData.push(item);
-            }
-        }
-
-        return filteredData;
-    }
 
     useEffect(() => {
         const ingredientIds: number[] = [];

@@ -44,7 +44,7 @@ export default function IngredientModal() {
                                 alt={modalIngredient.Name} 
                                 src={require(`/public/images/ui/${getSlug(modalIngredient.Name)}.webp`)} 
                                 width="0" 
-                                height="32" 
+                                height="48" 
                                 onLoadingComplete={e => updateWidth(e)} />
                         </div>
                         <ul className={styles.childList}>

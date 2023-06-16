@@ -144,7 +144,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
                         alt={item.Name} 
                         src={ingredientImagePath} 
                         width="0" 
-                        height="32" 
+                        height="48" 
                         onLoadingComplete={e => updateWidth(e)} />
                 </div>
                 <IngredientCheckbox 
