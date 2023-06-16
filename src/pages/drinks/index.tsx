@@ -7,9 +7,10 @@ import { useRouter } from 'next/router';
 // React components
 import { useState, useEffect, useCallback } from 'react';
 // Redux components
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { useGetAllDrinksQuery, useLazyGetMultipleDrinkInfoQuery } from '@/store/api/api';
+import { setDrinksPerPage } from '@/store/slices/drinks.slice';
 // Local components
 import DrinkCard from '@/components/ui/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
@@ -35,6 +36,8 @@ const AllDrinksPage: NextPage = () => {
 
     // Redux store state
     const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
+    const drinksPerPage = useSelector((state: RootState) => state.drinks.drinksPerPage);
+    const dispatch = useDispatch();
 
     // RTK Queries
     const allDrinks = useGetAllDrinksQuery();
@@ -61,14 +64,14 @@ const AllDrinksPage: NextPage = () => {
     useEffect(() => {
         if (drinksList.length > 0) {
             fetchDrinkInfo();
-            setNumOfPages(Math.ceil(drinksList.length / 20));
+            setNumOfPages(Math.ceil(drinksList.length / drinksPerPage));
         }
-    }, [drinksList]);
+    }, [drinksList, drinksPerPage]);
 
     function fetchDrinkInfo () {
         if (allDrinks.data) {
-            const firstDrink = (activePage * 20);
-            let lastDrink = firstDrink + 20;
+            const firstDrink = (activePage * drinksPerPage);
+            let lastDrink = firstDrink + drinksPerPage;
 
             if (lastDrink > drinksList.length) {
                 lastDrink = drinksList.length;
@@ -132,6 +135,18 @@ const AllDrinksPage: NextPage = () => {
         !(allDrinks.isLoading || drinkInfoResult.isLoading) && 
         drinkInfo.length) && 
             <main className={styles.DrinksPage}>
+                <div className={styles.changePageCount}>
+                    <span>Result per Page</span>
+                    <button onClick={() => dispatch(setDrinksPerPage(10))}>
+                        <span>10</span>
+                    </button>
+                    <button onClick={() => dispatch(setDrinksPerPage(20))}>
+                        <span>20</span>
+                    </button>
+                    <button onClick={() => dispatch(setDrinksPerPage(30))}>
+                        <span>30</span>
+                    </button>
+                </div>
                 <PaginationLinks 
                     activePage={activePage} 
                     setActivePage={setActivePage} 
