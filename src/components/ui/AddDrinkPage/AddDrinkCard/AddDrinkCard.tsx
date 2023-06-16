@@ -30,7 +30,7 @@ export default function AddDrinkCard () {
         e.preventDefault();
         
         if (directionCount.length > 1) {
-            for (let j = i; j <= recipeCount.length; j++) {
+            for (let j = i; j <= directionCount.length; j++) {
                 const container = document.getElementById(`dir-${j}-container`) as HTMLDivElement;
                 const direction = document.getElementById(`dir-${j}`) as HTMLInputElement;
 

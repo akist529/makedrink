@@ -3,7 +3,8 @@
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    max-width: 280px;
+    width: 90vw;
+    max-width: 384px;
 
     /* Visual */
     background-color: #111111;
@@ -31,6 +32,25 @@
         flex-direction: column;
         gap: 5px;
         font-family: 'Oswald';
+
+        fieldset {
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+
+            > button {
+                background: black;
+                color: white;
+                padding: 5px 10px;
+                border: 1px solid rgb(200, 200, 200);
+                border-radius: 5px;
+                cursor: pointer;
+                text-transform: uppercase;
+            }
+        }
 
         label {
             font-size: 18px;

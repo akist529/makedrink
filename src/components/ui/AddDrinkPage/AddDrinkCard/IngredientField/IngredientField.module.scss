@@ -1,0 +1,28 @@
+.IngredientField {
+    display: grid;
+    grid-template-columns: 1fr 48px auto auto;
+    gap: 5px;
+    align-items: center;
+    width: 100%;
+    
+    select {
+        text-overflow: ellipsis;
+    }
+
+    input {
+        text-overflow: ellipsis;
+    }
+
+    button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            filter: invert(1);
+        }
+    }
+}
