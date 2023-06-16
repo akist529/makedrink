@@ -16,6 +16,7 @@ import DrinkCard from '@/components/ui/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
 import Footer from '@/components/footer/Footer';
 import LoadingAnimation from '@/components/loading/LoadingAnimation';
+import PageCountCtrl from '@/components/ui/DrinksPage/PageCountCtrl/PageCountCtrl';
 // Type interfaces
 import { Drink, DrinkInfo } from '@/types/index';
 
@@ -135,18 +136,7 @@ const AllDrinksPage: NextPage = () => {
         !(allDrinks.isLoading || drinkInfoResult.isLoading) && 
         drinkInfo.length) && 
             <main className={styles.DrinksPage}>
-                <div className={styles.changePageCount}>
-                    <span>Result per Page</span>
-                    <button onClick={() => dispatch(setDrinksPerPage(10))}>
-                        <span>10</span>
-                    </button>
-                    <button onClick={() => dispatch(setDrinksPerPage(20))}>
-                        <span>20</span>
-                    </button>
-                    <button onClick={() => dispatch(setDrinksPerPage(30))}>
-                        <span>30</span>
-                    </button>
-                </div>
+                <PageCountCtrl />
                 <PaginationLinks 
                     activePage={activePage} 
                     setActivePage={setActivePage} 
@@ -172,6 +162,7 @@ const AllDrinksPage: NextPage = () => {
                     setActivePage={setActivePage} 
                     numOfPages={numOfPages} 
                     loadState={drinkInfoResult.isLoading} />
+                <PageCountCtrl />
                 <Footer />
             </main> }
         </>

@@ -1,0 +1,23 @@
+.PageCountCtrl {
+    display: flex;
+    gap: 10px;
+
+    button {
+        background: white;
+        border-radius: 50%;
+        border: none;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        font-weight: 700;
+
+        &:hover {
+            border: 1px solid black;
+        }
+    }
+
+    .active {
+        background: #ff00bf;
+        color: white;
+    }
+}
