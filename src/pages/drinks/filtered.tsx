@@ -15,6 +15,7 @@ import DrinkCard from '@/components/ui/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
 import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
 import Footer from '@/components/footer/Footer';
+import PageCountCtrl from '@/components/ui/DrinksPage/PageCountCtrl/PageCountCtrl';
 // Type interfaces
 import { DrinkDict, DrinkInfo, Ingredient, IngredientDict, Item } from '@/types/index';
 // Helper functions
@@ -109,6 +110,7 @@ const FilteredDrinksPage: NextPage = () => {
                 </main> }
             { (drinksList.length > 0) && 
                 <main className={styles.DrinksPage}>
+                    <PageCountCtrl />
                     <PaginationLinks 
                         activePage={activePage} 
                         setActivePage={setActivePage} 
@@ -128,6 +130,7 @@ const FilteredDrinksPage: NextPage = () => {
                         setActivePage={setActivePage} 
                         numOfPages={numOfPages} 
                         loadState={false} />
+                    <PageCountCtrl />
                     <Footer />
                 </main> }
         </>
