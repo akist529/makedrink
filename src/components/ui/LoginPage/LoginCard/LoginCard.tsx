@@ -7,18 +7,18 @@ export default function LoginCard () {
                 <strong>Sign In</strong>
                 <span>To Access Admin Features</span>
             </header>
-            <form action="" method="get">
-                <label htmlFor="email">E-Mail:</label>
+            <form action="https://api.makedr.ink/login" method="post">
+                <label htmlFor="username">Username:</label>
                 <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    placeholder="E-Mail"/><br/>
-                <label htmlFor="pass">Password:</label>
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    placeholder="Username"/><br/>
+                <label htmlFor="passworld">Password:</label>
                 <input 
                     type="password" 
-                    id="pass" 
-                    name="pass"
+                    id="password" 
+                    name="password"
                     placeholder="Password"/><br/>
                 <input 
                     type="submit" 

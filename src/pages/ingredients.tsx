@@ -36,7 +36,7 @@ const IngredientsPage: NextPage = () => {
         var urlencoded = new URLSearchParams();
         urlencoded.append('ingredients', ids);
 
-        fetch('http://15.204.244.7:8585/drinks', {
+        fetch('https://api.makedr.ink/drinks', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
