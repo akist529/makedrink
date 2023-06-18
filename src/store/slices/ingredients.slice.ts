@@ -12,7 +12,7 @@ export const ingredientsSlice = createSlice({
     },
     reducers: {
         addIngredient: (state, action: PayloadAction<Item>) => {
-            const type = action.payload.Type;
+            const type = action.payload.Type || '';
             const letter = action.payload.Name.charAt(0);
 
             if (state.stored.hasOwnProperty(type) && 
@@ -53,7 +53,7 @@ export const ingredientsSlice = createSlice({
             });
         },
         removeIngredient: (state, action: PayloadAction<Item>) => {
-            const type = action.payload.Type;
+            const type = action.payload.Type || '';
             const letter = action.payload.Name.charAt(0);
             const index = state.stored[type][letter].findIndex((item: Item) => item.Name === action.payload.Name);
             const newArr = state.stored[type][letter];
@@ -125,7 +125,7 @@ export const ingredientsSlice = createSlice({
             }
         },
         selectIngredient: (state, action: PayloadAction<Item>) => {
-            const type = action.payload.Type;
+            const type = action.payload.Type || '';
             const letter = action.payload.Name.charAt(0);
 
             if (state.selected.hasOwnProperty(type) && 
@@ -166,7 +166,7 @@ export const ingredientsSlice = createSlice({
             });
         },
         unselectIngredient: (state, action: PayloadAction<Item>) => {
-            const type = action.payload.Type;
+            const type = action.payload.Type || '';
             const letter = action.payload.Name.charAt(0);
             const index = state.selected[type][letter].findIndex((item: Item) => item.Name === action.payload.Name);
             const newArr = state.selected[type][letter];

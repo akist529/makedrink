@@ -1,7 +1,7 @@
 // Component styles
 import styles from './NavBar.module.scss';
 // React components
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -24,10 +24,8 @@ export default function NavBar() {
 
     // React local state
     const [displayMode, setDisplayMode] = useState('');
-
-    const arrOfLetters = 'MAKEDRINK'.split('');
-
-    function resizeWindow () {
+    const arrOfLetters = useMemo(() => 'MAKEDRINK'.split(''), []);
+    const resizeWindow = useCallback(() => {
         if (window.innerWidth < 600) {
             setDisplayMode('mobile');
             dispatch(closeNavMenu());
@@ -41,21 +39,18 @@ export default function NavBar() {
             dispatch(closeNavMenu());
             dispatch(closeSearch());
         }
-    }
-
-    useEffect(() => {
-        window.addEventListener('resize', resizeWindow);
     }, [dispatch]);
 
     useEffect(() => {
+        window.addEventListener('resize', resizeWindow);
         resizeWindow();
-    }, []);
+    }, [dispatch, resizeWindow]);
 
     useEffect(() => {
         if (displayMode === 'mobile') {
             dispatch(closeNavMenu());
         }
-    }, [searchOpen]);
+    }, [searchOpen, dispatch, displayMode]);
 
     return (
         <nav className={styles.NavBar}>

@@ -29,11 +29,21 @@
         transition: 0.125s;
         letter-spacing: 2px;
         text-align: left;
+        text-transform: uppercase;
     }
 
     &:hover {
         span {
             color:rgb(255, 0, 191);
+            animation: 0.125s btn-hover forwards;
         }
+    }
+}
+
+@keyframes btn-hover {
+    0% {
+        background: linear-gradient(to bottom right, rgb(25, 25, 25), rgb(45, 19, 46));
+    } 100% {
+        background: linear-gradient(to bottom right, rgb(0, 0, 0), rgb(15, 5, 20));
     }
 }

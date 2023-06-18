@@ -9,17 +9,18 @@ import Link from 'next/link';
 // Local components
 import NavMenuItem from '@/components/navmenu/item/NavMenuItem';
 // Type interfaces
-import { IngredientDict, Item } from '@/types/index';
+import { Item } from '@/types/index';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
+// React components
+import { useMemo } from 'react';
 
 export default function NavMenuCategory(props: { type: string }) {
     const { type } = props;
-    const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored);
-    const imagePath = require('/public/images/ui/expand_more.svg');
+    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
-    const menuItems = (() => {
+    const menuItems = useMemo(() => {
         const links: Item[] = [];
         
         Object.keys(storedIngredients[type]).forEach(key => {
@@ -29,7 +30,7 @@ export default function NavMenuCategory(props: { type: string }) {
         })
 
         return links;
-    })();
+    }, [storedIngredients, type]);
 
     return (
         <li className={styles.NavMenuCategory}>
@@ -37,7 +38,7 @@ export default function NavMenuCategory(props: { type: string }) {
                 <span>{type}</span>
                 <Image 
                     alt='Expand' 
-                    src={imagePath} 
+                    src={require('/public/images/ui/expand_more.svg')} 
                     width="0" 
                     height="40" 
                     onLoadingComplete={e => updateWidth(e)} />

@@ -1,7 +1,7 @@
 // Component styles
 import styles from './IngredientFilter.module.scss';
 // React components
-import { useEffect } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -9,24 +9,22 @@ import { selectIngredient, unselectIngredient } from '@/store/slices/ingredients
 // Next components
 import Image from 'next/image';
 // Type interfaces
-import { Item, IngredientDict } from '@/types/index';
+import { Item } from '@/types/index';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
 import getItemName from '@/helpers/getItemName';
-import findAliasInStore from '@/helpers/findAliasInStore';
-import findItemInStore from '@/helpers/findItemInStore';
 import findItemById from '@/helpers/findItemById';
 import findAltInStore from '@/helpers/findAltInStore';
 
 export default function IngredientFilter (props: { ingredient: Item, showImage: boolean }) {
     const { ingredient, showImage } = props;
     const dispatch = useDispatch();
-    const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored);
-    const selectedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.selected);
-    const displayName = getItemName(ingredient);
+    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
+    const selectedIngredients = useSelector((state: RootState) => state.ingredients.selected);
+    const displayName = useMemo(() => getItemName(ingredient), [ingredient]);
 
-    function changeState (e: React.MouseEvent<HTMLInputElement,MouseEvent>) {
+    const changeState = useCallback((e: React.MouseEvent<HTMLInputElement,MouseEvent>) => {
         if (e.currentTarget.checked) {
             dispatch(selectIngredient(ingredient));
             
@@ -52,7 +50,7 @@ export default function IngredientFilter (props: { ingredient: Item, showImage: 
                 }
             }
         }
-    }
+    }, [dispatch, ingredient, storedIngredients]);
 
     useEffect(() => {
         const type = ingredient.Type || '';
@@ -63,7 +61,7 @@ export default function IngredientFilter (props: { ingredient: Item, showImage: 
         {
             (document.getElementById(displayName) as HTMLInputElement).checked = true;
         }
-    }, []);
+    }, [displayName, ingredient.Name, ingredient.Type, selectedIngredients]);
 
     return (
         <li className={styles.IngredientFilter}>

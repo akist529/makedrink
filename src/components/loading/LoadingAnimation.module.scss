@@ -5,6 +5,12 @@
     align-items: center;
     gap: 20px;
 
+    h1 {
+        color: white;
+        font-family: 'Oswald';
+        text-transform: uppercase;
+    }
+
     img {
         filter: invert(1);
         transform: rotate(0);

@@ -10,13 +10,15 @@ import { useState, useEffect, useCallback } from 'react';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+import { useGetAllIngredientsQuery } from '@/store/api/api';
 // Local components
 import DrinkCard from '@/components/ui/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
 import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
 import Footer from '@/components/footer/Footer';
+import PageCountCtrl from '@/components/ui/DrinksPage/PageCountCtrl/PageCountCtrl';
 // Type interfaces
-import { DrinkDict, DrinkInfo } from '@/types/index';
+import { DrinkDict, DrinkInfo, Item } from '@/types/index';
 
 const BlockedDrinksPage: NextPage = () => {
     const searchParams = useSearchParams()!;
@@ -31,6 +33,17 @@ const BlockedDrinksPage: NextPage = () => {
     const [activePage, setActivePage] = useState(() => {
         return Number(urlParams.get('page'));
     });
+
+    // RTK Queries
+    const allIngredients = useGetAllIngredientsQuery();
+    const [ingredients, setIngredients] = useState([] as Item[]);    
+
+    useEffect(() => {
+        if (allIngredients.isSuccess) {
+            setIngredients(allIngredients.data);
+        }
+    }, [allIngredients]);
+
 
     const allDrinks = (() => {
         const arr = [];
@@ -85,6 +98,7 @@ const BlockedDrinksPage: NextPage = () => {
             </main> }
         { (drinksList.length > 0) && 
             <main className={styles.DrinksPage}>
+                <PageCountCtrl />
                 <PaginationLinks 
                     activePage={activePage}
                     setActivePage={setActivePage} 
@@ -94,7 +108,11 @@ const BlockedDrinksPage: NextPage = () => {
                     <ul>
                         { drinksList.map((drink: DrinkInfo, index: number) => {
                             return (
-                                <DrinkCard key={index} drink={drink} isRandom={false} />
+                                <DrinkCard 
+                                    key={index} 
+                                    drink={drink} 
+                                    isRandom={false} 
+                                    ingredients={ingredients} />
                             );
                         }) }
                     </ul>
@@ -104,6 +122,7 @@ const BlockedDrinksPage: NextPage = () => {
                     setActivePage={setActivePage} 
                     numOfPages={numOfPages} 
                     loadState={false} />
+                <PageCountCtrl />
                 <Footer />
             </main> }
         </>

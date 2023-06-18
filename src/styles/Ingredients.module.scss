@@ -5,6 +5,10 @@
     background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 42px 42px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 42px 42px;
     min-height: 100vh;
 
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
     > section {
         display: flex;
         flex-direction: column;

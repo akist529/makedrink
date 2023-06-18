@@ -14,6 +14,8 @@ import getSlug from '@/helpers/getSlug';
 import updateWidth from '@/helpers/updateWidth';
 // Next components
 import Image from 'next/image';
+// React components
+import { useMemo } from 'react';
 
 export default function SearchResult (props: { ingredient: Item }) {
     const { ingredient } = props;
@@ -21,15 +23,15 @@ export default function SearchResult (props: { ingredient: Item }) {
     // Redux state
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     
-    const inStore = (() => {
+    const inStore = useMemo(() => {
         if (findItemInStore(storedIngredients, ingredient.Name)) {
             return true;
         } else {
             return false;
         }
-    })();
-    const displayName = getItemName(ingredient);
-    const slug = getSlug(ingredient.Name);
+    }, [ingredient.Name, storedIngredients]);
+    const displayName = useMemo(() => getItemName(ingredient), [ingredient]);
+    const slug = useMemo(() => getSlug(ingredient.Name), [ingredient.Name]);
 
     return (
         <div className={styles.IngredientResult}>

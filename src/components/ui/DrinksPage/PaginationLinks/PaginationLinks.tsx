@@ -4,27 +4,29 @@ import styles from './PaginationLinks.module.scss';
 import Image from 'next/image';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+// React components
+import { useCallback } from 'react';
 
 export default function PaginationLinks (props: { activePage: number, setActivePage: Function, numOfPages: number, loadState: boolean }) {
     const { activePage, setActivePage, numOfPages, loadState } = props;
 
-    function changePage (index: number) {
+    const changePage = useCallback((index: number) => {
         if (!loadState) {
             setActivePage(index);
         }
-    }
+    }, [loadState, setActivePage]);
 
-    function setPageLeft () {
+    const setPageLeft = useCallback(() => {
         if (!loadState) {
             setActivePage((prevState: number) => (prevState + numOfPages - 1) % numOfPages);
         }
-    }
+    }, [loadState, numOfPages, setActivePage]);
 
-    function setPageRight () {
+    const setPageRight = useCallback(() => {
         if (!loadState) {
             setActivePage((prevState: number) => (prevState + numOfPages + 1) % numOfPages);
         }
-    }
+    }, [loadState, numOfPages, setActivePage]);
 
     return (
         <nav className={styles.PaginationLinks}>

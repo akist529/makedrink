@@ -3,7 +3,7 @@ import styles from './ParentForm.module.scss';
 // Next components
 import Image from 'next/image';
 // Type interfaces
-import { Item, IngredientDict } from '@/types/index';
+import { Item } from '@/types/index';
 // Local components
 import IngredientFilter from '../IngredientFilter/IngredientFilter';
 // Redux components
@@ -12,13 +12,14 @@ import { RootState } from '@/store/store';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
+// React components
+import { useCallback } from 'react';
 
 export default function ParentForm (props: { ingredient: Item }) {
     const { ingredient } = props;
-    const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored);
-    const slug = require(`/public/images/ui/${getSlug(ingredient.Name)}.webp`);
+    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
-    function childIngredients (item: Item) {
+    const childIngredients = useCallback((item: Item) => {
         const childIngredients: Item[] = [];
         const type = item.Type || '';
 
@@ -33,9 +34,9 @@ export default function ParentForm (props: { ingredient: Item }) {
         }
 
         return childIngredients;
-    }
+    }, [storedIngredients]);
     
-    function ingredientIsChild (item: Item) {
+    const ingredientIsChild = useCallback((item: Item) => {
         const type = item.Type || '';
         
         if (storedIngredients.hasOwnProperty(type)) {
@@ -47,7 +48,7 @@ export default function ParentForm (props: { ingredient: Item }) {
         }
 
         return false;
-    }
+    }, [storedIngredients]);
 
     return (
         <li className={styles.ParentForm}>
@@ -56,7 +57,7 @@ export default function ParentForm (props: { ingredient: Item }) {
                     <span>{ingredient.Name}</span>
                     <Image 
                         alt={ingredient.Name} 
-                        src={slug} 
+                        src={require(`/public/images/ui/${getSlug(ingredient.Name)}.webp`)} 
                         width="0" 
                         height="48" 
                         onLoadingComplete={e => updateWidth(e)} />
@@ -70,6 +71,9 @@ export default function ParentForm (props: { ingredient: Item }) {
                                 showImage={false} />
                         );
                     }) }
+                    <IngredientFilter 
+                        ingredient={ingredient} 
+                        showImage={false} />
                 </ul>
                 <ul className={styles.ingredientList}>
                     { childIngredients(ingredient).filter((ingredient: Item) => !ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {

@@ -1,7 +1,7 @@
 // Component styles
 import styles from './Ingredient.module.scss';
 // React components
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 // Next components
 import Image from 'next/image';
 // Redux components
@@ -13,7 +13,7 @@ import { RootState } from '@/store/store';
 // Local components
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox';
 // Type interfaces
-import { Item, IngredientDict } from '@/types/index';
+import { Item } from '@/types/index';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
@@ -23,17 +23,12 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Import props
     const { item, section } = props;
     // Redux components
-    const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored);
+    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
-    const ingredientImagePath = require(`/public/images/ui/${getSlug(item.Name)}.webp`);
-    const childrenImagePath = require('/public/images/ui/more_vert.svg');
     const allIngredients: Item[] = (useGetAllIngredientsQuery().data || []);
-    // React states
-    const [isChecked, setIsChecked] = useState(itemInStore(item));
+    const displayName = useMemo(() => getItemName(item), [item]);
 
-    const displayName = getItemName(item);
-
-    const hasChildren = (() => {
+    const hasChildren = useMemo(() => {
         if (!item.AliasId) {
             for (const ingredient of section) {
                 if (ingredient.AliasId === item.Id) {
@@ -41,9 +36,9 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
                 }
             }
         } return false;
-    })();
+    }, [item, section]);
 
-    function itemInStore (item: Item) {
+    const itemInStore = useCallback((item: Item) => {
         const letter: string = item.Name.charAt(0);
         const type: string = item.Type || '';
 
@@ -57,9 +52,9 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
         }
 
         return false;
-    }
+    }, [storedIngredients]);
 
-    function aliasInStore(item: Item) {
+    const aliasInStore = useCallback((item: Item) => {
         const type: string = item.Type || '';
 
         if (storedIngredients.hasOwnProperty(type)) {
@@ -73,20 +68,19 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
         }
 
         return false;
-    }
+    }, [storedIngredients])
+
+    // React states
+    const [isChecked, setIsChecked] = useState(() => {
+        if (hasChildren) {
+            return aliasInStore(item);
+        } else {
+            return itemInStore(item);
+        }
+    });
 
     function addIngredientToStore () {
         dispatch(addIngredient(item));
-
-        // Add parent ingredient to store if applicable
-        if (item.AliasId) {
-            for (const ingredient of allIngredients) {
-                if (ingredient.Id === item.AliasId) {
-                    dispatch(addIngredient(ingredient));
-                    break;
-                }
-            }
-        }
     }
 
     function handleClick () {
@@ -120,13 +114,13 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     // If parent ingredient, see if child ingredient is in store
     useEffect(() => {
         if (hasChildren) {
-            if (aliasInStore(item)) {
+            if (aliasInStore(item) || itemInStore(item)) {
                 setIsChecked(true);
             } else {
                 setIsChecked(false);
             }
         }
-    }, [storedIngredients]);
+    }, [storedIngredients, aliasInStore, hasChildren, item, itemInStore]);
 
     return (
         <li className={styles.Ingredient}>
@@ -135,16 +129,16 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
                     <Image 
                         className={styles.children} 
                         alt="Show Varieties" 
-                        src={childrenImagePath} 
+                        src={require('/public/images/ui/more_vert.svg')} 
                         width="0" 
                         height="64" 
                         onLoadingComplete={e => updateWidth(e)} /> }
                 <div className={styles.icon}>
                     <Image 
                         alt={item.Name} 
-                        src={ingredientImagePath} 
+                        src={require(`/public/images/ui/${getSlug(item.Name)}.webp`)} 
                         width="0" 
-                        height="32" 
+                        height="48" 
                         onLoadingComplete={e => updateWidth(e)} />
                 </div>
                 <IngredientCheckbox 

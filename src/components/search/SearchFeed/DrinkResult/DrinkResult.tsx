@@ -10,6 +10,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 // Next components
 import Image from 'next/image';
+// React components
+import { useMemo } from 'react';
 
 export default function DrinkResult (props: { drink: Drink }) {
     const { drink } = props;
@@ -17,9 +19,7 @@ export default function DrinkResult (props: { drink: Drink }) {
     // Redux state
     const favoriteDrinks = useSelector((state: RootState) => state.drinks.favorites);
     
-    const isFavorited = findDrinkInStore(favoriteDrinks, drink.Name);
-    const imagePath = require('/public/images/ui/cocktail-placeholder.jpg');
-    const favoritePath = require('/public/images/ui/favorite.svg');
+    const isFavorited = useMemo(() => findDrinkInStore(favoriteDrinks, drink.Name), [drink.Name, favoriteDrinks]);
 
     return (
         <div className={styles.DrinkResult}>
@@ -27,14 +27,14 @@ export default function DrinkResult (props: { drink: Drink }) {
             { isFavorited && <Image 
                 className={styles.favorite}
                 alt='Favorite Status' 
-                src={favoritePath} 
+                src={require('/public/images/ui/favorite.svg')} 
                 width="0" 
                 height="36" 
                 onLoadingComplete={e => updateWidth(e)} /> }
             <Image 
                 className={styles.preview}
                 alt={drink.Name} 
-                src={imagePath} 
+                src={require('/public/images/ui/cocktail-placeholder.jpg')} 
                 width="0" 
                 height="48" 
                 onLoadingComplete={e => updateWidth(e)} />

@@ -11,5 +11,9 @@
 
     a {
         color: rgb(255, 0, 191);
+
+        &:hover {
+            color: pink;
+        }
     }
 }

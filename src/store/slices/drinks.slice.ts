@@ -10,7 +10,8 @@ export const drinksSlice = createSlice({
         possible: {} as DrinkDict,
         favorites: {} as DrinkDict,
         blocked: {} as DrinkDict,
-        random: {} as DrinkInfo
+        random: {} as DrinkInfo,
+        drinksPerPage: 20
     },
     reducers: {
         addPossibleDrink: (state, action: PayloadAction<DrinkInfo>) => {
@@ -161,6 +162,9 @@ export const drinksSlice = createSlice({
         },
         setRandomDrink: (state, action: PayloadAction<DrinkInfo>) => {
             state.random = action.payload;
+        },
+        setDrinksPerPage: (state, action: PayloadAction<number>) => {
+            state.drinksPerPage = action.payload;
         }
     },
     extraReducers: {
@@ -174,7 +178,8 @@ export const drinksSlice = createSlice({
                 ...action.payload.possible,
                 ...action.payload.favorites,
                 ...action.payload.blocked,
-                ...action.payload.random
+                ...action.payload.random,
+                ...action.payload.drinksPerPage
             });
         }
     }
@@ -188,7 +193,8 @@ export const {
     removeFavoriteDrink, 
     addBlockedDrink, 
     removeBlockedDrink, 
-    setRandomDrink
+    setRandomDrink,
+    setDrinksPerPage
 } = drinksSlice.actions;
 
 export default drinksSlice.reducer;

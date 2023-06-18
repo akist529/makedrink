@@ -2,6 +2,8 @@
 import styles from './IngredientsSection.module.scss';
 // Next components
 import Image from 'next/image';
+// React components
+import { useState } from 'react';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 // Local components
@@ -12,6 +14,7 @@ import { Item } from '@/types/index';
 
 export default function IngredientsSection (props: { section: string, ingredients: Item[] }) {
     const { section, ingredients } = props;
+    const [showList, setShowList] = useState(true);
 
     const imagePath = (() => {
         if (section === 'Alcohol') {
@@ -45,18 +48,26 @@ export default function IngredientsSection (props: { section: string, ingredient
 
     return (
         <section className={styles.IngredientsSection}>
-            <header className={styles.category}>
-                <h2>{section}</h2>
-                <Image 
-                    alt={section} 
-                    src={imagePath} 
-                    width="0"
-                    height="48" 
-                    onLoadingComplete={e => updateWidth(e)} />
+            <header>
+                <button onClick={() => setShowList(prev => !prev)}>
+                    <h2>{section}</h2>
+                    <Image 
+                        alt={section} 
+                        src={imagePath} 
+                        width="0"
+                        height="48" 
+                        onLoadingComplete={e => updateWidth(e)} />
+                    <Image 
+                        alt={`Hide ${section}`} 
+                        src={require(`/public/images/ui/expand_${showList ? 'more' : 'less'}.svg`)} 
+                        width="0" 
+                        height="64" 
+                        onLoadingComplete={e => updateWidth(e)} />
+                </button>
             </header>
-            { types.map((type: string, index: number) => {
+            { showList && types.map((type: string, index: number) => {
                 return (
-                    <div key={index}>
+                    <div key={index} className={styles.category}>
                         <IngredientCategoryButton 
                             category={type} 
                             color="pink" />

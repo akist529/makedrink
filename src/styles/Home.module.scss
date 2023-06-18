@@ -4,6 +4,7 @@
     grid-template-columns: 1fr;
     justify-content: center;
     align-items: center;
+    gap: 20px;
     min-height: calc(100vh - 100px);
     text-align: center;
     overflow: scroll;
@@ -26,20 +27,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-}
-
-@keyframes error-spawn {
-    0% {
-        color: rgb(255, 160, 231);
-    } 10% {
-        color: rgb(255, 0, 191);
-    } 20% {
-        color: rgb(255, 160, 231);
-    } 30% {
-        color: rgb(255, 0, 191);
-    } 40% {
-        color: rgb(255, 160, 231);
     }
 }
 

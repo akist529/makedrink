@@ -3,7 +3,8 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    width: 100%;
+    width: 90vw;
+    max-width: 500px;
     height: auto;
     max-height: 100px;
     overflow: hidden;
@@ -43,9 +44,10 @@
     }
 
     .ingredientList {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(auto-fill, 50px);
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: 80%;
     }
 }
 

@@ -10,13 +10,12 @@ import updateWidth from '@/helpers/updateWidth';
 
 export default function SearchButton () {
     const dispatch = useDispatch();
-    const imagePath = require('/public/images/ui/search.svg');
 
     return (
         <button className={styles.SearchButton} onClick={() => dispatch(toggleSearch())}>
             <Image 
                 alt='Search' 
-                src={imagePath} 
+                src={require('/public/images/ui/search.svg')} 
                 width="0" 
                 height="40" 
                 onLoadingComplete={e => updateWidth(e)} />

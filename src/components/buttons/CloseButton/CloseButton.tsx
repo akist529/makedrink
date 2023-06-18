@@ -10,13 +10,12 @@ import updateWidth from '@/helpers/updateWidth';
 
 export default function CloseButton() {
     const dispatch = useDispatch();
-    const imagePath = require('/public/images/ui/close.svg');
 
     return (
         <button className={styles.CloseButton} onClick={() => dispatch(toggleSearch())}>
             <Image 
                 alt='Close' 
-                src={imagePath} 
+                src={require('/public/images/ui/close.svg')} 
                 width="0" 
                 height="48" 
                 onLoadingComplete={e => updateWidth(e)} />

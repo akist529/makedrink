@@ -3,12 +3,12 @@ import styles from './LoadingAnimation.module.scss';
 // Next components
 import Image from 'next/image';
 // React components
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
 export default function LoadingAnimation () {
-    const text = ['Loading', '.', '.', '.'];
+    const text = useMemo(() => ['Loading', '.', '.', '.'], []);
     const [timer, setTimer] = useState(0);
     
     useEffect(() => {

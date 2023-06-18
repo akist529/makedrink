@@ -7,18 +7,20 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+// React components
+import { useCallback } from 'react';
 
 export default function DrinkTypes (props: { drinkType: string, setDrinkType: Function, drinkError: string, setDrinkError: Function }) {
     const { drinkType, setDrinkType, drinkError, setDrinkError } = props;
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
-    function handleClick (type: string) {
+    const handleClick = useCallback((type: string) => {
         if (Object.keys(storedIngredients).length > 0) {
             setDrinkType(type);
         } else {
-            setDrinkError('You don\'t have enough ingredients to make a drink');
+            setDrinkError('You don\'t have enough ingredients to make a drink!');
         }
-    }
+    }, [setDrinkError, setDrinkType, storedIngredients]);
 
     return (
         <div className={styles.DrinkTypes}>

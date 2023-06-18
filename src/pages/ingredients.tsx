@@ -3,7 +3,7 @@ import styles from '@/styles/Ingredients.module.scss';
 // Next components
 import type { NextPage } from 'next';
 // React components
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { useGetAllIngredientsQuery, useLazyGetMultipleDrinkInfoQuery } from '@/store/api/api';
@@ -12,13 +12,11 @@ import { addPossibleDrink } from '@/store/slices/drinks.slice';
 // Type interfaces
 import { Item, Drink } from '@/types/index';
 // Local components
-import IngredientCategoryButton from '@/components/buttons/IngredientCategoryButton/IngredientCategoryButton';
-import IngredientSection from '@/components/ui/IngredientsPage/IngredientsSection/IngredientList/IngredientList';
 import Footer from '@/components/footer/Footer';
 import IngredientsTitle from '@/components/ui/IngredientsPage/IngredientsTitle/IngredientsTitle';
 import IngredientsSection from '@/components/ui/IngredientsPage/IngredientsSection/IngredientsSection';
-// Helper functions
-import updateWidth from '@/helpers/updateWidth';
+import LoadingAnimation from '@/components/loading/LoadingAnimation';
+import ServerError from '@/components/error/ServerError';
 
 const IngredientsPage: NextPage = () => {
     const allIngredients = useGetAllIngredientsQuery();
@@ -26,54 +24,15 @@ const IngredientsPage: NextPage = () => {
     const dispatch = useDispatch();
     const [getDrinkInfo, result] = useLazyGetMultipleDrinkInfoQuery();
 
-    const alcoholImagePath = require('/public/images/ui/drunk.webp');
-    const mixerImagePath = require('/public/images/ui/shaker.webp');
-
-    function filterDataByType (type: string[]) {
-        let filteredData: Item[] = [];
-
-        for (let i = 0; i < type.length; i++) {
-            const categoryData = (allIngredients.data as Item[]).filter(ingredient => {
-                return ingredient.Type === type[i];
-            });
-
-            for (const item of categoryData) {
-                filteredData.push(item);
-            }
-        }
-
-        return filteredData;
-    }
-
-    useEffect(() => {
-        const ingredientIds: number[] = [];
-
-        for (const type of Object.keys(storedIngredients)) {
-            for (const key of Object.keys(storedIngredients[type])) {
-                for (let i = 0; i < storedIngredients[type][key].length; i++) {
-                    const id = storedIngredients[type][key][i].Id;
-                    
-                    if (id) {
-                        ingredientIds.push(id);
-                    }
-                }
-            }
-        }
-
-        if (ingredientIds.length) {
-            getDrinks(ingredientIds.join());
-        }
-    }, [storedIngredients, dispatch]);
-
     useEffect(() => {
         if (result && result.data) {
             for (const drink of result.data) {
                 dispatch(addPossibleDrink(drink));
             }
         }
-    }, [result]);
+    }, [result, dispatch]);
 
-    function getDrinks (ids: string) {
+    const getDrinks = useCallback((ids: string) => {
         var urlencoded = new URLSearchParams();
         urlencoded.append('ingredients', ids);
 
@@ -97,7 +56,27 @@ const IngredientsPage: NextPage = () => {
         }).catch(err => {
             console.log(err);
         });
-    }
+    }, [getDrinkInfo]);
+
+    useEffect(() => {
+        const ingredientIds: number[] = [];
+
+        for (const type of Object.keys(storedIngredients)) {
+            for (const key of Object.keys(storedIngredients[type])) {
+                for (let i = 0; i < storedIngredients[type][key].length; i++) {
+                    const id = storedIngredients[type][key][i].Id;
+                    
+                    if (id) {
+                        ingredientIds.push(id);
+                    }
+                }
+            }
+        }
+
+        if (ingredientIds.length) {
+            getDrinks(ingredientIds.join());
+        }
+    }, [storedIngredients, getDrinks, dispatch]);
 
     return (
         <>
@@ -114,11 +93,11 @@ const IngredientsPage: NextPage = () => {
                 </main> }
             { allIngredients.isLoading &&
                 <main className={styles.IngredientsPage}>
-                    <h1>Loading...</h1>
+                    <LoadingAnimation />
                 </main> }
             { allIngredients.isError &&
                 <main className={styles.IngredientsPage}>
-                    <h1>Error!</h1>
+                    <ServerError />
                 </main> }
         </>
     );

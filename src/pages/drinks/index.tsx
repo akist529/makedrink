@@ -9,14 +9,15 @@ import { useState, useEffect, useCallback } from 'react';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { useGetAllDrinksQuery, useLazyGetMultipleDrinkInfoQuery } from '@/store/api/api';
+import { useGetAllDrinksQuery, useLazyGetMultipleDrinkInfoQuery, useGetAllIngredientsQuery } from '@/store/api/api';
 // Local components
 import DrinkCard from '@/components/ui/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
 import Footer from '@/components/footer/Footer';
 import LoadingAnimation from '@/components/loading/LoadingAnimation';
+import PageCountCtrl from '@/components/ui/DrinksPage/PageCountCtrl/PageCountCtrl';
 // Type interfaces
-import { Drink, DrinkInfo } from '@/types/index';
+import { Drink, DrinkInfo, Item } from '@/types/index';
 
 const AllDrinksPage: NextPage = () => {
     const searchParams = useSearchParams()!;
@@ -35,10 +36,19 @@ const AllDrinksPage: NextPage = () => {
 
     // Redux store state
     const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
+    const drinksPerPage = useSelector((state: RootState) => state.drinks.drinksPerPage);
 
     // RTK Queries
     const allDrinks = useGetAllDrinksQuery();
     const [getDrinkInfo, drinkInfoResult] = useLazyGetMultipleDrinkInfoQuery();
+    const allIngredients = useGetAllIngredientsQuery();
+    const [ingredients, setIngredients] = useState([] as Item[]);
+
+    useEffect(() => {
+        if (allIngredients.isSuccess) {
+            setIngredients(allIngredients.data);
+        }
+    }, [allIngredients]);
 
     useEffect(() => {
         if (allDrinks.isSuccess) {
@@ -58,17 +68,10 @@ const AllDrinksPage: NextPage = () => {
         }
     }, [allDrinks.isLoading]);
 
-    useEffect(() => {
-        if (drinksList.length > 0) {
-            fetchDrinkInfo();
-            setNumOfPages(Math.ceil(drinksList.length / 20));
-        }
-    }, [drinksList]);
-
     function fetchDrinkInfo () {
         if (allDrinks.data) {
-            const firstDrink = (activePage * 20);
-            let lastDrink = firstDrink + 20;
+            const firstDrink = (activePage * drinksPerPage);
+            let lastDrink = firstDrink + drinksPerPage;
 
             if (lastDrink > drinksList.length) {
                 lastDrink = drinksList.length;
@@ -85,19 +88,23 @@ const AllDrinksPage: NextPage = () => {
     }
 
     useEffect(() => {
+        if (drinksList.length > 0) {
+            fetchDrinkInfo();
+            setNumOfPages(Math.ceil(drinksList.length / drinksPerPage));
+        }
+    }, [drinksList, drinksPerPage]);
+
+    useEffect(() => {
         if (drinkInfoResult.data) {
             setDrinkInfo(drinkInfoResult.data);
         }
     }, [drinkInfoResult]);
 
-    const createQueryString = useCallback(
-        (name: string, value: string) => {
-            const params = new URLSearchParams(searchParams);
-            params.set(name, value);
-            return params.toString();
-        },
-        [searchParams]
-    );
+    const createQueryString = useCallback((name: string, value: string) => {
+        const params = new URLSearchParams(searchParams);
+        params.set(name, value);
+        return params.toString();
+    }, [searchParams]);
 
     useEffect(() => {
         if (drinkInfo.length > 0) {
@@ -132,6 +139,7 @@ const AllDrinksPage: NextPage = () => {
         !(allDrinks.isLoading || drinkInfoResult.isLoading) && 
         drinkInfo.length) && 
             <main className={styles.DrinksPage}>
+                <PageCountCtrl />
                 <PaginationLinks 
                     activePage={activePage} 
                     setActivePage={setActivePage} 
@@ -147,7 +155,8 @@ const AllDrinksPage: NextPage = () => {
                                     <DrinkCard 
                                         key={index} 
                                         drink={drink} 
-                                        isRandom={false} />
+                                        isRandom={false} 
+                                        ingredients={ingredients} />
                                 );
                             }) }
                         </ul>
@@ -157,6 +166,7 @@ const AllDrinksPage: NextPage = () => {
                     setActivePage={setActivePage} 
                     numOfPages={numOfPages} 
                     loadState={drinkInfoResult.isLoading} />
+                <PageCountCtrl />
                 <Footer />
             </main> }
         </>

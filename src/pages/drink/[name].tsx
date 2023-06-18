@@ -10,12 +10,13 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 // React components
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 // Type interfaces
 import { DrinkInfo, Ingredient, Item } from '@/types/index';
 // Local components
 import RecipeItem from '@/components/ui/DrinkPage/RecipeItem/RecipeItem';
 import Footer from '@/components/footer/Footer';
+import LoadingAnimation from '@/components/loading/LoadingAnimation';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
@@ -29,60 +30,16 @@ const DrinkPage: NextPage = () => {
     const favoriteDrinks = useSelector((state: RootState) => state.drinks.favorites);
     const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
     
-    // Local state management
-    const [drinkError, setDrinkError] = useState(false);
-    const [recipeError, setRecipeError] = useState(false);
-    const [drinkInfo, setDrinkInfo] = useState({} as DrinkInfo);
-    const [drinkFavorited, setDrinkFavorited] = useState(drinkIsFavorited(drinkInfo));
-    const [favoriteImagePath, setFavoriteImagePath] = useState(require('/public/images/ui/heart_plus.svg'));
-    const [drinkBlocked, setDrinkBlocked] = useState(drinkIsBlocked(drinkInfo));
-
     // Next functions
     const router = useRouter();
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (router.isReady && allDrinks.isSuccess) {
-            const displayName = getDrinkName();
-            fetchDrinkInfo(displayName);
-        }
-    }, [router.isReady, allDrinks.isLoading]);
+    // Local state management
+    const [drinkError, setDrinkError] = useState(false);
+    const [recipeError, setRecipeError] = useState(false);
+    const [drinkInfo, setDrinkInfo] = useState({} as DrinkInfo);
 
-    useEffect(() => {
-        if (drinkInfoResult && drinkInfoResult.data) {
-            setDrinkInfo(drinkInfoResult.data);
-            setDrinkFavorited(drinkIsFavorited(drinkInfo));
-            setDrinkBlocked(drinkIsBlocked(drinkInfo));
-        }
-    }, [drinkInfoResult]);
-
-    useEffect(() => {
-        if (Object.keys(drinkInfo).length 
-            && drinkIsFavorited(drinkInfo)) {
-            setDrinkFavorited(true);
-        } else {
-            setDrinkFavorited(false);
-        }
-    }, [favoriteDrinks]);
-
-    useEffect(() => {
-        if (Object.keys(drinkInfo).length 
-            && drinkIsBlocked(drinkInfo)) {
-            setDrinkBlocked(true);
-        } else {
-            setDrinkBlocked(false);
-        }
-    }, [blockedDrinks]);
-
-    useEffect(() => {
-        if (drinkFavorited) {
-            setFavoriteImagePath(require('/public/images/ui/favorite.svg'));
-        } else {
-            setFavoriteImagePath(require('/public/images/ui/heart_plus.svg'));
-        }
-    }, [drinkFavorited]);
-
-    function getDrinkName () {
+    const getDrinkName = useCallback(() => {
         let urlName;
 
         if (router.query.name) {
@@ -96,9 +53,9 @@ const DrinkPage: NextPage = () => {
         } else {
             return '';
         }
-    }
+    }, [router.query.name]);
 
-    function fetchDrinkInfo(displayName: string) {
+    const fetchDrinkInfo = useCallback((displayName: string) => {
         if (allDrinks.data) {
             for (const drink of allDrinks.data.Drinks) {
                 if (drink.Name.toLowerCase() === displayName.toLowerCase()) {
@@ -106,59 +63,9 @@ const DrinkPage: NextPage = () => {
                 }
             }
         }
-    }
+    }, [allDrinks.data, getDrinkInfo]);
 
-    function getIngredient (ingredient: Ingredient, index: number) {
-        const letter = ingredient.Name.charAt(0);
-
-        for (const type of Object.keys(storedIngredients)) {
-            if (storedIngredients[type].hasOwnProperty(letter)) {
-                for (const item of storedIngredients[type][letter]) {
-                    if (item.Name === ingredient.Name) {
-                        return (
-                            <RecipeItem 
-                                key={index} 
-                                ingredient={ingredient} 
-                                unit={ingredient.Unit} 
-                                amount={ingredient.Amount}
-                                missing={false} />
-                        );
-                    }
-                }
-            }
-        }
-
-        return getIngredientAlias(ingredient, index);
-    }
-
-    function getIngredientAlias (ingredient: Ingredient, index: number) {
-        const letter = ingredient.Alias.charAt(0);
-
-        for (const type of Object.keys(storedIngredients)) {
-            if (storedIngredients[type].hasOwnProperty(letter)) {
-                for (const item of storedIngredients[type][letter]) {
-                    if (item.Name === ingredient.Alias) {
-                        return getAltIngredient(item, index, ingredient.Unit, ingredient.Amount);
-                    }
-                }
-            }
-        }
-
-        if (!recipeError) {
-            setRecipeError(true);
-        }
-        
-        return (
-            <RecipeItem 
-                key={index} 
-                ingredient={ingredient} 
-                unit={ingredient.Unit} 
-                amount={ingredient.Amount} 
-                missing={true} />
-        );
-    }
-
-    function getAltIngredient (ingredient: Item, index: number, unit: string, amount: number) {
+    const getAltIngredient = useCallback((ingredient: Item, index: number, unit: string, amount: number) => {
         const type = ingredient.Type || '';
         for (const key of Object.keys(storedIngredients[type])) {
             for (let i = 0; i < storedIngredients[type][key].length; i++) {
@@ -187,9 +94,59 @@ const DrinkPage: NextPage = () => {
                 amount={amount}
                 missing={true} />
         );
-    }
+    }, [recipeError, storedIngredients]);
 
-    function favoriteDrink (drink: DrinkInfo) {
+    const getIngredientAlias = useCallback((ingredient: Ingredient, index: number) => {
+        const letter = ingredient.Alias.charAt(0);
+
+        for (const type of Object.keys(storedIngredients)) {
+            if (storedIngredients[type].hasOwnProperty(letter)) {
+                for (const item of storedIngredients[type][letter]) {
+                    if (item.Name === ingredient.Alias) {
+                        return getAltIngredient(item, index, ingredient.Unit, ingredient.Amount);
+                    }
+                }
+            }
+        }
+
+        if (!recipeError) {
+            setRecipeError(true);
+        }
+        
+        return (
+            <RecipeItem 
+                key={index} 
+                ingredient={ingredient} 
+                unit={ingredient.Unit} 
+                amount={ingredient.Amount} 
+                missing={true} />
+        );
+    }, [getAltIngredient, recipeError, storedIngredients]);
+
+    const getIngredient = useCallback((ingredient: Ingredient, index: number) => {
+        const letter = ingredient.Name.charAt(0);
+
+        for (const type of Object.keys(storedIngredients)) {
+            if (storedIngredients[type].hasOwnProperty(letter)) {
+                for (const item of storedIngredients[type][letter]) {
+                    if (item.Name === ingredient.Name) {
+                        return (
+                            <RecipeItem 
+                                key={index} 
+                                ingredient={ingredient} 
+                                unit={ingredient.Unit} 
+                                amount={ingredient.Amount}
+                                missing={false} />
+                        );
+                    }
+                }
+            }
+        }
+
+        return getIngredientAlias(ingredient, index);
+    }, [getIngredientAlias, storedIngredients]);
+
+    const favoriteDrink = useCallback((drink: DrinkInfo) => {
         if (favoriteDrinks.hasOwnProperty(drink.Name.charAt(0))) {
             if (favoriteDrinks[drink.Name.charAt(0)].find((item: DrinkInfo) => item.Name === drink.Name)) {
                 dispatch(removeFavoriteDrink(drink));
@@ -199,9 +156,9 @@ const DrinkPage: NextPage = () => {
 
         dispatch(addFavoriteDrink(drink));
         dispatch(removeBlockedDrink(drink));
-    }
+    }, [dispatch, favoriteDrinks]);
 
-    function blockDrink (drink: DrinkInfo) {
+    const blockDrink = useCallback((drink: DrinkInfo) => {
         if (blockedDrinks.hasOwnProperty(drink.Name.charAt(0))) {
             if (blockedDrinks[drink.Name.charAt(0)].find((item: DrinkInfo) => item.Name === drink.Name)) {
                 dispatch(removeBlockedDrink(drink));
@@ -211,9 +168,9 @@ const DrinkPage: NextPage = () => {
 
         dispatch(addBlockedDrink(drink));
         dispatch(removeFavoriteDrink(drink));
-    }
+    }, [blockedDrinks, dispatch]);
 
-    function drinkIsFavorited (drink: DrinkInfo) {
+    const drinkIsFavorited = useCallback((drink: DrinkInfo) => {
         if (Object.keys(drink).length && favoriteDrinks.hasOwnProperty(drink.Name.charAt(0))) {
             if (favoriteDrinks[drink.Name.charAt(0)].find((item: DrinkInfo) => item.Name === drink.Name)) {
                 return true;
@@ -221,9 +178,9 @@ const DrinkPage: NextPage = () => {
         }
 
         return false;
-    }
+    }, [favoriteDrinks]);
     
-    function drinkIsBlocked (drink: DrinkInfo) {
+    const drinkIsBlocked = useCallback((drink: DrinkInfo) => {
         if (Object.keys(drink).length && blockedDrinks.hasOwnProperty(drink.Name.charAt(0))) {
             if (blockedDrinks[drink.Name.charAt(0)].find((item: DrinkInfo) => item.Name === drink.Name)) {
                 return true;
@@ -231,11 +188,56 @@ const DrinkPage: NextPage = () => {
         }
 
         return false;
-    }
+    }, [blockedDrinks]);
+
+    const [drinkFavorited, setDrinkFavorited] = useState(drinkIsFavorited(drinkInfo));
+    const [favoriteImagePath, setFavoriteImagePath] = useState(require('/public/images/ui/heart_plus.svg'));
+    const [drinkBlocked, setDrinkBlocked] = useState(drinkIsBlocked(drinkInfo));    
+
+    useEffect(() => {
+        if (router.isReady && allDrinks.isSuccess) {
+            const displayName = getDrinkName();
+            fetchDrinkInfo(displayName);
+        }
+    }, [router.isReady, allDrinks.isLoading, allDrinks.isSuccess, fetchDrinkInfo, getDrinkName]);
+
+    useEffect(() => {
+        if (drinkInfoResult && drinkInfoResult.data) {
+            setDrinkInfo(drinkInfoResult.data);
+            setDrinkFavorited(drinkIsFavorited(drinkInfo));
+            setDrinkBlocked(drinkIsBlocked(drinkInfo));
+        }
+    }, [drinkInfoResult, drinkInfo, drinkIsBlocked, drinkIsFavorited]);
+
+    useEffect(() => {
+        if (Object.keys(drinkInfo).length 
+            && drinkIsFavorited(drinkInfo)) {
+            setDrinkFavorited(true);
+        } else {
+            setDrinkFavorited(false);
+        }
+    }, [favoriteDrinks, drinkInfo, drinkIsFavorited]);
+
+    useEffect(() => {
+        if (Object.keys(drinkInfo).length 
+            && drinkIsBlocked(drinkInfo)) {
+            setDrinkBlocked(true);
+        } else {
+            setDrinkBlocked(false);
+        }
+    }, [blockedDrinks, drinkInfo, drinkIsBlocked]);
+
+    useEffect(() => {
+        if (drinkFavorited) {
+            setFavoriteImagePath(require('/public/images/ui/favorite.svg'));
+        } else {
+            setFavoriteImagePath(require('/public/images/ui/heart_plus.svg'));
+        }
+    }, [drinkFavorited]);
 
     return (
         <div className={styles.DrinkPage}>
-            { !drinkError && !drinkInfo.Name && <strong>Waiting...</strong> }
+            { !drinkError && !drinkInfo.Name && <LoadingAnimation /> }
             { drinkError && <strong>The drink you entered does not exist!</strong> }
             { drinkInfo.Name && 
             <main>
