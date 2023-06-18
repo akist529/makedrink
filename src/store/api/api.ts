@@ -5,7 +5,7 @@ import { Item, Drink, DrinkInfo, DrinkQuery } from '@/types/index';
 
 export const barApi: any = createApi({
     reducerPath: "ingredientsApi",
-    baseQuery: fetchBaseQuery({baseUrl: "http://15.204.244.7:8585"}),
+    baseQuery: fetchBaseQuery({baseUrl: "https://api.makedr.ink"}),
     endpoints: (builder) => ({
         getAllIngredients: builder.query<Item[],void>({
             query: () => "/ingredients"
