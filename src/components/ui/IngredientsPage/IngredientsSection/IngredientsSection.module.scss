@@ -7,17 +7,25 @@
     width: auto;
 
     header {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
         button {
             display: flex;
-            justify-content: center;
+            flex-wrap: wrap;
+            justify-content: space-around;
             align-items: center;
             gap: 10px;
             border: 2px solid white;
             border-radius: 10px;
             padding: 10px 10px;
-            width: auto;
             background: none;
             cursor: pointer;
+            width: auto;
+            max-width: 500px;
+            line-height: 40px;
 
             h2 {
                 color: white;
@@ -31,19 +39,21 @@
             img {
                 filter: invert(1);
             }
-        
-            .category {
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                justify-content: center;
-                align-items: center;
-            }
 
             &:hover {
+                border: 2px solid #ff00bf;
+
                 img:nth-child(3) {
                     filter: invert(19%) sepia(76%) saturate(6692%) hue-rotate(306deg) brightness(104%) contrast(114%);                }
             }
         }
+    }
+
+    .category {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
     }
 }

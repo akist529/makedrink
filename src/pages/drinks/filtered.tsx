@@ -10,6 +10,7 @@ import { useState, useEffect, useCallback } from 'react';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+import { useGetAllIngredientsQuery } from '@/store/api/api';
 // Local components
 import DrinkCard from '@/components/ui/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
@@ -35,6 +36,16 @@ const FilteredDrinksPage: NextPage = () => {
     const [activePage, setActivePage] = useState(() => {
         return Number(urlParams.get('page'));
     });
+
+    // RTK Queries
+    const allIngredients = useGetAllIngredientsQuery();
+    const [ingredients, setIngredients] = useState([] as Item[]);    
+
+    useEffect(() => {
+        if (allIngredients.isSuccess) {
+            setIngredients(allIngredients.data);
+        }
+    }, [allIngredients]);
 
     // Redux store state
     const possibleDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.possible);
@@ -120,7 +131,11 @@ const FilteredDrinksPage: NextPage = () => {
                         <ul>
                             { drinksList.map((drink: DrinkInfo, index: number) => {
                                 return (
-                                    <DrinkCard key={index} drink={drink} isRandom={false} />
+                                    <DrinkCard 
+                                        key={index} 
+                                        drink={drink} 
+                                        isRandom={false} 
+                                        ingredients={ingredients} />
                                 );
                             }) }
                         </ul>

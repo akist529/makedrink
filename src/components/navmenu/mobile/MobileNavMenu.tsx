@@ -1,7 +1,7 @@
 // Component styles
 import styles from './MobileNavMenu.module.scss';
 // React components
-import { useEffect } from 'react';
+import { useMemo, useCallback } from 'react';
 // Next components
 import Link from 'next/link';
 // Redux components
@@ -16,13 +16,13 @@ export default function MobileNavMenu () {
     const { navMenuOpen } = useSelector((state: RootState) => state.navMenu);
     const dispatch = useDispatch();
 
-    const navStyles = [styles.NavMenu, (navMenuOpen ?  styles.open : styles.closed)].join(' ');
+    const navStyles = useMemo(() => [styles.NavMenu, (navMenuOpen ?  styles.open : styles.closed)].join(' '), [navMenuOpen]);
 
-    function handleClick () {
+    const handleClick = useCallback(() => {
         if (window.innerWidth < 600) {
             dispatch(toggleNavMenu());
         }
-    }
+    }, [dispatch]);
 
     return (
         <nav className={navStyles}>

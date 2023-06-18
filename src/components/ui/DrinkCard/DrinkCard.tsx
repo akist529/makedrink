@@ -4,8 +4,9 @@ import styles from './DrinkCard.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { setRandomDrink } from '@/store/slices/drinks.slice';
+import { useGetAllIngredientsQuery } from '@/store/api/api';
 // React components
-import React from 'react';
+import { useState, useEffect, useCallback } from 'react';
 // Next components
 import Image from 'next/image';
 import Link from 'next/link';
@@ -21,32 +22,14 @@ import findItemInStore from '@/helpers/findItemInStore';
 import findAltInStore from '@/helpers/findAltInStore';
 import findAliasInStore from '@/helpers/findAliasInStore';
 
-export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean }) {
-    const { drink, isRandom } = props;
+export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean, ingredients: Item[] }) {
+    const { drink, isRandom, ingredients } = props;
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const possibleDrinks = useSelector((state: RootState) => state.drinks.possible);
     const randomDrink = useSelector((state: RootState) => state.drinks.random);
     const dispatch = useDispatch();
 
-    function getIngredientFromStore (ingredient: Ingredient, index: number) {
-        // If ingredient is parent (ie Orange Liqueur), try to swap with child ingredient 
-        if (!ingredient.IsAlias) {
-            const storeItem = findItemInStore(storedIngredients, ingredient.Name);
-            
-            if (storeItem) {
-                const sub = findAltInStore(storedIngredients, storeItem, ingredient.Name);
-
-                if (sub !== undefined) {
-                    return (
-                        <RecipeItem 
-                            key={index} 
-                            ingredient={sub} 
-                            isSub={true} />
-                    );
-                }
-            }
-        }
-        
+    const getIngredientFromStore = useCallback((ingredient: Ingredient, index: number) => {
         // Try to find recipe ingredient
         const item = findItemInStore(storedIngredients, ingredient.Name);
 
@@ -57,6 +40,35 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean 
                     ingredient={item} 
                     isSub={false} />
             );
+        }
+
+        // If parent ingredient, try to find child ingredient
+        if (!ingredient.IsAlias) {
+            console.log(ingredient.Name, ingredients.length);
+            const item = ingredients.find((item: Item) => item.Name === ingredient.Name);
+            
+            if (item) {
+                const alias = (() => {
+                    for (const type of Object.keys(storedIngredients)) {
+                        for (const key of Object.keys(storedIngredients[type])) {
+                            const foundAlt = storedIngredients[type][key].find((altItem: Item) => altItem.AliasId === item.Id);
+
+                            if (foundAlt) {
+                                return foundAlt;
+                            }
+                        }
+                    }
+                })();
+
+                if (alias) {
+                    return (
+                        <RecipeItem 
+                            key={index} 
+                            ingredient={alias} 
+                            isSub={true} />
+                    );
+                }
+            }
         }
 
         // Try to find recipe substitute
@@ -89,9 +101,9 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean 
                 ingredient={missingItem} 
                 isSub={false} />
         );
-    }
+    }, [storedIngredients]);
 
-    function handleClick () {
+    const handleClick = useCallback(() => {
         const drink = getRandomDrink(possibleDrinks, randomDrink);
         
         if (drink) {
@@ -99,7 +111,7 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean 
             document.querySelector(`.${styles.DrinkCard}`)?.classList.add(`${styles.animating}`);
             setTimeout(() => document.querySelector(`.${styles.DrinkCard}`)?.classList.remove(`${styles.animating}`), 500);
         }
-    }
+    }, [dispatch, possibleDrinks, randomDrink]);
 
     return (
         <article className={styles.DrinkCard}>

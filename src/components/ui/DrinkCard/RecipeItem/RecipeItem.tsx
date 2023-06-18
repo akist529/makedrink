@@ -4,10 +4,8 @@ import styles from './RecipeItem.module.scss';
 import { Item } from '@/types/index';
 // Next components
 import Image from 'next/image';
-// Local components
-import SubCard from '../SubCard/SubCard';
 // React components
-import { useState } from 'react';
+import { useMemo, useCallback } from 'react';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -20,16 +18,15 @@ import getItemName from '@/helpers/getItemName';
 
 export default function RecipeItem (props: { ingredient: Item, isSub: boolean }) {
     const { ingredient, isSub } = props;
-    const slug = require(`/public/images/ui/${getSlug(ingredient.Name)}.webp`);
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
-    const itemInStore = findItemInStore(storedIngredients, ingredient.Name);
-    const displayName = getItemName(ingredient);
+    const itemInStore = useMemo(() => findItemInStore(storedIngredients, ingredient.Name), [ingredient.Name, storedIngredients]);
+    const displayName = useMemo(() => getItemName(ingredient), [ingredient]);
     const dispatch = useDispatch();
 
-    function handleClick (e: React.MouseEvent<HTMLButtonElement,MouseEvent>) {
+    const handleClick = useCallback((e: React.MouseEvent<HTMLButtonElement,MouseEvent>) => {
         dispatch(setCardIngredient(ingredient));
         dispatch(toggleSubCard());
-    }
+    }, [dispatch, ingredient]);
 
     return (
         <li className={styles.RecipeItem}>
@@ -60,7 +57,7 @@ export default function RecipeItem (props: { ingredient: Item, isSub: boolean })
                 </div> }
             <Image 
                 alt={displayName} 
-                src={slug} 
+                src={require(`/public/images/ui/${getSlug(ingredient.Name)}.webp`)} 
                 width="0" 
                 height="24" 
                 onLoadingComplete={e => updateWidth(e)} />

@@ -1,12 +1,13 @@
 .ParentForm {
+    width: 80%;
+    
     fieldset {
-        padding: 5px 20px;
+        padding: 10px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         gap: 10px;
-        width: 100%;
 
         legend {
             display: grid;
@@ -15,7 +16,7 @@
             justify-items: center;
             align-items: center;
             grid-gap: 10px;
-            padding: 0 10px;
+            padding: 0px;
             text-transform: uppercase;
             line-height: 32px;
             font-size: 28px;
@@ -24,6 +25,15 @@
                 max-width: 160px;
                 text-align: center;
             }
+        }
+
+        .ingredientList {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            gap: 5px;
+            width: 80%;
         }
     }
 }

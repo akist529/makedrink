@@ -6,18 +6,20 @@ import SeeDrinksButton from '@/components/buttons/SeeDrinksButton/SeeDrinksButto
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+// React components
+import { useCallback } from 'react';
 
 export default function FormSection (props: { drinkType: string }) {
     const { drinkType } = props;
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
-    function findIngredientType(type: string) {
+    const findIngredientType = useCallback((type: string) => {
         if (storedIngredients.hasOwnProperty(type)) {
             return true;
         } else {
             return false;
         }
-    }
+    }, [storedIngredients]);
 
     return (
         <section id='form' className={styles.FormSection}>

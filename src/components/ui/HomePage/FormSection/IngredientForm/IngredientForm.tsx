@@ -1,7 +1,7 @@
 // Component styles
 import styles from './IngredientForm.module.scss';
 // React components
-import React, { useState } from 'react';
+import { useState, useCallback } from 'react';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -10,14 +10,14 @@ import IngredientFilter from '@/components/ui/HomePage/FormSection/IngredientFor
 import FormLegend from './FormLegend/FormLegend';
 import ParentForm from './ParentForm/ParentForm';
 // Type interfaces
-import { Item, IngredientDict } from '@/types/index';
+import { Item } from '@/types/index';
 
 export default function IngredientForm (props: { ingredientType: string }) {
     const { ingredientType } = props;
-    const storedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.stored);
+    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const [formOpen, setFormOpen] = useState(true);
 
-    function getIngredients (type: string) {
+    const getIngredients = useCallback((type: string) => {
         const filteredIngredients: Item[] = [];
 
         if (storedIngredients.hasOwnProperty(type)) {
@@ -29,9 +29,9 @@ export default function IngredientForm (props: { ingredientType: string }) {
         }
 
         return filteredIngredients;
-    }
+    }, [storedIngredients]);
 
-    function ingredientIsParent (item: Item) {
+    const ingredientIsParent = useCallback((item: Item) => {
         const type = item.Type || '';
         
         if (storedIngredients.hasOwnProperty(type)) {
@@ -43,9 +43,9 @@ export default function IngredientForm (props: { ingredientType: string }) {
         }
 
         return false;
-    }
+    }, [storedIngredients]);
 
-    function ingredientIsChild (item: Item) {
+    const ingredientIsChild = useCallback((item: Item) => {
         const type = item.Type || '';
 
         if (storedIngredients.hasOwnProperty(type)) {
@@ -57,7 +57,7 @@ export default function IngredientForm (props: { ingredientType: string }) {
         }
 
         return false;
-    }
+    }, [storedIngredients]);
 
     return (
         <fieldset className={formOpen ? [styles.IngredientForm, styles.formOpen].join(' ') : styles.IngredientForm}>

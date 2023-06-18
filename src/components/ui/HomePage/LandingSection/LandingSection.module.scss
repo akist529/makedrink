@@ -2,37 +2,95 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
     min-height: calc(100vh - 100px);
 
     h1 {
         font-size: 32px;
         border: 2px solid white;
         border-radius: 10px;
-        padding: 10px;
+        padding: 5px;
         font-family: 'Nunito';
         text-shadow: 0 0 20px rgb(80, 80, 255);
         text-transform: uppercase;
+        color: white;
+        animation: 1s title-spawn 0.125s forwards;
+        width: 80%;
+        max-width: 450px;
+        opacity: 0%;
     }
 
-    nav {
+    .landingContent {
+        animation: 0.5s content-spawn 1s forwards;
+        opacity: 0%;
+
         display: flex;
         flex-direction: column;
+        justify-content: space-around;
         align-items: center;
         gap: 10px;
 
-        .randomBtn {
-            width: 200px;
+        nav {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+    
+            .randomBtn {
+                width: 200px;
+            }
+        }
+    
+        strong {
+            font-size: 24px;
+            color: rgb(255, 160, 231);
+            font-family: 'Oswald';
+        }
+    
+        .error {
+            animation: error-spawn 1s forwards;
         }
     }
+}
 
-    strong {
-        font-size: 24px;
-        height: 24px;
-        color: rgb(255, 160, 231);
-        font-family: 'Oswald';
+@keyframes title-spawn {
+    0% {
+        opacity: 0%;
+        color: rgb(15, 15, 15);
+        border: 2px solid rgb(15, 15, 15);
+    } 20% {
+        opacity: 100%;
+        color: white;
+        border: 2px solid white;
+    } 40% {
+        opacity: 100%;
+        color: rgb(100, 100, 100);
+        border: 2px solid rgb(100, 100, 100);
+    } 100% {
+        opacity: 100%;
+        color: white;
+        border: 2px solid white;
     }
+}
 
-    .error {
-        animation: error-spawn 1s forwards;
+@keyframes content-spawn {
+    0% {
+        opacity: 0%;
+    } 100% {
+        opacity: 100%;
+    }
+}
+
+@keyframes error-spawn {
+    0% {
+        color: rgb(255, 160, 231);
+    } 10% {
+        color: rgb(255, 0, 191);
+    } 20% {
+        color: rgb(255, 160, 231);
+    } 30% {
+        color: rgb(255, 0, 191);
+    } 40% {
+        color: rgb(255, 160, 231);
     }
 }

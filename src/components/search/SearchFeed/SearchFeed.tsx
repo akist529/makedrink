@@ -50,7 +50,7 @@ export default function SearchFeed () {
 
             setIngredientData(filtered);
         }
-    }, [allIngredients]);
+    }, [allIngredients, storedIngredients]);
 
     useEffect(() => {
         if (allDrinks.isSuccess) {
@@ -96,31 +96,31 @@ export default function SearchFeed () {
 
             return results;
         });
-    }, [query]);
+    }, [query, drinkData, ingredientData]);
 
     useEffect(() => {
         dispatch(toggleSearch());
-    }, [navMenuOpen, router.asPath]);
+    }, [navMenuOpen, router.asPath, dispatch]);
 
     return (
         <>
-            { (ingredientResults.length > 0 || drinkResults.length > 0) && 
-                <div className={styles.SearchFeed}>
-                    { ingredientResults.length > 0 && <h1>Ingredients</h1> }
-                    { ingredientResults.map((ingredient: Item, index: number) => {
-                        return (
-                            <IngredientResult key={index} ingredient={ingredient} />
-                        );
-                    }) }
-                    { (drinkResults.length > 0) && <h1>Drinks</h1> }
-                    { drinkResults.map((drink: Drink, index: number) => {
-                        return (
-                            <Link key={index} href={`/drink/${getSlug(drink.Name)}`}>
-                                <DrinkResult drink={drink} />
-                            </Link>
-                        );
-                    }) }
-                </div> }
+        { (ingredientResults.length > 0 || drinkResults.length > 0) && 
+            <div className={styles.SearchFeed}>
+                { ingredientResults.length > 0 && <h1>Ingredients</h1> }
+                { ingredientResults.map((ingredient: Item, index: number) => {
+                    return (
+                        <IngredientResult key={index} ingredient={ingredient} />
+                    );
+                }) }
+                { (drinkResults.length > 0) && <h1>Drinks</h1> }
+                { drinkResults.map((drink: Drink, index: number) => {
+                    return (
+                        <Link key={index} href={`/drink/${getSlug(drink.Name)}`}>
+                            <DrinkResult drink={drink} />
+                        </Link>
+                    );
+                }) }
+            </div> }
         </>
     );
 }

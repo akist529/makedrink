@@ -8,44 +8,29 @@ import updateWidth from '@/helpers/updateWidth';
 // Next components
 import Image from 'next/image';
 // React components
-import { useState, useEffect } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 
 export default function IngredientField (props: { i: number, ingredients: Item[], removeIngredient: Function }) {
     const { i, ingredients, removeIngredient } = props;
     const [ingredient, setIngredient] = useState(() => {
         return (document.getElementById(`item-${i}-name`) as HTMLSelectElement)?.value;
     });
-    const [unit, setUnit] = useState("oz");
-
-    useEffect(() => {
-        setUnit(() => {
-            if (ingredient === "21") {
-                return "dash";
-            } else if (ingredient === "40") {
-                return "leaves";
-            } else if (ingredient === "46") {
-                return "whole";
-            } else {
-                return "oz";
-            }
-        })
+    const unit = useMemo(() => {
+        if (ingredient === "21") {
+            return "dash";
+        } else if (ingredient === "40") {
+            return "leaves";
+        } else if (ingredient === "46") {
+            return "whole";
+        } else {
+            return "oz";
+        }
     }, [ingredient]);
 
-    function handleChange (e: React.FormEvent<HTMLSelectElement>) {
+    const handleChange = useCallback((e: React.FormEvent<HTMLSelectElement>) => {
         setIngredient(e.currentTarget.value);
-
-        (document.getElementById(`item-${i}-unit`) as HTMLSpanElement).innerHTML = (() => {
-            if (ingredient === "21") {
-                return "dash";
-            } else if (ingredient === "40") {
-                return "leaves";
-            } else if (ingredient === "46") {
-                return "whole";
-            } else {
-                return "oz";
-            }
-        })();
-    }
+        (document.getElementById(`item-${i}-unit`) as HTMLSpanElement).innerHTML = unit;
+    }, [i, unit]);
 
     return (
         <div id={`item-${i}-container`} className={styles.IngredientField}>

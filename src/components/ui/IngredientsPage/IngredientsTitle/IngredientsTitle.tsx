@@ -6,7 +6,6 @@ import Image from 'next/image';
 import updateWidth from '@/helpers/updateWidth';
 
 export default function IngredientsTitle () {
-    const ingredientsImagePath = require('/public/images/ui/local_bar.svg');
 
     return (
         <header className={styles.IngredientsTitle}>
@@ -26,7 +25,7 @@ export default function IngredientsTitle () {
             </div>
             <Image 
                 alt='Select Ingredients' 
-                src={ingredientsImagePath} 
+                src={require('/public/images/ui/local_bar.svg')} 
                 width='0' 
                 height='64' 
                 onLoadingComplete={e => updateWidth(e)} />

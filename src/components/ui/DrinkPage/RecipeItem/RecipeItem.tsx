@@ -7,18 +7,20 @@ import { Item, Ingredient } from '@/types/index';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
+// React components
+import { useMemo } from 'react';
 
 export default function RecipeItem (props: { ingredient: Item | Ingredient, missing: boolean, unit: string, amount: number }) {
     const { ingredient, missing, unit, amount } = props;
-    const slug = getSlug(ingredient.Name);
+    const slug = useMemo(() => getSlug(ingredient.Name), [ingredient.Name]);
 
-    const itemUnit = (() => {
+    const itemUnit = useMemo(() => {
         if (unit === 'ounce') {
             return 'oz';
         } else {
             return unit;
         }
-    })();
+    }, [unit]);
 
     return (
         <li className={styles.RecipeItem}>

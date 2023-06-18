@@ -4,14 +4,16 @@ import styles from './FormLegend.module.scss';
 import Image from 'next/image';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+// React components
+import { useCallback } from 'react';
 
 export default function FormLegend (props: { ingredientType: string, setFormOpen: Function }) {
     const { ingredientType, setFormOpen } = props;
 
-    function toggleForm (e: React.MouseEvent<HTMLButtonElement,MouseEvent>) {
+    const toggleForm = useCallback((e: React.MouseEvent<HTMLButtonElement,MouseEvent>) => {
         e.preventDefault();
         setFormOpen((prevState: boolean) => !prevState);
-    }
+    }, [setFormOpen]);
 
     return (
         <legend className={styles.FormLegend}>

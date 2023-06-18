@@ -3,7 +3,7 @@ import styles from './AddDrinkCard.module.scss';
 // Redux components
 import { useGetAllIngredientsQuery } from '@/store/api/api';
 // React components
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 // Type interfaces
 import { Item } from '@/types/index';
 // Local components
@@ -26,7 +26,7 @@ export default function AddDrinkCard () {
         console.log(recipeCount);
     }, [recipeCount]);
 
-    function removeDirection (e: React.MouseEvent<HTMLButtonElement>, i: number) {
+    const removeDirection = useCallback((e: React.MouseEvent<HTMLButtonElement>, i: number) => {
         e.preventDefault();
         
         if (directionCount.length > 1) {
@@ -44,19 +44,19 @@ export default function AddDrinkCard () {
 
             setDirectionCount((prev: number[]) => prev.slice(0, (prev.length - 1)));
         }
-    }
+    }, [directionCount.length, recipeCount.length]);
 
-    function addIngredient (e: React.MouseEvent<HTMLButtonElement>) {
+    const addIngredient = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         setRecipeCount((prev: number[]) => [...prev, (prev.length)]);
-    }
+    }, []);
 
-    function addDirection (e: React.MouseEvent<HTMLButtonElement>) {
+    const addDirection = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         setDirectionCount((prev: number[]) => [...prev, (prev.length)]);
-    }
+    }, []);
 
-    function removeIngredient (e: React.MouseEvent<HTMLButtonElement>, i: number) {
+    const removeIngredient = useCallback((e: React.MouseEvent<HTMLButtonElement>, i: number) => {
         e.preventDefault();
         
         if (recipeCount.length > 1) {
@@ -80,7 +80,7 @@ export default function AddDrinkCard () {
 
             setRecipeCount((prev: number[]) => prev.slice(0, (prev.length - 1)));
         }
-    }
+    }, [recipeCount.length]);
 
     return (
         <div className={styles.AddDrinkCard}>

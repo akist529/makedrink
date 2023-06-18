@@ -12,16 +12,16 @@ import { toggleSubCard } from '@/store/slices/subCard.slice';
 import RecipeItem from '../RecipeItem/RecipeItem';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
-import getItemName from '@/helpers/getItemName';
+// React components
+import { useMemo } from 'react';
 
 export default function SubCard () {
-    const imagePath = require('/public/images/ui/close.svg');
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const subCardOpen = useSelector((state: RootState) => state.subCard.open);
     const subCardIngredient = useSelector((state: RootState) => state.subCard.ingredient);
     const dispatch = useDispatch();
     
-    const altIngredients = (() => {
+    const altIngredients = useMemo(() => {
         const altIngredients: Item[] = [];
 
         for (const type of Object.keys(storedIngredients)) {
@@ -35,35 +35,35 @@ export default function SubCard () {
         }
 
         return altIngredients;
-    })();
+    }, [storedIngredients, subCardIngredient]);
 
     return (
         <>
-            { subCardOpen && 
-                <div className={styles.SubCard}>
-                    <div className={styles.content}>
-                        { altIngredients.length > 0 && <strong>Other Alternatives:</strong> }
-                        { altIngredients.length > 0 && <ul className={styles.ingredients}>
-                            { altIngredients.map((item: Item, index: number) => {
-                                return (
-                                    <RecipeItem 
-                                        key={index} 
-                                        ingredient={item} 
-                                        isSub={false} />
-                                );
-                            }) }
-                        </ul> }
-                        { !altIngredients.length && <strong>No other alternatives</strong> }
-                        <button onClick={() => dispatch(toggleSubCard())}>
-                            <Image 
-                                alt="Close Modal" 
-                                src={imagePath} 
-                                width="0" 
-                                height="32" 
-                                onLoadingComplete={e => updateWidth(e)} />
-                        </button>
-                    </div>
-                </div> }
+        { subCardOpen && 
+            <div className={styles.SubCard}>
+                <div className={styles.content}>
+                    { altIngredients.length > 0 && <strong>Other Alternatives:</strong> }
+                    { altIngredients.length > 0 && <ul className={styles.ingredients}>
+                        { altIngredients.map((item: Item, index: number) => {
+                            return (
+                                <RecipeItem 
+                                    key={index} 
+                                    ingredient={item} 
+                                    isSub={false} />
+                            );
+                        }) }
+                    </ul> }
+                    { !altIngredients.length && <strong>No other alternatives</strong> }
+                    <button onClick={() => dispatch(toggleSubCard())}>
+                        <Image 
+                            alt="Close Modal" 
+                            src={require('/public/images/ui/close.svg')} 
+                            width="0" 
+                            height="32" 
+                            onLoadingComplete={e => updateWidth(e)} />
+                    </button>
+                </div>
+            </div> }
         </>
     );
 }
