@@ -30,15 +30,11 @@
         align-items: center;
         gap: 10px;
 
-        nav {
+        .landingButtons {
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            gap: 10px;
-    
-            .randomBtn {
-                width: 200px;
-            }
         }
     
         strong {
@@ -49,6 +45,36 @@
     
         .error {
             animation: error-spawn 1s forwards;
+        }
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .LandingSection {
+        gap: 40px;
+
+        h1 {
+            font-size: 64px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .landingContent {
+            gap: 30px;
+            
+            .landingButtons {
+                flex-direction: row;
+                gap: 20px;
+
+                span {
+                    font-size: 32px;
+                }
+            }
+
+            span {
+                font-size: 32px;
+            }
         }
     }
 }

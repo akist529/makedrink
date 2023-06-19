@@ -3,18 +3,23 @@ import styles from './IngredientsSection.module.scss';
 // Next components
 import Image from 'next/image';
 // React components
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 // Local components
 import IngredientCategoryButton from '@/components/buttons/IngredientCategoryButton/IngredientCategoryButton';
 import IngredientList from './IngredientList/IngredientList';
+import SelectAllButton from '@/components/buttons/SelectAllButton/SelectAllButton';
 // Type interfaces
 import { Item } from '@/types/index';
+// Redux components
+import { useDispatch } from 'react-redux';
+import { addIngredient } from '@/store/slices/ingredients.slice';
 
 export default function IngredientsSection (props: { section: string, ingredients: Item[] }) {
     const { section, ingredients } = props;
     const [showList, setShowList] = useState(true);
+    const dispatch = useDispatch();
 
     const imagePath = (() => {
         if (section === 'Alcohol') {
@@ -46,6 +51,12 @@ export default function IngredientsSection (props: { section: string, ingredient
         return filteredData;
     }
 
+    const handleClick = useCallback(() => {
+        for (const ingredient of ingredients) {
+            dispatch(addIngredient(ingredient));
+        }
+    }, [dispatch, ingredients]);
+
     return (
         <section className={styles.IngredientsSection}>
             <header>
@@ -65,6 +76,7 @@ export default function IngredientsSection (props: { section: string, ingredient
                         onLoadingComplete={e => updateWidth(e)} />
                 </button>
             </header>
+            <SelectAllButton clickEvent={handleClick} />
             { showList && types.map((type: string, index: number) => {
                 return (
                     <div key={index} className={styles.category}>

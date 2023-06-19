@@ -33,9 +33,13 @@
         justify-items: center;
         align-items: center;
         gap: 0;
-        padding: 0;
+        padding: 5px 0;
         font-size: 20px;
-        height: 100%;
+        height: 100px;
+
+        span {
+            line-height: 20px;
+        }
 
         img {
             width: 32px;

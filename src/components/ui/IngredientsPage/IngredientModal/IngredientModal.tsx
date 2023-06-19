@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { toggleIngredientModal } from '@/store/slices/ingredientModal.slice';
 import { useGetAllIngredientsQuery } from '@/store/api/api';
+import { addIngredient } from '@/store/slices/ingredients.slice';
 // Local components
 import Ingredient from '@/components/ui/IngredientsPage/Ingredient/Ingredient';
 import LoadingAnimation from '@/components/loading/LoadingAnimation';
@@ -16,8 +17,11 @@ import { Item } from '@/types/index';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
+import SelectAllButton from '@/components/buttons/SelectAllButton/SelectAllButton';
+// React components
+import { useCallback } from 'react';
 
-export default function IngredientModal() {
+export default function IngredientModal () {
     // Redux selectors
     const ingredientModalOpen = useSelector((state: RootState) => state.ingredientModal.open);
     const modalIngredient = useSelector((state: RootState) => state.ingredientModal.ingredient);
@@ -25,6 +29,15 @@ export default function IngredientModal() {
     const { data, isLoading, error } = useGetAllIngredientsQuery();
 
     const dispatch = useDispatch();
+
+    const handleClick = useCallback(() => {
+        dispatch(addIngredient(modalIngredient));
+        const childIngredients = data.filter((ingredient: Item) => ingredient.AliasId === modalIngredient.Id);
+        
+        for (const ingredient of childIngredients) {
+            dispatch(addIngredient(ingredient));
+        }
+    }, [data, dispatch, modalIngredient]);
 
     return (
         <>
@@ -47,6 +60,7 @@ export default function IngredientModal() {
                             width="0" 
                             height="48" 
                             onLoadingComplete={e => updateWidth(e)} />
+                        <SelectAllButton clickEvent={handleClick} />
                     </div>
                     <ul className={styles.childList}>
                         { data.filter((ingredient: Item) => ingredient.AliasId === modalIngredient.Id)

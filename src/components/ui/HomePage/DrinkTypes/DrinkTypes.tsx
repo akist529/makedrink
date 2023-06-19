@@ -23,7 +23,7 @@ export default function DrinkTypes (props: { drinkType: string, setDrinkType: Fu
     }, [setDrinkError, setDrinkType, storedIngredients]);
 
     return (
-        <div className={styles.DrinkTypes}>
+        <nav className={styles.DrinkTypes}>
             <button className={drinkType === 'cocktail' ? styles.active : ''} onClick={() => handleClick('cocktail')}>
                 <span>Cocktail</span>
                 <Image 
@@ -42,6 +42,6 @@ export default function DrinkTypes (props: { drinkType: string, setDrinkType: Fu
                     height="24" 
                     onLoadingComplete={e => updateWidth(e)} />
             </button>
-        </div>
+        </nav>
     );
 }

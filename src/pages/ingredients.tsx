@@ -13,10 +13,10 @@ import { addPossibleDrink } from '@/store/slices/drinks.slice';
 import { Item, Drink } from '@/types/index';
 // Local components
 import Footer from '@/components/footer/Footer';
-import IngredientsTitle from '@/components/ui/IngredientsPage/IngredientsTitle/IngredientsTitle';
 import IngredientsSection from '@/components/ui/IngredientsPage/IngredientsSection/IngredientsSection';
 import LoadingAnimation from '@/components/loading/LoadingAnimation';
 import ServerError from '@/components/error/ServerError';
+import IngredientsHeader from '@/components/ui/IngredientsPage/IngredientsHeader/IngredientsHeader';
 
 const IngredientsPage: NextPage = () => {
     const allIngredients = useGetAllIngredientsQuery();
@@ -82,7 +82,7 @@ const IngredientsPage: NextPage = () => {
         <>
             { allIngredients.data && 
                 <main className={styles.IngredientsPage}>
-                    <IngredientsTitle />
+                    <IngredientsHeader />
                     <IngredientsSection 
                         section='Alcohol' 
                         ingredients={(allIngredients.data as Item[])} />

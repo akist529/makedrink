@@ -37,19 +37,19 @@ export default function LandingSection (props: { drinkType: string, setDrinkType
         <section id="landing" className={styles.LandingSection}>
             <h1>What Can I Make?</h1>
             <div className={styles.landingContent}>
-                <SelectIngredientsButton />
-                <span>Then...</span>
-                <nav>
-                    <div onClick={handleClick}>
+                <div className={styles.landingButtons}>
+                    <SelectIngredientsButton />
+                    <span>Then...</span>
+                    <nav onClick={handleClick}>
                         <MakeDrinkButton />
-                    </div>
-                    <span>Or...</span>
-                    <DrinkTypes 
-                        drinkType={drinkType} 
-                        setDrinkType={setDrinkType} 
-                        drinkError={drinkError} 
-                        setDrinkError={setDrinkError} />
-                </nav>
+                    </nav>
+                </div>
+                <span>Or...</span>
+                <DrinkTypes 
+                    drinkType={drinkType} 
+                    setDrinkType={setDrinkType} 
+                    drinkError={drinkError} 
+                    setDrinkError={setDrinkError} />
                 <strong className={drinkError ? styles.error : ''}>{drinkError}</strong>
             </div>
         </section>

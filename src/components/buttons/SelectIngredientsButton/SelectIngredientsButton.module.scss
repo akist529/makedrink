@@ -44,6 +44,18 @@
     }
 }
 
+@media only screen and (min-width: 992px) {
+    .SelectIngredientsButton {
+        a {
+            button {
+                span {
+                    font-size: 32px;
+                }
+            }
+        }
+    }
+}
+
 @keyframes btn-hover {
     0% {
         background: linear-gradient(to bottom right, rgb(25, 25, 25), rgb(45, 19, 46));
