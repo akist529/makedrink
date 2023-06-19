@@ -8,7 +8,7 @@ import { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useGetAllIngredientsQuery, useLazyGetMultipleDrinkInfoQuery } from '@/store/api/api';
 import { RootState } from '@/store/store';
-import { addPossibleDrink } from '@/store/slices/drinks.slice';
+import { addPossibleDrink, clearPossibleDrinks } from '@/store/slices/drinks.slice';
 // Type interfaces
 import { Item, Drink } from '@/types/index';
 // Local components
@@ -26,6 +26,8 @@ const IngredientsPage: NextPage = () => {
 
     useEffect(() => {
         if (result && result.data) {
+            dispatch(clearPossibleDrinks());
+
             for (const drink of result.data) {
                 dispatch(addPossibleDrink(drink));
             }

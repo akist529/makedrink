@@ -76,6 +76,9 @@ export const drinksSlice = createSlice({
                 }
             }
         },
+        clearPossibleDrinks: (state) => {
+            state.possible = ({});
+        },
         addFavoriteDrink: (state, action: PayloadAction<DrinkInfo>) => {
             const letter = action.payload.Name.charAt(0);
 
@@ -189,6 +192,7 @@ export const {
     addPossibleDrink, 
     addPossibleDrinks, 
     removePossibleDrink, 
+    clearPossibleDrinks, 
     addFavoriteDrink, 
     removeFavoriteDrink, 
     addBlockedDrink, 
