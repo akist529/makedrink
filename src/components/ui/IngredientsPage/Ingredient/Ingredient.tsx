@@ -6,7 +6,6 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
-import { useGetAllIngredientsQuery } from '@/store/api/api';
 import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingredientModal.slice';
 import { addIngredient, removeIngredient } from '@/store/slices/ingredients.slice';
 import { RootState } from '@/store/store';
@@ -25,7 +24,6 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Redux components
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
-    const allIngredients: Item[] = (useGetAllIngredientsQuery().data || []);
     const displayName = useMemo(() => getItemName(item), [item]);
 
     const hasChildren = useMemo(() => {
@@ -79,10 +77,6 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
         }
     });
 
-    function addIngredientToStore () {
-        dispatch(addIngredient(item));
-    }
-
     function handleClick () {
         if (hasChildren) {
             dispatch(setModalIngredient(item));
@@ -106,7 +100,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
             if (ingredientInStore) {
                 dispatch(removeIngredient(item));
             } else {
-                addIngredientToStore();
+                dispatch(addIngredient(item));
             }
         }
     }

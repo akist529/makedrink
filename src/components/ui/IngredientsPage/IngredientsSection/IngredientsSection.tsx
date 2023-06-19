@@ -3,7 +3,7 @@ import styles from './IngredientsSection.module.scss';
 // Next components
 import Image from 'next/image';
 // React components
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 // Local components
@@ -13,13 +13,15 @@ import SelectAllButton from '@/components/buttons/SelectAllButton/SelectAllButto
 // Type interfaces
 import { Item } from '@/types/index';
 // Redux components
-import { useDispatch } from 'react-redux';
-import { addIngredient } from '@/store/slices/ingredients.slice';
+import { useSelector, useDispatch } from 'react-redux';
+import { addIngredient, removeIngredient } from '@/store/slices/ingredients.slice';
+import { RootState } from '@/store/store';
 
 export default function IngredientsSection (props: { section: string, ingredients: Item[] }) {
     const { section, ingredients } = props;
     const [showList, setShowList] = useState(true);
     const dispatch = useDispatch();
+    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
     const imagePath = (() => {
         if (section === 'Alcohol') {
@@ -51,11 +53,31 @@ export default function IngredientsSection (props: { section: string, ingredient
         return filteredData;
     }
 
-    const handleClick = useCallback(() => {
+    const addAllIngredients = useCallback(() => {
         for (const ingredient of ingredients) {
             dispatch(addIngredient(ingredient));
         }
     }, [dispatch, ingredients]);
+
+    const removeAllIngredients = useCallback(() => {
+        for (const ingredient of ingredients) {
+            dispatch(removeIngredient(ingredient));
+        }
+    }, [dispatch, ingredients]);
+
+    const allIngredientsStored = useMemo(() => {
+        return ingredients.every((item: Item) => {
+            if (item.Type && storedIngredients.hasOwnProperty(item.Type)) {
+                for (const key of Object.keys(storedIngredients[item.Type])) {
+                    const storedItem = storedIngredients[item.Type][key].find((storedItem: Item) => item.Id === storedItem.Id);
+
+                    if (storedItem) {
+                        return true;
+                    }
+                }
+            }
+        });
+    }, [ingredients, storedIngredients]);
 
     return (
         <section className={styles.IngredientsSection}>
@@ -76,7 +98,9 @@ export default function IngredientsSection (props: { section: string, ingredient
                         onLoadingComplete={e => updateWidth(e)} />
                 </button>
             </header>
-            <SelectAllButton clickEvent={handleClick} />
+            <SelectAllButton 
+                clickEvent={allIngredientsStored ? removeAllIngredients : addAllIngredients} 
+                ingredients={ingredients} />
             { showList && types.map((type: string, index: number) => {
                 return (
                     <div key={index} className={styles.category}>
