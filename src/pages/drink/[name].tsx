@@ -1,7 +1,7 @@
 // Page styles
 import styles from '@/styles/Drink.module.scss';
 // Redux components
-import { useGetAllDrinksQuery, useLazyGetDrinkInfoQuery } from '@/store/api/api';
+import { useGetAllIngredientsQuery, useGetAllDrinksQuery, useLazyGetDrinkInfoQuery } from '@/store/api/api';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { addFavoriteDrink, removeFavoriteDrink, addBlockedDrink, removeBlockedDrink } from '@/store/slices/drinks.slice';
@@ -24,6 +24,7 @@ const DrinkPage: NextPage = () => {
     // RTK Queries
     const allDrinks = useGetAllDrinksQuery();
     const [getDrinkInfo, drinkInfoResult] = useLazyGetDrinkInfoQuery();
+    const allIngredients = useGetAllIngredientsQuery();
 
     // Redux store states
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
@@ -38,6 +39,13 @@ const DrinkPage: NextPage = () => {
     const [drinkError, setDrinkError] = useState(false);
     const [recipeError, setRecipeError] = useState(false);
     const [drinkInfo, setDrinkInfo] = useState({} as DrinkInfo);
+    const [ingredients, setIngredients] = useState([] as Item[]);
+
+    useEffect(() => {
+        if (allIngredients.isSuccess) {
+            setIngredients(allIngredients.data);
+        }
+    }, [allIngredients]);
 
     const getDrinkName = useCallback(() => {
         let urlName;
@@ -67,13 +75,14 @@ const DrinkPage: NextPage = () => {
 
     const getAltIngredient = useCallback((ingredient: Item, index: number, unit: string, amount: number) => {
         const type = ingredient.Type || '';
+
         for (const key of Object.keys(storedIngredients[type])) {
             for (let i = 0; i < storedIngredients[type][key].length; i++) {
                 if (storedIngredients[type][key][i].AliasId === ingredient.Id) {
                     return (
                         <RecipeItem 
                             key={index} 
-                            ingredient={ingredient} 
+                            ingredient={storedIngredients[type][key][i]} 
                             unit={unit} 
                             amount={amount} 
                             missing={false} />
@@ -97,15 +106,33 @@ const DrinkPage: NextPage = () => {
     }, [recipeError, storedIngredients]);
 
     const getIngredientAlias = useCallback((ingredient: Ingredient, index: number) => {
-        const letter = ingredient.Alias.charAt(0);
+        if (ingredient.Alias) {
+            const letter = ingredient.Alias.charAt(0);
 
-        for (const type of Object.keys(storedIngredients)) {
-            if (storedIngredients[type].hasOwnProperty(letter)) {
-                for (const item of storedIngredients[type][letter]) {
-                    if (item.Name === ingredient.Alias) {
-                        return getAltIngredient(item, index, ingredient.Unit, ingredient.Amount);
+            for (const type of Object.keys(storedIngredients)) {
+                if (storedIngredients[type].hasOwnProperty(letter)) {
+                    for (const item of storedIngredients[type][letter]) {
+                        if (item.Name === ingredient.Alias) {
+                            return getAltIngredient(item, index, ingredient.Unit, ingredient.Amount);
+                        }
                     }
                 }
+            }
+        } else {
+            const alias = ingredients.find((item: Item) => item.Name === ingredient.Name);
+
+            if (alias) {
+                return getAltIngredient(alias, index, ingredient.Unit, ingredient.Amount);
+
+                // const type = alias.Type || '';
+
+                // for (const key of Object.keys(storedIngredients[type])) {
+                //     for (const item of storedIngredients[type][key]) {
+                //         if (item.Id === alias.Id) {
+                //             return getAltIngredient(item, index, ingredient.Unit, ingredient.Amount);
+                //         }
+                //     }
+                // }
             }
         }
 
@@ -121,7 +148,7 @@ const DrinkPage: NextPage = () => {
                 amount={ingredient.Amount} 
                 missing={true} />
         );
-    }, [getAltIngredient, recipeError, storedIngredients]);
+    }, [getAltIngredient, recipeError, storedIngredients, ingredients]);
 
     const getIngredient = useCallback((ingredient: Ingredient, index: number) => {
         const letter = ingredient.Name.charAt(0);
@@ -236,7 +263,8 @@ const DrinkPage: NextPage = () => {
     }, [drinkFavorited]);
 
     return (
-        <div className={styles.DrinkPage}>
+        <>
+        { (ingredients.length > 0) && <div className={styles.DrinkPage}>
             { !drinkError && !drinkInfo.Name && <LoadingAnimation /> }
             { drinkError && <strong>The drink you entered does not exist!</strong> }
             { drinkInfo.Name && 
@@ -295,7 +323,8 @@ const DrinkPage: NextPage = () => {
                 </figure>
             </main> }
             <Footer />
-        </div>
+        </div> }
+        </>
     );
 }
 
