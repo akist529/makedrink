@@ -113,6 +113,12 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
             } else {
                 setIsChecked(false);
             }
+        } else {
+            if (itemInStore(item)) {
+                setIsChecked(true);
+            } else {
+                setIsChecked(false);
+            }
         }
     }, [storedIngredients, aliasInStore, hasChildren, item, itemInStore]);
 
