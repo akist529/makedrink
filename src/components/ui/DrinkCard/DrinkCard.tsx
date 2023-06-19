@@ -4,9 +4,8 @@ import styles from './DrinkCard.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { setRandomDrink } from '@/store/slices/drinks.slice';
-import { useGetAllIngredientsQuery } from '@/store/api/api';
 // React components
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 // Next components
 import Image from 'next/image';
 import Link from 'next/link';
@@ -72,9 +71,9 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
         }
 
         // Try to find recipe substitute
-        const alias = findAliasInStore(storedIngredients, ingredient);
+        const alias = ingredients.find((item: Item) => item.Name === ingredient.Alias);
 
-        if (alias !== undefined) {
+        if (alias) {
             const alt = findAltInStore(storedIngredients, alias, ingredient.Name);
 
             if (alt !== undefined) {
@@ -85,6 +84,17 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
                         isSub={true} />
                 );
             }
+        }
+
+        const storedAlias = findAliasInStore(storedIngredients, ingredient);
+
+        if (storedAlias !== undefined) {
+            return (
+                <RecipeItem 
+                    key={index}
+                    ingredient={storedAlias} 
+                    isSub={true} />
+            );
         }
 
         // Show ingredient as missing 
@@ -101,7 +111,7 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
                 ingredient={missingItem} 
                 isSub={false} />
         );
-    }, [storedIngredients]);
+    }, [storedIngredients, ingredients]);
 
     const handleClick = useCallback(() => {
         const drink = getRandomDrink(possibleDrinks, randomDrink);

@@ -115,20 +115,22 @@ const AllDrinksPage: NextPage = () => {
 
     return (
         <>
-        { (allDrinks.isLoading || 
-        drinkInfoResult.isLoading) && 
+        { allDrinks.isLoading || 
+        drinkInfoResult.isLoading || 
+        allIngredients.isLoading && 
             <main className={styles.DrinksPage}>
                 <LoadingAnimation />
                 <Footer />
             </main> }
-        { (allDrinks.isError || 
-        drinkInfoResult.isError) && 
+        { allDrinks.isError || 
+        drinkInfoResult.isError || 
+        allIngredients.isError && 
             <main className={styles.DrinksPage}>
                 <h1>Error!</h1>
                 <h2>Try again later.</h2>
             </main> }
-        { (allDrinks.isSuccess && drinkInfoResult.isSuccess) && 
-        !(allDrinks.isLoading || drinkInfoResult.isLoading) && 
+        { (allDrinks.isSuccess && drinkInfoResult.isSuccess && allIngredients.isSuccess) && 
+        !(allDrinks.isLoading || drinkInfoResult.isLoading || allIngredients.isLoading) && 
         !drinkInfo.length && 
             <main className={styles.DrinksPage}>
                 <h1>No drinks available!</h1>
@@ -136,7 +138,7 @@ const AllDrinksPage: NextPage = () => {
                 <Footer />
             </main> }
         { (drinkInfoResult.isSuccess && 
-        !(allDrinks.isLoading || drinkInfoResult.isLoading) && 
+        !(allDrinks.isLoading || drinkInfoResult.isLoading || allIngredients.isLoading) && 
         drinkInfo.length) && 
             <main className={styles.DrinksPage}>
                 <PageCountCtrl />
