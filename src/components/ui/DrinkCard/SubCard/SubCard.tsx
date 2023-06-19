@@ -29,6 +29,8 @@ export default function SubCard () {
                 for (const item of storedIngredients[type][key]) {
                     if ((item.AliasId === subCardIngredient.AliasId) && (item.Name !== subCardIngredient.Name)) {
                         altIngredients.push(item);
+                    } else if (item.Id === subCardIngredient.AliasId) {
+                        altIngredients.push(item);
                     }
                 }
             }
