@@ -3,9 +3,10 @@ import styles from './IngredientsSection.module.scss';
 // Next components
 import Image from 'next/image';
 // React components
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback } from 'react';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+import allIngredientsStored from '@/helpers/allIngredientsStored';
 // Local components
 import IngredientCategoryButton from '@/components/buttons/IngredientCategoryButton/IngredientCategoryButton';
 import IngredientList from './IngredientList/IngredientList';
@@ -53,60 +54,51 @@ export default function IngredientsSection (props: { section: string, ingredient
         return filteredData;
     }
 
-    const addAllIngredients = useCallback(() => {
+    const addAllIngredients = useCallback((e: React.MouseEvent<HTMLButtonElement>, ingredients: Item[]) => {
         for (const ingredient of ingredients) {
             dispatch(addIngredient(ingredient));
         }
-    }, [dispatch, ingredients]);
+    }, [dispatch]);
 
-    const removeAllIngredients = useCallback(() => {
+    const removeAllIngredients = useCallback((e: React.MouseEvent<HTMLButtonElement>, ingredients: Item[]) => {
         for (const ingredient of ingredients) {
             dispatch(removeIngredient(ingredient));
         }
-    }, [dispatch, ingredients]);
-
-    const allIngredientsStored = useMemo(() => {
-        return ingredients.every((item: Item) => {
-            if (item.Type && storedIngredients.hasOwnProperty(item.Type)) {
-                for (const key of Object.keys(storedIngredients[item.Type])) {
-                    const storedItem = storedIngredients[item.Type][key].find((storedItem: Item) => item.Id === storedItem.Id);
-
-                    if (storedItem) {
-                        return true;
-                    }
-                }
-            }
-        });
-    }, [ingredients, storedIngredients]);
+    }, [dispatch]);
 
     return (
         <section className={styles.IngredientsSection}>
             <header>
+                <h2>{section}</h2>
+                <Image 
+                    alt={section} 
+                    src={imagePath} 
+                    width="0"
+                    height="48" 
+                    onLoadingComplete={e => updateWidth(e)} />
+                <SelectAllButton 
+                    clickEvent={allIngredientsStored(ingredients, storedIngredients) ? removeAllIngredients : addAllIngredients} 
+                    ingredients={ingredients} />
                 <button onClick={() => setShowList(prev => !prev)}>
-                    <h2>{section}</h2>
-                    <Image 
-                        alt={section} 
-                        src={imagePath} 
-                        width="0"
-                        height="48" 
-                        onLoadingComplete={e => updateWidth(e)} />
                     <Image 
                         alt={`Hide ${section}`} 
                         src={require(`/public/images/ui/expand_${showList ? 'more' : 'less'}.svg`)} 
                         width="0" 
                         height="64" 
+                        title="Hide Section" 
                         onLoadingComplete={e => updateWidth(e)} />
                 </button>
             </header>
-            <SelectAllButton 
-                clickEvent={allIngredientsStored ? removeAllIngredients : addAllIngredients} 
-                ingredients={ingredients} />
             { showList && types.map((type: string, index: number) => {
                 return (
                     <div key={index} className={styles.category}>
-                        <IngredientCategoryButton 
-                            category={type} 
-                            color="pink" />
+                        <div className={styles.categoryHeader}>
+                            <IngredientCategoryButton 
+                                category={type} 
+                                color="pink" 
+                                clickEvent={allIngredientsStored(filterDataByType(type), storedIngredients) ? removeAllIngredients : addAllIngredients} 
+                                ingredients={filterDataByType(type)} />
+                        </div>
                         <IngredientList 
                             section={filterDataByType(type)} />
                     </div>

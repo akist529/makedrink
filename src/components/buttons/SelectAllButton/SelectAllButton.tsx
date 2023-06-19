@@ -33,7 +33,7 @@ export default function SelectAllButton (props: { clickEvent: Function, ingredie
     }, [allIngredientsStored]);
 
     return (
-        <button className={ButtonStyle} onClick={e => clickEvent(e)}>
+        <button className={ButtonStyle} onClick={e => clickEvent(e, ingredients)}>
             <Image 
                 alt='Select All' 
                 src={require('/public/images/ui/done_all.svg')} 

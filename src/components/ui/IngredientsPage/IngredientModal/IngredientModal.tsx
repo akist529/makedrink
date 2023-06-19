@@ -91,19 +91,18 @@ export default function IngredientModal () {
                     </button>
                     <div className={styles.header}>
                         <span>{modalIngredient.Name}</span>
+                        <SelectAllButton 
+                            clickEvent={allIngredientsStored ? removeAllIngredients : addAllIngredients} 
+                            ingredients={childIngredients} />
                         <Image 
                             alt={modalIngredient.Name} 
                             src={require(`/public/images/ui/${getSlug(modalIngredient.Name)}.webp`)} 
                             width="0" 
                             height="48" 
                             onLoadingComplete={e => updateWidth(e)} />
-                        <SelectAllButton 
-                            clickEvent={allIngredientsStored ? removeAllIngredients : addAllIngredients} 
-                            ingredients={childIngredients} />
                     </div>
                     <ul className={styles.childList}>
                         { childIngredients.map((ingredient: Item) => <Ingredient key={ingredient.Id} item={ingredient} section={[]} />) }
-                        <Ingredient item={modalIngredient} section={[]} />
                     </ul>
                 </div>
             </div> }
