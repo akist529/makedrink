@@ -67,12 +67,14 @@ export default function IngredientFilter (props: { ingredient: Item, showImage: 
         <li className={styles.IngredientFilter}>
             <label htmlFor={displayName}>{displayName}</label>
             <div>
-                { showImage && <Image 
+                { showImage && 
+                <Image 
                     alt={displayName} 
-                    src={require(`/public/images/ui/${getSlug(ingredient.Name)}.webp`)} 
+                    src={`https://img.makedr.ink/i/${getSlug(ingredient.Name)}.webp`} 
                     width="0" 
                     height="48" 
-                    onLoadingComplete={e => updateWidth(e)} /> }
+                    onLoadingComplete={e => updateWidth(e)} 
+                    unoptimized /> }
                 <input 
                     type="checkbox" 
                     id={displayName} 

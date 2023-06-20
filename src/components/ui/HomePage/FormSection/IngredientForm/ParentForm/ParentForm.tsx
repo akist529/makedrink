@@ -57,10 +57,11 @@ export default function ParentForm (props: { ingredient: Item }) {
                     <span>{ingredient.Name}</span>
                     <Image 
                         alt={ingredient.Name} 
-                        src={require(`/public/images/ui/${getSlug(ingredient.Name)}.webp`)} 
+                        src={`https://img.makedr.ink/i/${getSlug(ingredient.Name)}.webp`} 
                         width="0" 
                         height="48" 
-                        onLoadingComplete={e => updateWidth(e)} />
+                        onLoadingComplete={e => updateWidth(e)} 
+                        unoptimized />
                 </legend>
                 <ul className={styles.ingredientList}>
                     { childIngredients(ingredient).filter((ingredient: Item) => ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {

@@ -23,12 +23,13 @@ export default function SubCard () {
     const dispatch = useDispatch();
     
     const altIngredients = useMemo(() => {
+        console.log(subCardIngredient);
         const altIngredients: Item[] = [];
 
         for (const type of Object.keys(storedIngredients)) {
             for (const key of Object.keys(storedIngredients[type])) {
                 for (const item of storedIngredients[type][key]) {
-                    if ((item.AliasId === subCardIngredient.AliasId) && (item.Name !== subCardIngredient.Name)) {
+                    if ((item.AliasId) && (item.AliasId === subCardIngredient.AliasId) && (item.Name !== subCardIngredient.Name)) {
                         altIngredients.push(item);
                     } else if (item.Id === subCardIngredient.AliasId) {
                         altIngredients.push(item);

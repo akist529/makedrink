@@ -136,10 +136,11 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
                 <div className={styles.icon}>
                     <Image 
                         alt={item.Name} 
-                        src={require(`/public/images/ui/${getSlug(item.Name)}.webp`)} 
+                        src={`https://img.makedr.ink/i/${getSlug(item.Name)}.webp`} 
                         width="0" 
                         height="50" 
-                        onLoadingComplete={e => updateWidth(e)} />
+                        onLoadingComplete={e => updateWidth(e)} 
+                        unoptimized />
                 </div>
                 <IngredientCheckbox 
                     item={item} 

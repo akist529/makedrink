@@ -14,34 +14,39 @@ export default function SelectIngredientsButton () {
                     <div>
                         <Image 
                             alt='Select Ingredients' 
-                            src={require('/public/images/ui/carbonated.webp')} 
+                            src='https://img.makedr.ink/i/carbonated.webp' 
                             width="0" 
                             height="32" 
-                            onLoadingComplete={e => updateWidth(e)} />
+                            onLoadingComplete={e => updateWidth(e)} 
+                            unoptimized />
                         <Image 
                             alt='Select Ingredients' 
-                            src={require('/public/images/ui/liqueurs.webp')} 
+                            src='https://img.makedr.ink/i/liqueurs.webp' 
                             width="0" 
                             height="32" 
-                            onLoadingComplete={e => updateWidth(e)} />
+                            onLoadingComplete={e => updateWidth(e)} 
+                            unoptimized />
                         <Image 
                             alt='Select Ingredients' 
-                            src={require('/public/images/ui/mixers.webp')} 
+                            src='https://img.makedr.ink/i/mixers.webp' 
                             width="0" 
                             height="32" 
-                            onLoadingComplete={e => updateWidth(e)} />
+                            onLoadingComplete={e => updateWidth(e)} 
+                            unoptimized />
                         <Image 
                             alt='Select Ingredients' 
-                            src={require('/public/images/ui/other.webp')} 
+                            src='https://img.makedr.ink/i/other.webp' 
                             width="0" 
                             height="32" 
-                            onLoadingComplete={e => updateWidth(e)} />
+                            onLoadingComplete={e => updateWidth(e)} 
+                            unoptimized />
                         <Image 
                             alt='Select Ingredients' 
-                            src={require('/public/images/ui/spirits.webp')} 
+                            src='https://img.makedr.ink/i/spirits.webp' 
                             width="0" 
                             height="32" 
-                            onLoadingComplete={e => updateWidth(e)} />
+                            onLoadingComplete={e => updateWidth(e)} 
+                            unoptimized />
                     </div>
                     <span>Select Your Ingredients</span>
                 </button>

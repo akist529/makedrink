@@ -28,10 +28,11 @@ export default function RecipeItem (props: { ingredient: Item | Ingredient, miss
             <div className={missing? styles.missing : ''}>
                 <Image 
                     alt={ingredient.Name} 
-                    src={require(`/public/images/ui/${slug}.webp`)} 
+                    src={`https://img.makedr.ink/i/${slug}.webp`} 
                     width="0" 
                     height="32" 
-                    onLoadingComplete={e => updateWidth(e)} />
+                    onLoadingComplete={e => updateWidth(e)} 
+                    unoptimized />
                 <div className={styles.itemName}>
                     <span>{getItemName(ingredient)}</span>
                     { (ingredient.Name !== prefers) && <span><em>(preferred: {prefers})</em></span> }

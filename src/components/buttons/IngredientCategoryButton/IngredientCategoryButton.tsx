@@ -24,10 +24,11 @@ export default function IngredientCategoryButton(props: {category: string, color
                 ingredients={ingredients} />
             <Image 
                 alt={category} 
-                src={require(`/public/images/ui/${getSlug(category)}.webp`)} 
+                src={`https://img.makedr.ink/i/${getSlug(category)}.webp`} 
                 width="0" 
                 height="64" 
-                onLoadingComplete={e => updateWidth(e)} />
+                onLoadingComplete={e => updateWidth(e)} 
+                unoptimized />
         </button>
     );
 }

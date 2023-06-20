@@ -96,10 +96,11 @@ export default function IngredientModal () {
                             ingredients={childIngredients} />
                         <Image 
                             alt={modalIngredient.Name} 
-                            src={require(`/public/images/ui/${getSlug(modalIngredient.Name)}.webp`)} 
+                            src={`https://img.makedr.ink/i/${getSlug(modalIngredient.Name)}.webp`} 
                             width="0" 
                             height="48" 
-                            onLoadingComplete={e => updateWidth(e)} />
+                            onLoadingComplete={e => updateWidth(e)} 
+                            unoptimized />
                     </div>
                     <ul className={styles.childList}>
                         { childIngredients.map((ingredient: Item) => <Ingredient key={ingredient.Id} item={ingredient} section={[]} />) }

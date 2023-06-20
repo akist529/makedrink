@@ -38,10 +38,11 @@ export default function SearchResult (props: { ingredient: Item }) {
             <span>{displayName}</span>
             <Image 
                 alt={displayName} 
-                src={require(`/public/images/ui/${slug}.webp`)} 
+                src={`https://img.makedr.ink/i/${slug}.webp`} 
                 width="0" 
                 height="24" 
-                onLoadingComplete={e => updateWidth(e)} />
+                onLoadingComplete={e => updateWidth(e)} 
+                unoptimized />
             <IngredientCheckbox 
                 item={ingredient} 
                 isChecked={inStore} />

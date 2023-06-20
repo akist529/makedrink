@@ -3,7 +3,7 @@ import styles from './AddDrinkCard.module.scss';
 // Redux components
 import { useGetAllIngredientsQuery } from '@/store/api/api';
 // React components
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useId } from 'react';
 // Type interfaces
 import { Item } from '@/types/index';
 // Local components
@@ -15,6 +15,8 @@ export default function AddDrinkCard () {
     const [directionCount, setDirectionCount] = useState(Array.from(Array(1).keys()));
     const allIngredients = useGetAllIngredientsQuery();
     const [ingredients, setIngredients] = useState([] as Item[]);
+
+    const id = useId();
 
     useEffect(() => {
         if (allIngredients.isSuccess) {
@@ -88,10 +90,10 @@ export default function AddDrinkCard () {
                 <strong>Add New Drink</strong>
             </header>
             <form action="" method="post">
-                <label htmlFor="name">Name:</label>
-                <input type="text" id="name" name="name" placeholder="Name"/><br/>
-                <label htmlFor="recipe-credit">Recipe Credit:</label>
-                <input type="text" id="recipe-credit" name="recipe-credit" placeholder="Add Credit (Optional)"/><br/>
+                <label htmlFor={`${id}-name`}>Name:</label>
+                <input id={`${id}-name`} type="text" name="name" placeholder="Name"/><br/>
+                <label htmlFor={`${id}-recipe-credit`}>Recipe Credit:</label>
+                <input id={`${id}-recipe-credit`} type="text" name="recipe-credit" placeholder="Add Credit (Optional)"/><br/>
                 <fieldset>
                     <legend>Recipe</legend>
                     { recipeCount.map((i: number) => {
@@ -121,12 +123,12 @@ export default function AddDrinkCard () {
                         <span>Add Direction</span>
                     </button>
                 </fieldset>
-                <label htmlFor="image">Image:</label>
-                <input type="file" id="image" name="image" accept=".webp"/><br/>
-                <label htmlFor="img-credit">Image Credit:</label>
+                <label htmlFor={`${id}-image`}>Image:</label>
+                <input id={`${id}-image`} type="file" name="image" accept=".webp"/><br/>
+                <label htmlFor={`${id}-img-credit`}>Image Credit:</label>
                 <input 
                     type="text" 
-                    id="img-credit" 
+                    id={`${id}-img-credit`} 
                     name="img-credit" 
                     placeholder="Add Image Credit (Optional)"/><br/>
                 <input 

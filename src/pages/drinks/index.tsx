@@ -115,9 +115,9 @@ const AllDrinksPage: NextPage = () => {
 
     return (
         <>
-        { allDrinks.isLoading || 
+        { (allDrinks.isLoading || 
         drinkInfoResult.isLoading || 
-        allIngredients.isLoading && 
+        allIngredients.isLoading) && 
             <main className={styles.DrinksPage}>
                 <LoadingAnimation />
                 <Footer />

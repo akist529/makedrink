@@ -4,8 +4,6 @@ import styles from './DesktopNavMenu.module.scss';
 import Link from 'next/link';
 // Local components
 import NavMenuItem from '@/components/navmenu/item/NavMenuItem';
-// Helper functions
-import getSlug from '@/helpers/getSlug';
 
 export default function DesktopNavMenu () {
     return (
