@@ -7,11 +7,12 @@ import { Item, Ingredient } from '@/types/index';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
+import getItemName from '@/helpers/getItemName';
 // React components
 import { useMemo } from 'react';
 
-export default function RecipeItem (props: { ingredient: Item | Ingredient, missing: boolean, unit: string, amount: number }) {
-    const { ingredient, missing, unit, amount } = props;
+export default function RecipeItem (props: { ingredient: Item | Ingredient, missing: boolean, unit: string, amount: number, prefers: string }) {
+    const { ingredient, missing, unit, amount, prefers } = props;
     const slug = useMemo(() => getSlug(ingredient.Name), [ingredient.Name]);
 
     const itemUnit = useMemo(() => {
@@ -31,7 +32,10 @@ export default function RecipeItem (props: { ingredient: Item | Ingredient, miss
                     width="0" 
                     height="32" 
                     onLoadingComplete={e => updateWidth(e)} />
-                <span>{ingredient.Name}</span>
+                <div className={styles.itemName}>
+                    <span>{getItemName(ingredient)}</span>
+                    { (ingredient.Name !== prefers) && <span><em>(preferred: {prefers})</em></span> }
+                </div>
                 <span>{`${amount} ${itemUnit}`}</span>
             </div>
         </li>

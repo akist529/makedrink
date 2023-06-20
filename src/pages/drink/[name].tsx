@@ -73,7 +73,7 @@ const DrinkPage: NextPage = () => {
         }
     }, [allDrinks.data, getDrinkInfo]);
 
-    const getAltIngredient = useCallback((ingredient: Item, index: number, unit: string, amount: number) => {
+    const getAltIngredient = useCallback((ingredient: Item, index: number, unit: string, amount: number, prefers: string) => {
         const type = ingredient.Type || '';
 
         for (const key of Object.keys(storedIngredients[type])) {
@@ -85,7 +85,8 @@ const DrinkPage: NextPage = () => {
                             ingredient={storedIngredients[type][key][i]} 
                             unit={unit} 
                             amount={amount} 
-                            missing={false} />
+                            missing={false} 
+                            prefers={prefers} />
                     );
                 }
             }
@@ -101,7 +102,8 @@ const DrinkPage: NextPage = () => {
                 ingredient={ingredient} 
                 unit={unit} 
                 amount={amount}
-                missing={true} />
+                missing={true} 
+                prefers={prefers} />
         );
     }, [recipeError, storedIngredients]);
 
@@ -113,7 +115,7 @@ const DrinkPage: NextPage = () => {
                 if (storedIngredients[type].hasOwnProperty(letter)) {
                     for (const item of storedIngredients[type][letter]) {
                         if (item.Name === ingredient.Alias) {
-                            return getAltIngredient(item, index, ingredient.Unit, ingredient.Amount);
+                            return getAltIngredient(item, index, ingredient.Unit, ingredient.Amount, ingredient.Name);
                         }
                     }
                 }
@@ -122,17 +124,7 @@ const DrinkPage: NextPage = () => {
             const alias = ingredients.find((item: Item) => item.Name === ingredient.Name);
 
             if (alias) {
-                return getAltIngredient(alias, index, ingredient.Unit, ingredient.Amount);
-
-                // const type = alias.Type || '';
-
-                // for (const key of Object.keys(storedIngredients[type])) {
-                //     for (const item of storedIngredients[type][key]) {
-                //         if (item.Id === alias.Id) {
-                //             return getAltIngredient(item, index, ingredient.Unit, ingredient.Amount);
-                //         }
-                //     }
-                // }
+                return getAltIngredient(alias, index, ingredient.Unit, ingredient.Amount, ingredient.Name);
             }
         }
 
@@ -146,7 +138,8 @@ const DrinkPage: NextPage = () => {
                 ingredient={ingredient} 
                 unit={ingredient.Unit} 
                 amount={ingredient.Amount} 
-                missing={true} />
+                missing={true} 
+                prefers={ingredient.Name} />
         );
     }, [getAltIngredient, recipeError, storedIngredients, ingredients]);
 
@@ -163,7 +156,8 @@ const DrinkPage: NextPage = () => {
                                 ingredient={ingredient} 
                                 unit={ingredient.Unit} 
                                 amount={ingredient.Amount}
-                                missing={false} />
+                                missing={false} 
+                                prefers={ingredient.Name} />
                         );
                     }
                 }

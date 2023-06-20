@@ -13,5 +13,14 @@
         width: 100%;
         justify-items: center;
         align-items: center;
+        gap: 10px;
+
+        .itemName {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 0;
+        }
     }
 }

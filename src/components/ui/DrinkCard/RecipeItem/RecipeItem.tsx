@@ -1,7 +1,7 @@
 // Component styles
 import styles from './RecipeItem.module.scss';
 // Type interfaces
-import { Item } from '@/types/index';
+import { Item, Ingredient } from '@/types/index';
 // Next components
 import Image from 'next/image';
 // React components
@@ -16,17 +16,20 @@ import getSlug from '@/helpers/getSlug';
 import findItemInStore from '@/helpers/findItemInStore';
 import getItemName from '@/helpers/getItemName';
 
-export default function RecipeItem (props: { ingredient: Item, isSub: boolean }) {
-    const { ingredient, isSub } = props;
+export default function RecipeItem (props: { ingredient: Item, isSub: boolean, preferred: Ingredient }) {
+    const { ingredient, isSub, preferred } = props;
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const itemInStore = useMemo(() => findItemInStore(storedIngredients, ingredient.Name), [ingredient.Name, storedIngredients]);
     const displayName = useMemo(() => getItemName(ingredient), [ingredient]);
     const dispatch = useDispatch();
 
-    const handleClick = useCallback((e: React.MouseEvent<HTMLButtonElement,MouseEvent>) => {
-        dispatch(setCardIngredient(ingredient));
+    const handleClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+        dispatch(setCardIngredient({
+            ingredient: ingredient,
+            preferred: preferred
+        }));
         dispatch(toggleSubCard());
-    }, [dispatch, ingredient]);
+    }, [dispatch, ingredient, preferred]);
 
     return (
         <li className={styles.RecipeItem}>

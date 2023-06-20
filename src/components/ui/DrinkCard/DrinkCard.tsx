@@ -37,6 +37,7 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
                 <RecipeItem 
                     key={index} 
                     ingredient={item} 
+                    preferred={ingredient} 
                     isSub={false} />
             );
         }
@@ -64,6 +65,7 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
                         <RecipeItem 
                             key={index} 
                             ingredient={alias} 
+                            preferred={ingredient} 
                             isSub={true} />
                     );
                 }
@@ -81,6 +83,7 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
                     <RecipeItem 
                         key={index}
                         ingredient={alt} 
+                        preferred={ingredient} 
                         isSub={true} />
                 );
             }
@@ -93,6 +96,7 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
                 <RecipeItem 
                     key={index}
                     ingredient={storedAlias} 
+                    preferred={ingredient} 
                     isSub={true} />
             );
         }
@@ -109,6 +113,7 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
             <RecipeItem 
                 key={index} 
                 ingredient={missingItem} 
+                preferred={ingredient} 
                 isSub={false} />
         );
     }, [storedIngredients, ingredients]);
