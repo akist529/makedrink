@@ -9,7 +9,7 @@ import { RootState } from '@/store/store';
 import { useGetAllIngredientsQuery, useGetAllDrinksQuery } from '@/store/api/api';
 import { toggleSearch } from '@/store/slices/search.slice';
 // React components
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useDeferredValue } from 'react';
 // Type interfaces
 import { Item, Drink } from '@/types/index';
 // Helper functions
@@ -24,6 +24,7 @@ export default function SearchFeed () {
 
     // Redux store state
     const query = useSelector((state: RootState) => state.search.query);
+    const deferredQuery = useDeferredValue(query);
     const navMenuOpen = useSelector((state: RootState) => state.navMenu.navMenuOpen);
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
@@ -60,14 +61,14 @@ export default function SearchFeed () {
 
     useEffect(() => {
         setIngredientResults(() => {
-            if (!query.length) {
+            if (!deferredQuery.length) {
                 return [];
             }
 
             const results: Item[] = [];
 
             for (const ingredient of ingredientData) {
-                if (query.split('').every((letter: string, index: number) => {
+                if (deferredQuery.split('').every((letter: string, index: number) => {
                     const regEx = new RegExp(ingredient.Name[index], "gi");
                     return letter.match(regEx);
                 })) {
@@ -79,14 +80,14 @@ export default function SearchFeed () {
         });
 
         setDrinkResults(() => {
-            if (!query.length) {
+            if (!deferredQuery.length) {
                 return [];
             }
 
             const results: Drink[] = [];
 
             for (const drink of drinkData) {
-                if (query.split('').every((letter: string, index: number) => {
+                if (deferredQuery.split('').every((letter: string, index: number) => {
                     const regEx = new RegExp(drink.Name[index], "gi");
                     return letter.match(regEx);
                 })) {
@@ -96,7 +97,7 @@ export default function SearchFeed () {
 
             return results;
         });
-    }, [query, drinkData, ingredientData]);
+    }, [deferredQuery, drinkData, ingredientData]);
 
     useEffect(() => {
         dispatch(toggleSearch());
