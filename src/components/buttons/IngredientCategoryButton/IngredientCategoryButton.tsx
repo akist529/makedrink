@@ -17,11 +17,8 @@ export default function IngredientCategoryButton(props: {category: string, color
     const ButtonStyles = useMemo(() => [styles.IngredientCategoryButton, styles[color]].join(' '), [color]);
 
     return (
-        <button className={ButtonStyles}>
+        <div className={ButtonStyles}>
             <span>{category}</span>
-            <SelectAllButton 
-                clickEvent={clickEvent} 
-                ingredients={ingredients} />
             <Image 
                 alt={category} 
                 src={`https://img.makedr.ink/i/${getSlug(category)}.webp`} 
@@ -29,6 +26,9 @@ export default function IngredientCategoryButton(props: {category: string, color
                 height="64" 
                 onLoadingComplete={e => updateWidth(e)} 
                 unoptimized />
-        </button>
+            <SelectAllButton 
+                clickEvent={clickEvent} 
+                ingredients={ingredients} />
+        </div>
     );
 }

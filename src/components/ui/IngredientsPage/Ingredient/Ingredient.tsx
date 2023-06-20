@@ -25,6 +25,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
     const displayName = useMemo(() => getItemName(item), [item]);
+    const [img, setImg] = useState(`https://img.makedr.ink/i/${getSlug(item.Name)}.webp`);
 
     const hasChildren = useMemo(() => {
         if (!item.AliasId) {
@@ -136,10 +137,11 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
                 <div className={styles.icon}>
                     <Image 
                         alt={item.Name} 
-                        src={`https://img.makedr.ink/i/${getSlug(item.Name)}.webp`} 
+                        src={img} 
                         width="0" 
                         height="50" 
                         onLoadingComplete={e => updateWidth(e)} 
+                        onError={() => setImg('https://img.makedr.ink/i/cocktail.webp')} 
                         unoptimized />
                 </div>
                 <IngredientCheckbox 

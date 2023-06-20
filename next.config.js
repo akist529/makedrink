@@ -7,7 +7,7 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'img.makedr.ink',
-        port: '',
+        port: '443',
         pathname: '/i/**'
       }
     ]

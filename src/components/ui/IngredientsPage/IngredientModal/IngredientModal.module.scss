@@ -30,6 +30,8 @@
         align-items: center;
         gap: 20px;
         padding: 30px 20px;
+        border-top-left-radius: 25px;
+        border-top-right-radius: 25px;
 
         .header {
             grid-row: 1 / 2;
@@ -59,8 +61,8 @@
             cursor: pointer;
 
             position: absolute;
-            top: 0px;
-            right: 0px;
+            top: 10px;
+            right: 10px;
 
             img {
                 filter: invert(1);

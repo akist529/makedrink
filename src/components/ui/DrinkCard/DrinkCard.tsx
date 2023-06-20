@@ -44,7 +44,6 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
 
         // If parent ingredient, try to find child ingredient
         if (!ingredient.IsAlias) {
-            console.log(ingredient.Name, ingredients.length);
             const item = ingredients.find((item: Item) => item.Name === ingredient.Name);
             
             if (item) {
