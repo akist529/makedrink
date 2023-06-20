@@ -1,15 +1,13 @@
 .Ingredient {
     display: flex;
     flex-direction: column;
-    gap: 5px;
     width: 130px;
-    height: auto;
-    text-align: center;
-    color: white;
 
     .info {
         display: grid;
         grid-template-columns: 8px 1fr 50px;
+        grid-template-rows: repeat(2, auto);
+        justify-items: center;
         align-items: center;
         background: none;
         border: none;
@@ -24,15 +22,26 @@
 
         .icon {
             grid-column: 2 / 3;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
+        }
+
+        span {
+            grid-column: 1 / 4;
+            grid-row: 2 / 3;
+            font-family: 'Oswald';
+            color: white;
+            font-size: 18px;
         }
     }
 
-    span {
-        font-family: 'Oswald';
-        text-align: left;
+    &:hover {
+        .info {
+            .children {
+                filter: invert(25%) sepia(97%) saturate(6249%) hue-rotate(306deg) brightness(104%) contrast(116%);
+            }
+
+            span {
+                color: #ff00bf;
+            }
+        }
     }
 }

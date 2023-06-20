@@ -131,21 +131,21 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
                         alt="Show Varieties" 
                         src={require('/public/images/ui/more_vert.svg')} 
                         width="0" 
-                        height="64" 
+                        height="50" 
                         onLoadingComplete={e => updateWidth(e)} /> }
                 <div className={styles.icon}>
                     <Image 
                         alt={item.Name} 
                         src={require(`/public/images/ui/${getSlug(item.Name)}.webp`)} 
                         width="0" 
-                        height="48" 
+                        height="50" 
                         onLoadingComplete={e => updateWidth(e)} />
                 </div>
                 <IngredientCheckbox 
                     item={item} 
                     isChecked={isChecked} />
+                <span>{displayName}</span>
             </button>
-            <span>{displayName}</span>
         </li>
     );
 }
