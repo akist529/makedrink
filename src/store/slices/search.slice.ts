@@ -22,14 +22,12 @@ export const searchSlice = createSlice({
             state.query = action.payload;
         }
     },
-    extraReducers: {
-        [HYDRATE]: (state, action) => {
-            return ({
-                ...state,
-                ...action.payload.searchOpen,
-                ...action.payload.query
-            });
-        }
+    extraReducers: builder => {
+        builder.addCase(HYDRATE, (state) => {
+                state = ({
+                    ...state
+                });
+        });
     }
 });
 

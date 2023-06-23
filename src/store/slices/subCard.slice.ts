@@ -25,17 +25,14 @@ export const subCardSlice = createSlice({
             }
         }
     },
-    extraReducers: {
-        [HYDRATE]: (state, action) => {
-            return ({
-                ...state,
-                ...state.ingredient,
-                ...state.preferred,
-                ...action.payload.open,
-                ...action.payload.ingredient,
-                ...action.payload.preferred
-            });
-        }
+    extraReducers: builder => {
+        builder.addCase(HYDRATE, (state) => {
+                state = ({
+                    ...state,
+                    ...state.ingredient,
+                    ...state.preferred
+                });
+        });
     }
 });
 

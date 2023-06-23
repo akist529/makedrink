@@ -18,13 +18,12 @@ export const navMenuSlice = createSlice({
             state.navMenuOpen = false;
         }
     },
-    extraReducers: {
-        [HYDRATE]: (state, action) => {
-            return ({
-                ...state,
-                ...action.payload.navMenuOpen
-            });
-        }
+    extraReducers: builder => {
+        builder.addCase(HYDRATE, (state) => {
+                state = ({
+                    ...state
+                });
+        });
     }
 });
 

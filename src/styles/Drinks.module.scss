@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    gap: 10px;
 
     padding: 120px 10px;
     background-color: #020202;
@@ -47,6 +48,7 @@
         position: relative;
         left: 250px;
         padding: 60px 10px;
+        gap: 20px;
     }
 }
 
@@ -55,5 +57,6 @@
         width: 100vw;
         left: 0;
         padding: 180px 10px;
+        gap: 30px;
     }
 }
