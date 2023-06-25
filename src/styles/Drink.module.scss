@@ -70,6 +70,17 @@
                     filter: invert(11%) sepia(85%) saturate(5222%) hue-rotate(359deg) brightness(123%) contrast(124%);
                 }
             }
+
+            .drinkTitle {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+
+                img {
+                    filter: invert(1);
+                }
+            }
         }
 
         section {

@@ -10,7 +10,7 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 // React components
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 // Type interfaces
 import { DrinkInfo, Ingredient, Item } from '@/types/index';
 // Local components
@@ -266,6 +266,24 @@ const DrinkPage: NextPage = () => {
         }
     }, [drinkFavorited]);
 
+    const isMocktail = useMemo(() => {
+        if (drinkInfo.hasOwnProperty('Recipe')) {
+            for (const ingredient of drinkInfo.Recipe) {
+                const item = ingredients.find((item: Item) => item.Name === ingredient.Name);
+    
+                if (!item) return false;
+    
+                if (item.Type === 'liquor' || item.Type === 'liqueur' || item.Type === 'other' || item.Type === 'wine') {
+                    return false;
+                }
+            }
+    
+            return true;
+        }
+
+        return false;
+    }, [drinkInfo, ingredients]);
+
     return (
         <>
         { (ingredients.length > 0) && <div className={styles.DrinkPage}>
@@ -275,7 +293,17 @@ const DrinkPage: NextPage = () => {
             <main>
                 { recipeError && <strong>You are missing ingredients for this recipe!</strong> }
                 <header>
-                    <h1>{drinkInfo.Name}</h1>
+                    <div className={styles.drinkTitle}>
+                        <h1>{drinkInfo.Name}</h1>
+                        { isMocktail && 
+                            <Image 
+                                alt='Mocktail' 
+                                src={require('/public/images/ui/no_drinks.svg')} 
+                                width="0" 
+                                height="36" 
+                                title='Mocktail' 
+                                onLoadingComplete={e => updateWidth(e)} /> }
+                    </div>
                     <div>
                         <button className={drinkFavorited ? styles.favorited : styles.unfavorited} onClick={() => favoriteDrink(drinkInfo)}>
                             <Image 
