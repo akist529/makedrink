@@ -19,10 +19,12 @@ export const ingredientModalSlice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(HYDRATE, (state) => {
+        builder.addCase(HYDRATE, (state, action: PayloadAction<any,any>) => {
                 state = ({
                     ...state,
-                    ...state.ingredient
+                    open: state.open,
+                    ...state.ingredient,
+                    ...action.payload.ingredient
                 });
         });
     }

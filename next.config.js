@@ -6,11 +6,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'img.makedr.ink',
-        port: '443',
-        pathname: '/i/**'
-      }
-    ]
+        hostname: 'img.makedr.ink'
+      },
+    ],
   },
 }
 

@@ -26,9 +26,9 @@ export default function IngredientsSection (props: { section: string, ingredient
 
     const imagePath = (() => {
         if (section === 'Alcohol') {
-            return require('/public/images/ui/drunk.webp');
+            return 'https://img.makedr.ink/i/drunk.webp';
         } else {
-            return require('/public/images/ui/shaker.webp');
+            return 'https://img.makedr.ink/i/shaker.webp';
         }
     })();
 
@@ -73,8 +73,9 @@ export default function IngredientsSection (props: { section: string, ingredient
                 <Image 
                     alt={section} 
                     src={imagePath} 
-                    width="0"
+                    width="0" 
                     height="48" 
+                    unoptimized={true} 
                     onLoadingComplete={e => updateWidth(e)} />
                 <SelectAllButton 
                     clickEvent={allIngredientsStored(ingredients, storedIngredients) ? removeAllIngredients : addAllIngredients} 

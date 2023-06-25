@@ -26,11 +26,14 @@ export const subCardSlice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(HYDRATE, (state) => {
+        builder.addCase(HYDRATE, (state, action: PayloadAction<any,any>) => {
                 state = ({
                     ...state,
+                    open: state.open,
                     ...state.ingredient,
-                    ...state.preferred
+                    ...state.preferred,
+                    ...action.payload.ingredient,
+                    ...action.payload.preferred
                 });
         });
     }

@@ -31,6 +31,7 @@ export default function IngredientModal () {
     const dispatch = useDispatch();
     // React local state
     const [ingredients, setIngredients] = useState([] as Item[]);
+    const [imageSrc, setImageSrc] = useState(`https://img.makedr.ink/i/${getSlug(modalIngredient.Name)}.webp`);
 
     useEffect(() => {
         if (allIngredients.isSuccess) {
@@ -96,9 +97,10 @@ export default function IngredientModal () {
                             ingredients={childIngredients} />
                         <Image 
                             alt={modalIngredient.Name} 
-                            src={`https://img.makedr.ink/i/${getSlug(modalIngredient.Name)}.webp`} 
+                            src={imageSrc} 
                             width="0" 
                             height="48" 
+                            onError={() => setImageSrc('https://img.makedr.ink/i/cocktail.webp')} 
                             onLoadingComplete={e => updateWidth(e)} 
                             unoptimized />
                     </div>

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { setRandomDrink } from '@/store/slices/drinks.slice';
 // React components
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 // Next components
 import Image from 'next/image';
 import Link from 'next/link';
@@ -127,10 +127,32 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
         }
     }, [dispatch, possibleDrinks, randomDrink]);
 
+    const isMocktail = useMemo(() => {
+        for (const ingredient of drink.Recipe) {
+            const item = ingredients.find((item: Item) => item.Name === ingredient.Name);
+
+            if (!item) return false;
+
+            if (item.Type === 'liquor' || item.Type === 'liqueur' || item.Type === 'other' || item.Type === 'wine') {
+                return false;
+            }
+        }
+
+        return true;
+    }, [drink, ingredients]);
+
     return (
         <article className={styles.DrinkCard}>
             <div className={styles.header}>
                 <h2>{drink.Name}</h2>
+                { isMocktail && 
+                    <Image 
+                        alt='Mocktail' 
+                        src={require('/public/images/ui/no_drinks.svg')} 
+                        width="0" 
+                        height="36" 
+                        title='Mocktail' 
+                        onLoadingComplete={e => updateWidth(e)} /> }
                 { isRandom && 
                     <button onClick={handleClick}>
                         <Image 

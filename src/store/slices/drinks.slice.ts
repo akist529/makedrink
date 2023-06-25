@@ -171,13 +171,18 @@ export const drinksSlice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(HYDRATE, (state) => {
+        builder.addCase(HYDRATE, (state, action: PayloadAction<any,any>) => {
                 state = ({
                     ...state,
                     ...state.possible,
                     ...state.favorites,
                     ...state.blocked,
-                    ...state.random
+                    ...state.random,
+                    drinksPerPage: state.drinksPerPage,
+                    ...action.payload.possible,
+                    ...action.payload.favorites,
+                    ...action.payload.blocked,
+                    ...action.payload.random
                 });
         });
     }

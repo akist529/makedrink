@@ -66,7 +66,7 @@ const DrinkPage: NextPage = () => {
     const fetchDrinkInfo = useCallback((displayName: string) => {
         if (allDrinks.data) {
             for (const drink of allDrinks.data.Drinks) {
-                if (drink.Name.toLowerCase() === displayName.toLowerCase()) {
+                if (drink.Name.toLowerCase().replaceAll('ä', 'a') === displayName.toLowerCase()) {
                     getDrinkInfo(drink.Id);
                 }
             }
@@ -75,6 +75,16 @@ const DrinkPage: NextPage = () => {
 
     const getAltIngredient = useCallback((ingredient: Item, index: number, unit: string, amount: number, prefers: string) => {
         const type = ingredient.Type || '';
+
+        if (!storedIngredients[type]) return (
+            <RecipeItem 
+                key={index} 
+                ingredient={ingredient} 
+                unit={unit} 
+                amount={amount}
+                missing={true} 
+                prefers={prefers} />
+        );
 
         for (const key of Object.keys(storedIngredients[type])) {
             for (let i = 0; i < storedIngredients[type][key].length; i++) {

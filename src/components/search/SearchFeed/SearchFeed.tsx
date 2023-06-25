@@ -70,6 +70,10 @@ export default function SearchFeed () {
             for (const ingredient of ingredientData) {
                 if (deferredQuery.split('').every((letter: string, index: number) => {
                     const regEx = new RegExp(ingredient.Name[index], "gi");
+                    if (letter === 'a' && ingredient.Name[index] === 'ä') {
+                        return true;
+                    }
+
                     return letter.match(regEx);
                 })) {
                     results.push(ingredient);
@@ -89,6 +93,11 @@ export default function SearchFeed () {
             for (const drink of drinkData) {
                 if (deferredQuery.split('').every((letter: string, index: number) => {
                     const regEx = new RegExp(drink.Name[index], "gi");
+
+                    if (letter === 'a' && drink.Name[index] === 'ä') {
+                        return true;
+                    }
+
                     return letter.match(regEx);
                 })) {
                     results.push(drink);

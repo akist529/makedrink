@@ -23,9 +23,10 @@ export const searchSlice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(HYDRATE, (state) => {
+        builder.addCase(HYDRATE, (state, action: PayloadAction<any,any>) => {
                 state = ({
-                    ...state
+                    ...state,
+                    searchOpen: state.searchOpen
                 });
         });
     }

@@ -5,7 +5,7 @@ import { Item, Ingredient } from '@/types/index';
 // Next components
 import Image from 'next/image';
 // React components
-import { useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -22,6 +22,7 @@ export default function RecipeItem (props: { ingredient: Item, isSub: boolean, p
     const itemInStore = useMemo(() => findItemInStore(storedIngredients, ingredient.Name), [ingredient.Name, storedIngredients]);
     const displayName = useMemo(() => getItemName(ingredient), [ingredient]);
     const dispatch = useDispatch();
+    const [img, setImg] = useState(`https://img.makedr.ink/i/${getSlug(ingredient.Name)}.webp`);
 
     const handleClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
         dispatch(setCardIngredient({
@@ -30,6 +31,10 @@ export default function RecipeItem (props: { ingredient: Item, isSub: boolean, p
         }));
         dispatch(toggleSubCard());
     }, [dispatch, ingredient, preferred]);
+
+    useEffect(() => {
+        setImg(`https://img.makedr.ink/i/${getSlug(ingredient.Name)}.webp`);
+    }, [ingredient]);
 
     return (
         <li className={styles.RecipeItem}>
@@ -60,9 +65,11 @@ export default function RecipeItem (props: { ingredient: Item, isSub: boolean, p
                 </div> }
             <Image 
                 alt={displayName} 
-                src={require(`/public/images/ui/${getSlug(ingredient.Name)}.webp`)} 
+                src={img} 
                 width="0" 
                 height="24" 
+                unoptimized={true} 
+                onError={() => setImg('https://img.makedr.ink/i/cocktail.webp')} 
                 onLoadingComplete={e => updateWidth(e)} />
         </li>
     );

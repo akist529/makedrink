@@ -10,6 +10,7 @@
 
     .content {
         width: auto;
+        height: auto;
         background: black;
         color: white;
         position: fixed;
@@ -19,6 +20,7 @@
         padding: 20px;
         border: 2px solid white;
         min-width: 250px;
+        overflow: scroll;
     
         display: flex;
         flex-direction: column;
@@ -65,8 +67,10 @@
     @keyframes card-spawn {
         from {
             bottom: -300px;
+            height: 100vh;
         } to {
             bottom: 0px;
+            height: 300px;
         }
     }
 }

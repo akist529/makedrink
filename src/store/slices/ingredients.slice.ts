@@ -242,11 +242,13 @@ export const ingredientsSlice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(HYDRATE, (state) => {
+        builder.addCase(HYDRATE, (state, action: PayloadAction<any,any>) => {
                 state = ({
                     ...state,
                     ...state.stored,
-                    ...state.selected
+                    ...state.selected,
+                    ...action.payload.stored,
+                    ...action.payload.selected
                 });
         });
     }
