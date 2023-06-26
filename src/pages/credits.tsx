@@ -2,10 +2,14 @@
 import styles from '@/styles/Credits.module.scss';
 // Next components
 import type { NextPage } from 'next';
+import Head from 'next/head';
 
 const CreditsPage: NextPage = () => {
     return (
         <main className={['page', styles.CreditsPage].join(' ')}>
+            <Head>
+                <title>Credits - MakeDrink</title>
+            </Head>
             <header>
                 <a href="https://www.flaticon.com/" target="_blank" title="Flaticon">All icons from Flaticon</a>
             </header>

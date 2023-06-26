@@ -4,6 +4,7 @@ import styles from '@/styles/Drinks.module.scss';
 import type { NextPage } from 'next';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 // React components
 import { useState, useEffect, useCallback } from 'react';
 // Redux components
@@ -119,6 +120,9 @@ const AllDrinksPage: NextPage = () => {
         drinkInfoResult.isLoading || 
         allIngredients.isLoading) && 
             <main className={['page', styles.DrinksPage].join(' ')}>
+                <Head>
+                    <title>All Drinks - MakeDrink</title>
+                </Head>
                 <LoadingAnimation />
                 <Footer />
             </main> }
@@ -126,6 +130,9 @@ const AllDrinksPage: NextPage = () => {
         drinkInfoResult.isError || 
         allIngredients.isError && 
             <main className={['page', styles.DrinksPage].join(' ')}>
+                <Head>
+                    <title>All Drinks - MakeDrink</title>
+                </Head>
                 <h1>Error!</h1>
                 <h2>Try again later.</h2>
             </main> }
@@ -133,6 +140,9 @@ const AllDrinksPage: NextPage = () => {
         !(allDrinks.isLoading || drinkInfoResult.isLoading || allIngredients.isLoading) && 
         !drinkInfo.length && 
             <main className={['page', styles.DrinksPage].join(' ')}>
+                <Head>
+                    <title>All Drinks - MakeDrink</title>
+                </Head>
                 <h1>No drinks available!</h1>
                 <h2>There seems to be an error - try again later.</h2>
                 <Footer />
@@ -141,6 +151,9 @@ const AllDrinksPage: NextPage = () => {
         !(allDrinks.isLoading || drinkInfoResult.isLoading || allIngredients.isLoading) && 
         drinkInfo.length) && 
             <main className={['page', styles.DrinksPage].join(' ')}>
+                <Head>
+                    <title>All Drinks - MakeDrink</title>
+                </Head>
                 <PageCountCtrl />
                 <PaginationLinks 
                     activePage={activePage} 

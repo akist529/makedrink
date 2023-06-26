@@ -4,6 +4,7 @@ import styles from '@/styles/Home.module.scss';
 import { useState, useEffect } from 'react';
 // Next components
 import type { NextPage } from 'next';
+import Head from 'next/head';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -33,6 +34,9 @@ const HomePage: NextPage = () => {
 
   return (
     <main className={['page', styles.HomePage].join(' ')}>
+      <Head>
+        <title>MakeDrink</title>
+      </Head>
       <LandingSection 
         drinkType={drinkType}
         setDrinkType={setDrinkType}

@@ -3,6 +3,7 @@ import styles from './IngredientResult.module.scss';
 // Type interfaces
 import { Item } from '@/types/index';
 // Local components
+import Ingredient from '@/components/ui/IngredientsPage/Ingredient/Ingredient';
 import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox';
 // Redux components
 import { useSelector } from 'react-redux';
@@ -15,7 +16,7 @@ import updateWidth from '@/helpers/updateWidth';
 // Next components
 import Image from 'next/image';
 // React components
-import { useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
 export default function SearchResult (props: { ingredient: Item }) {
     const { ingredient } = props;
@@ -35,17 +36,9 @@ export default function SearchResult (props: { ingredient: Item }) {
 
     return (
         <div className={styles.IngredientResult}>
-            <span>{displayName}</span>
-            <Image 
-                alt={displayName} 
-                src={`https://img.makedr.ink/i/${slug}.webp`} 
-                width="0" 
-                height="24" 
-                onLoadingComplete={e => updateWidth(e)} 
-                unoptimized />
-            <IngredientCheckbox 
+            <Ingredient 
                 item={ingredient} 
-                isChecked={inStore} />
+                section={[]} />
         </div>
     );
 }

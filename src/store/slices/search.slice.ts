@@ -20,6 +20,9 @@ export const searchSlice = createSlice({
         },
         updateSearch: (state, action: PayloadAction<string>) => {
             state.query = action.payload;
+        },
+        clearSearch: (state) => {
+            state.query = '';
         }
     },
     extraReducers: builder => {
@@ -32,5 +35,5 @@ export const searchSlice = createSlice({
     }
 });
 
-export const { toggleSearch, openSearch, closeSearch, updateSearch } = searchSlice.actions;
+export const { toggleSearch, openSearch, closeSearch, updateSearch, clearSearch } = searchSlice.actions;
 export default searchSlice.reducer;

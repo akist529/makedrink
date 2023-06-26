@@ -3,6 +3,7 @@ import '@/styles/globals.css';
 // Next components
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 // Redux components
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -20,6 +21,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <div className="app">
+          <Head>
+            <link rel="shortcut icon" href="/images/favicon.ico" />
+          </Head>
           <SubCard />
           <IngredientModal />
           <NavBar />

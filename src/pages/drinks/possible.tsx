@@ -4,6 +4,7 @@ import styles from '@/styles/Drinks.module.scss';
 import type { NextPage } from 'next';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 // React components
 import { useState, useEffect, useCallback } from 'react';
 // Redux components
@@ -94,6 +95,9 @@ const PossibleDrinksPage: NextPage = () => {
         <>
         { (drinksList.length === 0) && 
             <main className={['page', styles.DrinksPage].join(' ')}>
+                <Head>
+                    <title>Possible Drinks - MakeDrink</title>
+                </Head>
                 <h1>No drinks possible!</h1>
                 <h2>Add some ingredients to your store.</h2>
                 <SelectIngredientsButton />
@@ -101,6 +105,9 @@ const PossibleDrinksPage: NextPage = () => {
             </main> }
         { (drinksList.length > 0) && 
             <main className={['page', styles.DrinksPage].join(' ')}>
+                <Head>
+                    <title>Possible Drinks - MakeDrink</title>
+                </Head>
                 <PageCountCtrl />
                 <PaginationLinks 
                     activePage={activePage} 

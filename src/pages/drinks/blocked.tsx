@@ -5,6 +5,7 @@ import type { NextPage } from 'next';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Head from 'next/head';
 // React components
 import { useState, useEffect, useCallback } from 'react';
 // Redux components
@@ -87,6 +88,9 @@ const BlockedDrinksPage: NextPage = () => {
         <>
         { (drinksList.length === 0) && 
             <main className={['page', styles.DrinksPage].join(' ')}>
+                <Head>
+                    <title>Blocked Drinks - MakeDrink</title>
+                </Head>
                 <h1>No drinks blocked!</h1>
                 <h2>Go try some drinks to see what you like.</h2>
                 <Link href='/'>
@@ -98,6 +102,9 @@ const BlockedDrinksPage: NextPage = () => {
             </main> }
         { (drinksList.length > 0) && 
             <main className={styles.DrinksPage}>
+                <Head>
+                    <title>Blocked Drinks - MakeDrink</title>
+                </Head>
                 <PageCountCtrl />
                 <PaginationLinks 
                     activePage={activePage}

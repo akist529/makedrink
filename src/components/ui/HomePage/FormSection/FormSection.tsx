@@ -28,22 +28,29 @@ export default function FormSection (props: { drinkType: string }) {
                     { (drinkType === 'cocktail') && 
                         <>
                             { findIngredientType('liquor') && 
-                                <IngredientForm ingredientType='liquor' /> }
+                                <IngredientForm 
+                                    ingredientType='liquor' /> }
                             { findIngredientType('liqueur') && 
-                                <IngredientForm ingredientType='liqueur' /> }
+                                <IngredientForm 
+                                    ingredientType='liqueur' /> }
                             { findIngredientType('wine') && 
-                                <IngredientForm ingredientType='wine' /> }
+                                <IngredientForm 
+                                    ingredientType='wine' /> }
                             { findIngredientType('other') && 
-                                <IngredientForm ingredientType='other' /> }
+                                <IngredientForm 
+                                    ingredientType='other' /> }
                         </> }
                     { drinkType && 
                         <>
                             { findIngredientType('carbonated') && 
-                                <IngredientForm ingredientType='carbonated' /> }
+                                <IngredientForm 
+                                    ingredientType='carbonated' /> }
                             { findIngredientType('juice') && 
-                                <IngredientForm ingredientType='juice' /> }
+                                <IngredientForm 
+                                    ingredientType='juice' /> }
                             { findIngredientType('mixer') && 
-                                <IngredientForm ingredientType='mixer' /> }
+                                <IngredientForm 
+                                    ingredientType='mixer' /> }
                         </> }
                 </form> }
             { (drinkType && Object.keys(storedIngredients).length > 0) && 

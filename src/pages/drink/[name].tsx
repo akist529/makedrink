@@ -9,6 +9,7 @@ import { addFavoriteDrink, removeFavoriteDrink, addBlockedDrink, removeBlockedDr
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Head from 'next/head';
 // React components
 import { useState, useEffect, useCallback, useMemo } from 'react';
 // Type interfaces
@@ -289,11 +290,24 @@ const DrinkPage: NextPage = () => {
         { (ingredients.length > 0) && 
         <div className={['page', styles.DrinkPage].join(' ')}>
             { !drinkError && !drinkInfo.Name && 
-                <LoadingAnimation /> }
+                <>
+                    <Head>
+                        <title>Loading... - MakeDrink</title>
+                    </Head>
+                    <LoadingAnimation />
+                </> }
             { drinkError && 
-                <strong>The drink you entered does not exist!</strong> }
+                <>
+                    <Head>
+                        <title>Error - MakeDrink</title>
+                    </Head>
+                    <strong>The drink you entered does not exist!</strong>
+                </> }
             { drinkInfo.Name && 
                 <main>
+                    <Head>
+                        <title>{drinkInfo.Name} - MakeDrink</title>
+                    </Head>
                     { recipeError && <strong>You are missing ingredients for this recipe!</strong> }
                     <header>
                         <div className={styles.drinkTitle}>

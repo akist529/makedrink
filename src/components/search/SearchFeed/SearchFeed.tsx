@@ -1,8 +1,8 @@
 // Component styles
 import styles from './SearchFeed.module.scss';
 // Local components
-import IngredientResult from './IngredientResult/IngredientResult';
 import DrinkResult from './DrinkResult/DrinkResult';
+import IngredientList from '@/components/ui/IngredientsPage/IngredientsSection/IngredientList/IngredientList';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -26,6 +26,7 @@ export default function SearchFeed () {
     const query = useSelector((state: RootState) => state.search.query);
     const deferredQuery = useDeferredValue(query);
     const navMenuOpen = useSelector((state: RootState) => state.navMenu.navMenuOpen);
+    const searchOpen = useSelector((state: RootState) => state.search.searchOpen);
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
 
@@ -117,11 +118,7 @@ export default function SearchFeed () {
         { (ingredientResults.length > 0 || drinkResults.length > 0) && 
             <div className={styles.SearchFeed}>
                 { ingredientResults.length > 0 && <h1>Ingredients</h1> }
-                { ingredientResults.map((ingredient: Item, index: number) => {
-                    return (
-                        <IngredientResult key={index} ingredient={ingredient} />
-                    );
-                }) }
+                <IngredientList section={ingredientResults} />
                 { (drinkResults.length > 0) && <h1>Drinks</h1> }
                 { drinkResults.map((drink: Drink, index: number) => {
                     return (

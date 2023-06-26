@@ -17,8 +17,9 @@
     }
 
     div {
-        display: flex;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: 48px auto;
+        justify-items: center;
         align-items: center;
         gap: 15px;
 

@@ -1,7 +1,6 @@
-// Page styles
-import styles from '@/styles/Ingredients.module.scss';
 // Next components
 import type { NextPage } from 'next';
+import Head from 'next/head';
 // React components
 import { useEffect, useCallback } from 'react';
 // Redux components
@@ -84,6 +83,9 @@ const IngredientsPage: NextPage = () => {
         <>
             { allIngredients.data && 
                 <main className='page'>
+                    <Head>
+                        <title>Select Ingredients - MakeDrink</title>
+                    </Head>
                     <IngredientsHeader />
                     <IngredientsSection 
                         section='Alcohol' 

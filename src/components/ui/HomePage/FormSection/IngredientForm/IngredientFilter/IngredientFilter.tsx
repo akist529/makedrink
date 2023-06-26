@@ -28,28 +28,8 @@ export default function IngredientFilter (props: { ingredient: Item, showImage: 
     const changeState = useCallback((e: React.MouseEvent<HTMLInputElement,MouseEvent>) => {
         if (e.currentTarget.checked) {
             dispatch(selectIngredient(ingredient));
-            
-            // if (ingredient.AliasId) {
-            //     const alias = findItemById(storedIngredients, ingredient.AliasId);
-                
-            //     if (alias) {
-            //         dispatch(selectIngredient(alias));
-            //     }
-            // }
         } else {
             dispatch(unselectIngredient(ingredient));
-
-            // if (ingredient.AliasId) {
-            //     const alias = findItemById(storedIngredients, ingredient.AliasId);
-
-            //     if (alias) {
-            //         const alt = findAltInStore(storedIngredients, alias, ingredient.Name);
-
-            //         if (!alt) {
-            //             dispatch(unselectIngredient(alias));
-            //         }
-            //     }
-            // }
         }
     }, [dispatch, ingredient, storedIngredients]);
 
