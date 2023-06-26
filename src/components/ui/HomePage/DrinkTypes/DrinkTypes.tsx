@@ -3,16 +3,18 @@ import styles from './DrinkTypes.module.scss';
 // Next components
 import Image from 'next/image';
 // Redux components
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
+import { clearSelected } from '@/store/slices/ingredients.slice';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 // React components
-import { useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 
 export default function DrinkTypes (props: { drinkType: string, setDrinkType: Function, drinkError: string, setDrinkError: Function }) {
     const { drinkType, setDrinkType, drinkError, setDrinkError } = props;
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
+    const dispatch = useDispatch();
 
     const handleClick = useCallback((type: string) => {
         if (Object.keys(storedIngredients).length > 0) {
@@ -21,6 +23,12 @@ export default function DrinkTypes (props: { drinkType: string, setDrinkType: Fu
             setDrinkError('You don\'t have enough ingredients to make a drink!');
         }
     }, [setDrinkError, setDrinkType, storedIngredients]);
+
+    useEffect(() => {
+        if (drinkType) {
+            dispatch(clearSelected());
+        }
+    }, [drinkType, dispatch]);
 
     return (
         <nav className={styles.DrinkTypes}>

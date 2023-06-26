@@ -286,74 +286,77 @@ const DrinkPage: NextPage = () => {
 
     return (
         <>
-        { (ingredients.length > 0) && <div className={styles.DrinkPage}>
-            { !drinkError && !drinkInfo.Name && <LoadingAnimation /> }
-            { drinkError && <strong>The drink you entered does not exist!</strong> }
+        { (ingredients.length > 0) && 
+        <div className={['page', styles.DrinkPage].join(' ')}>
+            { !drinkError && !drinkInfo.Name && 
+                <LoadingAnimation /> }
+            { drinkError && 
+                <strong>The drink you entered does not exist!</strong> }
             { drinkInfo.Name && 
-            <main>
-                { recipeError && <strong>You are missing ingredients for this recipe!</strong> }
-                <header>
-                    <div className={styles.drinkTitle}>
-                        <h1>{drinkInfo.Name}</h1>
-                        { isMocktail && 
-                            <Image 
-                                alt='Mocktail' 
-                                src={require('/public/images/ui/no_drinks.svg')} 
-                                width="0" 
-                                height="36" 
-                                title='Mocktail' 
-                                onLoadingComplete={e => updateWidth(e)} /> }
-                    </div>
-                    <div>
-                        <button className={drinkFavorited ? styles.favorited : styles.unfavorited} onClick={() => favoriteDrink(drinkInfo)}>
-                            <Image 
-                                alt='Favorite Drink' 
-                                title='Favorite Drink' 
-                                src={favoriteImagePath} 
-                                width="0" 
-                                height="48"
-                                onLoadingComplete={e => updateWidth(e)} />
-                        </button>
-                        <button className={drinkBlocked ? styles.blocked : styles.unblocked} onClick={() => blockDrink(drinkInfo)}>
-                            <Image 
-                                alt='Block Drink' 
-                                title='Block Drink' 
-                                src={require('/public/images/ui/block.svg')} 
-                                width="0" 
-                                height="48" 
-                                onLoadingComplete={e => updateWidth(e)} />
-                        </button>
-                    </div>
-                </header>
-                <section>
-                    <h2>Ingredients</h2>
-                    <ul>
-                        { drinkInfo.Recipe.map((ingredient, index) => {
-                            return getIngredient(ingredient, index);
-                        }) }
-                    </ul>
-                </section>
-                <section>
-                    <article>
-                        { drinkInfo.Directions.map((direction, index) => {
-                            return (
-                                <div key={index}>
-                                    <p>{direction}</p>
-                                    <hr/>
-                                </div>
-                            );
-                        }) }
-                    </article>
-                </section>
-                <figure>
-                    <Image 
-                        alt='Cocktail' 
-                        src={require('/public/images/ui/cocktail-placeholder.jpg')} 
-                        width="0" 
-                        height="256" 
-                        onLoadingComplete={e => updateWidth(e)} />
-                </figure>
-            </main> }
+                <main>
+                    { recipeError && <strong>You are missing ingredients for this recipe!</strong> }
+                    <header>
+                        <div className={styles.drinkTitle}>
+                            <h1>{drinkInfo.Name}</h1>
+                            { isMocktail && 
+                                <Image 
+                                    alt='Mocktail' 
+                                    src={require('/public/images/ui/no_drinks.svg')} 
+                                    width="0" 
+                                    height="36" 
+                                    title='Mocktail' 
+                                    onLoadingComplete={e => updateWidth(e)} /> }
+                        </div>
+                        <div>
+                            <button className={drinkFavorited ? styles.favorited : styles.unfavorited} onClick={() => favoriteDrink(drinkInfo)}>
+                                <Image 
+                                    alt='Favorite Drink' 
+                                    title='Favorite Drink' 
+                                    src={favoriteImagePath} 
+                                    width="0" 
+                                    height="48"
+                                    onLoadingComplete={e => updateWidth(e)} />
+                            </button>
+                            <button className={drinkBlocked ? styles.blocked : styles.unblocked} onClick={() => blockDrink(drinkInfo)}>
+                                <Image 
+                                    alt='Block Drink' 
+                                    title='Block Drink' 
+                                    src={require('/public/images/ui/block.svg')} 
+                                    width="0" 
+                                    height="48" 
+                                    onLoadingComplete={e => updateWidth(e)} />
+                            </button>
+                        </div>
+                    </header>
+                    <section className={styles.ingredients}>
+                        <h2>Ingredients</h2>
+                        <ul>
+                            { drinkInfo.Recipe.map((ingredient, index) => {
+                                return getIngredient(ingredient, index);
+                            }) }
+                        </ul>
+                    </section>
+                    <section className={styles.directions}>
+                        <article>
+                            { drinkInfo.Directions.map((direction, index) => {
+                                return (
+                                    <div key={index}>
+                                        <p>{direction}</p>
+                                        <hr/>
+                                    </div>
+                                );
+                            }) }
+                        </article>
+                    </section>
+                    <figure>
+                        <Image 
+                            alt='Cocktail' 
+                            src={require('/public/images/ui/cocktail-placeholder.jpg')} 
+                            width="0" 
+                            height="256" 
+                            onLoadingComplete={e => updateWidth(e)} />
+                    </figure>
+                </main> }
             <Footer />
         </div> }
         </>

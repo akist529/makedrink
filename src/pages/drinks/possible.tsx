@@ -93,14 +93,14 @@ const PossibleDrinksPage: NextPage = () => {
     return (
         <>
         { (drinksList.length === 0) && 
-            <main className={styles.DrinksPage}>
+            <main className={['page', styles.DrinksPage].join(' ')}>
                 <h1>No drinks possible!</h1>
                 <h2>Add some ingredients to your store.</h2>
                 <SelectIngredientsButton />
                 <Footer />
             </main> }
         { (drinksList.length > 0) && 
-            <main className={styles.DrinksPage}>
+            <main className={['page', styles.DrinksPage].join(' ')}>
                 <PageCountCtrl />
                 <PaginationLinks 
                     activePage={activePage} 

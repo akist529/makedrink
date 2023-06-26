@@ -83,7 +83,7 @@ const IngredientsPage: NextPage = () => {
     return (
         <>
             { allIngredients.data && 
-                <main className={styles.IngredientsPage}>
+                <main className='page'>
                     <IngredientsHeader />
                     <IngredientsSection 
                         section='Alcohol' 
@@ -94,11 +94,11 @@ const IngredientsPage: NextPage = () => {
                     <Footer />
                 </main> }
             { allIngredients.isLoading &&
-                <main className={styles.IngredientsPage}>
+                <main className='page'>
                     <LoadingAnimation />
                 </main> }
             { allIngredients.isError &&
-                <main className={styles.IngredientsPage}>
+                <main className='page'>
                     <ServerError />
                 </main> }
         </>

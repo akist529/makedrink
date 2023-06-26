@@ -1,62 +1,15 @@
 .DrinksPage {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    gap: 10px;
-
-    padding: 120px 10px;
-    background-color: #020202;
-    opacity: 0.8;
-    background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 42px 42px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 42px 42px;
+    /* Textography */
     font-family: 'Oswald';
-    color: white;
-    min-height: 100vh;
-
-    h1, h2 {
-        text-align: center;
-    }
 
     section {
-        display: flex;
-        justify-content: center;
-        align-items: center;
         width: 100%;
 
         ul {
             display: grid;
             grid-template-columns: repeat(auto-fill, 250px);
             justify-content: center;
-            align-items: center;
             gap: 20px;
-            width: 100%;
-
-            li {
-                align-self: stretch;
-            }
         }
-    }
-
-    a {
-        text-decoration: none;
-    }
-}
-
-@media only screen and (min-width: 600px) {
-    .DrinksPage {
-        width: calc(100vw - 250px);
-        position: relative;
-        left: 250px;
-        padding: 60px 10px;
-        gap: 20px;
-    }
-}
-
-@media only screen and (min-width: 992px) {
-    .DrinksPage {
-        width: 100vw;
-        left: 0;
-        padding: 160px 30px 30px;
-        gap: 30px;
     }
 }

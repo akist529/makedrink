@@ -3,7 +3,7 @@
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    width: 90vw;
+    width: 90%;
     max-width: 384px;
 
     /* Visual */
@@ -30,6 +30,7 @@
     form {
         display: flex;
         flex-direction: column;
+        justify-content: center;
         gap: 5px;
         font-family: 'Oswald';
 
@@ -38,7 +39,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
+            padding: 10px;
             gap: 5px;
 
             > button {
@@ -49,6 +50,11 @@
                 border-radius: 5px;
                 cursor: pointer;
                 text-transform: uppercase;
+                align-self: center;
+            }
+
+            > input {
+                width: 100%;
             }
         }
 

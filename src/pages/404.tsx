@@ -9,7 +9,7 @@ import Footer from '@/components/footer/Footer';
 
 const ErrorPage: NextPage = () => {
     return (
-        <div className={styles.ErrorPage}>
+        <div className={['page', styles.ErrorPage].join(' ')}>
             <h1>Maybe you&apos;ve had enough...</h1>
             <hr/>
             <h2>The URL that you tried to access does not exist.</h2>

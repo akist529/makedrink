@@ -23,15 +23,20 @@ export default function LandingSection (props: { drinkType: string, setDrinkType
         const drink = getRandomDrink(possibleDrinks, randomDrink);
         if (!drink) {
             setDrinkError('You don\'t have enough ingredients to make a drink!');
+            const error = document.body.querySelector(`.${styles.error}`) as HTMLElement;
+            error?.scrollIntoView();
         } else {
             dispatch(setRandomDrink(drink));
+            const id = 'drink';
+            const yOffset = -100;
+            const element = document.getElementById(id);
+        
+            if (element) {
+                const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+                window.scrollTo({top: y, behavior: 'smooth'});
+            }
         }
     }, [dispatch, possibleDrinks, randomDrink, setDrinkError]);
-
-    useEffect(() => {
-        const error = document.body.querySelector(`.${styles.error}`) as HTMLElement;
-        error?.scrollIntoView();
-    }, [drinkError]);
 
     return (
         <section id="landing" className={styles.LandingSection}>

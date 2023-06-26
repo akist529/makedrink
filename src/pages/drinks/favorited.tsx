@@ -85,7 +85,7 @@ const FavoriteDrinksPage: NextPage = () => {
     return (
         <>
         { (drinksList.length === 0) && 
-            <main className={styles.DrinksPage}>
+            <main className={['page', styles.DrinksPage].join(' ')}>
                 <h1>No drinks favorited!</h1>
                 <h2>Go try some drinks to see what you like.</h2>
                 <Link href='/'>

@@ -118,21 +118,21 @@ const AllDrinksPage: NextPage = () => {
         { (allDrinks.isLoading || 
         drinkInfoResult.isLoading || 
         allIngredients.isLoading) && 
-            <main className={styles.DrinksPage}>
+            <main className={['page', styles.DrinksPage].join(' ')}>
                 <LoadingAnimation />
                 <Footer />
             </main> }
         { allDrinks.isError || 
         drinkInfoResult.isError || 
         allIngredients.isError && 
-            <main className={styles.DrinksPage}>
+            <main className={['page', styles.DrinksPage].join(' ')}>
                 <h1>Error!</h1>
                 <h2>Try again later.</h2>
             </main> }
         { (allDrinks.isSuccess && drinkInfoResult.isSuccess && allIngredients.isSuccess) && 
         !(allDrinks.isLoading || drinkInfoResult.isLoading || allIngredients.isLoading) && 
         !drinkInfo.length && 
-            <main className={styles.DrinksPage}>
+            <main className={['page', styles.DrinksPage].join(' ')}>
                 <h1>No drinks available!</h1>
                 <h2>There seems to be an error - try again later.</h2>
                 <Footer />
@@ -140,7 +140,7 @@ const AllDrinksPage: NextPage = () => {
         { (drinkInfoResult.isSuccess && 
         !(allDrinks.isLoading || drinkInfoResult.isLoading || allIngredients.isLoading) && 
         drinkInfo.length) && 
-            <main className={styles.DrinksPage}>
+            <main className={['page', styles.DrinksPage].join(' ')}>
                 <PageCountCtrl />
                 <PaginationLinks 
                     activePage={activePage} 

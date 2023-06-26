@@ -1,35 +1,25 @@
 .DrinkPage {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-
-    padding: 120px 10px;
-    background-color: #020202;
-    opacity: 0.8;
-    background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 42px 42px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 42px 42px;
+    /* Textography */
     font-family: 'Oswald';
-    color: white;
-    min-height: 100vh;
-    width: 100%;
 
     main {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-rows: repeat(5, auto);
+        grid-template-columns: 1fr;
+        justify-items: center;
         align-items: center;
         gap: 20px;
-        width: 100%;
+
+        strong {
+            grid-row: 1 / 2;
+            color: rgb(220, 0, 0);
+            font-size: 20px;
+        }
 
         header {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            grid-row: 2 / 3;
 
             button {
-                background: none;
-                border: none;
-                cursor: pointer;
-
                 img {
                     transition: 0.125s;
                 }
@@ -115,6 +105,18 @@
                 }
             }
         }
+
+        .ingredients {
+            grid-row: 3 / 4;
+        }
+
+        .directions {
+            grid-row: 4 / 5;
+        }
+
+        figure {
+            grid-row: 5 / 6;
+        }
     }
 
     h1, h2, h3 {
@@ -136,19 +138,36 @@
     }
 }
 
-@media only screen and (min-width: 600px) {
-    .DrinkPage {
-        width: calc(100vw - 250px);
-        position: relative;
-        left: 250px;
-        padding: 60px 10px;
-    }
-}
-
 @media only screen and (min-width: 992px) {
     .DrinkPage {
-        width: 100vw;
-        left: 0;
-        padding: 180px 10px;
+        main {
+            grid-template-rows: repeat(4, auto);
+            grid-template-columns: 1fr 1fr;
+    
+            strong {
+                grid-row: 1 / 2;
+                grid-column: 1 / -1;
+            }
+    
+            header {
+                grid-row: 2 / 3;
+                grid-column: 1 / -1;
+            }
+
+            .ingredients {
+                grid-row: 3 / 4;
+                grid-column: 1 / 2;
+            }
+            
+            .directions {
+                grid-row: 4 / 5;
+                grid-column: 1 / 2;
+            }
+
+            figure {
+                grid-row: 3 / 5;
+                grid-column: 2 / 3;
+            }
+        }
     }
 }

@@ -86,3 +86,27 @@
         }
     }
 }
+
+@media only screen and (min-width: 600px) {
+    .background {
+        .modal {
+            background-color: #111111;
+            background-image:  linear-gradient(135deg, #141414 25%, transparent 25%), linear-gradient(225deg, #141414 25%, transparent 25%), linear-gradient(45deg, #141414 25%, transparent 25%), linear-gradient(315deg, #141414 25%, #111111 25%);
+            background-position:  26px 0, 26px 0, 0 0, 0 0;
+            background-size: 52px 52px;
+            background-repeat: repeat;
+        }
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .background {
+        .modal {
+            background-color: #111111;
+            background-image:  linear-gradient(135deg, #141414 25%, transparent 25%), linear-gradient(225deg, #141414 25%, transparent 25%), linear-gradient(45deg, #141414 25%, transparent 25%), linear-gradient(315deg, #141414 25%, #111111 25%);
+            background-position:  40px 0, 40px 0, 0 0, 0 0;
+            background-size: 80px 80px;
+            background-repeat: repeat;
+        }
+    }
+}

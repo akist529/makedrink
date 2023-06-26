@@ -123,14 +123,16 @@ export default function AddDrinkCard () {
                         <span>Add Direction</span>
                     </button>
                 </fieldset>
-                <label htmlFor={`${id}-image`}>Image:</label>
-                <input id={`${id}-image`} type="file" name="image" accept=".webp"/><br/>
-                <label htmlFor={`${id}-img-credit`}>Image Credit:</label>
-                <input 
-                    type="text" 
-                    id={`${id}-img-credit`} 
-                    name="img-credit" 
-                    placeholder="Add Image Credit (Optional)"/><br/>
+                <fieldset>
+                    <legend>Image</legend>
+                    <input id={`${id}-image`} type="file" name="image" accept=".webp"/><br/>
+                    <label htmlFor={`${id}-img-credit`}>Image Credit:</label>
+                    <input 
+                        type="text" 
+                        id={`${id}-img-credit`} 
+                        name="img-credit" 
+                        placeholder="Add Image Credit (Optional)"/><br/>
+                </fieldset>
                 <input 
                     type="submit" 
                     value="Submit" 

@@ -31,19 +31,8 @@ const HomePage: NextPage = () => {
     }
   }, [drinkType, dispatch]);
 
-  useEffect(() => {
-    const id = 'drink';
-    const yOffset = -100;
-    const element = document.getElementById(id);
-
-    if (element) {
-      const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
-      window.scrollTo({top: y, behavior: 'smooth'});
-    }
-  }, [randomDrink]);
-
   return (
-    <main className={styles.HomePage}>
+    <main className={['page', styles.HomePage].join(' ')}>
       <LandingSection 
         drinkType={drinkType}
         setDrinkType={setDrinkType}

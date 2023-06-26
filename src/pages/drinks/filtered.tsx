@@ -109,7 +109,7 @@ const FilteredDrinksPage: NextPage = () => {
     return (
         <>
             { (drinksList.length === 0) && 
-                <main className={styles.DrinksPage}>
+                <main className={['page', styles.DrinksPage].join(' ')}>
                     <h1>No drinks available!</h1>
                     <h2>Filter for specific ingredients you want to use.</h2>
                     <Link href='/'>

@@ -5,7 +5,7 @@ import type { NextPage } from 'next';
 
 const CreditsPage: NextPage = () => {
     return (
-        <main className={styles.CreditsPage}>
+        <main className={['page', styles.CreditsPage].join(' ')}>
             <header>
                 <a href="https://www.flaticon.com/" target="_blank" title="Flaticon">All icons from Flaticon</a>
             </header>

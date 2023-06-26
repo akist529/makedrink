@@ -13,11 +13,12 @@ import { RootState } from '@/store/store';
 import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
 // React components
-import { useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 export default function ParentForm (props: { ingredient: Item }) {
     const { ingredient } = props;
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
+    const [imageSrc, setImageSrc] = useState(`https://img.makedr.ink/i/${getSlug(ingredient.Name)}.webp`);
 
     const childIngredients = useCallback((item: Item) => {
         const childIngredients: Item[] = [];
@@ -57,9 +58,10 @@ export default function ParentForm (props: { ingredient: Item }) {
                     <span>{ingredient.Name}</span>
                     <Image 
                         alt={ingredient.Name} 
-                        src={`https://img.makedr.ink/i/${getSlug(ingredient.Name)}.webp`} 
+                        src={imageSrc} 
                         width="0" 
                         height="48" 
+                        onError={() => setImageSrc('https://img.makedr.ink/i/cocktail.webp')} 
                         onLoadingComplete={e => updateWidth(e)} 
                         unoptimized />
                 </legend>
