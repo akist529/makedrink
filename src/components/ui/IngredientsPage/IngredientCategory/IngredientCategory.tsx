@@ -1,5 +1,5 @@
 // Component styles
-import styles from './IngredientCategoryButton.module.scss';
+import styles from './IngredientCategory.module.scss';
 // Next components
 import Image from 'next/image';
 // Helper functions
@@ -8,19 +8,19 @@ import getSlug from '@/helpers/getSlug';
 // React components
 import { useMemo } from 'react';
 // Local components
-import SelectAllButton from '../SelectAllButton/SelectAllButton';
+import SelectAllButton from '../../../buttons/SelectAllButton/SelectAllButton';
 // Type interfaces
 import { Item } from '@/types/index';
 
-export default function IngredientCategoryButton(props: {category: string, color: string, clickEvent: Function, ingredients: Item[]}) {
+export default function IngredientCategory (props: {category: string, color: string, clickEvent: Function, ingredients: Item[]}) {
     const { category, color, clickEvent, ingredients } = props;
 
-    const ButtonStyles = useMemo(() => {
-        return [styles.IngredientCategoryButton, styles[color]].join(' ');
+    const className = useMemo(() => {
+        return [styles.IngredientCategory, styles[color]].join(' ');
     }, [color]);
 
     return (
-        <div className={ButtonStyles}>
+        <div className={className}>
             <span>{category}</span>
             <Image 
                 alt={category} 

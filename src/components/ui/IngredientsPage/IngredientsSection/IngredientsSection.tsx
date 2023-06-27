@@ -8,7 +8,7 @@ import { useState, useCallback } from 'react';
 import updateWidth from '@/helpers/updateWidth';
 import allIngredientsStored from '@/helpers/allIngredientsStored';
 // Local components
-import IngredientCategoryButton from '@/components/buttons/IngredientCategoryButton/IngredientCategoryButton';
+import IngredientCategory from '@/components/ui/IngredientsPage/IngredientCategory/IngredientCategory';
 import IngredientList from './IngredientList/IngredientList';
 import SelectAllButton from '@/components/buttons/SelectAllButton/SelectAllButton';
 // Type interfaces
@@ -94,7 +94,7 @@ export default function IngredientsSection (props: { section: string, ingredient
                 return (
                     <div key={index} className={styles.category}>
                         <div className={styles.categoryHeader}>
-                            <IngredientCategoryButton 
+                            <IngredientCategory 
                                 category={type} 
                                 color="pink" 
                                 clickEvent={allIngredientsStored(filterDataByType(type), storedIngredients) ? removeAllIngredients : addAllIngredients} 
