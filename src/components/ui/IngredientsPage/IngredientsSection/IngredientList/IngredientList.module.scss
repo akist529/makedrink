@@ -1,11 +1,7 @@
 .IngredientList {
-    ul {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        list-style-type: none;
-        gap: 20px;
-        width: 100%;
-        height: 100%;
-    }
+    /* Positioning */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
 }

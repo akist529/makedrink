@@ -1,21 +1,23 @@
 .IngredientsTitle {
+    /* Positioning */
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
 
     div {
+        /* Positioning */
         display: flex;
         justify-content: center;
-        align-items: center;
 
         span {
+            /* Textography */
             color: rgb(255, 215, 222);
             font-family: 'Nunito';
             font-size: 40px;
             text-transform: uppercase;
             text-shadow: 0 0 10px rgb(255, 0, 43), -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white; 
+
+            /* Visual */
             animation-name: letter-flicker;
             animation-iteration-count: infinite;
             
@@ -54,10 +56,13 @@
     }
 
     img {
+        /* Positioning */
         transform: rotate(45deg);
         position: absolute;
         top: 0px;
         left: 16px;
+
+        /* Visual */
         filter: invert(83%) sepia(23%) saturate(402%) hue-rotate(305deg) brightness(103%) contrast(103%) drop-shadow(0 0 10px rgb(255, 0, 43));
         animation-name: img-flicker;
         animation-duration: random(4 + 2) + s;

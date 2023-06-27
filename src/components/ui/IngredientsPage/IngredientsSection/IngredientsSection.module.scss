@@ -1,29 +1,28 @@
 .IngredientsSection {
+    /* Positioning */
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     gap: 20px;
-    width: auto;
 
     header {
+        /* Positioning */
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
         gap: 10px;
-        border: 2px solid white;
-        border-radius: 10px;
         padding: 5px;
-        background: none;
-        cursor: pointer;
         max-width: 500px;
 
+        /* Visual */
+        border: 2px solid white;
+        border-radius: 10px;
+
         h2 {
-            color: white;
+            /* Textography */
             font-family: 'Nunito';
             font-size: 48px;
-            text-align: center;
             text-transform: uppercase;
             text-shadow: 0 0 20px rgb(80, 80, 255);  
         }
@@ -33,10 +32,6 @@
         }
 
         button {
-            background: none;
-            border: none;
-            cursor: pointer;
-
             &:hover {
                 img {
                     filter: invert(19%) sepia(76%) saturate(6692%) hue-rotate(306deg) brightness(104%) contrast(114%);                }
@@ -45,16 +40,14 @@
     }
 
     .category {
+        /* Positioning */
         display: flex;
         flex-direction: column;
         gap: 20px;
-        justify-content: center;
-        align-items: center;
 
         .categoryHeader {
             display: flex;
             justify-content: center;
-            align-items: center;
         }
     }
 }

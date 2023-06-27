@@ -36,18 +36,16 @@ export default function IngredientList (props: { section: Item[] }) {
     }, [filteredSection]);
 
     return (
-        <div className={styles.IngredientList}>
-            <ul>
-                {sortedSection.map((item: Item) => {
-                    return (
-                        <Ingredient
-                            key={item.Id}
-                            item={item}
-                            section={section}
-                        />
-                    );
-                })}
-            </ul>
-        </div>
+        <ul className={styles.IngredientList}>
+            {sortedSection.map((item: Item) => {
+                return (
+                    <Ingredient
+                        key={item.Id}
+                        item={item}
+                        section={section}
+                    />
+                );
+            })}
+        </ul>
     );
 }

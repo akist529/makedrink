@@ -1,4 +1,5 @@
 .LoginCard {
+    /* Positioning */
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -16,12 +17,12 @@
     box-shadow: 10px 10px 10px #000000;
 
     header {
+        /* Positioning */
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+
+        /* Textography */
         font-family: 'Nunito';
-        text-align: center;
         text-transform: uppercase;
 
         strong {
@@ -34,9 +35,12 @@
     }
 
     form {
+        /* Positioning */
         display: flex;
         flex-direction: column;
         gap: 5px;
+
+        /* Textography */
         font-family: 'Oswald';
 
         label {
