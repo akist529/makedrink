@@ -131,9 +131,9 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
                         className={styles.children} 
                         alt="Show Varieties" 
                         src={require('/public/images/ui/more_vert.svg')} 
-                        width="0" 
-                        height="50" 
-                        onLoadingComplete={e => updateWidth(e)} /> }
+                        width={8} 
+                        height={50} 
+                        style={{ width: 8, height: 50 }} /> }
                 <div className={styles.icon}>
                     <Image 
                         alt={item.Name} 

@@ -24,10 +24,6 @@ export default function AddDrinkCard () {
         }
     }, [allIngredients]);
 
-    useEffect(() => {
-        console.log(recipeCount);
-    }, [recipeCount]);
-
     const removeDirection = useCallback((e: React.MouseEvent<HTMLButtonElement>, i: number) => {
         e.preventDefault();
         

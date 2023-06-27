@@ -59,8 +59,8 @@ export default function AddIngredientCard () {
                     </optgroup>
                 </select><br/>
                 <label htmlFor={alias}>Alias:</label>
-                <select id={alias} name="alias">
-                    <option value="0" selected>None</option>
+                <select id={alias} name="alias" defaultValue="0">
+                    <option value="0">None</option>
                     <optgroup label="Liquor">
                         { ingredients.filter((ingredient: Item) => ingredient.Type === 'liquor').map((ingredient: Item, index: number) => {
                             return (

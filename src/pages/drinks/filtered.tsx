@@ -71,8 +71,6 @@ const FilteredDrinksPage: NextPage = () => {
     
                     if (allIngredients) {
                         arr.push(item);
-                    } else {
-                        console.log(item);
                     }
                 }
             }
