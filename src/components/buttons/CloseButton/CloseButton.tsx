@@ -2,22 +2,20 @@
 import styles from './CloseButton.module.scss';
 // Next components
 import Image from 'next/image';
-// Redux components
-import { useDispatch } from 'react-redux';
-import { toggleSearch } from '@/store/slices/search.slice';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
-export default function CloseButton() {
-    const dispatch = useDispatch();
+export default function CloseButton(props: { onClick: React.MouseEventHandler<HTMLButtonElement>, text: string }) {
+    const { onClick, text } = props;
 
     return (
-        <button className={styles.CloseButton} onClick={() => dispatch(toggleSearch())}>
+        <button className={styles.CloseButton} onClick={onClick}>
             <Image 
-                alt='Close' 
+                alt={text} 
                 src={require('/public/images/ui/close.svg')} 
                 width="0" 
                 height="48" 
+                title={text} 
                 onLoadingComplete={e => updateWidth(e)} />
         </button>
     );

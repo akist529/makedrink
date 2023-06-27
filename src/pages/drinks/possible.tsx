@@ -14,7 +14,7 @@ import { useGetAllIngredientsQuery } from '@/store/api/api';
 // Local components
 import DrinkCard from '@/components/ui/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
-import SelectIngredientsButton from '@/components/buttons/SelectIngredientsButton/SelectIngredientsButton';
+import SelectIngredientsLink from '@/components/links/SelectIngredientsLink/SelectIngredientsLink';
 import Footer from '@/components/footer/Footer';
 import PageCountCtrl from '@/components/ui/DrinksPage/PageCountCtrl/PageCountCtrl';
 // Type interfaces
@@ -100,7 +100,7 @@ const PossibleDrinksPage: NextPage = () => {
                 </Head>
                 <h1>No drinks possible!</h1>
                 <h2>Add some ingredients to your store.</h2>
-                <SelectIngredientsButton />
+                <SelectIngredientsLink />
                 <Footer />
             </main> }
         { (drinksList.length > 0) && 

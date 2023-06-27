@@ -10,7 +10,7 @@ import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingred
 import { addIngredient, removeIngredient } from '@/store/slices/ingredients.slice';
 import { RootState } from '@/store/store';
 // Local components
-import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox';
+import IngredientCheckbox from '@/components/ui/IngredientsPage/Ingredient/IngredientCheckbox/IngredientCheckbox';
 // Type interfaces
 import { Item } from '@/types/index';
 // Helper functions

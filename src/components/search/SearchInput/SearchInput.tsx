@@ -4,12 +4,14 @@ import styles from './SearchInput.module.scss';
 import Image from 'next/image';
 // Local components
 import CloseButton from '@/components/buttons/CloseButton/CloseButton';
+import SearchButton from '@/components/buttons/SearchButton/SearchButton';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 // Redux components
 import { updateSearch, clearSearch } from '@/store/slices/search.slice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
+import { toggleSearch } from '@/store/slices/search.slice';
 // React components
 import { useCallback, useEffect } from 'react';
 
@@ -22,27 +24,31 @@ export default function SearchInput() {
         dispatch(updateSearch(query));
     }, [dispatch]);
 
+    const focusInput = useCallback(() => {
+        document.getElementById('search')?.focus();
+    }, []);
+
     useEffect(() => {
         if (!searchOpen) {
             dispatch(clearSearch());
+        } else {
+            document.getElementById('search')?.focus();
         }
     }, [searchOpen, dispatch]);
 
     return (
         <div className={styles.SearchInput}>
-            <button>
-                <Image 
-                    alt='Search' 
-                    src={require('/public/images/ui/search.svg')} 
-                    width="0" 
-                    height="40" 
-                    onLoadingComplete={e => updateWidth(e)} />
-            </button>
+            <SearchButton 
+                onClick={focusInput} 
+                style={{ filter: 'invert(0)' }} />
             <input 
+                id='search' 
                 type='text' 
                 placeholder='Search'
                 onChange={e => updateQuery(e)} />
-            <CloseButton />
+            <CloseButton 
+                onClick={() => dispatch(toggleSearch())} 
+                text='Close Search Bar' />
         </div>
     );
 }

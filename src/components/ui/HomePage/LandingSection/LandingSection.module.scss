@@ -2,6 +2,7 @@
     /* Positioning */
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 10px;
     min-height: calc(100vh - 100px);
 
@@ -21,7 +22,7 @@
         opacity: 0%;
     }
 
-    .landingContent {
+    > nav {
         /* Positioning */
         display: flex;
         flex-direction: column;

@@ -13,6 +13,7 @@ import Ingredient from '@/components/ui/IngredientsPage/Ingredient/Ingredient';
 import LoadingAnimation from '@/components/loading/LoadingAnimation';
 import ServerError from '@/components/error/ServerError';
 import SelectAllButton from '@/components/buttons/SelectAllButton/SelectAllButton';
+import CloseButton from '@/components/buttons/CloseButton/CloseButton';
 // Type interfaces
 import { Item } from '@/types/index';
 // Helper functions
@@ -82,14 +83,9 @@ export default function IngredientModal () {
         { ingredientModalOpen && modalIngredient && (ingredients.length > 0) &&
             <div className={styles.background}>
                 <div className={styles.modal}>
-                    <button onClick={() => dispatch(toggleIngredientModal())}>
-                        <Image 
-                            alt="Close Modal" 
-                            src={require('/public/images/ui/close.svg')} 
-                            width="0" 
-                            height="32" 
-                            onLoadingComplete={e => updateWidth(e)} />
-                    </button>
+                    <CloseButton 
+                        onClick={() => dispatch(toggleIngredientModal())} 
+                        text='Close Ingredient Modal' />
                     <div className={styles.header}>
                         <span>{modalIngredient.Name}</span>
                         <SelectAllButton 

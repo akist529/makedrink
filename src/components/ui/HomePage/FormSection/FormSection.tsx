@@ -2,12 +2,16 @@
 import styles from './FormSection.module.scss';
 // Local components
 import IngredientForm from './IngredientForm/IngredientForm';
-import SeeDrinksButton from '@/components/buttons/SeeDrinksButton/SeeDrinksButton';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 // React components
 import { useCallback } from 'react';
+// Next components
+import Link from 'next/link';
+import Image from 'next/image';
+// Helper functions
+import updateWidth from '@/helpers/updateWidth';
 
 export default function FormSection (props: { drinkType: string }) {
     const { drinkType } = props;
@@ -54,7 +58,16 @@ export default function FormSection (props: { drinkType: string }) {
                         </> }
                 </form> }
             { (drinkType && Object.keys(storedIngredients).length > 0) && 
-                <SeeDrinksButton /> }
+                <Link href='/drinks/filtered' className={styles.seeDrinks}>
+                    <span>See Drinks</span>
+                    <Image 
+                        alt='See Drinks' 
+                        src='https://img.makedr.ink/i/cocktail.webp' 
+                        width="0" 
+                        height="64" 
+                        onLoadingComplete={e => updateWidth(e)} 
+                        unoptimized />
+                </Link> }
         </section>
     );
 }

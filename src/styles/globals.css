@@ -91,6 +91,7 @@ button {
     margin-top: 0;
     padding: 75px 20px;
     position: relative;
+    min-height: 100vh;
 
     /* Visual */
     background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -26px 0/ 52px 52px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -26px 0/ 52px 52px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 52px 52px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 52px 52px;
@@ -104,6 +105,7 @@ button {
     left: 0;
     margin-top: 100px;
     padding: 80px 30px;
+    min-height: calc(100vh - 100px);
 
     /* Visual */
     background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -40px 0/ 80px 80px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -40px 0/ 80px 80px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 80px 80px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 80px 80px;

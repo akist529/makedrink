@@ -5,4 +5,24 @@
     align-items: center;
     gap: 30px;
     min-height: calc(100vh - 100px);
+
+    .seeDrinks {
+        /* Positioning */
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        max-width: 250px;
+        padding: 5px 10px;
+    
+        /* Visual */
+        font-family: 'Nunito';
+        font-size: 32px;
+        text-align: left;
+        color: rgb(255, 160, 231);
+        transition: 0.125s;
+    
+        &:hover {
+            color: rgb(255, 0, 191);
+        }
+    }
 }

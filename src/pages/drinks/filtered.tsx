@@ -15,7 +15,7 @@ import { useGetAllIngredientsQuery } from '@/store/api/api';
 // Local components
 import DrinkCard from '@/components/ui/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
-import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
+import MakeDrinkLink from '@/components/links/MakeDrinkLink/MakeDrinkLink';
 import Footer from '@/components/footer/Footer';
 import PageCountCtrl from '@/components/ui/DrinksPage/PageCountCtrl/PageCountCtrl';
 // Type interfaces
@@ -115,9 +115,7 @@ const FilteredDrinksPage: NextPage = () => {
                     <h1>No drinks available!</h1>
                     <h2>Filter for specific ingredients you want to use.</h2>
                     <Link href='/'>
-                        <nav>
-                            <MakeDrinkButton />
-                        </nav>
+                        <MakeDrinkLink />
                     </Link>
                     <Footer />
                 </main> }

@@ -43,11 +43,15 @@ const HomePage: NextPage = () => {
         drinkError={drinkError}
         setDrinkError={setDrinkError} />
       { (drinkType || Object.keys(randomDrink).length > 0) && 
-          <ScrollButton link='#drink' /> }
+          <ScrollButton 
+            link='#drink' 
+            text='Go to Random Drink' /> }
       { Object.keys(randomDrink).length > 0 && 
         <DrinkSection /> }
       { (drinkType && Object.keys(randomDrink).length > 0) && 
-          <ScrollButton link='#form' /> }
+          <ScrollButton 
+            link='#form' 
+            text='Go to Ingredient Filters' /> }
       { drinkType && 
         <FormSection 
           drinkType={drinkType} /> }

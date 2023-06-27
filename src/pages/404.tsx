@@ -5,7 +5,7 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import Head from 'next/head';
 // Local components
-import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
+import MakeDrinkLink from '@/components/links/MakeDrinkLink/MakeDrinkLink';
 import Footer from '@/components/footer/Footer';
 
 const ErrorPage: NextPage = () => {
@@ -18,9 +18,7 @@ const ErrorPage: NextPage = () => {
             <hr/>
             <h2>The URL that you tried to access does not exist.</h2>
             <Link href='/'>
-                <nav>
-                    <MakeDrinkButton />
-                </nav>
+                <MakeDrinkLink />
             </Link>
             <Footer />
         </div>

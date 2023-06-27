@@ -1,5 +1,5 @@
 // MOBILE //
-.MakeDrinkButton {
+.SelectIngredientsLink {
     /* Positioning */
     display: flex;
     flex-direction: column;
@@ -9,11 +9,9 @@
     /* Textography */
     font-family: 'Oswald';
     font-size: 20px;
-    color: rgb(255, 160, 231);
     letter-spacing: 2px;
     text-align: left;
     text-transform: uppercase;
-    transition: 0.125s;
 
     div {
         display: flex;
@@ -22,18 +20,15 @@
     }
 
     span {
-        /* Positioning */
         padding: 5px 10px;
-
-        /* Visual */
         background: linear-gradient(to bottom right, rgb(25, 25, 25), rgb(45, 19, 46));
         transition: 0.125s;
+        color: rgb(255, 160, 231);
     }
 
     &:hover {
-        color:rgb(255, 0, 191);
-
         span {
+            color:rgb(255, 0, 191);
             animation: 0.125s btn-hover forwards;
         }
     }
@@ -41,7 +36,7 @@
 
 // LAPTOP & DESKTOP //
 @media only screen and (min-width: 992px) {
-    .MakeDrinkButton {
+    .SelectIngredientsLink {
         font-size: 32px;
     }
 }

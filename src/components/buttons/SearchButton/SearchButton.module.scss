@@ -1,3 +1,9 @@
 .SearchButton {
-    filter: invert(1);
+    &:hover {
+        filter: none !important;
+
+        img {
+            filter: invert(16%) sepia(67%) saturate(7116%) hue-rotate(307deg) brightness(106%) contrast(110%);
+        }
+    }
 }

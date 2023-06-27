@@ -2,17 +2,14 @@
 import styles from './SearchButton.module.scss';
 // Next components
 import Image from 'next/image';
-// Redux components
-import { useDispatch } from 'react-redux';
-import { toggleSearch } from '@/store/slices/search.slice';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
-export default function SearchButton () {
-    const dispatch = useDispatch();
+export default function SearchButton (props: { onClick: React.MouseEventHandler<HTMLButtonElement>, style: Object }) {
+    const { onClick, style } = props;
 
     return (
-        <button className={styles.SearchButton} onClick={() => dispatch(toggleSearch())}>
+        <button className={styles.SearchButton} style={style} onClick={onClick}>
             <Image 
                 alt='Search' 
                 src={require('/public/images/ui/search.svg')} 

@@ -15,7 +15,7 @@ import { useGetAllIngredientsQuery } from '@/store/api/api';
 // Local components
 import DrinkCard from '@/components/ui/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
-import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
+import MakeDrinkLink from '@/components/links/MakeDrinkLink/MakeDrinkLink';
 import Footer from '@/components/footer/Footer';
 import PageCountCtrl from '@/components/ui/DrinksPage/PageCountCtrl/PageCountCtrl';
 // Type interfaces
@@ -94,9 +94,7 @@ const BlockedDrinksPage: NextPage = () => {
                 <h1>No drinks blocked!</h1>
                 <h2>Go try some drinks to see what you like.</h2>
                 <Link href='/'>
-                    <nav>
-                        <MakeDrinkButton />
-                    </nav>
+                    <MakeDrinkLink />
                 </Link>
                 <Footer />
             </main> }

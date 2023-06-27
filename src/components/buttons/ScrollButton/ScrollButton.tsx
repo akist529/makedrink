@@ -5,21 +5,18 @@ import Image from 'next/image';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
-export default function ScrollButton (props: { link: string }) {
-    const { link } = props;
+export default function ScrollButton (props: { link: string, text: string }) {
+    const { link, text } = props;
 
     return (
-        <nav className={styles.ScrollButton}>
-            <a href={link}>
-                <button>
-                    <Image 
-                        alt='Scroll' 
-                        src={require('/public/images/ui/arrow_circle_down.svg')} 
-                        width="0" 
-                        height="64" 
-                        onLoadingComplete={e => updateWidth(e)} />
-                </button>
-            </a>
-        </nav>
+        <a className={styles.ScrollButton} href={link}>
+            <Image 
+                alt={text} 
+                src={require('/public/images/ui/arrow_circle_down.svg')} 
+                width="0" 
+                height="64" 
+                title={text} 
+                onLoadingComplete={e => updateWidth(e)} />
+        </a>
     );
 }

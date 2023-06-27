@@ -1,8 +1,8 @@
 // Component styles
 import styles from './LandingSection.module.scss';
 // Local components
-import SelectIngredientsButton from '@/components/buttons/SelectIngredientsButton/SelectIngredientsButton';
-import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
+import SelectIngredientsLink from '@/components/links/SelectIngredientsLink/SelectIngredientsLink';
+import MakeDrinkLink from '@/components/links/MakeDrinkLink/MakeDrinkLink';
 import DrinkTypes from '../DrinkTypes/DrinkTypes';
 // Helper functions
 import getRandomDrink from '@/helpers/getRandomDrink';
@@ -41,13 +41,13 @@ export default function LandingSection (props: { drinkType: string, setDrinkType
     return (
         <section id="landing" className={styles.LandingSection}>
             <h1>What Can I Make?</h1>
-            <div className={styles.landingContent}>
+            <nav>
                 <div className={styles.landingButtons}>
-                    <SelectIngredientsButton />
+                    <SelectIngredientsLink />
                     <span>Then...</span>
-                    <nav onClick={handleClick}>
-                        <MakeDrinkButton />
-                    </nav>
+                    <button onClick={handleClick}>
+                        <MakeDrinkLink />
+                    </button>
                 </div>
                 <span>Or...</span>
                 <DrinkTypes 
@@ -56,7 +56,7 @@ export default function LandingSection (props: { drinkType: string, setDrinkType
                     drinkError={drinkError} 
                     setDrinkError={setDrinkError} />
                 <strong className={drinkError ? styles.error : ''}>{drinkError}</strong>
-            </div>
+            </nav>
         </section>
     );
 }
