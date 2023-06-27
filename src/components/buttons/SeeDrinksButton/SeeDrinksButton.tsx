@@ -10,14 +10,14 @@ export default function SeeDrinksButton () {
     return (
         <Link href='/drinks/filtered'>
             <button className={styles.SeeDrinksButton}>
-            <span>See Drinks</span>
-            <Image 
-                alt='See Drinks' 
-                src='https://img.makedr.ink/i/cocktail.webp' 
-                width="0" 
-                height="64" 
-                onLoadingComplete={e => updateWidth(e)} 
-                unoptimized />
+                <span>See Drinks</span>
+                <Image 
+                    alt='See Drinks' 
+                    src='https://img.makedr.ink/i/cocktail.webp' 
+                    width="0" 
+                    height="64" 
+                    onLoadingComplete={e => updateWidth(e)} 
+                    unoptimized />
             </button>
         </Link>
     );

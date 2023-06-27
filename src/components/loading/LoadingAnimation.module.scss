@@ -1,15 +1,13 @@
 .LoadingAnimation {
+    /* Positioning */
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     gap: 20px;
 
-    h1 {
-        color: white;
-        font-family: 'Oswald';
-        text-transform: uppercase;
-    }
+    /* Textography */
+    font-family: 'Oswald';
+    text-transform: uppercase;
 
     img {
         filter: invert(1);

@@ -1,20 +1,8 @@
 .ScrollButton {
-    a {
-        button {
-            cursor: pointer;
-            background: none;
-            border: none;
-        
-            img {
-                filter: invert(100%) sepia(1%) saturate(7488%) hue-rotate(188deg) brightness(119%) contrast(57%);
-                transition: 0.125s;
-            }
-    
-            &:hover {
-                img {
-                    filter: invert(15%) sepia(100%) saturate(3744%) hue-rotate(307deg) brightness(109%) contrast(118%);
-                }
-            }
-        }
+    filter: invert(100%) sepia(1%) saturate(7488%) hue-rotate(188deg) brightness(119%) contrast(57%);
+    transition: 0.125s;
+
+    &:hover {
+        filter: invert(15%) sepia(100%) saturate(3744%) hue-rotate(307deg) brightness(109%) contrast(118%);
     }
 }

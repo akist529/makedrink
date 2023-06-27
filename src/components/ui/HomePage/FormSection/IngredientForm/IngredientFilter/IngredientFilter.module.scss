@@ -1,22 +1,25 @@
 .IngredientFilter {
+    /* Positioning */
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    font-size: 20px;
-    font-family: 'Oswald';
     padding: 0px;
     width: 100%;
 
+    /* Typography */
+    font-size: 20px;
+    font-family: 'Oswald';
+
     label {
         line-height: 25px;
-        justify-self: left;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
     }
 
     div {
+        /* Positioning */
         display: grid;
         grid-template-columns: 48px auto;
         justify-items: center;

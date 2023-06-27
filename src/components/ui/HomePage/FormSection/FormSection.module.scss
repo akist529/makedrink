@@ -1,8 +1,8 @@
 .FormSection {
+    /* Positioning */
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 30px;
     min-height: calc(100vh - 100px);
-    width: 100%;
 }

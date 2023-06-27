@@ -4,11 +4,11 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 250px;
-    height: 100%;
     padding: 10px;
     gap: 10px;
-    position: relative;
+
+    /* Typography */
+    font-family: 'Oswald';
 
     /* Visual */
     background-color: #111111;
@@ -16,26 +16,18 @@
     background-position:  24px 0, 24px 0, 0 0, 0 0;
     background-size: 48px 48px;
     background-repeat: repeat;
-    border: 2px solid rgb(215,215,215);
+    border: 1px solid rgb(215,215,215);
     border-radius: 20px;
-    font-family: 'Oswald';
-    box-shadow: 10px 10px 10px #000000;
-    
+    box-shadow: 10px 10px 10px #000000;    
     transform: rotate3d(0, 0, 0, 0deg);
 
     .header {
         display: grid;
         grid-template-columns: 1fr auto;
-        justify-items: space-between;
         align-items: center;
-        grid-auto-flow: column;
         width: 100%;
 
         button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            
             img {
                 filter: invert(1);
             }
@@ -53,50 +45,39 @@
     }
 
     .ingredients {
+        /* Positioning */
         display: grid;
-        grid-template-rows: repeat(auto-fill, auto);
-        grid-template-columns: auto;
-        justify-items: space-between;
-        align-items: space-between;
-        row-gap: 5px;
-        list-style-type: none;
+        grid-template-rows: repeat(auto-fill, 1fr);
+        grid-template-columns: 1fr;
+        gap: 5px;
 
         li {
+            /* Positioning */
             display: grid;
             grid-template-columns: 150px auto;
             justify-items: center;
-            align-items: space-between;
 
-            span {
-                justify-self: left;
-                font-size: 16px;
-            }
+            /* Typography */
+            font-size: 16px;
         }
     }
 
     .goBtn {
-        background: none;
-        border: none;
-
         /* Positioning */
         display: flex;
         justify-content: center;
         align-items: center;
 
-        /* Visual */
-        cursor: pointer;
+        /* Typography */
         font-family: 'Nunito';
-        background: none;
-        border: none;
         color: rgb(255, 215, 222);
-        transition: 0.125s;
-        text-shadow: 0 0 5px rgb(255, 0, 43);
         font-size: 24px;
         letter-spacing: 3px;
+        text-shadow: 0 0 5px rgb(255, 0, 43);
+        font-family: 'Oswald';
 
-        span {
-            font-family: 'Oswald';
-        }
+        /* Visual */
+        transition: 0.125s;
 
         img {
             filter: invert(81%) sepia(16%) saturate(359%) hue-rotate(302deg) brightness(104%) contrast(102%) drop-shadow(0 0 5px rgb(255, 0, 43));
@@ -110,10 +91,6 @@
                 filter: invert(9%) sepia(82%) saturate(5950%) hue-rotate(344deg) brightness(134%) contrast(112%);
             }
         }
-    }
-
-    a {
-        text-decoration: none;
     }
 }
 

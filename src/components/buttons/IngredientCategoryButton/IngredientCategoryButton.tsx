@@ -14,7 +14,10 @@ import { Item } from '@/types/index';
 
 export default function IngredientCategoryButton(props: {category: string, color: string, clickEvent: Function, ingredients: Item[]}) {
     const { category, color, clickEvent, ingredients } = props;
-    const ButtonStyles = useMemo(() => [styles.IngredientCategoryButton, styles[color]].join(' '), [color]);
+
+    const ButtonStyles = useMemo(() => {
+        return [styles.IngredientCategoryButton, styles[color]].join(' ');
+    }, [color]);
 
     return (
         <div className={ButtonStyles}>

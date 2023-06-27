@@ -1,13 +1,16 @@
 .DrinkResult {
-    color: white;
+    /* Positioning */
     display: grid;
     grid-template-columns: 1fr 48px 96px;
     justify-items: center;
     align-items: center;
 
+    /* Typography */
+    font-size: 20px;
+    font-family: 'Oswald';
+
     span {
-        font-size: 20px;
-        font-family: 'Oswald';
+        grid-column: 1 / 2;
         justify-self: left;
     }
 

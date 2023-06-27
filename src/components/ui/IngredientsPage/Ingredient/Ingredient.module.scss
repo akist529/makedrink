@@ -1,17 +1,17 @@
 .Ingredient {
+    /* Positioning */
     display: flex;
     flex-direction: column;
     width: 130px;
 
     .info {
+        /* Positioning */
         display: grid;
         grid-template-columns: 8px 1fr 50px;
-        grid-template-rows: repeat(2, auto);
-        justify-items: center;
         align-items: center;
-        background: none;
-        border: none;
-        cursor: pointer;
+
+        /* Typography */
+        color: white;
 
         .children {
             grid-column: 1 / 2;
@@ -22,27 +22,23 @@
 
         .icon {
             grid-column: 2 / 3;
-            color: white;
         }
 
         span {
             grid-column: 1 / 4;
             grid-row: 2 / 3;
             font-family: 'Oswald';
-            color: white;
             font-size: 18px;
         }
     }
 
     &:hover {
-        .info {
-            .children {
-                filter: invert(25%) sepia(97%) saturate(6249%) hue-rotate(306deg) brightness(104%) contrast(116%);
-            }
+        .children {
+            filter: invert(25%) sepia(97%) saturate(6249%) hue-rotate(306deg) brightness(104%) contrast(116%);
+        }
 
-            span {
-                color: #ff00bf;
-            }
+        span {
+            color: #ff00bf;
         }
     }
 }

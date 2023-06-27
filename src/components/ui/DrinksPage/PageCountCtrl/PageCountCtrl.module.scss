@@ -1,18 +1,21 @@
 .PageCountCtrl {
+    /* Positioning */
     display: flex;
     gap: 10px;
 
     button {
-        background: white;
-        border-radius: 50%;
-        border: none;
+        /* Positioning */
         width: 24px;
-        height: 24px;
-        cursor: pointer;
+
+        /* Typography */
         font-weight: 700;
 
+        /* Visual */
+        background: white;
+        border-radius: 50%;
+
         &:hover {
-            border: 1px solid black;
+            border: 2px solid black;
         }
     }
 

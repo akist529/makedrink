@@ -1,3 +1,4 @@
+// MOBILE //
 .MakeDrinkButton {
     /* Positioning */
     display: flex;
@@ -5,11 +6,14 @@
     align-items: center;
     padding: 5px 10px;
 
-    /* Visual */
-    cursor: pointer;
+    /* Textography */
     font-family: 'Oswald';
-    border: none;
-    background: none;
+    font-size: 20px;
+    color: rgb(255, 160, 231);
+    letter-spacing: 2px;
+    text-align: left;
+    text-transform: uppercase;
+    transition: 0.125s;
 
     div {
         display: flex;
@@ -23,28 +27,22 @@
 
         /* Visual */
         background: linear-gradient(to bottom right, rgb(25, 25, 25), rgb(45, 19, 46));
-        font-family: 'Oswald';
-        font-size: 20px;
-        color: rgb(255, 160, 231);
         transition: 0.125s;
-        letter-spacing: 2px;
-        text-align: left;
-        text-transform: uppercase;
     }
 
     &:hover {
+        color:rgb(255, 0, 191);
+
         span {
-            color:rgb(255, 0, 191);
             animation: 0.125s btn-hover forwards;
         }
     }
 }
 
+// LAPTOP & DESKTOP //
 @media only screen and (min-width: 992px) {
     .MakeDrinkButton {
-        span {
-            font-size: 32px;
-        }
+        font-size: 32px;
     }
 }
 

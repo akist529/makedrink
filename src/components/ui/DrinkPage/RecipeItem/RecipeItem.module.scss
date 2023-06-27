@@ -1,24 +1,21 @@
 .RecipeItem {
-    display: flex;
-    width: 100%;
-
     .missing {
         color: rgb(125, 125, 125);
     }
 
     div {
+        /* Positioning */
         display: grid;
         grid-template-columns: 32px 1fr 64px;
-        grid-template-rows: auto;
         width: 100%;
         justify-items: center;
         align-items: center;
         gap: 10px;
 
         .itemName {
+            /* Positioning */
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: flex-start;
             gap: 0;
         }

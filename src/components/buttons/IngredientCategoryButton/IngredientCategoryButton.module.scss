@@ -1,19 +1,20 @@
 .IngredientCategoryButton {
-    background: none;
-    font-family: 'Oswald';
-    border: none;
+    /* Positioning */
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-end;
     gap: 10px;
-    margin: 0 auto;
+    padding: 0 10px;
+
+    /* Textography */
+    font-family: 'Oswald';
     text-transform: uppercase;
     font-weight: 700;
     letter-spacing: 3px;
-    overflow: hidden;
+
+    /* Visual */
     border-radius: 5px;
-    padding: 0 10px;
 
     span {
         line-height: 84px;
