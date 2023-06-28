@@ -17,7 +17,6 @@ import itemIsAlias from '@/helpers/itemIsAlias';
 import getSlug from '@/helpers/getSlug';
 // Next components
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 
 export default function SearchFeed () {
     const router = useRouter();
@@ -116,18 +115,21 @@ export default function SearchFeed () {
     return (
         <>
         { (ingredientResults.length > 0 || drinkResults.length > 0) && 
-            <div className={styles.SearchFeed}>
+            <nav className={styles.SearchFeed}>
                 { ingredientResults.length > 0 && <h1>Ingredients</h1> }
                 <IngredientList section={ingredientResults} />
                 { (drinkResults.length > 0) && <h1>Drinks</h1> }
-                { drinkResults.map((drink: Drink, index: number) => {
-                    return (
-                        <Link key={index} href={`/drink/${getSlug(drink.Name)}`}>
-                            <DrinkResult drink={drink} />
-                        </Link>
-                    );
-                }) }
-            </div> }
+                <ul>
+                    { drinkResults.map((drink: Drink, index: number) => {
+                        return (
+                            <DrinkResult 
+                                key={index} 
+                                drink={drink} 
+                                link={`/drink/${getSlug(drink.Name)}`} />
+                        );
+                    }) }
+                </ul>
+            </nav> }
         </>
     );
 }

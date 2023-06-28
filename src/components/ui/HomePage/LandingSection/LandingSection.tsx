@@ -45,9 +45,8 @@ export default function LandingSection (props: { drinkType: string, setDrinkType
                 <div className={styles.landingButtons}>
                     <SelectIngredientsLink />
                     <span>Then...</span>
-                    <button onClick={handleClick}>
-                        <MakeDrinkLink />
-                    </button>
+                    <MakeDrinkLink 
+                        onClick={handleClick} />
                 </div>
                 <span>Or...</span>
                 <DrinkTypes 

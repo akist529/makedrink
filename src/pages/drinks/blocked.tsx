@@ -29,6 +29,7 @@ const BlockedDrinksPage: NextPage = () => {
     const urlParams = new URLSearchParams(queryString);
 
     const blockedDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.blocked);
+    const subCardOpen = useSelector((state: RootState) => state.subCard.open);
 
     const [drinksList, setDrinksList] = useState([] as DrinkInfo[]);
     const [activePage, setActivePage] = useState(() => {
@@ -99,7 +100,7 @@ const BlockedDrinksPage: NextPage = () => {
                 <Footer />
             </main> }
         { (drinksList.length > 0) && 
-            <main className={styles.DrinksPage}>
+            <main className={styles.DrinksPage} {...subCardOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
                 <Head>
                     <title>Blocked Drinks - MakeDrink</title>
                 </Head>

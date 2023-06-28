@@ -3,7 +3,6 @@
     /* Positioning */
     height: calc(100vh - 100px);
     position: fixed;
-    overflow: scroll;
     z-index: 1;
     top: 100px;
     left: 0;
@@ -15,6 +14,8 @@
     /* Visual */
     background-color: black;
     transition: 0.5s;
+    overflow-x: hidden;
+    overflow-y: scroll;
 
     ul {
         display: flex;

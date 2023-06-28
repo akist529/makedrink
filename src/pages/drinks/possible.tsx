@@ -46,6 +46,7 @@ const PossibleDrinksPage: NextPage = () => {
     // Redux store state
     const possibleDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.possible);
     const blockedDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.blocked);
+    const subCardOpen = useSelector((state: RootState) => state.subCard.open);
 
     const allDrinks: DrinkInfo[] = (() => {
         const arr = [];
@@ -104,7 +105,7 @@ const PossibleDrinksPage: NextPage = () => {
                 <Footer />
             </main> }
         { (drinksList.length > 0) && 
-            <main className={['page', styles.DrinksPage].join(' ')}>
+            <main className={['page', styles.DrinksPage].join(' ')} {...subCardOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
                 <Head>
                     <title>Possible Drinks - MakeDrink</title>
                 </Head>

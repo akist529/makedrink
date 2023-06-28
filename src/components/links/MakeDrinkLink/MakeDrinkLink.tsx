@@ -5,9 +5,10 @@ import Image from 'next/image';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
-export default function MakeDrinkLink () {
+export default function MakeDrinkLink (props: { onClick?: React.MouseEventHandler<HTMLElement> }) {
+    const { onClick } = props;
     return (
-        <div className={styles.MakeDrinkLink} title="Make A Drink">
+        <div className={styles.MakeDrinkLink} title="Make A Drink" onClick={onClick}>
             <Image 
                 alt="Make A Drink" 
                 src={require('/public/images/ui/select-ingredients.webp')} 

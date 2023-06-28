@@ -92,29 +92,33 @@ export default function AddDrinkCard () {
                 <input id={`${id}-recipe-credit`} type="text" name="recipe-credit" placeholder="Add Credit (Optional)"/><br/>
                 <fieldset>
                     <legend>Recipe</legend>
-                    { recipeCount.map((i: number) => {
-                        return (
-                            <IngredientField 
-                            key={i} 
-                            i={i} 
-                            ingredients={ingredients} 
-                            removeIngredient={removeIngredient} />
-                        );
-                    }) }
+                    <ul>
+                        { recipeCount.map((i: number) => {
+                            return (
+                                <IngredientField 
+                                key={i} 
+                                i={i} 
+                                ingredients={ingredients} 
+                                removeIngredient={removeIngredient} />
+                            );
+                        }) }
+                    </ul>
                     <button onClick={addIngredient}>
                         <span>Add Ingredient</span>
                     </button>
                 </fieldset><br/>
                 <fieldset>
                     <legend>Directions</legend>
-                    { directionCount.map((i: number) => {
-                        return (
-                            <DirectionField 
-                                key={i} 
-                                i={i} 
-                                removeDirection={removeDirection} />
-                        );
-                    }) }
+                    <ul>
+                        { directionCount.map((i: number) => {
+                            return (
+                                <DirectionField 
+                                    key={i} 
+                                    i={i} 
+                                    removeDirection={removeDirection} />
+                            );
+                        }) }
+                    </ul>
                     <button onClick={addDirection}>
                         <span>Add Direction</span>
                     </button>

@@ -29,6 +29,7 @@ const FavoriteDrinksPage: NextPage = () => {
     const urlParams = new URLSearchParams(queryString);
 
     const favoriteDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.favorites);
+    const subCardOpen = useSelector((state: RootState) => state.subCard.open);
 
     const [drinksList, setDrinksList] = useState([] as DrinkInfo[]);
     const [activePage, setActivePage] = useState(() => {
@@ -98,7 +99,7 @@ const FavoriteDrinksPage: NextPage = () => {
                 <Footer />
             </main> }
         { (drinksList.length > 0) && 
-            <main className={styles.DrinksPage}>
+            <main className={styles.DrinksPage} {...subCardOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
                 <Head>
                     <title>Favorite Drinks - MakeDrink</title>
                 </Head>

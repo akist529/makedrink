@@ -29,16 +29,15 @@ export default function NavBar() {
         if (window.innerWidth < 600) {
             setDisplayMode('mobile');
             dispatch(closeNavMenu());
-            dispatch(closeSearch());
         } else if (window.innerWidth < 992) {
             setDisplayMode('tablet');
             dispatch(openNavMenu());
-            dispatch(closeSearch());
         } else {
             setDisplayMode('laptop');
             dispatch(closeNavMenu());
-            dispatch(closeSearch());
         }
+
+        dispatch(closeSearch());
     }, [dispatch]);
 
     useEffect(() => {

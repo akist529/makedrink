@@ -43,7 +43,7 @@ export default function IngredientField (props: { i: number, ingredients: Item[]
     }, [i, unit]);
 
     return (
-        <div id={`item-${i}-container`} className={styles.IngredientField}>
+        <li id={`item-${i}-container`} className={styles.IngredientField}>
             <select name={`item-${i}-name`} id={`item-${i}-name`} defaultValue="" onChange={handleChange}>
                 <option value="" disabled>Select an ingredient</option>
                 <optgroup label="Liquor">
@@ -112,6 +112,6 @@ export default function IngredientField (props: { i: number, ingredients: Item[]
                     title="Remove Ingredient"
                     onLoadingComplete={e => updateWidth(e)} />
             </button>
-        </div>
+        </li>
     );
 }

@@ -52,6 +52,7 @@ const FilteredDrinksPage: NextPage = () => {
     const possibleDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.possible);
     const blockedDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.blocked);
     const selectedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.selected);
+    const subCardOpen = useSelector((state: RootState) => state.subCard.open);
 
     const allDrinks = (() => {
         const arr = [];
@@ -120,7 +121,7 @@ const FilteredDrinksPage: NextPage = () => {
                     <Footer />
                 </main> }
             { (drinksList.length > 0) && 
-                <main className={styles.DrinksPage}>
+                <main className={styles.DrinksPage} {...subCardOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
                     <Head>
                         <title>Filtered Drinks - MakeDrink</title>
                     </Head>

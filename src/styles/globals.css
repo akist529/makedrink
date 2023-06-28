@@ -18,6 +18,10 @@ button {
   cursor: pointer;
 }
 
+li {
+  list-style-type: none;
+}
+
 :root {
   --brandy: #DCB68A;
   --gin: #D8E4BC;
@@ -61,6 +65,7 @@ button {
 
   /* Visual */
   background-color: rgb(134, 131, 131);
+  overflow: hidden;
 }
 
 .page {
@@ -81,6 +86,7 @@ button {
   /* Visual */
   background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 42px 42px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 42px 42px;
   opacity: 0.8;
+  overflow: hidden;
 }
 
 @media only screen and (min-width: 600px) {

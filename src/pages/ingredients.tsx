@@ -22,6 +22,7 @@ const IngredientsPage: NextPage = () => {
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
     const [getDrinkInfo, result] = useLazyGetMultipleDrinkInfoQuery();
+    const modalOpen = useSelector((state: RootState) => state.ingredientModal.open);
 
     useEffect(() => {
         if (result && result.data) {
@@ -82,7 +83,7 @@ const IngredientsPage: NextPage = () => {
     return (
         <>
             { allIngredients.data && 
-                <main className='page'>
+                <main className='page' {...modalOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
                     <Head>
                         <title>Select Ingredients - MakeDrink</title>
                     </Head>

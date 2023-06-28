@@ -33,7 +33,8 @@ export default function AddIngredientCard () {
 
     return (
         <>
-        { (ingredients.length > 0) && <div className={styles.AddIngredientCard}>
+        { (ingredients.length > 0) && 
+        <div className={styles.AddIngredientCard}>
             <header>
                 <strong>Add New Ingredient</strong>
             </header>

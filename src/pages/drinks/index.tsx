@@ -38,6 +38,7 @@ const AllDrinksPage: NextPage = () => {
     // Redux store state
     const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
     const drinksPerPage = useSelector((state: RootState) => state.drinks.drinksPerPage);
+    const subCardOpen = useSelector((state: RootState) => state.subCard.open);
 
     // RTK Queries
     const allDrinks = useGetAllDrinksQuery();
@@ -67,9 +68,9 @@ const AllDrinksPage: NextPage = () => {
 
             setDrinksList(filteredData);
         }
-    }, [allDrinks.isLoading]);
+    }, [allDrinks, blockedDrinks]);
 
-    function fetchDrinkInfo () {
+    const fetchDrinkInfo = useCallback(() => {
         if (allDrinks.data) {
             const firstDrink = (activePage * drinksPerPage);
             let lastDrink = firstDrink + drinksPerPage;
@@ -86,14 +87,14 @@ const AllDrinksPage: NextPage = () => {
 
             getDrinkInfo(drinkIds);
         }
-    }
+    }, [activePage, allDrinks, drinksList, drinksPerPage, getDrinkInfo]);
 
     useEffect(() => {
         if (drinksList.length > 0) {
             fetchDrinkInfo();
             setNumOfPages(Math.ceil(drinksList.length / drinksPerPage));
         }
-    }, [drinksList, drinksPerPage]);
+    }, [drinksList, drinksPerPage, fetchDrinkInfo]);
 
     useEffect(() => {
         if (drinkInfoResult.data) {
@@ -150,7 +151,7 @@ const AllDrinksPage: NextPage = () => {
         { (drinkInfoResult.isSuccess && 
         !(allDrinks.isLoading || drinkInfoResult.isLoading || allIngredients.isLoading) && 
         drinkInfo.length) && 
-            <main className={['page', styles.DrinksPage].join(' ')}>
+            <main className={['page', styles.DrinksPage].join(' ')} {...subCardOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
                 <Head>
                     <title>All Drinks - MakeDrink</title>
                 </Head>
