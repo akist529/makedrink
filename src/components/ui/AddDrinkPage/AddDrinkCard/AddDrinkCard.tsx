@@ -85,11 +85,11 @@ export default function AddDrinkCard () {
             <header>
                 <strong>Add New Drink</strong>
             </header>
-            <form action="" method="post">
-                <label htmlFor={`${id}-name`}>Name:</label>
-                <input id={`${id}-name`} type="text" name="name" placeholder="Name"/><br/>
-                <label htmlFor={`${id}-recipe-credit`}>Recipe Credit:</label>
-                <input id={`${id}-recipe-credit`} type="text" name="recipe-credit" placeholder="Add Credit (Optional)"/><br/>
+            <form action="https://api.makedr.ink/drink" method="post">
+                <label htmlFor="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Name"/><br/>
+                <label htmlFor="recipe-credit">Recipe Credit:</label>
+                <input type="text" id="recipe-credit" name="recipe-credit" placeholder="Add Credit (Optional)"/><br/>
                 <fieldset>
                     <legend>Recipe</legend>
                     <ul>
