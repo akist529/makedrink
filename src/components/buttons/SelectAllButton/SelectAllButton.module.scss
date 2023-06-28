@@ -1,0 +1,17 @@
+.SelectAllButton {
+    img {
+        filter: invert(1);
+    }
+
+    &:hover {
+        img {
+            filter: invert(17%) sepia(96%) saturate(3092%) hue-rotate(305deg) brightness(110%) contrast(131%);
+        }
+    }
+}
+
+.active {
+    img {
+        filter: invert(17%) sepia(96%) saturate(3092%) hue-rotate(305deg) brightness(110%) contrast(131%);
+    }
+}

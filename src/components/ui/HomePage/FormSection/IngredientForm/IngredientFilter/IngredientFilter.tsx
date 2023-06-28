@@ -1,7 +1,7 @@
 // Component styles
 import styles from './IngredientFilter.module.scss';
 // React components
-import { useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -23,32 +23,13 @@ export default function IngredientFilter (props: { ingredient: Item, showImage: 
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const selectedIngredients = useSelector((state: RootState) => state.ingredients.selected);
     const displayName = useMemo(() => getItemName(ingredient), [ingredient]);
+    const [imageSrc, setImageSrc] = useState(`https://img.makedr.ink/i/${getSlug(ingredient.Name)}.webp`);
 
     const changeState = useCallback((e: React.MouseEvent<HTMLInputElement,MouseEvent>) => {
         if (e.currentTarget.checked) {
             dispatch(selectIngredient(ingredient));
-            
-            if (ingredient.AliasId) {
-                const alias = findItemById(storedIngredients, ingredient.AliasId);
-                
-                if (alias) {
-                    dispatch(selectIngredient(alias));
-                }
-            }
         } else {
             dispatch(unselectIngredient(ingredient));
-
-            if (ingredient.AliasId) {
-                const alias = findItemById(storedIngredients, ingredient.AliasId);
-
-                if (alias) {
-                    const alt = findAltInStore(storedIngredients, alias, ingredient.Name);
-
-                    if (!alt) {
-                        dispatch(unselectIngredient(alias));
-                    }
-                }
-            }
         }
     }, [dispatch, ingredient, storedIngredients]);
 
@@ -67,12 +48,15 @@ export default function IngredientFilter (props: { ingredient: Item, showImage: 
         <li className={styles.IngredientFilter}>
             <label htmlFor={displayName}>{displayName}</label>
             <div>
-                { showImage && <Image 
+                { showImage && 
+                <Image 
                     alt={displayName} 
-                    src={require(`/public/images/ui/${getSlug(ingredient.Name)}.webp`)} 
+                    src={imageSrc} 
                     width="0" 
                     height="48" 
-                    onLoadingComplete={e => updateWidth(e)} /> }
+                    onError={() => setImageSrc('https://img.makedr.ink/i/cocktail.webp')} 
+                    onLoadingComplete={e => updateWidth(e)} 
+                    unoptimized /> }
                 <input 
                     type="checkbox" 
                     id={displayName} 

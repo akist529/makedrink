@@ -1,18 +1,13 @@
 .SearchInput {
-    background: white;
-    height: 50px;
-    position: relative;
-    padding: 5px;
-
+    /* Positioning */
     display: grid;
     grid-template-columns: 50px 1fr 50px;
-    width: 85%;
+    width: 90%;
+    height: 50px;
+    padding: 5px;
 
-    button {
-        border: none;
-        background: none;
-        cursor: pointer;
-    }
+    /* Visual */
+    background: white;
 
     input {
         background: none;

@@ -4,9 +4,8 @@ import styles from './DrinkCard.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { setRandomDrink } from '@/store/slices/drinks.slice';
-import { useGetAllIngredientsQuery } from '@/store/api/api';
 // React components
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 // Next components
 import Image from 'next/image';
 import Link from 'next/link';
@@ -38,13 +37,13 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
                 <RecipeItem 
                     key={index} 
                     ingredient={item} 
+                    preferred={ingredient} 
                     isSub={false} />
             );
         }
 
         // If parent ingredient, try to find child ingredient
         if (!ingredient.IsAlias) {
-            console.log(ingredient.Name, ingredients.length);
             const item = ingredients.find((item: Item) => item.Name === ingredient.Name);
             
             if (item) {
@@ -65,6 +64,7 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
                         <RecipeItem 
                             key={index} 
                             ingredient={alias} 
+                            preferred={ingredient} 
                             isSub={true} />
                     );
                 }
@@ -72,9 +72,9 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
         }
 
         // Try to find recipe substitute
-        const alias = findAliasInStore(storedIngredients, ingredient);
+        const alias = ingredients.find((item: Item) => item.Name === ingredient.Alias);
 
-        if (alias !== undefined) {
+        if (alias) {
             const alt = findAltInStore(storedIngredients, alias, ingredient.Name);
 
             if (alt !== undefined) {
@@ -82,9 +82,22 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
                     <RecipeItem 
                         key={index}
                         ingredient={alt} 
+                        preferred={ingredient} 
                         isSub={true} />
                 );
             }
+        }
+
+        const storedAlias = findAliasInStore(storedIngredients, ingredient);
+
+        if (storedAlias !== undefined) {
+            return (
+                <RecipeItem 
+                    key={index}
+                    ingredient={storedAlias} 
+                    preferred={ingredient} 
+                    isSub={true} />
+            );
         }
 
         // Show ingredient as missing 
@@ -99,9 +112,10 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
             <RecipeItem 
                 key={index} 
                 ingredient={missingItem} 
+                preferred={ingredient} 
                 isSub={false} />
         );
-    }, [storedIngredients]);
+    }, [storedIngredients, ingredients]);
 
     const handleClick = useCallback(() => {
         const drink = getRandomDrink(possibleDrinks, randomDrink);
@@ -113,10 +127,32 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
         }
     }, [dispatch, possibleDrinks, randomDrink]);
 
+    const isMocktail = useMemo(() => {
+        for (const ingredient of drink.Recipe) {
+            const item = ingredients.find((item: Item) => item.Name === ingredient.Name);
+
+            if (!item) return false;
+
+            if (item.Type === 'liquor' || item.Type === 'liqueur' || item.Type === 'other' || item.Type === 'wine') {
+                return false;
+            }
+        }
+
+        return true;
+    }, [drink, ingredients]);
+
     return (
         <article className={styles.DrinkCard}>
             <div className={styles.header}>
                 <h2>{drink.Name}</h2>
+                { isMocktail && 
+                    <Image 
+                        alt='Mocktail' 
+                        src={require('/public/images/ui/no_drinks.svg')} 
+                        width="0" 
+                        height="36" 
+                        title='Mocktail' 
+                        onLoadingComplete={e => updateWidth(e)} /> }
                 { isRandom && 
                     <button onClick={handleClick}>
                         <Image 

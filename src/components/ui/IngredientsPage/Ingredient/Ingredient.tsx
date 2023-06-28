@@ -6,12 +6,11 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
-import { useGetAllIngredientsQuery } from '@/store/api/api';
 import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingredientModal.slice';
 import { addIngredient, removeIngredient } from '@/store/slices/ingredients.slice';
 import { RootState } from '@/store/store';
 // Local components
-import IngredientCheckbox from '@/components/inputs/IngredientCheckbox/IngredientCheckbox';
+import IngredientCheckbox from '@/components/ui/IngredientsPage/Ingredient/IngredientCheckbox/IngredientCheckbox';
 // Type interfaces
 import { Item } from '@/types/index';
 // Helper functions
@@ -25,8 +24,8 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     // Redux components
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
-    const allIngredients: Item[] = (useGetAllIngredientsQuery().data || []);
     const displayName = useMemo(() => getItemName(item), [item]);
+    const [img, setImg] = useState(`https://img.makedr.ink/i/${getSlug(item.Name)}.webp`);
 
     const hasChildren = useMemo(() => {
         if (!item.AliasId) {
@@ -79,10 +78,6 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
         }
     });
 
-    function addIngredientToStore () {
-        dispatch(addIngredient(item));
-    }
-
     function handleClick () {
         if (hasChildren) {
             dispatch(setModalIngredient(item));
@@ -106,7 +101,7 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
             if (ingredientInStore) {
                 dispatch(removeIngredient(item));
             } else {
-                addIngredientToStore();
+                dispatch(addIngredient(item));
             }
         }
     }
@@ -115,6 +110,12 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
     useEffect(() => {
         if (hasChildren) {
             if (aliasInStore(item) || itemInStore(item)) {
+                setIsChecked(true);
+            } else {
+                setIsChecked(false);
+            }
+        } else {
+            if (itemInStore(item)) {
                 setIsChecked(true);
             } else {
                 setIsChecked(false);
@@ -130,22 +131,24 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
                         className={styles.children} 
                         alt="Show Varieties" 
                         src={require('/public/images/ui/more_vert.svg')} 
-                        width="0" 
-                        height="64" 
-                        onLoadingComplete={e => updateWidth(e)} /> }
+                        width={8} 
+                        height={50} 
+                        style={{ width: 8, height: 50 }} /> }
                 <div className={styles.icon}>
                     <Image 
                         alt={item.Name} 
-                        src={require(`/public/images/ui/${getSlug(item.Name)}.webp`)} 
+                        src={img} 
                         width="0" 
-                        height="48" 
-                        onLoadingComplete={e => updateWidth(e)} />
+                        height="50" 
+                        onLoadingComplete={e => updateWidth(e)} 
+                        onError={() => setImg('https://img.makedr.ink/i/cocktail.webp')} 
+                        unoptimized />
                 </div>
                 <IngredientCheckbox 
                     item={item} 
                     isChecked={isChecked} />
+                <span>{displayName}</span>
             </button>
-            <span>{displayName}</span>
         </li>
     );
 }

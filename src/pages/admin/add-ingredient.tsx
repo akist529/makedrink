@@ -1,14 +1,18 @@
-// Page styles
-import styles from '@/styles/AddIngredient.module.scss';
 // Next components
 import type { NextPage } from 'next';
+import Head from 'next/head';
 // Local components
 import AddIngredientCard from '@/components/ui/AddIngredientPage/AddIngredientCard/AddIngredientCard';
+import Footer from '@/components/footer/Footer';
 
 const AddIngredientPage: NextPage = () => {
     return (
-        <div className={styles.AddIngredientPage}>
+        <div className='page'>
+            <Head>
+                <title>Add New Ingredient - MakeDrink</title>
+            </Head>
             <AddIngredientCard />
+            <Footer />
         </div>
     );
 }

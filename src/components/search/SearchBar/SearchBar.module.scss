@@ -1,5 +1,10 @@
+// MOBILE //
 .SearchBar {
-    background: linear-gradient(to bottom, black, rgba(0,0,0,0));
+    /* Positioning */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
     width: calc(100vw - 250px);
     height: 60px;
     position: fixed;
@@ -7,16 +12,15 @@
     left: 250px;
     padding: 0 10px;
 
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 10px;
+    /* Visual */
+    background: linear-gradient(to bottom, black, rgba(0,0,0,0));
 }
 
+// LAPTOP & DESKTOP //
 @media only screen and (min-width: 992px) {
     .SearchBar {
         width: 100vw;
-        top: 120px;
+        top: 100px;
         left: 0;
         flex-direction: row-reverse;
     }

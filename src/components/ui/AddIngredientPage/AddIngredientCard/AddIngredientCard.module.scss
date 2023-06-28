@@ -1,9 +1,9 @@
 .AddIngredientCard {
+    /* Positioning */
     display: flex;
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    max-width: 280px;
 
     /* Visual */
     background-color: #111111;
@@ -16,25 +16,25 @@
     box-shadow: 10px 10px 10px #000000;
 
     header {
+        /* Positioning */
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+
+        /* Textography */
         font-family: 'Nunito';
-        text-align: center;
         text-transform: uppercase;
         font-size: 24px;
     }
 
     form {
+        /* Positioning */
         display: flex;
         flex-direction: column;
         gap: 5px;
-        font-family: 'Oswald';
 
-        label {
-            font-size: 18px;
-        }
+        /* Typography */
+        font-family: 'Oswald';
+        font-size: 18px;
 
         input {
             height: 24px;
@@ -45,6 +45,7 @@
             font-family: 'Oswald';
             letter-spacing: 2px;
             text-transform: uppercase;
+            font-weight: 700;
         }
     }
 }

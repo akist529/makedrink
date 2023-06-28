@@ -3,7 +3,7 @@ import styles from './SubCard.module.scss';
 // Next components
 import Image from 'next/image';
 // Type interfaces
-import { Item } from '@/types/index';
+import { Item, Ingredient } from '@/types/index';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -19,6 +19,7 @@ export default function SubCard () {
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const subCardOpen = useSelector((state: RootState) => state.subCard.open);
     const subCardIngredient = useSelector((state: RootState) => state.subCard.ingredient);
+    const subCardPreferred = useSelector((state: RootState) => state.subCard.preferred);
     const dispatch = useDispatch();
     
     const altIngredients = useMemo(() => {
@@ -27,7 +28,9 @@ export default function SubCard () {
         for (const type of Object.keys(storedIngredients)) {
             for (const key of Object.keys(storedIngredients[type])) {
                 for (const item of storedIngredients[type][key]) {
-                    if ((item.AliasId === subCardIngredient.AliasId) && (item.Name !== subCardIngredient.Name)) {
+                    if ((item.AliasId) && (item.AliasId === subCardIngredient.AliasId) && (item.Name !== subCardIngredient.Name)) {
+                        altIngredients.push(item);
+                    } else if (item.Id === subCardIngredient.AliasId) {
                         altIngredients.push(item);
                     }
                 }
@@ -42,6 +45,7 @@ export default function SubCard () {
         { subCardOpen && 
             <div className={styles.SubCard}>
                 <div className={styles.content}>
+                    <strong>Prefers {subCardPreferred.Name}.</strong>
                     { altIngredients.length > 0 && <strong>Other Alternatives:</strong> }
                     { altIngredients.length > 0 && <ul className={styles.ingredients}>
                         { altIngredients.map((item: Item, index: number) => {
@@ -49,6 +53,7 @@ export default function SubCard () {
                                 <RecipeItem 
                                     key={index} 
                                     ingredient={item} 
+                                    preferred={{} as Ingredient} 
                                     isSub={false} />
                             );
                         }) }

@@ -1,16 +1,13 @@
 .CreditsPage {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    /* Positioning */
+    padding-left: 30px;
+    padding-right: 30px;
 
-    background-color: #020202;
-    opacity: 0.8;
-    background: linear-gradient(135deg, #0f0f0f55 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(225deg, #0f0f0f 25%, transparent 25%) -21px 0/ 42px 42px, linear-gradient(315deg, #0f0f0f55 25%, transparent 25%) 0px 0/ 42px 42px, linear-gradient(45deg, #0f0f0f 25%, #020202 25%) 0px 0/ 42px 42px;
+    /* Textography */
     font-family: 'Oswald';
-    color: white;
-    width: 100%;
-    min-height: calc(100vh - 100px);
-    margin-top: 100px;
-    padding: 20px;
+    text-align: left;
+
+    a {
+        color: white;
+    }
 }

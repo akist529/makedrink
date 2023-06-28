@@ -4,6 +4,7 @@ import styles from '@/styles/Drinks.module.scss';
 import type { NextPage } from 'next';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 // React components
 import { useState, useEffect, useCallback } from 'react';
 // Redux components
@@ -13,7 +14,7 @@ import { useGetAllIngredientsQuery } from '@/store/api/api';
 // Local components
 import DrinkCard from '@/components/ui/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
-import SelectIngredientsButton from '@/components/buttons/SelectIngredientsButton/SelectIngredientsButton';
+import SelectIngredientsLink from '@/components/links/SelectIngredientsLink/SelectIngredientsLink';
 import Footer from '@/components/footer/Footer';
 import PageCountCtrl from '@/components/ui/DrinksPage/PageCountCtrl/PageCountCtrl';
 // Type interfaces
@@ -45,6 +46,7 @@ const PossibleDrinksPage: NextPage = () => {
     // Redux store state
     const possibleDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.possible);
     const blockedDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.blocked);
+    const subCardOpen = useSelector((state: RootState) => state.subCard.open);
 
     const allDrinks: DrinkInfo[] = (() => {
         const arr = [];
@@ -93,14 +95,20 @@ const PossibleDrinksPage: NextPage = () => {
     return (
         <>
         { (drinksList.length === 0) && 
-            <main className={styles.DrinksPage}>
+            <main className={['page', styles.DrinksPage].join(' ')}>
+                <Head>
+                    <title>Possible Drinks - MakeDrink</title>
+                </Head>
                 <h1>No drinks possible!</h1>
                 <h2>Add some ingredients to your store.</h2>
-                <SelectIngredientsButton />
+                <SelectIngredientsLink />
                 <Footer />
             </main> }
         { (drinksList.length > 0) && 
-            <main className={styles.DrinksPage}>
+            <main className={['page', styles.DrinksPage].join(' ')} {...subCardOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
+                <Head>
+                    <title>Possible Drinks - MakeDrink</title>
+                </Head>
                 <PageCountCtrl />
                 <PaginationLinks 
                     activePage={activePage} 

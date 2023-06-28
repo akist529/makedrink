@@ -1,44 +1,45 @@
 .SubCard {
-    width: 100%;
+    /* Positioning */
+    width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.8);
     position: fixed;
     left: 0;
     top: 0;
-    z-index: 10;
+    z-index: 3;
+
+    /* Visual */
+    background: rgba(0, 0, 0, 0.8);
     animation: 0.15s background-spawn forwards;
 
     .content {
-        width: auto;
-        background: black;
-        color: white;
+        /* Positioning */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         position: fixed;
         top: 50%;
         left: 50%;
         transform: translateX(-50%) translateY(-50%);
         padding: 20px;
-        border: 2px solid white;
         min-width: 250px;
-    
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        overflow: scroll;
 
-        animation: 0.3s card-spawn forwards;
+        /* Textography */
+        color: white;
         font-family: 'Oswald';
+
+        /* Visual */
+        background: black;
+        border: 1px solid white;
+        border-radius: 10px;
+        animation: 0.3s card-spawn forwards;
     
         button {
             position: absolute;
             top: 0;
             right: 0;
-            background: none;
-            border: none;
-            cursor: pointer;
-    
-            img {
-                filter: invert(1);
-            }
+            filter: invert(1);
         }
     
         strong {
@@ -47,10 +48,9 @@
     
         .ingredients {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            max-width: 200px;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 80%;
         }
     }
 
@@ -65,8 +65,10 @@
     @keyframes card-spawn {
         from {
             bottom: -300px;
+            height: 100vh;
         } to {
             bottom: 0px;
+            height: 300px;
         }
     }
 }

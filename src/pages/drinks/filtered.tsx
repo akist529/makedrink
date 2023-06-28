@@ -5,6 +5,7 @@ import type { NextPage } from 'next';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Head from 'next/head';
 // React components
 import { useState, useEffect, useCallback } from 'react';
 // Redux components
@@ -14,7 +15,7 @@ import { useGetAllIngredientsQuery } from '@/store/api/api';
 // Local components
 import DrinkCard from '@/components/ui/DrinkCard/DrinkCard';
 import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/PaginationLinks';
-import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
+import MakeDrinkLink from '@/components/links/MakeDrinkLink/MakeDrinkLink';
 import Footer from '@/components/footer/Footer';
 import PageCountCtrl from '@/components/ui/DrinksPage/PageCountCtrl/PageCountCtrl';
 // Type interfaces
@@ -51,6 +52,7 @@ const FilteredDrinksPage: NextPage = () => {
     const possibleDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.possible);
     const blockedDrinks: DrinkDict = useSelector((state: RootState) => state.drinks.blocked);
     const selectedIngredients: IngredientDict = useSelector((state: RootState) => state.ingredients.selected);
+    const subCardOpen = useSelector((state: RootState) => state.subCard.open);
 
     const allDrinks = (() => {
         const arr = [];
@@ -70,8 +72,6 @@ const FilteredDrinksPage: NextPage = () => {
     
                     if (allIngredients) {
                         arr.push(item);
-                    } else {
-                        console.log(item);
                     }
                 }
             }
@@ -109,18 +109,22 @@ const FilteredDrinksPage: NextPage = () => {
     return (
         <>
             { (drinksList.length === 0) && 
-                <main className={styles.DrinksPage}>
+                <main className={['page', styles.DrinksPage].join(' ')}>
+                    <Head>
+                        <title>Filtered Drinks - MakeDrink</title>
+                    </Head>
                     <h1>No drinks available!</h1>
                     <h2>Filter for specific ingredients you want to use.</h2>
                     <Link href='/'>
-                        <nav>
-                            <MakeDrinkButton />
-                        </nav>
+                        <MakeDrinkLink />
                     </Link>
                     <Footer />
                 </main> }
             { (drinksList.length > 0) && 
-                <main className={styles.DrinksPage}>
+                <main className={styles.DrinksPage} {...subCardOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
+                    <Head>
+                        <title>Filtered Drinks - MakeDrink</title>
+                    </Head>
                     <PageCountCtrl />
                     <PaginationLinks 
                         activePage={activePage} 

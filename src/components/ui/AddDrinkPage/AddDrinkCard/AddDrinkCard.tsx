@@ -3,7 +3,7 @@ import styles from './AddDrinkCard.module.scss';
 // Redux components
 import { useGetAllIngredientsQuery } from '@/store/api/api';
 // React components
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useId } from 'react';
 // Type interfaces
 import { Item } from '@/types/index';
 // Local components
@@ -16,15 +16,13 @@ export default function AddDrinkCard () {
     const allIngredients = useGetAllIngredientsQuery();
     const [ingredients, setIngredients] = useState([] as Item[]);
 
+    const id = useId();
+
     useEffect(() => {
         if (allIngredients.isSuccess) {
             setIngredients(allIngredients.data);
         }
     }, [allIngredients]);
-
-    useEffect(() => {
-        console.log(recipeCount);
-    }, [recipeCount]);
 
     const removeDirection = useCallback((e: React.MouseEvent<HTMLButtonElement>, i: number) => {
         e.preventDefault();
@@ -94,41 +92,47 @@ export default function AddDrinkCard () {
                 <input type="text" id="recipe-credit" name="recipe-credit" placeholder="Add Credit (Optional)"/><br/>
                 <fieldset>
                     <legend>Recipe</legend>
-                    { recipeCount.map((i: number) => {
-                        return (
-                            <IngredientField 
-                            key={i} 
-                            i={i} 
-                            ingredients={ingredients} 
-                            removeIngredient={removeIngredient} />
-                        );
-                    }) }
+                    <ul>
+                        { recipeCount.map((i: number) => {
+                            return (
+                                <IngredientField 
+                                key={i} 
+                                i={i} 
+                                ingredients={ingredients} 
+                                removeIngredient={removeIngredient} />
+                            );
+                        }) }
+                    </ul>
                     <button onClick={addIngredient}>
                         <span>Add Ingredient</span>
                     </button>
                 </fieldset><br/>
                 <fieldset>
                     <legend>Directions</legend>
-                    { directionCount.map((i: number) => {
-                        return (
-                            <DirectionField 
-                                key={i} 
-                                i={i} 
-                                removeDirection={removeDirection} />
-                        );
-                    }) }
+                    <ul>
+                        { directionCount.map((i: number) => {
+                            return (
+                                <DirectionField 
+                                    key={i} 
+                                    i={i} 
+                                    removeDirection={removeDirection} />
+                            );
+                        }) }
+                    </ul>
                     <button onClick={addDirection}>
                         <span>Add Direction</span>
                     </button>
                 </fieldset>
-                <label htmlFor="image">Image:</label>
-                <input type="file" id="image" name="image" accept=".webp"/><br/>
-                <label htmlFor="img-credit">Image Credit:</label>
-                <input 
-                    type="text" 
-                    id="img-credit" 
-                    name="img-credit" 
-                    placeholder="Add Image Credit (Optional)"/><br/>
+                <fieldset>
+                    <legend>Image</legend>
+                    <input id={`${id}-image`} type="file" name="image" accept=".webp"/><br/>
+                    <label htmlFor={`${id}-img-credit`}>Image Credit:</label>
+                    <input 
+                        type="text" 
+                        id={`${id}-img-credit`} 
+                        name="img-credit" 
+                        placeholder="Add Image Credit (Optional)"/><br/>
+                </fieldset>
                 <input 
                     type="submit" 
                     value="Submit" 

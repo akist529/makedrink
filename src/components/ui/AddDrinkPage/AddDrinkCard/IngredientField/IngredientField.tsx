@@ -8,24 +8,34 @@ import updateWidth from '@/helpers/updateWidth';
 // Next components
 import Image from 'next/image';
 // React components
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 
 export default function IngredientField (props: { i: number, ingredients: Item[], removeIngredient: Function }) {
     const { i, ingredients, removeIngredient } = props;
     const [ingredient, setIngredient] = useState(() => {
         return (document.getElementById(`item-${i}-name`) as HTMLSelectElement)?.value;
     });
+    const [ingredientAlias, setIngredientAlias] = useState(0);
+
+    useEffect(() => {
+        for (const item of ingredients) {
+            if (item.Id?.toString() === ingredient) {
+                setIngredientAlias(item.AliasId || 0);
+            }
+        }
+    }, [ingredient, ingredients]);
+
     const unit = useMemo(() => {
-        if (ingredient === "21") {
+        if (ingredient === "21" || ingredientAlias === 21) {
             return "dash";
-        } else if (ingredient === "40") {
+        } else if (ingredient === "40" || ingredientAlias === 40) {
             return "leaves";
-        } else if (ingredient === "46") {
+        } else if (ingredient === "46" || ingredientAlias === 46) {
             return "whole";
         } else {
             return "oz";
         }
-    }, [ingredient]);
+    }, [ingredient, ingredientAlias]);
 
     const handleChange = useCallback((e: React.FormEvent<HTMLSelectElement>) => {
         setIngredient(e.currentTarget.value);
@@ -33,7 +43,7 @@ export default function IngredientField (props: { i: number, ingredients: Item[]
     }, [i, unit]);
 
     return (
-        <div id={`item-${i}-container`} className={styles.IngredientField}>
+        <li id={`item-${i}-container`} className={styles.IngredientField}>
             <select name={`item-${i}-name`} id={`item-${i}-name`} defaultValue="" onChange={handleChange}>
                 <option value="" disabled>Select an ingredient</option>
                 <optgroup label="Liquor">
@@ -102,6 +112,6 @@ export default function IngredientField (props: { i: number, ingredients: Item[]
                     title="Remove Ingredient"
                     onLoadingComplete={e => updateWidth(e)} />
             </button>
-        </div>
+        </li>
     );
 }

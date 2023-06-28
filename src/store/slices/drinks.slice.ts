@@ -76,6 +76,9 @@ export const drinksSlice = createSlice({
                 }
             }
         },
+        clearPossibleDrinks: (state) => {
+            state.possible = ({});
+        },
         addFavoriteDrink: (state, action: PayloadAction<DrinkInfo>) => {
             const letter = action.payload.Name.charAt(0);
 
@@ -167,21 +170,21 @@ export const drinksSlice = createSlice({
             state.drinksPerPage = action.payload;
         }
     },
-    extraReducers: {
-        [HYDRATE]: (state, action) => {
-            return ({
-                ...state,
-                ...state.possible,
-                ...state.favorites,
-                ...state.blocked,
-                ...state.random,
-                ...action.payload.possible,
-                ...action.payload.favorites,
-                ...action.payload.blocked,
-                ...action.payload.random,
-                ...action.payload.drinksPerPage
-            });
-        }
+    extraReducers: builder => {
+        builder.addCase(HYDRATE, (state, action: PayloadAction<any,any>) => {
+                state = ({
+                    ...state,
+                    ...state.possible,
+                    ...state.favorites,
+                    ...state.blocked,
+                    ...state.random,
+                    drinksPerPage: state.drinksPerPage,
+                    ...action.payload.possible,
+                    ...action.payload.favorites,
+                    ...action.payload.blocked,
+                    ...action.payload.random
+                });
+        });
     }
 });
 
@@ -189,6 +192,7 @@ export const {
     addPossibleDrink, 
     addPossibleDrinks, 
     removePossibleDrink, 
+    clearPossibleDrinks, 
     addFavoriteDrink, 
     removeFavoriteDrink, 
     addBlockedDrink, 

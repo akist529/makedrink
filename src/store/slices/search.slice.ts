@@ -20,18 +20,20 @@ export const searchSlice = createSlice({
         },
         updateSearch: (state, action: PayloadAction<string>) => {
             state.query = action.payload;
+        },
+        clearSearch: (state) => {
+            state.query = '';
         }
     },
-    extraReducers: {
-        [HYDRATE]: (state, action) => {
-            return ({
-                ...state,
-                ...action.payload.searchOpen,
-                ...action.payload.query
-            });
-        }
+    extraReducers: builder => {
+        builder.addCase(HYDRATE, (state, action: PayloadAction<any,any>) => {
+                state = ({
+                    ...state,
+                    searchOpen: state.searchOpen
+                });
+        });
     }
 });
 
-export const { toggleSearch, openSearch, closeSearch, updateSearch } = searchSlice.actions;
+export const { toggleSearch, openSearch, closeSearch, updateSearch, clearSearch } = searchSlice.actions;
 export default searchSlice.reducer;

@@ -1,4 +1,5 @@
 .LandingSection {
+    /* Positioning */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,42 +7,41 @@
     min-height: calc(100vh - 100px);
 
     h1 {
-        font-size: 32px;
-        border: 2px solid white;
-        border-radius: 10px;
+        /* Positioning */
         padding: 5px;
+
+        /* Typography */
+        font-size: 32px;
         font-family: 'Nunito';
         text-shadow: 0 0 20px rgb(80, 80, 255);
         text-transform: uppercase;
-        color: white;
+
+        /* Visual */
+        border-radius: 10px;
         animation: 1s title-spawn 0.125s forwards;
-        width: 80%;
-        max-width: 450px;
         opacity: 0%;
     }
 
-    .landingContent {
-        animation: 0.5s content-spawn 1s forwards;
-        opacity: 0%;
-
+    > nav {
+        /* Positioning */
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
         align-items: center;
         gap: 10px;
 
-        nav {
+        /* Visual */
+        animation: 0.5s content-spawn 1s forwards;
+        opacity: 0%;
+
+        .landingButtons {
+            /* Positioning */
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
-    
-            .randomBtn {
-                width: 200px;
-            }
         }
     
         strong {
+            /* Textography */
             font-size: 24px;
             color: rgb(255, 160, 231);
             font-family: 'Oswald';
@@ -49,6 +49,31 @@
     
         .error {
             animation: error-spawn 1s forwards;
+        }
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .LandingSection {
+        gap: 40px;
+
+        h1 {
+            font-size: 64px;
+            border-radius: 20px;
+        }
+
+        .landingContent {
+            gap: 30px;
+
+            span {
+                font-size: 32px;
+            }
+            
+            .landingButtons {
+                flex-direction: row;
+                align-items: flex-end;
+                gap: 20px;
+            }
         }
     }
 }

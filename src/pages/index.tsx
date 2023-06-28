@@ -4,6 +4,7 @@ import styles from '@/styles/Home.module.scss';
 import { useState, useEffect } from 'react';
 // Next components
 import type { NextPage } from 'next';
+import Head from 'next/head';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -31,30 +32,26 @@ const HomePage: NextPage = () => {
     }
   }, [drinkType, dispatch]);
 
-  useEffect(() => {
-    const id = 'drink';
-    const yOffset = -100;
-    const element = document.getElementById(id);
-
-    if (element) {
-      const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
-      window.scrollTo({top: y, behavior: 'smooth'});
-    }
-  }, [randomDrink]);
-
   return (
-    <main className={styles.HomePage}>
+    <main className={['page', styles.HomePage].join(' ')}>
+      <Head>
+        <title>MakeDrink</title>
+      </Head>
       <LandingSection 
         drinkType={drinkType}
         setDrinkType={setDrinkType}
         drinkError={drinkError}
         setDrinkError={setDrinkError} />
       { (drinkType || Object.keys(randomDrink).length > 0) && 
-          <ScrollButton link='#drink' /> }
+          <ScrollButton 
+            link='#drink' 
+            text='Go to Random Drink' /> }
       { Object.keys(randomDrink).length > 0 && 
         <DrinkSection /> }
       { (drinkType && Object.keys(randomDrink).length > 0) && 
-          <ScrollButton link='#form' /> }
+          <ScrollButton 
+            link='#form' 
+            text='Go to Ingredient Filters' /> }
       { drinkType && 
         <FormSection 
           drinkType={drinkType} /> }

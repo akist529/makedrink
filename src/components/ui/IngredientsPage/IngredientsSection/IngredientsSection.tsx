@@ -3,24 +3,32 @@ import styles from './IngredientsSection.module.scss';
 // Next components
 import Image from 'next/image';
 // React components
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+import allIngredientsStored from '@/helpers/allIngredientsStored';
 // Local components
-import IngredientCategoryButton from '@/components/buttons/IngredientCategoryButton/IngredientCategoryButton';
+import IngredientCategory from '@/components/ui/IngredientsPage/IngredientCategory/IngredientCategory';
 import IngredientList from './IngredientList/IngredientList';
+import SelectAllButton from '@/components/buttons/SelectAllButton/SelectAllButton';
 // Type interfaces
 import { Item } from '@/types/index';
+// Redux components
+import { useSelector, useDispatch } from 'react-redux';
+import { addIngredient, removeIngredient } from '@/store/slices/ingredients.slice';
+import { RootState } from '@/store/store';
 
 export default function IngredientsSection (props: { section: string, ingredients: Item[] }) {
     const { section, ingredients } = props;
     const [showList, setShowList] = useState(true);
+    const dispatch = useDispatch();
+    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
     const imagePath = (() => {
         if (section === 'Alcohol') {
-            return require('/public/images/ui/drunk.webp');
+            return 'https://img.makedr.ink/i/drunk.webp';
         } else {
-            return require('/public/images/ui/shaker.webp');
+            return 'https://img.makedr.ink/i/shaker.webp';
         }
     })();
 
@@ -46,31 +54,52 @@ export default function IngredientsSection (props: { section: string, ingredient
         return filteredData;
     }
 
+    const addAllIngredients = useCallback((e: React.MouseEvent<HTMLButtonElement>, ingredients: Item[]) => {
+        for (const ingredient of ingredients) {
+            dispatch(addIngredient(ingredient));
+        }
+    }, [dispatch]);
+
+    const removeAllIngredients = useCallback((e: React.MouseEvent<HTMLButtonElement>, ingredients: Item[]) => {
+        for (const ingredient of ingredients) {
+            dispatch(removeIngredient(ingredient));
+        }
+    }, [dispatch]);
+
     return (
         <section className={styles.IngredientsSection}>
             <header>
+                <h2>{section}</h2>
+                <Image 
+                    alt={section} 
+                    src={imagePath} 
+                    width="0" 
+                    height="48" 
+                    unoptimized={true} 
+                    onLoadingComplete={e => updateWidth(e)} />
+                <SelectAllButton 
+                    clickEvent={allIngredientsStored(ingredients, storedIngredients) ? removeAllIngredients : addAllIngredients} 
+                    ingredients={ingredients} />
                 <button onClick={() => setShowList(prev => !prev)}>
-                    <h2>{section}</h2>
-                    <Image 
-                        alt={section} 
-                        src={imagePath} 
-                        width="0"
-                        height="48" 
-                        onLoadingComplete={e => updateWidth(e)} />
                     <Image 
                         alt={`Hide ${section}`} 
                         src={require(`/public/images/ui/expand_${showList ? 'more' : 'less'}.svg`)} 
                         width="0" 
                         height="64" 
+                        title="Hide Section" 
                         onLoadingComplete={e => updateWidth(e)} />
                 </button>
             </header>
             { showList && types.map((type: string, index: number) => {
                 return (
                     <div key={index} className={styles.category}>
-                        <IngredientCategoryButton 
-                            category={type} 
-                            color="pink" />
+                        <div className={styles.categoryHeader}>
+                            <IngredientCategory 
+                                category={type} 
+                                color="pink" 
+                                clickEvent={allIngredientsStored(filterDataByType(type), storedIngredients) ? removeAllIngredients : addAllIngredients} 
+                                ingredients={filterDataByType(type)} />
+                        </div>
                         <IngredientList 
                             section={filterDataByType(type)} />
                     </div>

@@ -9,7 +9,7 @@ export default function DirectionField (props: { i: number, removeDirection: Fun
     const { i, removeDirection } = props;
 
     return (
-        <div id={`dir-${i}-container`} className={styles.DirectionField}>
+        <li id={`dir-${i}-container`} className={styles.DirectionField}>
             <span>{i + 1}</span>
             <input type="text" id={`dir-${i}`} name={`dir-${i}`} />
             <button onClick={e => removeDirection(e, i)}>
@@ -20,6 +20,6 @@ export default function DirectionField (props: { i: number, removeDirection: Fun
                     height="24" 
                     onLoadingComplete={e => updateWidth(e)} />
             </button>
-        </div>
+        </li>
     );
 }

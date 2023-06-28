@@ -3,16 +3,18 @@ import styles from './DrinkTypes.module.scss';
 // Next components
 import Image from 'next/image';
 // Redux components
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
+import { clearSelected } from '@/store/slices/ingredients.slice';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 // React components
-import { useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 
 export default function DrinkTypes (props: { drinkType: string, setDrinkType: Function, drinkError: string, setDrinkError: Function }) {
     const { drinkType, setDrinkType, drinkError, setDrinkError } = props;
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
+    const dispatch = useDispatch();
 
     const handleClick = useCallback((type: string) => {
         if (Object.keys(storedIngredients).length > 0) {
@@ -22,8 +24,14 @@ export default function DrinkTypes (props: { drinkType: string, setDrinkType: Fu
         }
     }, [setDrinkError, setDrinkType, storedIngredients]);
 
+    useEffect(() => {
+        if (drinkType) {
+            dispatch(clearSelected());
+        }
+    }, [drinkType, dispatch]);
+
     return (
-        <div className={styles.DrinkTypes}>
+        <nav className={styles.DrinkTypes}>
             <button className={drinkType === 'cocktail' ? styles.active : ''} onClick={() => handleClick('cocktail')}>
                 <span>Cocktail</span>
                 <Image 
@@ -42,6 +50,6 @@ export default function DrinkTypes (props: { drinkType: string, setDrinkType: Fu
                     height="24" 
                     onLoadingComplete={e => updateWidth(e)} />
             </button>
-        </div>
+        </nav>
     );
 }

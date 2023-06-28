@@ -1,59 +1,65 @@
 .IngredientsSection {
+    /* Positioning */
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     gap: 20px;
-    width: auto;
 
     header {
-        width: 100%;
+        /* Positioning */
         display: flex;
+        flex-wrap: wrap;
         justify-content: center;
         align-items: center;
+        gap: 10px;
+        padding: 5px;
+        max-width: 500px;
+
+        /* Visual */
+        border: 2px solid white;
+        border-radius: 10px;
+
+        h2 {
+            /* Textography */
+            font-family: 'Nunito';
+            font-size: 48px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgb(80, 80, 255);  
+        }
+
+        img {
+            filter: invert(1);
+        }
 
         button {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            align-items: center;
-            gap: 10px;
-            border: 2px solid white;
-            border-radius: 10px;
-            padding: 10px 10px;
-            background: none;
-            cursor: pointer;
-            width: auto;
-            max-width: 500px;
-            line-height: 40px;
-
-            h2 {
-                color: white;
-                font-family: 'Nunito';
-                font-size: 48px;
-                text-align: center;
-                text-transform: uppercase;
-                text-shadow: 0 0 20px rgb(80, 80, 255);  
-            }
-
-            img {
-                filter: invert(1);
-            }
-
             &:hover {
-                border: 2px solid #ff00bf;
-
-                img:nth-child(3) {
+                img {
                     filter: invert(19%) sepia(76%) saturate(6692%) hue-rotate(306deg) brightness(104%) contrast(114%);                }
             }
         }
     }
 
     .category {
+        /* Positioning */
         display: flex;
         flex-direction: column;
         gap: 20px;
-        justify-content: center;
-        align-items: center;
+
+        .categoryHeader {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .IngredientsSection {
+        header {
+            max-width: 100%;
+
+            h2 {
+                font-size: 64px;
+            }
+        }
     }
 }

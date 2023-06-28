@@ -1,13 +1,7 @@
 .Footer {
-    font-family: 'Nunito';
     display: flex;
     flex-direction: column;
-    justify-content: left;
-    align-items: center;
-
-    > span {
-        color: white;
-    }
+    font-family: 'Nunito';
 
     a {
         color: rgb(255, 0, 191);

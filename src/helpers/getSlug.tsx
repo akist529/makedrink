@@ -1,3 +1,5 @@
 export default function getSlug (filename: string) {
-    return `${filename.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
+    if (!filename) return;
+
+    return `${filename.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-').replaceAll('ä', 'a')}`;
 }

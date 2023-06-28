@@ -6,7 +6,7 @@ import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { openNavMenu, closeNavMenu } from '@/store/slices/navMenu.slice';
-import { closeSearch } from '@/store/slices/search.slice';
+import { toggleSearch, closeSearch } from '@/store/slices/search.slice';
 // Local components
 import BurgerButton from '@/components/buttons/BurgerButton/BurgerButton';
 import SearchButton from '@/components/buttons/SearchButton/SearchButton';
@@ -29,16 +29,15 @@ export default function NavBar() {
         if (window.innerWidth < 600) {
             setDisplayMode('mobile');
             dispatch(closeNavMenu());
-            dispatch(closeSearch());
         } else if (window.innerWidth < 992) {
             setDisplayMode('tablet');
             dispatch(openNavMenu());
-            dispatch(closeSearch());
         } else {
             setDisplayMode('laptop');
             dispatch(closeNavMenu());
-            dispatch(closeSearch());
         }
+
+        dispatch(closeSearch());
     }, [dispatch]);
 
     useEffect(() => {
@@ -77,7 +76,9 @@ export default function NavBar() {
                 </Link> }
             { displayMode === 'laptop' && <DesktopNavMenu /> }
             { displayMode === 'mobile' && !searchOpen && 
-                <SearchButton /> }
+                <SearchButton 
+                    onClick={() => dispatch(toggleSearch())} 
+                    style={{ filter: 'invert(1' }} /> }
             { displayMode === 'mobile' && searchOpen && 
                 <SearchInput /> }
             { displayMode !== 'mobile' && <SearchBar /> }

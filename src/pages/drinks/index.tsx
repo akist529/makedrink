@@ -4,6 +4,7 @@ import styles from '@/styles/Drinks.module.scss';
 import type { NextPage } from 'next';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 // React components
 import { useState, useEffect, useCallback } from 'react';
 // Redux components
@@ -37,6 +38,7 @@ const AllDrinksPage: NextPage = () => {
     // Redux store state
     const blockedDrinks = useSelector((state: RootState) => state.drinks.blocked);
     const drinksPerPage = useSelector((state: RootState) => state.drinks.drinksPerPage);
+    const subCardOpen = useSelector((state: RootState) => state.subCard.open);
 
     // RTK Queries
     const allDrinks = useGetAllDrinksQuery();
@@ -66,9 +68,9 @@ const AllDrinksPage: NextPage = () => {
 
             setDrinksList(filteredData);
         }
-    }, [allDrinks.isLoading]);
+    }, [allDrinks, blockedDrinks]);
 
-    function fetchDrinkInfo () {
+    const fetchDrinkInfo = useCallback(() => {
         if (allDrinks.data) {
             const firstDrink = (activePage * drinksPerPage);
             let lastDrink = firstDrink + drinksPerPage;
@@ -85,14 +87,14 @@ const AllDrinksPage: NextPage = () => {
 
             getDrinkInfo(drinkIds);
         }
-    }
+    }, [activePage, allDrinks, drinksList, drinksPerPage, getDrinkInfo]);
 
     useEffect(() => {
         if (drinksList.length > 0) {
             fetchDrinkInfo();
             setNumOfPages(Math.ceil(drinksList.length / drinksPerPage));
         }
-    }, [drinksList, drinksPerPage]);
+    }, [drinksList, drinksPerPage, fetchDrinkInfo]);
 
     useEffect(() => {
         if (drinkInfoResult.data) {
@@ -116,29 +118,43 @@ const AllDrinksPage: NextPage = () => {
     return (
         <>
         { (allDrinks.isLoading || 
-        drinkInfoResult.isLoading) && 
-            <main className={styles.DrinksPage}>
+        drinkInfoResult.isLoading || 
+        allIngredients.isLoading) && 
+            <main className={['page', styles.DrinksPage].join(' ')}>
+                <Head>
+                    <title>All Drinks - MakeDrink</title>
+                </Head>
                 <LoadingAnimation />
                 <Footer />
             </main> }
-        { (allDrinks.isError || 
-        drinkInfoResult.isError) && 
-            <main className={styles.DrinksPage}>
+        { allDrinks.isError || 
+        drinkInfoResult.isError || 
+        allIngredients.isError && 
+            <main className={['page', styles.DrinksPage].join(' ')}>
+                <Head>
+                    <title>All Drinks - MakeDrink</title>
+                </Head>
                 <h1>Error!</h1>
                 <h2>Try again later.</h2>
             </main> }
-        { (allDrinks.isSuccess && drinkInfoResult.isSuccess) && 
-        !(allDrinks.isLoading || drinkInfoResult.isLoading) && 
+        { (allDrinks.isSuccess && drinkInfoResult.isSuccess && allIngredients.isSuccess) && 
+        !(allDrinks.isLoading || drinkInfoResult.isLoading || allIngredients.isLoading) && 
         !drinkInfo.length && 
-            <main className={styles.DrinksPage}>
+            <main className={['page', styles.DrinksPage].join(' ')}>
+                <Head>
+                    <title>All Drinks - MakeDrink</title>
+                </Head>
                 <h1>No drinks available!</h1>
                 <h2>There seems to be an error - try again later.</h2>
                 <Footer />
             </main> }
         { (drinkInfoResult.isSuccess && 
-        !(allDrinks.isLoading || drinkInfoResult.isLoading) && 
+        !(allDrinks.isLoading || drinkInfoResult.isLoading || allIngredients.isLoading) && 
         drinkInfo.length) && 
-            <main className={styles.DrinksPage}>
+            <main className={['page', styles.DrinksPage].join(' ')} {...subCardOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
+                <Head>
+                    <title>All Drinks - MakeDrink</title>
+                </Head>
                 <PageCountCtrl />
                 <PaginationLinks 
                     activePage={activePage} 

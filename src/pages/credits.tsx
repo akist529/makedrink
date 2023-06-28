@@ -2,88 +2,95 @@
 import styles from '@/styles/Credits.module.scss';
 // Next components
 import type { NextPage } from 'next';
+import Head from 'next/head';
 
 const CreditsPage: NextPage = () => {
     return (
-        <main className={styles.CreditsPage}>
+        <main className={['page', styles.CreditsPage].join(' ')}>
+            <Head>
+                <title>Credits - MakeDrink</title>
+            </Head>
+            <header>
+                <a href="https://www.flaticon.com/" target="_blank" title="Flaticon">All icons from Flaticon</a>
+            </header>
             <ul>
                 <li>
-                    <a>Bartender icon created by Iconduck</a>
+                    <span>Bartender icon created by Iconduck</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons" title="spirit icons">Spirit icons created by Freepik - Flaticon</a>
+                    <span>Spirit icons created by Freepik</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/beer-can" title="beer can icons">Beer can icons created by Flat Icons - Flaticon</a>
+                    <span>Beer can icons created by Flat Icons</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/soda" title="soda icons">Soda icons created by AmethystDesign - Flaticon</a>
+                    <span>Soda icons created by AmethystDesign</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/liqueur" title="liqueur icons">Liqueur icons created by surang - Flaticon</a>
+                    <span>Liqueur icons created by surang</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/liquor" title="liquor icons">Liquor icons created by BZZRINCANTATION - Flaticon</a>
+                    <span>Liquor icons created by BZZRINCANTATION</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/liquor" title="liquor icons">Liquor icons created by Triangle Squad - Flaticon</a>
+                    <span>Liquor icons created by Triangle Squad</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/liquor" title="liquor icons">Liquor icons created by Pause08 - Flaticon</a>
+                    <span>Liquor icons created by Pause08</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/rice-wine" title="rice wine icons">Rice wine icons created by imaginationlol - Flaticon</a>
+                    <span>Rice wine icons created by imaginationlol</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/cranberry" title="cranberry icons">Cranberry icons created by shmai - Flaticon</a>
+                    <span>Cranberry icons created by shmai</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/grapefruit" title="grapefruit icons">Grapefruit icons created by amonrat rungreangfangsai - Flaticon</a>
+                    <span>Grapefruit icons created by amonrat rungreangfangsai</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/jug" title="jug icons">Jug icons created by DinosoftLabs - Flaticon</a>
+                    <span>Jug icons created by DinosoftLabs</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/food-and-restaurant" title="food and restaurant icons">Food and restaurant icons created by rizky maulidhani - Flaticon</a>
+                    <span>Food and restaurant icons created by rizky maulidhani</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/sauce" title="sauce icons">Sauce icons created by Talha Dogar - Flaticon</a>
+                    <span>Sauce icons created by Talha Dogar</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/almond" title="almond icons">Almond icons created by shmai - Flaticon</a>
+                    <span>Almond icons created by shmai</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/whiskey" title="whiskey icons">Whiskey icons created by Smashicons - Flaticon</a>
+                    <span>Whiskey icons created by Smashicons</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/alcohol" title="alcohol icons">Alcohol icons created by Flat Icons Design - Flaticon</a>
+                    <span>Alcohol icons created by Flat Icons Design</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/alcohol" title="alcohol icons">Alcohol icons created by photo3idea_studio - Flaticon</a>
+                    <span>Alcohol icons created by photo3idea_studio</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/drink" title="drink icons">Drink icons created by monkik - Flaticon</a>
+                    <span>Drink icons created by monkik</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/bottle" title="bottle icons">Bottle icons created by Ina Mella - Flaticon</a>
+                    <span>Bottle icons created by Ina Mella</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/white-wine" title="white wine icons">White wine icons created by Kanyanee Watanajitkasem - Flaticon</a>
+                    <span>White wine icons created by Kanyanee Watanajitkasem</span>
                 </li>
                 <li>
-                    <a href="http://freefrontend.com/css-liquid-effects">CSS liquid effect by Dave Quah</a>
+                    <span>CSS liquid effect by Dave Quah</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/drunk" title="drunk icons">Drunk icons created by Prosymbols Premium - Flaticon</a>
+                    <span>Drunk icons created by Prosymbols Premium</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/bartender" title="bartender icons">Bartender icons created by photo3idea_studio - Flaticon</a>
+                    <span>Bartender icons created by photo3idea_studio</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/bottle" title="bottle icons">Bottle icons created by Aranagraphics - Flaticon</a>
+                    <span>Bottle icons created by Aranagraphics</span>
                 </li>
                 <li>
-                    <a href="https://www.flaticon.com/free-icons/rum" title="rum icons">Rum icons created by small.smiles - Flaticon</a>
+                    <span>Rum icons created by small.smiles</span>
                 </li>
             </ul>
         </main>

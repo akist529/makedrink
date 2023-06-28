@@ -1,38 +1,45 @@
 .Ingredient {
+    /* Positioning */
     display: flex;
     flex-direction: column;
-    gap: 5px;
     width: 130px;
-    height: auto;
-    text-align: center;
-    color: white;
 
     .info {
+        /* Positioning */
         display: grid;
         grid-template-columns: 8px 1fr 50px;
         align-items: center;
-        background: none;
-        border: none;
-        cursor: pointer;
+
+        /* Typography */
+        color: white;
 
         .children {
             grid-column: 1 / 2;
             filter: invert(1);
             object-fit: cover;
             width: 8px;
+            height: 50px;
         }
 
         .icon {
             grid-column: 2 / 3;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
+        }
+
+        span {
+            grid-column: 1 / 4;
+            grid-row: 2 / 3;
+            font-family: 'Oswald';
+            font-size: 18px;
         }
     }
 
-    span {
-        font-family: 'Oswald';
-        text-align: left;
+    &:hover {
+        .children {
+            filter: invert(25%) sepia(97%) saturate(6249%) hue-rotate(306deg) brightness(104%) contrast(116%);
+        }
+
+        span {
+            color: #ff00bf;
+        }
     }
 }

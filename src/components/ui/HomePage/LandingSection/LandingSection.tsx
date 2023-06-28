@@ -1,8 +1,8 @@
 // Component styles
 import styles from './LandingSection.module.scss';
 // Local components
-import SelectIngredientsButton from '@/components/buttons/SelectIngredientsButton/SelectIngredientsButton';
-import MakeDrinkButton from '@/components/buttons/MakeDrinkButton/MakeDrinkButton';
+import SelectIngredientsLink from '@/components/links/SelectIngredientsLink/SelectIngredientsLink';
+import MakeDrinkLink from '@/components/links/MakeDrinkLink/MakeDrinkLink';
 import DrinkTypes from '../DrinkTypes/DrinkTypes';
 // Helper functions
 import getRandomDrink from '@/helpers/getRandomDrink';
@@ -23,35 +23,39 @@ export default function LandingSection (props: { drinkType: string, setDrinkType
         const drink = getRandomDrink(possibleDrinks, randomDrink);
         if (!drink) {
             setDrinkError('You don\'t have enough ingredients to make a drink!');
+            const error = document.body.querySelector(`.${styles.error}`) as HTMLElement;
+            error?.scrollIntoView();
         } else {
             dispatch(setRandomDrink(drink));
+            const id = 'drink';
+            const yOffset = -100;
+            const element = document.getElementById(id);
+        
+            if (element) {
+                const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+                window.scrollTo({top: y, behavior: 'smooth'});
+            }
         }
     }, [dispatch, possibleDrinks, randomDrink, setDrinkError]);
-
-    useEffect(() => {
-        const error = document.body.querySelector(`.${styles.error}`) as HTMLElement;
-        error?.scrollIntoView();
-    }, [drinkError]);
 
     return (
         <section id="landing" className={styles.LandingSection}>
             <h1>What Can I Make?</h1>
-            <div className={styles.landingContent}>
-                <SelectIngredientsButton />
-                <span>Then...</span>
-                <nav>
-                    <div onClick={handleClick}>
-                        <MakeDrinkButton />
-                    </div>
-                    <span>Or...</span>
-                    <DrinkTypes 
-                        drinkType={drinkType} 
-                        setDrinkType={setDrinkType} 
-                        drinkError={drinkError} 
-                        setDrinkError={setDrinkError} />
-                </nav>
+            <nav>
+                <div className={styles.landingButtons}>
+                    <SelectIngredientsLink />
+                    <span>Then...</span>
+                    <MakeDrinkLink 
+                        onClick={handleClick} />
+                </div>
+                <span>Or...</span>
+                <DrinkTypes 
+                    drinkType={drinkType} 
+                    setDrinkType={setDrinkType} 
+                    drinkError={drinkError} 
+                    setDrinkError={setDrinkError} />
                 <strong className={drinkError ? styles.error : ''}>{drinkError}</strong>
-            </div>
+            </nav>
         </section>
     );
 }

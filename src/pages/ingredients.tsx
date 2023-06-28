@@ -1,31 +1,33 @@
-// Page styles
-import styles from '@/styles/Ingredients.module.scss';
 // Next components
 import type { NextPage } from 'next';
+import Head from 'next/head';
 // React components
 import { useEffect, useCallback } from 'react';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { useGetAllIngredientsQuery, useLazyGetMultipleDrinkInfoQuery } from '@/store/api/api';
 import { RootState } from '@/store/store';
-import { addPossibleDrink } from '@/store/slices/drinks.slice';
+import { addPossibleDrink, clearPossibleDrinks } from '@/store/slices/drinks.slice';
 // Type interfaces
 import { Item, Drink } from '@/types/index';
 // Local components
 import Footer from '@/components/footer/Footer';
-import IngredientsTitle from '@/components/ui/IngredientsPage/IngredientsTitle/IngredientsTitle';
 import IngredientsSection from '@/components/ui/IngredientsPage/IngredientsSection/IngredientsSection';
 import LoadingAnimation from '@/components/loading/LoadingAnimation';
 import ServerError from '@/components/error/ServerError';
+import IngredientsHeader from '@/components/ui/IngredientsPage/IngredientsHeader/IngredientsHeader';
 
 const IngredientsPage: NextPage = () => {
     const allIngredients = useGetAllIngredientsQuery();
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
     const [getDrinkInfo, result] = useLazyGetMultipleDrinkInfoQuery();
+    const modalOpen = useSelector((state: RootState) => state.ingredientModal.open);
 
     useEffect(() => {
         if (result && result.data) {
+            dispatch(clearPossibleDrinks());
+
             for (const drink of result.data) {
                 dispatch(addPossibleDrink(drink));
             }
@@ -81,8 +83,11 @@ const IngredientsPage: NextPage = () => {
     return (
         <>
             { allIngredients.data && 
-                <main className={styles.IngredientsPage}>
-                    <IngredientsTitle />
+                <main className='page' {...modalOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
+                    <Head>
+                        <title>Select Ingredients - MakeDrink</title>
+                    </Head>
+                    <IngredientsHeader />
                     <IngredientsSection 
                         section='Alcohol' 
                         ingredients={(allIngredients.data as Item[])} />
@@ -92,11 +97,11 @@ const IngredientsPage: NextPage = () => {
                     <Footer />
                 </main> }
             { allIngredients.isLoading &&
-                <main className={styles.IngredientsPage}>
+                <main className='page'>
                     <LoadingAnimation />
                 </main> }
             { allIngredients.isError &&
-                <main className={styles.IngredientsPage}>
+                <main className='page'>
                     <ServerError />
                 </main> }
         </>

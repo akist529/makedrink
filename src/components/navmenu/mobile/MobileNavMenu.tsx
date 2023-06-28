@@ -1,74 +1,52 @@
 // Component styles
 import styles from './MobileNavMenu.module.scss';
 // React components
-import { useMemo, useCallback } from 'react';
-// Next components
-import Link from 'next/link';
+import { useMemo } from 'react';
 // Redux components
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { toggleNavMenu } from '@/store/slices/navMenu.slice';
 // Local components
 import NavMenuItem from '@/components/navmenu/item/NavMenuItem';
 
 export default function MobileNavMenu () {
     // Redux selectors
     const { navMenuOpen } = useSelector((state: RootState) => state.navMenu);
-    const dispatch = useDispatch();
 
-    const navStyles = useMemo(() => [styles.NavMenu, (navMenuOpen ?  styles.open : styles.closed)].join(' '), [navMenuOpen]);
-
-    const handleClick = useCallback(() => {
-        if (window.innerWidth < 600) {
-            dispatch(toggleNavMenu());
-        }
-    }, [dispatch]);
+    const className = useMemo(() => {
+        return [styles.NavMenu, (navMenuOpen ?  styles.open : styles.closed)].join(' ');
+    }, [navMenuOpen]);
 
     return (
-        <nav className={navStyles}>
+        <nav className={className}>
             <ul>
-                <Link href='/' onClick={handleClick}>
-                    <NavMenuItem 
-                        item='Make A Drink' 
-                        slug='/' 
-                        img='liquor.svg' />
-                </Link>
-                <Link href='/ingredients' onClick={handleClick}>
-                    <NavMenuItem 
-                        item='Select Ingredients' 
-                        slug='/ingredients' 
-                        img='blender.svg' />
-                </Link>
-                <Link href='/drinks' onClick={handleClick}>
-                    <NavMenuItem 
-                        item='All Drinks' 
-                        slug='/drinks' 
-                        img='local_bar.svg' />
-                </Link>
-                <Link href='/drinks/possible' onClick={handleClick}>
-                    <NavMenuItem 
-                        item='Possible Drinks' 
-                        slug='/drinks/possible' 
-                        img='done_all.svg' />
-                </Link>
-                <Link href='/drinks/filtered' onClick={handleClick}>
-                    <NavMenuItem 
-                        item='Filtered Drinks' 
-                        slug='/drinks/filtered' 
-                        img='filter_list.svg' />
-                </Link>
-                <Link href='/drinks/favorited' onClick={handleClick}>
-                    <NavMenuItem 
-                        item='Favorite Drinks' 
-                        slug='/drinks/favorited' 
-                        img='favorite.svg' />
-                </Link>
-                <Link href='/drinks/blocked' onClick={handleClick}>
-                    <NavMenuItem 
-                        item='Blocked Drinks' 
-                        slug='/drinks/blocked' 
-                        img='block.svg' />
-                </Link>
+                <NavMenuItem 
+                    item='Make A Drink' 
+                    img='liquor.svg' 
+                    link='/' />
+                <NavMenuItem 
+                    item='Select Ingredients' 
+                    img='blender.svg' 
+                    link='/ingredients' />
+                <NavMenuItem 
+                    item='All Drinks' 
+                    img='local_bar.svg' 
+                    link='/drinks?page=0' />
+                <NavMenuItem 
+                    item='Possible Drinks' 
+                    img='done_all.svg' 
+                    link='/drinks/possible?page=0' />
+                <NavMenuItem 
+                    item='Filtered Drinks' 
+                    img='filter_list.svg' 
+                    link='/drinks/filtered?page=0' />
+                <NavMenuItem 
+                    item='Favorite Drinks' 
+                    img='favorite.svg' 
+                    link='/drinks/favorited?page=0' />
+                <NavMenuItem 
+                    item='Blocked Drinks' 
+                    img='block.svg' 
+                    link='/drinks/blocked?page=0' />
             </ul>
         </nav>
     );

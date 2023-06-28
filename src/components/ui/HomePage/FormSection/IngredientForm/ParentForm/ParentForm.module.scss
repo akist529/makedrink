@@ -1,39 +1,36 @@
 .ParentForm {
-    width: 80%;
+    width: 90%;
     
     fieldset {
+        /* Positioning */
         padding: 10px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
         gap: 10px;
 
         legend {
+            /* Positioning */
             display: grid;
             grid-template-columns: auto auto;
             grid-template-rows: auto;
             justify-items: center;
             align-items: center;
-            grid-gap: 10px;
+            gap: 10px;
             padding: 0px;
+
+            /* Typography */
             text-transform: uppercase;
             line-height: 32px;
             font-size: 28px;
-
-            span {
-                max-width: 160px;
-                text-align: center;
-            }
         }
 
         .ingredientList {
+            /* Positioning */
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
             gap: 5px;
-            width: 80%;
+            width: 100%;
         }
     }
 }

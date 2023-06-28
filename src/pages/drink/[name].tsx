@@ -1,7 +1,7 @@
 // Page styles
 import styles from '@/styles/Drink.module.scss';
 // Redux components
-import { useGetAllDrinksQuery, useLazyGetDrinkInfoQuery } from '@/store/api/api';
+import { useGetAllIngredientsQuery, useGetAllDrinksQuery, useLazyGetDrinkInfoQuery } from '@/store/api/api';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { addFavoriteDrink, removeFavoriteDrink, addBlockedDrink, removeBlockedDrink } from '@/store/slices/drinks.slice';
@@ -9,8 +9,9 @@ import { addFavoriteDrink, removeFavoriteDrink, addBlockedDrink, removeBlockedDr
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Head from 'next/head';
 // React components
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 // Type interfaces
 import { DrinkInfo, Ingredient, Item } from '@/types/index';
 // Local components
@@ -24,6 +25,7 @@ const DrinkPage: NextPage = () => {
     // RTK Queries
     const allDrinks = useGetAllDrinksQuery();
     const [getDrinkInfo, drinkInfoResult] = useLazyGetDrinkInfoQuery();
+    const allIngredients = useGetAllIngredientsQuery();
 
     // Redux store states
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
@@ -38,6 +40,13 @@ const DrinkPage: NextPage = () => {
     const [drinkError, setDrinkError] = useState(false);
     const [recipeError, setRecipeError] = useState(false);
     const [drinkInfo, setDrinkInfo] = useState({} as DrinkInfo);
+    const [ingredients, setIngredients] = useState([] as Item[]);
+
+    useEffect(() => {
+        if (allIngredients.isSuccess) {
+            setIngredients(allIngredients.data);
+        }
+    }, [allIngredients]);
 
     const getDrinkName = useCallback(() => {
         let urlName;
@@ -58,25 +67,37 @@ const DrinkPage: NextPage = () => {
     const fetchDrinkInfo = useCallback((displayName: string) => {
         if (allDrinks.data) {
             for (const drink of allDrinks.data.Drinks) {
-                if (drink.Name.toLowerCase() === displayName.toLowerCase()) {
+                if (drink.Name.toLowerCase().replaceAll('ä', 'a') === displayName.toLowerCase()) {
                     getDrinkInfo(drink.Id);
                 }
             }
         }
     }, [allDrinks.data, getDrinkInfo]);
 
-    const getAltIngredient = useCallback((ingredient: Item, index: number, unit: string, amount: number) => {
+    const getAltIngredient = useCallback((ingredient: Item, index: number, unit: string, amount: number, prefers: string) => {
         const type = ingredient.Type || '';
+
+        if (!storedIngredients[type]) return (
+            <RecipeItem 
+                key={index} 
+                ingredient={ingredient} 
+                unit={unit} 
+                amount={amount}
+                missing={true} 
+                prefers={prefers} />
+        );
+
         for (const key of Object.keys(storedIngredients[type])) {
             for (let i = 0; i < storedIngredients[type][key].length; i++) {
                 if (storedIngredients[type][key][i].AliasId === ingredient.Id) {
                     return (
                         <RecipeItem 
                             key={index} 
-                            ingredient={ingredient} 
+                            ingredient={storedIngredients[type][key][i]} 
                             unit={unit} 
                             amount={amount} 
-                            missing={false} />
+                            missing={false} 
+                            prefers={prefers} />
                     );
                 }
             }
@@ -92,20 +113,29 @@ const DrinkPage: NextPage = () => {
                 ingredient={ingredient} 
                 unit={unit} 
                 amount={amount}
-                missing={true} />
+                missing={true} 
+                prefers={prefers} />
         );
     }, [recipeError, storedIngredients]);
 
     const getIngredientAlias = useCallback((ingredient: Ingredient, index: number) => {
-        const letter = ingredient.Alias.charAt(0);
+        if (ingredient.Alias) {
+            const letter = ingredient.Alias.charAt(0);
 
-        for (const type of Object.keys(storedIngredients)) {
-            if (storedIngredients[type].hasOwnProperty(letter)) {
-                for (const item of storedIngredients[type][letter]) {
-                    if (item.Name === ingredient.Alias) {
-                        return getAltIngredient(item, index, ingredient.Unit, ingredient.Amount);
+            for (const type of Object.keys(storedIngredients)) {
+                if (storedIngredients[type].hasOwnProperty(letter)) {
+                    for (const item of storedIngredients[type][letter]) {
+                        if (item.Name === ingredient.Alias) {
+                            return getAltIngredient(item, index, ingredient.Unit, ingredient.Amount, ingredient.Name);
+                        }
                     }
                 }
+            }
+        } else {
+            const alias = ingredients.find((item: Item) => item.Name === ingredient.Name);
+
+            if (alias) {
+                return getAltIngredient(alias, index, ingredient.Unit, ingredient.Amount, ingredient.Name);
             }
         }
 
@@ -119,9 +149,10 @@ const DrinkPage: NextPage = () => {
                 ingredient={ingredient} 
                 unit={ingredient.Unit} 
                 amount={ingredient.Amount} 
-                missing={true} />
+                missing={true} 
+                prefers={ingredient.Name} />
         );
-    }, [getAltIngredient, recipeError, storedIngredients]);
+    }, [getAltIngredient, recipeError, storedIngredients, ingredients]);
 
     const getIngredient = useCallback((ingredient: Ingredient, index: number) => {
         const letter = ingredient.Name.charAt(0);
@@ -136,7 +167,8 @@ const DrinkPage: NextPage = () => {
                                 ingredient={ingredient} 
                                 unit={ingredient.Unit} 
                                 amount={ingredient.Amount}
-                                missing={false} />
+                                missing={false} 
+                                prefers={ingredient.Name} />
                         );
                     }
                 }
@@ -235,67 +267,113 @@ const DrinkPage: NextPage = () => {
         }
     }, [drinkFavorited]);
 
+    const isMocktail = useMemo(() => {
+        if (drinkInfo.hasOwnProperty('Recipe')) {
+            for (const ingredient of drinkInfo.Recipe) {
+                const item = ingredients.find((item: Item) => item.Name === ingredient.Name);
+    
+                if (!item) return false;
+    
+                if (item.Type === 'liquor' || item.Type === 'liqueur' || item.Type === 'other' || item.Type === 'wine') {
+                    return false;
+                }
+            }
+    
+            return true;
+        }
+
+        return false;
+    }, [drinkInfo, ingredients]);
+
     return (
-        <div className={styles.DrinkPage}>
-            { !drinkError && !drinkInfo.Name && <LoadingAnimation /> }
-            { drinkError && <strong>The drink you entered does not exist!</strong> }
+        <>
+        { (ingredients.length > 0) && 
+        <div className={['page', styles.DrinkPage].join(' ')}>
+            { !drinkError && !drinkInfo.Name && 
+                <>
+                    <Head>
+                        <title>Loading... - MakeDrink</title>
+                    </Head>
+                    <LoadingAnimation />
+                </> }
+            { drinkError && 
+                <>
+                    <Head>
+                        <title>Error - MakeDrink</title>
+                    </Head>
+                    <strong>The drink you entered does not exist!</strong>
+                </> }
             { drinkInfo.Name && 
-            <main>
-                { recipeError && <strong>You are missing ingredients for this recipe!</strong> }
-                <header>
-                    <h1>{drinkInfo.Name}</h1>
-                    <div>
-                        <button className={drinkFavorited ? styles.favorited : styles.unfavorited} onClick={() => favoriteDrink(drinkInfo)}>
-                            <Image 
-                                alt='Favorite Drink' 
-                                title='Favorite Drink' 
-                                src={favoriteImagePath} 
-                                width="0" 
-                                height="48"
-                                onLoadingComplete={e => updateWidth(e)} />
-                        </button>
-                        <button className={drinkBlocked ? styles.blocked : styles.unblocked} onClick={() => blockDrink(drinkInfo)}>
-                            <Image 
-                                alt='Block Drink' 
-                                title='Block Drink' 
-                                src={require('/public/images/ui/block.svg')} 
-                                width="0" 
-                                height="48" 
-                                onLoadingComplete={e => updateWidth(e)} />
-                        </button>
-                    </div>
-                </header>
-                <section>
-                    <h2>Ingredients</h2>
-                    <ul>
-                        { drinkInfo.Recipe.map((ingredient, index) => {
-                            return getIngredient(ingredient, index);
-                        }) }
-                    </ul>
-                </section>
-                <section>
-                    <article>
-                        { drinkInfo.Directions.map((direction, index) => {
-                            return (
-                                <div key={index}>
-                                    <p>{direction}</p>
-                                    <hr/>
-                                </div>
-                            );
-                        }) }
-                    </article>
-                </section>
-                <figure>
-                    <Image 
-                        alt='Cocktail' 
-                        src={require('/public/images/ui/cocktail-placeholder.jpg')} 
-                        width="0" 
-                        height="256" 
-                        onLoadingComplete={e => updateWidth(e)} />
-                </figure>
-            </main> }
+                <main>
+                    <Head>
+                        <title>{drinkInfo.Name} - MakeDrink</title>
+                    </Head>
+                    { recipeError && <strong>You are missing ingredients for this recipe!</strong> }
+                    <header>
+                        <div className={styles.drinkTitle}>
+                            <h1>{drinkInfo.Name}</h1>
+                            { isMocktail && 
+                                <Image 
+                                    alt='Mocktail' 
+                                    src={require('/public/images/ui/no_drinks.svg')} 
+                                    width="0" 
+                                    height="36" 
+                                    title='Mocktail' 
+                                    onLoadingComplete={e => updateWidth(e)} /> }
+                        </div>
+                        <div>
+                            <button className={drinkFavorited ? styles.favorited : styles.unfavorited} onClick={() => favoriteDrink(drinkInfo)}>
+                                <Image 
+                                    alt='Favorite Drink' 
+                                    title='Favorite Drink' 
+                                    src={favoriteImagePath} 
+                                    width="0" 
+                                    height="48"
+                                    onLoadingComplete={e => updateWidth(e)} />
+                            </button>
+                            <button className={drinkBlocked ? styles.blocked : styles.unblocked} onClick={() => blockDrink(drinkInfo)}>
+                                <Image 
+                                    alt='Block Drink' 
+                                    title='Block Drink' 
+                                    src={require('/public/images/ui/block.svg')} 
+                                    width="0" 
+                                    height="48" 
+                                    onLoadingComplete={e => updateWidth(e)} />
+                            </button>
+                        </div>
+                    </header>
+                    <section className={styles.ingredients}>
+                        <h2>Ingredients</h2>
+                        <ul>
+                            { drinkInfo.Recipe.map((ingredient, index) => {
+                                return getIngredient(ingredient, index);
+                            }) }
+                        </ul>
+                    </section>
+                    <section className={styles.directions}>
+                        <article>
+                            { drinkInfo.Directions.map((direction, index) => {
+                                return (
+                                    <div key={index}>
+                                        <p>{direction}</p>
+                                        <hr/>
+                                    </div>
+                                );
+                            }) }
+                        </article>
+                    </section>
+                    <figure>
+                        <Image 
+                            alt='Cocktail' 
+                            src={require('/public/images/ui/cocktail-placeholder.jpg')} 
+                            width="0" 
+                            height="256" 
+                            onLoadingComplete={e => updateWidth(e)} />
+                    </figure>
+                </main> }
             <Footer />
-        </div>
+        </div> }
+        </>
     );
 }
 

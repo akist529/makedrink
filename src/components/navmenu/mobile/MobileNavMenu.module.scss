@@ -1,28 +1,25 @@
+// MOBILE //
 .NavMenu {
-    background-color: black;
-    color: white;
-    font-family: 'Nunito';
-    font-size: 32px;
-    width: 250px;
+    /* Positioning */
     height: calc(100vh - 100px);
     position: fixed;
-    overflow: scroll;
-    transition: 0.5s;
     z-index: 1;
     top: 100px;
     left: 0;
 
+    /* Typography */
+    font-family: 'Nunito';
+    font-size: 32px;
+
+    /* Visual */
+    background-color: black;
+    transition: 0.5s;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
     ul {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-
-        a {
-            text-decoration: none;
-            width: 100%;
-        }
     }
 }
 
@@ -34,8 +31,10 @@
     left: -100%;
 }
 
+// TABLET //
 @media only screen and (min-width: 600px) {
     .NavMenu {
+        width: 250px;
         transition: 0s;
     }
 }

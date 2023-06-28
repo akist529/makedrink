@@ -1,46 +1,42 @@
 .PaginationLinks {
     display: flex;
-    justify-content: center;
-    align-items: center;
 
     button {
-        background: none;
-        border: none;
-        cursor: pointer;
-
         img {
             filter: invert(1);
         }
     }
 
     ul {
-        list-style-type: none;
+        /* Positioning */
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        align-items: center;
-        width: 100%;
 
-        li {
-            button {
-                background: black;
-                border: none;
-                border-radius: 50%;
-                cursor: pointer;
-                color: white;
-                font-family: 'Oswald';
-                font-size: 24px;
-                width: 40px;
-                height: 40px;
-            }
+        /* Typography */
+        list-style-type: none;
 
-            .activeBtn {
-                color: black;
-                background: white;
+        button {
+            /* Positioning */
+            width: 40px;
+            height: 40px;
 
-                span {
-                    transform: scale(1.2);
-                }
+            /* Typography */
+            font-family: 'Oswald';
+            font-size: 24px;
+            color: white;
+
+            /* Visual */
+            background: black;
+            border-radius: 50%;
+        }
+
+        .activeBtn {
+            color: black;
+            background: white;
+
+            span {
+                transform: scale(1.2);
             }
         }
     }

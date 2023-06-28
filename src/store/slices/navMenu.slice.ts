@@ -1,5 +1,5 @@
 // Redux components
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
 export const navMenuSlice = createSlice({
@@ -18,13 +18,13 @@ export const navMenuSlice = createSlice({
             state.navMenuOpen = false;
         }
     },
-    extraReducers: {
-        [HYDRATE]: (state, action) => {
-            return ({
-                ...state,
-                ...action.payload.navMenuOpen
-            });
-        }
+    extraReducers: builder => {
+        builder.addCase(HYDRATE, (state, action: PayloadAction<any,any>) => {
+                state = ({
+                    ...state,
+                    navMenuOpen: state.navMenuOpen
+                });
+        });
     }
 });
 

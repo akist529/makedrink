@@ -1,17 +1,17 @@
 .IngredientForm {
+    /* Positioning */
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 10px;
     width: 90vw;
     max-width: 500px;
-    height: auto;
     max-height: 100px;
     overflow: hidden;
-    padding-top: 10px;
+
+    /* Visual */
     transition: 0.5s;
 
     .gradient {
+        /* Positioning */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -19,28 +19,12 @@
         width: 100%;
         padding-bottom: 20px;
         overflow: hidden;
-        transition: 0.5s;
+
+        /* Textography */
         list-style-type: none;
-    
-        .filter {
-            display: grid;
-            grid-template-columns: 140px 1fr auto;
-            grid-template-rows: auto;
-            justify-items: center;
-            align-items: center;
-            width: 100%;
-            padding: 0 35px;
-    
-            label {
-                justify-self: left;
-                font-family: 'Oswald';
-                font-size: 20px;
-            }
-    
-            input {
-                transform: scale(2);
-            }
-        }
+
+        /* Visual */
+        transition: 0.5s;
     }
 
     .ingredientList {
@@ -52,8 +36,7 @@
 }
 
 .formOpen {
-    max-height: 2000px;
-    padding-bottom: 20px;
+    max-height: 5000px;
 }
 
 .gradientOpen {

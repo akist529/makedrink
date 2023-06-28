@@ -1,9 +1,10 @@
 .AddDrinkCard {
+    /* Positioning */
     display: flex;
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    width: 90vw;
+    width: 90%;
     max-width: 384px;
 
     /* Visual */
@@ -17,38 +18,45 @@
     box-shadow: 10px 10px 10px #000000;
 
     header {
+        /* Positioning */
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+
+        /* Typography */
         font-family: 'Nunito';
-        text-align: center;
         text-transform: uppercase;
         font-size: 24px;
     }
 
     form {
+        /* Positioning */
         display: flex;
         flex-direction: column;
         gap: 5px;
+
+        /* Typography */
         font-family: 'Oswald';
 
         fieldset {
-            padding: 5px;
+            /* Positioning */
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            padding: 10px;
             gap: 5px;
 
             > button {
-                background: black;
-                color: white;
+                /* Positioning */
                 padding: 5px 10px;
+                align-self: center;
+
+                /* Typography */
+                color: white;
+                text-transform: uppercase;
+
+                /* Visual */
+                background: black;
                 border: 1px solid rgb(200, 200, 200);
                 border-radius: 5px;
-                cursor: pointer;
-                text-transform: uppercase;
             }
         }
 
@@ -58,13 +66,15 @@
 
         input {
             height: 24px;
+            width: 100%;
         }
 
         .submit {
-            cursor: pointer;
             font-family: 'Oswald';
             letter-spacing: 2px;
             text-transform: uppercase;
+            font-weight: 700;
+            cursor: pointer;
         }
     }
 }

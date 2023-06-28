@@ -6,10 +6,15 @@ import Ingredient from '@/components/ui/IngredientsPage/Ingredient/Ingredient';
 import { Item } from '@/types/index';
 // React components
 import { useMemo } from 'react';
+// Redux components
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store/store';
 
 export default function IngredientList (props: { section: Item[] }) {
     const { section } = props;
     const colors = useMemo(() => ['pink', 'green', 'red', 'yellow', 'orange', 'blue'], []);
+    const dispatch = useDispatch();
+    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
     // Remove ingredients that are variants of another ingredient
     const filteredSection = useMemo(() => {
