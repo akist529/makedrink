@@ -46,11 +46,13 @@ const DrinkPage: NextPage = () => {
     const [ingredients, setIngredients] = useState([] as Item[]);
 
     const isAdmin = useMemo(() => {
-        if (Cookies.get('id')) {
-            return true;
-        } else {
-            return false;
-        }
+        // if (Cookies.get('id')) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
+
+        return false;
     }, []);
 
     useEffect(() => {
