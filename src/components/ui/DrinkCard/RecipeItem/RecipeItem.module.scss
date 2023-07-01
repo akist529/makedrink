@@ -1,10 +1,12 @@
 .RecipeItem {
     display: grid;
     grid-template-columns: 1fr auto;
+    align-items: center;
 
     .altIngredient {
         display: flex;
         width: 100%;
+        align-items: center;
 
         button {
             display: flex;

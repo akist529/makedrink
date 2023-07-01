@@ -1,7 +1,7 @@
 // Component styles
 import styles from './IngredientField.module.scss';
 // Type interfaces
-import { Item } from '@/types/index';
+import { Item, Ingredient } from '@/types/index';
 // Helper functions
 import getItemName from '@/helpers/getItemName';
 import updateWidth from '@/helpers/updateWidth';
@@ -10,12 +10,20 @@ import Image from 'next/image';
 // React components
 import { useState, useEffect, useMemo, useCallback } from 'react';
 
-export default function IngredientField (props: { i: number, ingredients: Item[], removeIngredient: Function }) {
-    const { i, ingredients, removeIngredient } = props;
+export default function IngredientField (props: { i: number, ingredients: Item[], removeIngredient: Function, value: Ingredient }) {
+    const { i, ingredients, removeIngredient, value } = props;
     const [ingredient, setIngredient] = useState(() => {
         return (document.getElementById(`item-${i}-name`) as HTMLSelectElement)?.value;
     });
     const [ingredientAlias, setIngredientAlias] = useState(0);
+
+    const ingredientId = useMemo(() => {
+        if (value && value.hasOwnProperty('Name')) {
+            const ingredient = ingredients.find((item: Item) => item.Name === value.Name);
+            if (ingredient) return ingredient.Id;    
+        }
+        return "";
+    }, [ingredients, value]);
 
     useEffect(() => {
         for (const item of ingredients) {
@@ -44,7 +52,7 @@ export default function IngredientField (props: { i: number, ingredients: Item[]
 
     return (
         <li id={`item-${i}-container`} className={styles.IngredientField}>
-            <select name={`item-${i}-name`} id={`item-${i}-name`} defaultValue="" onChange={handleChange}>
+            <select name={`item-${i}-name`} id={`item-${i}-name`} defaultValue={ingredientId} onChange={handleChange}>
                 <option value="" disabled>Select an ingredient</option>
                 <optgroup label="Liquor">
                 { ingredients.filter((ingredient: Item) => ingredient.Type === 'liquor').map((ingredient: Item, index: number) => {
@@ -101,8 +109,9 @@ export default function IngredientField (props: { i: number, ingredients: Item[]
                 min="0.25" 
                 step="0.25" 
                 id={`item-${i}-amount`} 
-                name={`item-${i}-amount`}/>
-            <span id={`item-${i}-unit`}>{unit}</span>
+                name={`item-${i}-amount`}
+                placeholder={value.Amount.toString()}/>
+            <span id={`item-${i}-unit`}>{value.Unit}</span>
             <button onClick={e => removeIngredient(e, i)}>
                 <Image 
                     alt="Remove Ingredient"

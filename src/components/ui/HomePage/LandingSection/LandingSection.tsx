@@ -39,7 +39,7 @@ export default function LandingSection (props: { drinkType: string, setDrinkType
     }, [dispatch, possibleDrinks, randomDrink, setDrinkError]);
 
     return (
-        <section id="landing" className={styles.LandingSection}>
+        <section data-testid="landing-section" id="landing" className={styles.LandingSection}>
             <h1>What Can I Make?</h1>
             <nav>
                 <div className={styles.landingButtons}>

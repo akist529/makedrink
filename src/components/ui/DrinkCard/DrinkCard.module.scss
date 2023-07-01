@@ -1,9 +1,9 @@
 .DrinkCard {
     /* Positioning */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-rows: auto auto auto auto 1fr auto auto;
+    justify-items: center;
+    align-items: flex-start;
     padding: 10px;
     gap: 10px;
 
@@ -11,21 +11,23 @@
     font-family: 'Oswald';
 
     /* Visual */
-    background-color: #111111;
-    background-image:  linear-gradient(135deg, #141414 25%, transparent 25%), linear-gradient(225deg, #141414 25%, transparent 25%), linear-gradient(45deg, #141414 25%, transparent 25%), linear-gradient(315deg, #141414 25%, #111111 25%);
-    background-position:  24px 0, 24px 0, 0 0, 0 0;
-    background-size: 48px 48px;
+    background-color: #141414;
+    background-image:  linear-gradient(135deg, #060606 25%, transparent 25%), linear-gradient(225deg, #060606 25%, transparent 25%), linear-gradient(45deg, #060606 25%, transparent 25%), linear-gradient(315deg, #060606 25%, #141414 25%);
+    background-position:  83px 0, 83px 0, 0 0, 0 0;
+    background-size: 83px 83px;
     background-repeat: repeat;
     border: 1px solid rgb(215,215,215);
     border-radius: 20px;
-    box-shadow: 10px 10px 10px #000000;    
+    box-shadow: 0 0 20px rgb(0, 0, 30);
     transform: rotate3d(0, 0, 0, 0deg);
 
     .header {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 1fr auto auto;
         align-items: center;
         width: 100%;
+        text-transform: uppercase;
+        text-shadow: 0 0 8px rgb(80, 80, 255);
 
         button {
             img {
@@ -41,6 +43,18 @@
 
         img {
             filter: invert(1);
+        }
+    }
+
+    hr {
+        width: 100%;
+        border-radius: 50%;
+    }
+
+    figure {
+        img {
+            border: 2px solid white;
+            border-radius: 15px;
         }
     }
 

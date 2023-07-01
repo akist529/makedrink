@@ -16,7 +16,7 @@ export default function FormLegend (props: { ingredientType: string, setFormOpen
     }, [setFormOpen]);
 
     return (
-        <legend className={styles.FormLegend}>
+        <legend data-testid='form-legend' className={styles.FormLegend}>
             <button onClick={toggleForm}>
                 <span>{ingredientType}</span>
                 <Image 

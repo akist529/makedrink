@@ -10,7 +10,7 @@ export default function PageCountCtrl () {
     const dispatch = useDispatch();
 
     return (
-        <div className={styles.PageCountCtrl}>
+        <div data-testid="page-count-ctrl" className={styles.PageCountCtrl}>
             <span>Results per Page</span>
             <button className={(drinksPerPage === 10) ? styles.active : ""} onClick={() => dispatch(setDrinksPerPage(10))}>
                 <span>10</span>

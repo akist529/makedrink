@@ -21,3 +21,15 @@
         }
     }
 }
+
+@media only screen and (min-width: 992px) {
+    .RecipeItem {
+        div {
+            .itemName {
+                flex-direction: row;
+                gap: 10px;
+                white-space: nowrap;
+            }
+        }
+    }
+}

@@ -32,9 +32,9 @@ export default function AddIngredientCard () {
     }, [allIngredients]);
 
     return (
-        <>
+        <div data-testid='add-ingredient-card' className={styles.AddIngredientCard}>
         { (ingredients.length > 0) && 
-        <div className={styles.AddIngredientCard}>
+        <>
             <header>
                 <strong>Add New Ingredient</strong>
             </header>
@@ -119,7 +119,7 @@ export default function AddIngredientCard () {
                     value="Submit"
                     className={styles.submit}/>
             </form>
-        </div> }
-        </>
+        </> }
+        </div>
     );
 }

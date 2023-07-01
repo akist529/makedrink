@@ -20,7 +20,7 @@ export default function IngredientCategory (props: {category: string, color: str
     }, [color]);
 
     return (
-        <div className={className}>
+        <div data-testid="ingredient-category" className={className}>
             <span>{category}</span>
             <Image 
                 alt={category} 

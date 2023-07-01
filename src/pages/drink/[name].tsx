@@ -18,8 +18,11 @@ import { DrinkInfo, Ingredient, Item } from '@/types/index';
 import RecipeItem from '@/components/ui/DrinkPage/RecipeItem/RecipeItem';
 import Footer from '@/components/footer/Footer';
 import LoadingAnimation from '@/components/loading/LoadingAnimation';
+import EditDrinkButton from '@/components/buttons/EditDrinkButton/EditDrinkButton';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+import Cookies from 'js-cookie';
+import getSlug from '@/helpers/getSlug';
 
 const DrinkPage: NextPage = () => {
     // RTK Queries
@@ -41,6 +44,14 @@ const DrinkPage: NextPage = () => {
     const [recipeError, setRecipeError] = useState(false);
     const [drinkInfo, setDrinkInfo] = useState({} as DrinkInfo);
     const [ingredients, setIngredients] = useState([] as Item[]);
+
+    const isAdmin = useMemo(() => {
+        if (Cookies.get('id')) {
+            return true;
+        } else {
+            return false;
+        }
+    }, []);
 
     useEffect(() => {
         if (allIngredients.isSuccess) {
@@ -77,7 +88,7 @@ const DrinkPage: NextPage = () => {
     const getAltIngredient = useCallback((ingredient: Item, index: number, unit: string, amount: number, prefers: string) => {
         const type = ingredient.Type || '';
 
-        if (!storedIngredients[type]) return (
+        if (!storedIngredients[type]) return (<>
             <RecipeItem 
                 key={index} 
                 ingredient={ingredient} 
@@ -85,12 +96,14 @@ const DrinkPage: NextPage = () => {
                 amount={amount}
                 missing={true} 
                 prefers={prefers} />
-        );
+            <hr/>
+        </>);
 
         for (const key of Object.keys(storedIngredients[type])) {
             for (let i = 0; i < storedIngredients[type][key].length; i++) {
                 if (storedIngredients[type][key][i].AliasId === ingredient.Id) {
                     return (
+                        <>
                         <RecipeItem 
                             key={index} 
                             ingredient={storedIngredients[type][key][i]} 
@@ -98,6 +111,8 @@ const DrinkPage: NextPage = () => {
                             amount={amount} 
                             missing={false} 
                             prefers={prefers} />
+                        <hr/>
+                        </>
                     );
                 }
             }
@@ -108,6 +123,7 @@ const DrinkPage: NextPage = () => {
         }
 
         return (
+            <>
             <RecipeItem 
                 key={index} 
                 ingredient={ingredient} 
@@ -115,6 +131,8 @@ const DrinkPage: NextPage = () => {
                 amount={amount}
                 missing={true} 
                 prefers={prefers} />
+            <hr/>
+            </>
         );
     }, [recipeError, storedIngredients]);
 
@@ -131,6 +149,27 @@ const DrinkPage: NextPage = () => {
                     }
                 }
             }
+
+            const aliasId = ingredients.find((item: Item) => item.Name === ingredient.Alias)?.Id;
+
+            for (const type of Object.keys(storedIngredients)) {
+                for (const key of Object.keys(storedIngredients[type])) {
+                    const alt = storedIngredients[type][key].find((item: Item) => item.AliasId === aliasId);
+
+                    if (alt) {
+                        return (<>
+                            <RecipeItem 
+                                key={index} 
+                                ingredient={alt} 
+                                unit={ingredient.Unit} 
+                                amount={ingredient.Amount} 
+                                missing={false} 
+                                prefers={ingredient.Name} />
+                            <hr/>
+                        </>);
+                    }
+                }
+            }
         } else {
             const alias = ingredients.find((item: Item) => item.Name === ingredient.Name);
 
@@ -144,6 +183,7 @@ const DrinkPage: NextPage = () => {
         }
         
         return (
+            <>
             <RecipeItem 
                 key={index} 
                 ingredient={ingredient} 
@@ -151,6 +191,8 @@ const DrinkPage: NextPage = () => {
                 amount={ingredient.Amount} 
                 missing={true} 
                 prefers={ingredient.Name} />
+            <hr/>
+            </>
         );
     }, [getAltIngredient, recipeError, storedIngredients, ingredients]);
 
@@ -161,7 +203,7 @@ const DrinkPage: NextPage = () => {
             if (storedIngredients[type].hasOwnProperty(letter)) {
                 for (const item of storedIngredients[type][letter]) {
                     if (item.Name === ingredient.Name) {
-                        return (
+                        return (<>
                             <RecipeItem 
                                 key={index} 
                                 ingredient={ingredient} 
@@ -169,7 +211,8 @@ const DrinkPage: NextPage = () => {
                                 amount={ingredient.Amount}
                                 missing={false} 
                                 prefers={ingredient.Name} />
-                        );
+                            <hr/>
+                        </>);
                     }
                 }
             }
@@ -341,26 +384,29 @@ const DrinkPage: NextPage = () => {
                                     onLoadingComplete={e => updateWidth(e)} />
                             </button>
                         </div>
+                        { isAdmin && 
+                            <EditDrinkButton drink={getSlug(drinkInfo.Name) || ''} /> }
                     </header>
                     <section className={styles.ingredients}>
                         <h2>Ingredients</h2>
                         <ul>
-                            { drinkInfo.Recipe.map((ingredient, index) => {
-                                return getIngredient(ingredient, index);
-                            }) }
+                        { drinkInfo.Recipe.map((ingredient, index) => {
+                            return getIngredient(ingredient, index);
+                        }) }
                         </ul>
                     </section>
                     <section className={styles.directions}>
-                        <article>
-                            { drinkInfo.Directions.map((direction, index) => {
-                                return (
-                                    <div key={index}>
-                                        <p>{direction}</p>
-                                        <hr/>
-                                    </div>
-                                );
-                            }) }
-                        </article>
+                        <h2>Directions</h2>
+                        <ol>
+                        { drinkInfo.Directions.map((direction, index) => {
+                            return (
+                                <li key={index}>
+                                    <p>{direction}</p>
+                                    <hr/>
+                                </li>
+                            );
+                        }) }
+                        </ol>
                     </section>
                     <figure>
                         <Image 

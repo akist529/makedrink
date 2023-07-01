@@ -14,7 +14,7 @@ export default function SearchBar() {
     const dispatch = useDispatch();
 
     return (
-        <div className={styles.SearchBar}>
+        <div data-testid='searchbar' className={styles.SearchBar}>
             { searchOpen && 
                 <SearchInput /> }
             <SearchButton 

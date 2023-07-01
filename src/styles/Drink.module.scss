@@ -9,6 +9,7 @@
         justify-items: center;
         align-items: center;
         gap: 20px;
+        width: 100%;
 
         strong {
             grid-row: 1 / 2;
@@ -66,6 +67,7 @@
                 justify-content: center;
                 align-items: center;
                 gap: 10px;
+                text-transform: uppercase;
 
                 img {
                     filter: invert(1);
@@ -78,48 +80,81 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 100%;
+            gap: 10px;
+            width: 90%;
+
+            h2 {
+                text-transform: uppercase;
+            }
+        }
+
+        .ingredients {
+            grid-row: 3 / 4;
+
+            max-width: 320px;
+            padding: 10px;
+            background-color: #141414;
+            background-image: linear-gradient(135deg, #060606 25%, transparent 25%), linear-gradient(225deg, #060606 25%, transparent 25%), linear-gradient(45deg, #060606 25%, transparent 25%), linear-gradient(315deg, #060606 25%, #141414 25%);
+            background-position: 83px 0, 83px 0, 0 0, 0 0;
+            background-size: 83px 83px;
+            background-repeat: repeat;
+            border: 1px solid rgb(215, 215, 215);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgb(0, 0, 30);
 
             ul {
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
-                width: 80%;
-                max-width: 300px;
             }
 
-            article {
-                div {
+            hr {
+                width: 80%;
+                margin: 0 auto;
+                border-radius: 50%;
+            }
+        }
+
+        .directions {
+            grid-row: 4 / 5;
+
+            ol {
+                li {
                     font-size: 20px;
                     display: flex;
                     flex-direction: column;
-                    text-align: center;
-                    justify-content: center;
-                    align-items: center;
                     gap: 10px;
-    
+                    align-items: flex-start;
+                    text-align: left;
+
+                    p {
+                        display: list-item;
+                    }
+
+                    p::marker {
+                        color: rgb(255, 0, 191);
+                    }
+
                     hr {
-                        width: 50%;
+                        width: 100%;
                         border-radius: 50%;
                     }
                 }
             }
         }
 
-        .ingredients {
-            grid-row: 3 / 4;
-        }
-
-        .directions {
-            grid-row: 4 / 5;
-        }
-
         figure {
             grid-row: 5 / 6;
+
+            img {
+                border-radius: 20px;
+            }
         }
     }
 
-    h1, h2, h3 {
+    h1,
+    h2,
+    h3 {
         font-family: 'Nunito';
     }
 
@@ -143,29 +178,38 @@
         main {
             grid-template-rows: repeat(4, auto);
             grid-template-columns: 1fr 1fr;
-    
+
             strong {
                 grid-row: 1 / 2;
                 grid-column: 1 / -1;
             }
-    
+
             header {
                 grid-row: 2 / 3;
                 grid-column: 1 / -1;
             }
 
+            section {
+                ul {
+                    max-width: none;
+                }
+            }
+
             .ingredients {
                 grid-row: 3 / 4;
                 grid-column: 1 / 2;
+                width: auto;
+                max-width: none;
+                padding: 20px;
             }
-            
+
             .directions {
                 grid-row: 4 / 5;
-                grid-column: 1 / 2;
+                grid-column: 1 / -1;
             }
 
             figure {
-                grid-row: 3 / 5;
+                grid-row: 3 / 4;
                 grid-column: 2 / 3;
             }
         }

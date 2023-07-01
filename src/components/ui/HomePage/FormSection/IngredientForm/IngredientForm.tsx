@@ -1,7 +1,7 @@
 // Component styles
 import styles from './IngredientForm.module.scss';
 // React components
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -65,13 +65,52 @@ export default function IngredientForm (props: { ingredientType: string }) {
         return false;
     }, [storedIngredients]);
 
+    const parentIngredients = useMemo(() => {
+        return ingredients.filter((ingredient: Item) => {
+            if (ingredient.Type !== ingredientType) return false;
+            if (!ingredientIsParent(ingredient)) return false;
+
+            const type = ingredient.Type || '';
+            const key = ingredient.Name[0];
+
+            if (storedIngredients.hasOwnProperty(type) && 
+                storedIngredients[type].hasOwnProperty(key)) {
+                const items = storedIngredients[type][key];
+                const foundItem = items.find((item: Item) => item.Id === ingredient.Id);
+                const foundAlias = items.find((item: Item) => item.AliasId == ingredient.Id);
+
+                if (foundItem || foundAlias) return true;
+            }
+
+            return false;
+        });
+    }, [ingredients, ingredientIsParent, storedIngredients, ingredientType]);
+
+    const loneIngredients = useMemo(() => {
+        const type = ingredientType;
+        const loneItems = [];
+
+        for (const key of Object.keys(storedIngredients[type])) {
+            const items = storedIngredients[type][key].filter((item: Item) => {
+                if (!item.AliasId && !ingredientIsParent) {
+                    return true;
+                }
+            });
+
+            loneItems.push(items);
+        }
+
+        return loneItems;
+    }, [storedIngredients, ingredientType, ingredientIsParent]);
+
     return (
-        <fieldset className={formOpen ? [styles.IngredientForm, styles.formOpen].join(' ') : styles.IngredientForm}>
+        <fieldset data-testid='ingredient-form' className={formOpen ? [styles.IngredientForm, styles.formOpen].join(' ') : styles.IngredientForm}>
             <FormLegend 
                 ingredientType={ingredientType} 
                 setFormOpen={setFormOpen} />
-            { (ingredients.length > 0) && <ul className={formOpen ? [styles.gradient, styles.gradientOpen].join(' ') : [styles.gradient, styles.gradientClosed].join(' ')}>
-                { getIngredients(ingredientType).filter((ingredient: Item) => ingredientIsParent(ingredient)).map((ingredient: Item, index: number) => {
+            { (ingredients.length > 0) && 
+            <ul className={formOpen ? [styles.gradient, styles.gradientOpen].join(' ') : [styles.gradient, styles.gradientClosed].join(' ')}>
+                { parentIngredients.map((ingredient: Item, index: number) => {
                     return (
                         <ParentForm 
                             key={index} 

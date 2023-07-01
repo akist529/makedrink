@@ -9,7 +9,7 @@ import Head from 'next/head';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 // Local components
-import ScrollButton from '@/components/buttons/ScrollButton/ScrollButton';
+import ScrollLink from '@/components/links/ScrollLink/ScrollLink';
 import Footer from '@/components/footer/Footer';
 import LandingSection from '@/components/ui/HomePage/LandingSection/LandingSection';
 import DrinkSection from '@/components/ui/HomePage/DrinkSection/DrinkSection';
@@ -43,13 +43,13 @@ const HomePage: NextPage = () => {
         drinkError={drinkError}
         setDrinkError={setDrinkError} />
       { (drinkType || Object.keys(randomDrink).length > 0) && 
-          <ScrollButton 
+          <ScrollLink 
             link='#drink' 
             text='Go to Random Drink' /> }
       { Object.keys(randomDrink).length > 0 && 
         <DrinkSection /> }
       { (drinkType && Object.keys(randomDrink).length > 0) && 
-          <ScrollButton 
+          <ScrollLink 
             link='#form' 
             text='Go to Ingredient Filters' /> }
       { drinkType && 

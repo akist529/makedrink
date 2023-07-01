@@ -113,9 +113,9 @@ export default function SearchFeed () {
     }, [navMenuOpen, router.asPath, dispatch]);
 
     return (
-        <>
+        <nav className={styles.SearchFeed}>
         { (ingredientResults.length > 0 || drinkResults.length > 0) && 
-            <nav className={styles.SearchFeed}>
+            <>
                 { ingredientResults.length > 0 && <h1>Ingredients</h1> }
                 <IngredientList section={ingredientResults} />
                 { (drinkResults.length > 0) && <h1>Drinks</h1> }
@@ -129,7 +129,7 @@ export default function SearchFeed () {
                         );
                     }) }
                 </ul>
-            </nav> }
-        </>
+            </> }
+        </nav>
     );
 }

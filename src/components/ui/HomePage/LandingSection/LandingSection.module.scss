@@ -53,30 +53,31 @@
     }
 }
 
-@media only screen and (min-width: 992px) {
-    .LandingSection {
-        gap: 40px;
+// @media only screen and (min-width: 992px) {
+//     .LandingSection {
+//         gap: 40px;
+//         transform: scale(1.25);
 
-        h1 {
-            font-size: 64px;
-            border-radius: 20px;
-        }
+//         h1 {
+//             font-size: 64px;
+//             border-radius: 20px;
+//         }
 
-        .landingContent {
-            gap: 30px;
+//         .landingContent {
+//             gap: 30px;
 
-            span {
-                font-size: 32px;
-            }
+//             span {
+//                 font-size: 32px;
+//             }
             
-            .landingButtons {
-                flex-direction: row;
-                align-items: flex-end;
-                gap: 20px;
-            }
-        }
-    }
-}
+//             .landingButtons {
+//                 flex-direction: row;
+//                 align-items: flex-end;
+//                 gap: 20px;
+//             }
+//         }
+//     }
+// }
 
 @keyframes title-spawn {
     0% {

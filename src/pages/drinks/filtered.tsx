@@ -107,52 +107,48 @@ const FilteredDrinksPage: NextPage = () => {
     }, [activePage]);
 
     return (
-        <>
-            { (drinksList.length === 0) && 
-                <main className={['page', styles.DrinksPage].join(' ')}>
-                    <Head>
-                        <title>Filtered Drinks - MakeDrink</title>
-                    </Head>
-                    <h1>No drinks available!</h1>
-                    <h2>Filter for specific ingredients you want to use.</h2>
-                    <Link href='/'>
-                        <MakeDrinkLink />
-                    </Link>
-                    <Footer />
-                </main> }
-            { (drinksList.length > 0) && 
-                <main className={styles.DrinksPage} {...subCardOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
-                    <Head>
-                        <title>Filtered Drinks - MakeDrink</title>
-                    </Head>
-                    <PageCountCtrl />
-                    <PaginationLinks 
-                        activePage={activePage} 
-                        setActivePage={setActivePage} 
-                        numOfPages={numOfPages} 
-                        loadState={false} />
-                    <section>
-                        <ul>
-                            { drinksList.map((drink: DrinkInfo, index: number) => {
-                                return (
-                                    <DrinkCard 
-                                        key={index} 
-                                        drink={drink} 
-                                        isRandom={false} 
-                                        ingredients={ingredients} />
-                                );
-                            }) }
-                        </ul>
-                    </section>
-                    <PaginationLinks 
-                        activePage={activePage} 
-                        setActivePage={setActivePage} 
-                        numOfPages={numOfPages} 
-                        loadState={false} />
-                    <PageCountCtrl />
-                    <Footer />
-                </main> }
-        </>
+        <main className={['page', styles.DrinksPage].join(' ')} {...subCardOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
+            <Head>
+                <title>Filtered Drinks - MakeDrink</title>
+            </Head>
+            { drinksList.length === 0 && 
+                <>
+                <h1>No drinks available!</h1>
+                <h2>Filter for specific ingredients you want to use.</h2>
+                <Link href='/'>
+                    <MakeDrinkLink />
+                </Link>
+                </> }
+            { drinksList.length > 0 && 
+                <>
+                <PageCountCtrl />
+                <PaginationLinks 
+                    activePage={activePage} 
+                    setActivePage={setActivePage} 
+                    numOfPages={numOfPages} 
+                    loadState={false} />
+                <section>
+                    <ul>
+                        { drinksList.map((drink: DrinkInfo, index: number) => {
+                            return (
+                                <DrinkCard 
+                                    key={index} 
+                                    drink={drink} 
+                                    isRandom={false} 
+                                    ingredients={ingredients} />
+                            );
+                        }) }
+                    </ul>
+                </section>
+                <PaginationLinks 
+                    activePage={activePage} 
+                    setActivePage={setActivePage} 
+                    numOfPages={numOfPages} 
+                    loadState={false} />
+                <PageCountCtrl />
+                </> }
+            <Footer />
+        </main>
     );
 }
 
