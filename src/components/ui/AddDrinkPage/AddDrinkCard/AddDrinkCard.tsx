@@ -81,7 +81,7 @@ export default function AddDrinkCard () {
     }, [recipeCount.length]);
 
     return (
-        <div className={styles.AddDrinkCard}>
+        <div data-testid='add-drink-card' className={styles.AddDrinkCard}>
             <header>
                 <strong>Add New Drink</strong>
             </header>

@@ -37,7 +37,7 @@ export default function SearchInput() {
     }, [searchOpen, dispatch]);
 
     return (
-        <div className={styles.SearchInput}>
+        <div  data-testid='searchinput' className={styles.SearchInput}>
             <SearchButton 
                 onClick={focusInput} 
                 style={{ filter: 'invert(0)' }} />

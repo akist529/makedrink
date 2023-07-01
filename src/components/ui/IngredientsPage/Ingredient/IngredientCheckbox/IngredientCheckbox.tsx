@@ -27,7 +27,7 @@ export default function IngredientCheckbox(props: { item: Item, isChecked: boole
     const boxStyles = useMemo(() => [styles.IngredientCheckbox, (isChecked && styles.checked), (colorIsLight && styles.lightColor)].join(' '), [colorIsLight, isChecked]);
 
     return (
-        <div id={item.Name} className={boxStyles} {...isChecked && {style: {background: `var(--whiskey)`}}}>
+        <div data-testid="ingredient-checkbox" id={item.Name} className={boxStyles} {...isChecked && {style: {background: `var(--whiskey)`}}}>
             { !isChecked && 
                 <Image 
                     className={styles.notSelected} 

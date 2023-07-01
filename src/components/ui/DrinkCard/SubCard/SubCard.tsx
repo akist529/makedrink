@@ -41,7 +41,7 @@ export default function SubCard () {
     }, [storedIngredients, subCardIngredient]);
 
     return (
-        <>
+        <div data-testid='sub-card'>
         { subCardOpen && 
             <div className={styles.SubCard}>
                 <div className={styles.content}>
@@ -69,6 +69,6 @@ export default function SubCard () {
                     </button>
                 </div>
             </div> }
-        </>
+        </div>
     );
 }

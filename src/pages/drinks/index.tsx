@@ -116,51 +116,30 @@ const AllDrinksPage: NextPage = () => {
     }, [activePage]);
 
     return (
-        <>
-        { (allDrinks.isLoading || 
-        drinkInfoResult.isLoading || 
-        allIngredients.isLoading) && 
-            <main className={['page', styles.DrinksPage].join(' ')}>
-                <Head>
-                    <title>All Drinks - MakeDrink</title>
-                </Head>
-                <LoadingAnimation />
-                <Footer />
-            </main> }
-        { allDrinks.isError || 
-        drinkInfoResult.isError || 
-        allIngredients.isError && 
-            <main className={['page', styles.DrinksPage].join(' ')}>
-                <Head>
-                    <title>All Drinks - MakeDrink</title>
-                </Head>
-                <h1>Error!</h1>
-                <h2>Try again later.</h2>
-            </main> }
-        { (allDrinks.isSuccess && drinkInfoResult.isSuccess && allIngredients.isSuccess) && 
-        !(allDrinks.isLoading || drinkInfoResult.isLoading || allIngredients.isLoading) && 
-        !drinkInfo.length && 
-            <main className={['page', styles.DrinksPage].join(' ')}>
-                <Head>
-                    <title>All Drinks - MakeDrink</title>
-                </Head>
-                <h1>No drinks available!</h1>
-                <h2>There seems to be an error - try again later.</h2>
-                <Footer />
-            </main> }
-        { (drinkInfoResult.isSuccess && 
-        !(allDrinks.isLoading || drinkInfoResult.isLoading || allIngredients.isLoading) && 
-        drinkInfo.length) && 
-            <main className={['page', styles.DrinksPage].join(' ')} {...subCardOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
-                <Head>
-                    <title>All Drinks - MakeDrink</title>
-                </Head>
-                <PageCountCtrl />
-                <PaginationLinks 
+        <main className={['page', styles.DrinksPage].join(' ')} {...subCardOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
+            <Head>
+                <title>All Drinks - MakeDrink</title>
+            </Head>
+            <PageCountCtrl />
+            <PaginationLinks 
                     activePage={activePage} 
                     setActivePage={setActivePage} 
                     numOfPages={numOfPages} 
                     loadState={drinkInfoResult.isLoading} />
+            { allDrinks.isLoading || drinkInfoResult.isLoading || allIngredients.isLoading && 
+                <LoadingAnimation /> }
+            { allDrinks.isError || drinkInfoResult.isError || allIngredients.isError && 
+                <>
+                <h1>Error!</h1>
+                <h2>Try again later.</h2>
+                </> }
+            { allDrinks.isSuccess && drinkInfoResult.isSuccess && allIngredients.isSuccess && !(allDrinks.isLoading || drinkInfoResult.isLoading || allIngredients.isLoading) && !drinkInfo.length && 
+                <>
+                <h1>No drinks available!</h1>
+                <h2>There seems to be an error - try again later.</h2>
+                </> }
+            { drinkInfoResult.isSuccess && !(allDrinks.isLoading || drinkInfoResult.isLoading || allIngredients.isLoading) && drinkInfo.length && 
+                <>
                 { (drinkInfoResult.isLoading || drinkInfoResult.isFetching) && 
                     <LoadingAnimation /> }
                 { !(drinkInfoResult.isLoading || drinkInfoResult.isFetching) && 
@@ -182,10 +161,10 @@ const AllDrinksPage: NextPage = () => {
                     setActivePage={setActivePage} 
                     numOfPages={numOfPages} 
                     loadState={drinkInfoResult.isLoading} />
-                <PageCountCtrl />
-                <Footer />
-            </main> }
-        </>
+                </> }
+            <PageCountCtrl />
+            <Footer />
+        </main>
     );
 }
 

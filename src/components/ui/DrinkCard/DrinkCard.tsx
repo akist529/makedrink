@@ -164,18 +164,23 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
                             onLoadingComplete={e => updateWidth(e)} />
                     </button> }
             </div>
+            <hr/>
             <h3>Ingredients</h3>
+            <hr/>
             <ul className={styles.ingredients}>
                 { drink.Recipe.map((ingredient: Ingredient, index: number) => {
                     return getIngredientFromStore(ingredient, index);
                 }) }
             </ul>
-            <Image 
-                alt={drink.Name} 
-                src={require('/public/images/ui/cocktail-placeholder.jpg')} 
-                width="0" 
-                height="128"
-                onLoadingComplete={e => updateWidth(e)} />
+            <hr/>
+            <figure>
+                <Image 
+                    alt={drink.Name} 
+                    src={require('/public/images/ui/cocktail-placeholder.jpg')} 
+                    width="0" 
+                    height="128"
+                    onLoadingComplete={e => updateWidth(e)} />
+            </figure>
             <Link href={`/drink/${getSlug(drink.Name)}?page=drinks`}>
                 <button className={styles.goBtn}>
                     <span>GO TO DRINK</span>

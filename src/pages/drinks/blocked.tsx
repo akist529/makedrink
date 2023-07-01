@@ -86,24 +86,20 @@ const BlockedDrinksPage: NextPage = () => {
     }, [activePage]);
 
     return (
-        <>
-        { (drinksList.length === 0) && 
-            <main className={['page', styles.DrinksPage].join(' ')}>
-                <Head>
-                    <title>Blocked Drinks - MakeDrink</title>
-                </Head>
+        <main className={['page', styles.DrinksPage].join(' ')} {...subCardOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
+            <Head>
+                <title>Blocked Drinks - MakeDrink</title>
+            </Head>
+            { drinksList.length === 0 && 
+                <>
                 <h1>No drinks blocked!</h1>
                 <h2>Go try some drinks to see what you like.</h2>
                 <Link href='/'>
                     <MakeDrinkLink />
                 </Link>
-                <Footer />
-            </main> }
-        { (drinksList.length > 0) && 
-            <main className={styles.DrinksPage} {...subCardOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
-                <Head>
-                    <title>Blocked Drinks - MakeDrink</title>
-                </Head>
+                </> }
+            { drinksList.length > 0 && 
+                <>
                 <PageCountCtrl />
                 <PaginationLinks 
                     activePage={activePage}
@@ -129,9 +125,9 @@ const BlockedDrinksPage: NextPage = () => {
                     numOfPages={numOfPages} 
                     loadState={false} />
                 <PageCountCtrl />
-                <Footer />
-            </main> }
-        </>
+                </> }
+            <Footer />
+        </main>
     );
 }
 

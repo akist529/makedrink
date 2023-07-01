@@ -71,6 +71,7 @@ export const barApi: any = createApi({
 export const { 
     useGetAllIngredientsQuery, 
     useGetAllDrinksQuery, 
+    useGetDrinkInfoQuery, 
     useLazyGetDrinkInfoQuery, 
     useGetMultipleDrinkInfoQuery, 
     useLazyGetMultipleDrinkInfoQuery, 

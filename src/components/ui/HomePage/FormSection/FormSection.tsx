@@ -26,7 +26,7 @@ export default function FormSection (props: { drinkType: string }) {
     }, [storedIngredients]);
 
     return (
-        <section id='form' className={styles.FormSection}>
+        <section data-testid='form-section' id='form' className={styles.FormSection}>
             { Object.keys(storedIngredients).length > 0 && 
                 <form>
                     { (drinkType === 'cocktail') && 
