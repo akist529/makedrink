@@ -1,21 +1,25 @@
 // Component styles
 import styles from './AddDrinkCard.module.scss';
 // Redux components
-import { useGetAllIngredientsQuery } from '@/store/api/api';
+import { useGetAllIngredientsQuery, useGetAllDrinksQuery } from '@/store/api/api';
 // React components
-import { useState, useEffect, useCallback, useId } from 'react';
+import { useState, useEffect, useMemo, useCallback, useId } from 'react';
 // Type interfaces
-import { Item } from '@/types/index';
+import { Item, Drink, DrinkInfo } from '@/types/index';
 // Local components
 import IngredientField from './IngredientField/IngredientField';
 import DirectionField from './DirectionField/DirectionField';
 
-export default function AddDrinkCard () {
-    const [recipeCount, setRecipeCount] = useState(Array.from(Array(1).keys()));
+export default function AddDrinkCard (props: { drink: DrinkInfo }) {
+    const { drink } = props;
+    const [recipeCount, setRecipeCount] = useState(() => {
+        return Array.from(Array(1).keys());
+    });
     const [directionCount, setDirectionCount] = useState(Array.from(Array(1).keys()));
     const allIngredients = useGetAllIngredientsQuery();
     const [ingredients, setIngredients] = useState([] as Item[]);
-
+    const allDrinks = useGetAllDrinksQuery();
+    const [drinks, setDrinks] = useState([] as Drink[]);
     const id = useId();
 
     useEffect(() => {
@@ -23,6 +27,34 @@ export default function AddDrinkCard () {
             setIngredients(allIngredients.data);
         }
     }, [allIngredients]);
+
+    useEffect(() => {
+        if (allDrinks.isSuccess) {
+            setDrinks(allDrinks.data.Drinks);
+        }
+    }, [allDrinks]);
+
+    useEffect(() => {
+        if (drink) {
+            if (drink.hasOwnProperty('Recipe')) {
+                setRecipeCount(Array.from(Array(drink.Recipe.length).keys()));
+            }
+
+            if (drink.hasOwnProperty('Directions')) {
+                setDirectionCount(Array.from(Array(drink.Directions.length).keys()));
+            }
+        }
+    }, [drink]);
+
+    const drinkId = useMemo(() => {
+        const drinkData = drinks.find((item: Drink) => item.Name === drink.Name);
+
+        if (drinkData) {
+            return drinkData.Id;
+        } else {
+            return 0;
+        }
+    }, [drink, drinks]);
 
     const removeDirection = useCallback((e: React.MouseEvent<HTMLButtonElement>, i: number) => {
         e.preventDefault();
@@ -87,42 +119,47 @@ export default function AddDrinkCard () {
             </header>
             <form action="https://api.makedr.ink/drink" method="post">
                 <label htmlFor="name">Name:</label>
-                <input type="text" id="name" name="name" placeholder="Name"/><br/>
+                <input type="text" id="name" name="name" placeholder={drink?.Name || "Name"}/><br/>
+                <input id="id" name="id" type="hidden" value={drinkId}/>
                 <label htmlFor="recipe-credit">Recipe Credit:</label>
                 <input type="text" id="recipe-credit" name="recipe-credit" placeholder="Add Credit (Optional)"/><br/>
-                <fieldset>
+                { drink.Recipe && 
+                <><fieldset>
                     <legend>Recipe</legend>
                     <ul>
-                        { recipeCount.map((i: number) => {
-                            return (
-                                <IngredientField 
+                    { recipeCount.map((i: number) => {
+                        return (
+                            <IngredientField 
                                 key={i} 
                                 i={i} 
                                 ingredients={ingredients} 
-                                removeIngredient={removeIngredient} />
-                            );
-                        }) }
+                                removeIngredient={removeIngredient} 
+                                value={drink.Recipe[i]} />
+                        );
+                    }) }
                     </ul>
                     <button onClick={addIngredient}>
                         <span>Add Ingredient</span>
                     </button>
-                </fieldset><br/>
-                <fieldset>
+                </fieldset><br/></> }
+                { drink.Directions && 
+                <><fieldset>
                     <legend>Directions</legend>
                     <ul>
-                        { directionCount.map((i: number) => {
-                            return (
-                                <DirectionField 
-                                    key={i} 
-                                    i={i} 
-                                    removeDirection={removeDirection} />
-                            );
-                        }) }
+                    { directionCount.map((i: number) => {
+                        return (
+                            <DirectionField 
+                                key={i} 
+                                i={i} 
+                                removeDirection={removeDirection} 
+                                value={drink.Directions[i]} />
+                        );
+                    }) }
                     </ul>
                     <button onClick={addDirection}>
                         <span>Add Direction</span>
                     </button>
-                </fieldset>
+                </fieldset><br/></> }
                 <fieldset>
                     <legend>Image</legend>
                     <input id={`${id}-image`} type="file" name="image" accept=".webp"/><br/>

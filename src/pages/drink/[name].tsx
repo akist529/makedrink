@@ -18,8 +18,11 @@ import { DrinkInfo, Ingredient, Item } from '@/types/index';
 import RecipeItem from '@/components/ui/DrinkPage/RecipeItem/RecipeItem';
 import Footer from '@/components/footer/Footer';
 import LoadingAnimation from '@/components/loading/LoadingAnimation';
+import EditDrinkButton from '@/components/buttons/EditDrinkButton/EditDrinkButton';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
+import Cookies from 'js-cookie';
+import getSlug from '@/helpers/getSlug';
 
 const DrinkPage: NextPage = () => {
     // RTK Queries
@@ -41,6 +44,14 @@ const DrinkPage: NextPage = () => {
     const [recipeError, setRecipeError] = useState(false);
     const [drinkInfo, setDrinkInfo] = useState({} as DrinkInfo);
     const [ingredients, setIngredients] = useState([] as Item[]);
+
+    const isAdmin = useMemo(() => {
+        if (Cookies.get('id')) {
+            return true;
+        } else {
+            return false;
+        }
+    }, []);
 
     useEffect(() => {
         if (allIngredients.isSuccess) {
@@ -373,6 +384,8 @@ const DrinkPage: NextPage = () => {
                                     onLoadingComplete={e => updateWidth(e)} />
                             </button>
                         </div>
+                        { isAdmin && 
+                            <EditDrinkButton drink={getSlug(drinkInfo.Name) || ''} /> }
                     </header>
                     <section className={styles.ingredients}>
                         <h2>Ingredients</h2>

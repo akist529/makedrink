@@ -5,13 +5,13 @@ import Image from 'next/image';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 
-export default function DirectionField (props: { i: number, removeDirection: Function }) {
-    const { i, removeDirection } = props;
+export default function DirectionField (props: { i: number, removeDirection: Function, value: string }) {
+    const { i, removeDirection, value } = props;
 
     return (
         <li id={`dir-${i}-container`} className={styles.DirectionField}>
             <span>{i + 1}</span>
-            <input type="text" id={`dir-${i}`} name={`dir-${i}`} />
+            <textarea id={`dir-${i}`} name={`dir-${i}`} placeholder={value ? value : ''}></textarea>
             <button onClick={e => removeDirection(e, i)}>
                 <Image 
                     alt="Remove Direction"
