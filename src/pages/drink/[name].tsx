@@ -87,25 +87,24 @@ const DrinkPage: NextPage = () => {
     const getAltIngredient = useCallback((ingredient: Item, index: number, unit: string, amount: number, prefers: string) => {
         const type = ingredient.Type || '';
 
-        if (!storedIngredients[type]) return (<>
-            <RecipeItem 
+        if (!storedIngredients[type]) return (
+            <><RecipeItem 
                 key={index} 
                 ingredient={ingredient} 
                 unit={unit} 
                 amount={amount}
                 missing={true} 
                 prefers={prefers} />
-            <hr/>
-        </>);
+            <hr/></>);
 
         for (const key of Object.keys(storedIngredients[type])) {
-            for (let i = 0; i < storedIngredients[type][key].length; i++) {
-                if (storedIngredients[type][key][i].AliasId === ingredient.Id) {
+            for (const item of storedIngredients[type][key]) {
+                if ((ingredient.Id === item.AliasId) || (ingredient.Name === item.Name)) {
                     return (
                         <>
                         <RecipeItem 
                             key={index} 
-                            ingredient={storedIngredients[type][key][i]} 
+                            ingredient={item} 
                             unit={unit} 
                             amount={amount} 
                             missing={false} 

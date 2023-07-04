@@ -31,13 +31,12 @@ export default function IngredientModal () {
     const allIngredients = useGetAllIngredientsQuery();
     const dispatch = useDispatch();
     // React local state
-    const [ingredients, setIngredients] = useState([] as Item[]);
     const [imageSrc, setImageSrc] = useState(`https://img.makedr.ink/i/${getSlug(modalIngredient.Name)}.webp`);
 
-    useEffect(() => {
+    const ingredients = useMemo(() => {
         if (allIngredients.isSuccess) {
-            setIngredients(allIngredients.data);
-        }
+            return allIngredients.data;
+        } else return [];
     }, [allIngredients]);
 
     const addAllIngredients = useCallback(() => {
@@ -70,9 +69,7 @@ export default function IngredientModal () {
                 for (const key of Object.keys(storedIngredients[item.Type])) {
                     const storedItem = storedIngredients[item.Type][key].find((storedItem: Item) => item.Id === storedItem.Id);
 
-                    if (storedItem) {
-                        return true;
-                    }
+                    if (storedItem) return true;
                 }
             }
         });
@@ -101,7 +98,7 @@ export default function IngredientModal () {
                             unoptimized />
                     </div>
                     <ul className={styles.childList}>
-                        { childIngredients.map((ingredient: Item) => <Ingredient key={ingredient.Id} item={ingredient} section={[]} />) }
+                    { childIngredients.map((ingredient: Item) => <Ingredient key={ingredient.Id} item={ingredient} section={[]} />) }
                     </ul>
                 </div>
             </div> }

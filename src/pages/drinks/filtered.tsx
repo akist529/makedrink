@@ -40,12 +40,11 @@ const FilteredDrinksPage: NextPage = () => {
 
     // RTK Queries
     const allIngredients = useGetAllIngredientsQuery();
-    const [ingredients, setIngredients] = useState([] as Item[]);    
 
-    useEffect(() => {
+    const ingredients = useMemo(() => {
         if (allIngredients.isSuccess) {
-            setIngredients(allIngredients.data);
-        }
+            return allIngredients.data;
+        } else return [];
     }, [allIngredients]);
 
     // Redux store state

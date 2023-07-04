@@ -28,14 +28,14 @@ export default function IngredientCheckbox(props: { item: Item, isChecked: boole
 
     return (
         <div data-testid="ingredient-checkbox" id={item.Name} className={boxStyles} {...isChecked && {style: {background: `var(--whiskey)`}}}>
-            { !isChecked && 
-                <Image 
-                    className={styles.notSelected} 
-                    alt="Ingredient Not Selected" 
-                    src={require('/public/images/ui/close.svg')} 
-                    width="0" 
-                    height="48" 
-                    onLoadingComplete={e => updateWidth(e)} /> }
+        { !isChecked && 
+            <Image 
+                className={styles.notSelected} 
+                alt="Ingredient Not Selected" 
+                src={require('/public/images/ui/close.svg')} 
+                width="0" 
+                height="48" 
+                onLoadingComplete={e => updateWidth(e)} /> }
         </div>
     );
 }

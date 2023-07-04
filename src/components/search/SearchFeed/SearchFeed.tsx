@@ -113,23 +113,23 @@ export default function SearchFeed () {
     }, [navMenuOpen, router.asPath, dispatch]);
 
     return (
-        <nav className={styles.SearchFeed}>
+        <>
         { (ingredientResults.length > 0 || drinkResults.length > 0) && 
-            <>
-                { ingredientResults.length > 0 && <h1>Ingredients</h1> }
-                <IngredientList section={ingredientResults} />
-                { (drinkResults.length > 0) && <h1>Drinks</h1> }
-                <ul>
-                    { drinkResults.map((drink: Drink, index: number) => {
-                        return (
-                            <DrinkResult 
-                                key={index} 
-                                drink={drink} 
-                                link={`/drink/${getSlug(drink.Name)}`} />
-                        );
-                    }) }
-                </ul>
-            </> }
-        </nav>
+        <nav className={styles.SearchFeed}>
+            { ingredientResults.length > 0 && <h1>Ingredients</h1> }
+            <IngredientList section={ingredientResults} />
+            { (drinkResults.length > 0) && <h1>Drinks</h1> }
+            <ul>
+            { drinkResults.map((drink: Drink, index: number) => {
+                return (
+                    <DrinkResult 
+                        key={index} 
+                        drink={drink} 
+                        link={`/drink/${getSlug(drink.Name)}`} />
+                );
+            }) }
+            </ul>
+        </nav> }
+        </>
     );
 }

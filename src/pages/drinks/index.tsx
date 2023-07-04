@@ -48,9 +48,7 @@ const AllDrinksPage: NextPage = () => {
     const ingredients = useMemo(() => {
         if (allIngredients.isSuccess) {
             return allIngredients.data;
-        } else {
-            return [] as Item[];
-        }
+        } else return [] as Item[];
     }, [allIngredients]);
 
     const drinksList = useMemo(() => {

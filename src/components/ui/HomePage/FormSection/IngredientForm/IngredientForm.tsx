@@ -1,7 +1,7 @@
 // Component styles
 import styles from './IngredientForm.module.scss';
 // React components
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -24,11 +24,12 @@ export default function IngredientForm (props: { formType: string }) {
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     // React local states
     const [formOpen, setFormOpen] = useState(true);
-    const [ingredients, setIngredients] = useState([] as Item[]);
 
-    useEffect(() => {
-        if (allIngredients.isSuccess) setIngredients(allIngredients.data);
-    }, [allIngredients, ingredients]);
+    const ingredients = useMemo(() => {
+        if (allIngredients.isSuccess) {
+            return allIngredients.data;
+        } else return [];
+    }, [allIngredients]);
 
     const ingredientIsParent = useCallback((item: Item) => {
         const altItem = ingredients.find((ingredient: Item) => ingredient.AliasId === item.Id);

@@ -40,6 +40,10 @@
             top: 0;
             right: 0;
             filter: invert(1);
+
+            &:hover {
+                filter: invert(16%) sepia(67%) saturate(7116%) hue-rotate(307deg) brightness(106%) contrast(110%);
+            }
         }
     
         strong {

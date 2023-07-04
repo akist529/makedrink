@@ -3,7 +3,7 @@ import styles from './IngredientsSection.module.scss';
 // Next components
 import Image from 'next/image';
 // React components
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 import allIngredientsStored from '@/helpers/allIngredientsStored';
@@ -24,21 +24,17 @@ export default function IngredientsSection (props: { section: string, ingredient
     const dispatch = useDispatch();
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
-    const imagePath = (() => {
+    const imagePath = useMemo(() => {
         if (section === 'Alcohol') {
             return 'https://img.makedr.ink/i/drunk.webp';
-        } else {
-            return 'https://img.makedr.ink/i/shaker.webp';
-        }
-    })();
+        } else return 'https://img.makedr.ink/i/shaker.webp';
+    }, [section]);
 
-    const types = (() => {
+    const types = useMemo(() => {
         if (section === 'Alcohol') {
             return ['liquor', 'liqueur', 'other', 'wine'];
-        } else {
-            return ['carbonated', 'juice', 'mixer'];
-        }
-    })();
+        } else return ['carbonated', 'juice', 'mixer'];
+    }, [section]);
 
     function filterDataByType (type: string) {
         let filteredData: Item[] = [];
@@ -76,7 +72,8 @@ export default function IngredientsSection (props: { section: string, ingredient
                     width="0" 
                     height="48" 
                     unoptimized={true} 
-                    onLoadingComplete={e => updateWidth(e)} />
+                    onLoadingComplete={e => updateWidth(e)} 
+                    className={styles.icon} />
                 <SelectAllButton 
                     clickEvent={allIngredientsStored(ingredients, storedIngredients) ? removeAllIngredients : addAllIngredients} 
                     ingredients={ingredients} />
@@ -87,7 +84,8 @@ export default function IngredientsSection (props: { section: string, ingredient
                         width="0" 
                         height="64" 
                         title="Hide Section" 
-                        onLoadingComplete={e => updateWidth(e)} />
+                        onLoadingComplete={e => updateWidth(e)} 
+                        className={styles.icon} />
                 </button>
             </header>
             { showList && types.map((type: string, index: number) => {

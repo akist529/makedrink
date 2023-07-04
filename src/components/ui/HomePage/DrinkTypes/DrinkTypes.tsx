@@ -19,15 +19,11 @@ export default function DrinkTypes (props: { drinkType: string, setDrinkType: Fu
     const handleClick = useCallback((type: string) => {
         if (Object.keys(storedIngredients).length > 0) {
             setDrinkType(type);
-        } else {
-            setDrinkError('You don\'t have enough ingredients to make a drink!');
-        }
+        } else setDrinkError('You don\'t have enough ingredients to make a drink!');
     }, [setDrinkError, setDrinkType, storedIngredients]);
 
     useEffect(() => {
-        if (drinkType) {
-            dispatch(clearSelected());
-        }
+        if (drinkType) dispatch(clearSelected());
     }, [drinkType, dispatch]);
 
     return (

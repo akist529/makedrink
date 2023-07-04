@@ -1,12 +1,8 @@
 // Component styles
 import styles from './SearchInput.module.scss';
-// Next components
-import Image from 'next/image';
 // Local components
 import CloseButton from '@/components/buttons/CloseButton/CloseButton';
 import SearchButton from '@/components/buttons/SearchButton/SearchButton';
-// Helper functions
-import updateWidth from '@/helpers/updateWidth';
 // Redux components
 import { updateSearch, clearSearch } from '@/store/slices/search.slice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -29,15 +25,12 @@ export default function SearchInput() {
     }, []);
 
     useEffect(() => {
-        if (!searchOpen) {
-            dispatch(clearSearch());
-        } else {
-            document.getElementById('search')?.focus();
-        }
+        if (!searchOpen) dispatch(clearSearch());
+            else document.getElementById('search')?.focus();
     }, [searchOpen, dispatch]);
 
     return (
-        <div  data-testid='searchinput' className={styles.SearchInput}>
+        <div data-testid='searchinput' className={styles.SearchInput}>
             <SearchButton 
                 onClick={focusInput} 
                 style={{ filter: 'invert(0)' }} />

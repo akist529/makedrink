@@ -11,7 +11,7 @@ export default function FilterDrinksButton (props: { drinkFilter: string, setDri
     }, [drinkFilter, setDrinkFilter]);
 
     return (
-        <button className={styles.FilterDrinksButton} onClick={changeFilter} title="Filter Drinks">
+        <button className={styles.FilterDrinksButton} onClick={changeFilter} title={drinkFilter === 'cocktail' ? 'See Mocktails' : 'See Cocktails'}>
             <Image 
                 alt="Filter Drinks" 
                 src={require('/public/images/ui/local_bar.svg')} 

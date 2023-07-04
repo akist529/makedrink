@@ -26,11 +26,11 @@ export default function DrinkSection () {
 
     return (
         <section data-testid="drink-section" id='drink' className={styles.DrinkSection}>
-          { (Object.keys(randomDrink).length > 0) && 
+        { (Object.keys(randomDrink).length > 0) && 
             <DrinkCard 
-              drink={randomDrink} 
-              isRandom={true} 
-              ingredients={ingredients} /> }
+                drink={randomDrink} 
+                isRandom={true} 
+                ingredients={ingredients} /> }
         </section>
     );
 }

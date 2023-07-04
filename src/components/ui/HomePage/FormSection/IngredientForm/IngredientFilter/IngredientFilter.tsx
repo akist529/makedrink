@@ -23,8 +23,12 @@ export default function IngredientFilter (props: { ingredient: Item, showImage: 
     // Redux store state
     const selectedIngredients = useSelector((state: RootState) => state.ingredients.selected);
     
+    const name = useMemo(() => {
+        return getSlug(ingredient.Name);
+    }, [ingredient]);
+
     // React local state
-    const [imageSrc, setImageSrc] = useState(`https://img.makedr.ink/i/${getSlug(ingredient.Name)}.webp`);
+    const [imageSrc, setImageSrc] = useState(`https://img.makedr.ink/i/${name}.webp`);
 
     const displayName = useMemo(() => getItemName(ingredient), [ingredient]);
     const id = useId();
@@ -43,7 +47,8 @@ export default function IngredientFilter (props: { ingredient: Item, showImage: 
             const foundIngredient = items.find((item: Item) => item.Name === ingredient.Name);
 
             if (foundIngredient) {
-                (document.getElementById(displayName) as HTMLInputElement).checked = true;
+                const checkbox = document.getElementById(displayName) as HTMLInputElement;
+                if (checkbox) checkbox.checked = true;
             }
         }
     }, [displayName, ingredient.Name, ingredient.Type, selectedIngredients]);
