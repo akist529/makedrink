@@ -81,30 +81,24 @@ const IngredientsPage: NextPage = () => {
     }, [storedIngredients, getDrinks, dispatch]);
 
     return (
-        <>
-            { allIngredients.data && 
-                <main className='page' {...modalOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
-                    <Head>
-                        <title>Select Ingredients - MakeDrink</title>
-                    </Head>
-                    <IngredientsHeader />
-                    <IngredientsSection 
-                        section='Alcohol' 
-                        ingredients={(allIngredients.data as Item[])} />
-                    <IngredientsSection 
-                        section='Mixers' 
-                        ingredients={(allIngredients.data as Item[])} />
-                    <Footer />
-                </main> }
-            { allIngredients.isLoading &&
-                <main className='page'>
-                    <LoadingAnimation />
-                </main> }
-            { allIngredients.isError &&
-                <main className='page'>
-                    <ServerError />
-                </main> }
-        </>
+        <main className='page' {...modalOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
+        { allIngredients.data && 
+            <><Head>
+                <title>Select Ingredients - MakeDrink</title>
+            </Head>
+            <IngredientsHeader />
+            <IngredientsSection 
+                section='Alcohol' 
+                ingredients={(allIngredients.data as Item[])} />
+            <IngredientsSection 
+                section='Mixers' 
+                ingredients={(allIngredients.data as Item[])} />
+            <Footer /></> }
+        { allIngredients.isLoading &&
+            <LoadingAnimation /> }
+        { allIngredients.isError &&
+            <ServerError /> }
+        </main>
     );
 }
 

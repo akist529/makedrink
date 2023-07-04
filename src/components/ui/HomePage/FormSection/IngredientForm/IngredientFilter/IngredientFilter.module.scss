@@ -4,15 +4,12 @@
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    padding: 0px;
-    width: 100%;
 
     /* Typography */
     font-size: 20px;
     font-family: 'Oswald';
 
     label {
-        line-height: 25px;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
@@ -21,7 +18,7 @@
     div {
         /* Positioning */
         display: grid;
-        grid-template-columns: 48px auto;
+        grid-template-columns: auto;
         justify-items: center;
         align-items: center;
         gap: 15px;

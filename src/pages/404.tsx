@@ -22,7 +22,7 @@ const ErrorPage: NextPage = () => {
             </Link>
             <Footer />
         </div>
-    )
+    );
 }
 
 export default ErrorPage;

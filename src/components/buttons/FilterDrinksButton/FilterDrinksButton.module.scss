@@ -1,0 +1,35 @@
+.FilterDrinksButton {
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: 1px solid rgb(255, 215, 222);
+    transition: 0.125s;
+
+    img {
+        filter: invert(1);
+        opacity: 0.8;
+    }
+
+    &:hover {
+        border: 1px solid rgb(255, 0, 191);
+
+        .active {
+            filter: invert(1);
+            opacity: 0.8;
+        }
+
+        .inactive {
+            filter: invert(19%) sepia(99%) saturate(7307%) hue-rotate(309deg) brightness(108%) contrast(108%);
+            opacity: 1;    
+        }
+    }
+
+    .active {
+        filter: invert(19%) sepia(99%) saturate(7307%) hue-rotate(309deg) brightness(108%) contrast(108%);
+        opacity: 1;
+    }
+
+    .inactive {
+        filter: invert(1);
+        opacity: 0.8;
+    }
+}

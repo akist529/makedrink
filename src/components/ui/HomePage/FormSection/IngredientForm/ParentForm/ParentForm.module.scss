@@ -1,6 +1,4 @@
-.ParentForm {
-    width: 90%;
-    
+.ParentForm {    
     fieldset {
         /* Positioning */
         padding: 10px;
@@ -29,8 +27,13 @@
             /* Positioning */
             display: flex;
             flex-direction: column;
+            align-items: center;
             gap: 5px;
-            width: 100%;
+            width: 90%;
+
+            li {
+                width: 100%;
+            }
         }
     }
 }

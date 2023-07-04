@@ -64,6 +64,9 @@ export const barApi: any = createApi({
                     data: allDrinkInfo
                 });
             }
+        }),
+        getUser: builder.query<boolean,void>({
+            query: () => "/user"
         })
     })
 });
@@ -75,5 +78,6 @@ export const {
     useLazyGetDrinkInfoQuery, 
     useGetMultipleDrinkInfoQuery, 
     useLazyGetMultipleDrinkInfoQuery, 
-    useGetAllDrinkInfoQuery 
+    useGetAllDrinkInfoQuery, 
+    useGetUserQuery 
 } = barApi;

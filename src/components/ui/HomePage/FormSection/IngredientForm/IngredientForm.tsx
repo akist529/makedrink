@@ -12,113 +12,84 @@ import FormLegend from './FormLegend/FormLegend';
 import ParentForm from './ParentForm/ParentForm';
 // Type interfaces
 import { Item } from '@/types/index';
+// Helper functions
+import notNullish from '@/helpers/notNullish';
 
-export default function IngredientForm (props: { ingredientType: string }) {
-    const { ingredientType } = props;
-    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
-    const [formOpen, setFormOpen] = useState(true);
+export default function IngredientForm (props: { formType: string }) {
+    const { formType } = props;
 
-    const [ingredients, setIngredients] = useState([] as Item[]);
+    // RTK Query
     const allIngredients = useGetAllIngredientsQuery();
+    // Redux store state
+    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
+    // React local states
+    const [formOpen, setFormOpen] = useState(true);
+    const [ingredients, setIngredients] = useState([] as Item[]);
 
     useEffect(() => {
-        if (allIngredients.isSuccess) {
-            setIngredients(allIngredients.data);
-        }
+        if (allIngredients.isSuccess) setIngredients(allIngredients.data);
     }, [allIngredients, ingredients]);
-
-    const getIngredients = useCallback((type: string) => {
-        const filteredIngredients: Item[] = [];
-
-        if (storedIngredients.hasOwnProperty(type)) {
-            for (const key of Object.keys(storedIngredients[type])) {
-                for (const ingredient of storedIngredients[type][key]) {
-                    filteredIngredients.push(ingredient);
-                }
-            }
-        }
-
-        return filteredIngredients;
-    }, [storedIngredients]);
 
     const ingredientIsParent = useCallback((item: Item) => {
         const altItem = ingredients.find((ingredient: Item) => ingredient.AliasId === item.Id);
-
-        if (altItem) {
-            return true;
-        } else {
-            return false;
-        }
+        if (altItem) return true;
+            else return false;
     }, [ingredients]);
-
-    const ingredientIsChild = useCallback((item: Item) => {
-        const type = item.Type || '';
-
-        if (storedIngredients.hasOwnProperty(type)) {
-            for (const key of Object.keys(storedIngredients[type])) {
-                if (storedIngredients[type][key].find((ingredient: Item) => item.AliasId === ingredient.Id)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }, [storedIngredients]);
 
     const parentIngredients = useMemo(() => {
         return ingredients.filter((ingredient: Item) => {
-            if (ingredient.Type !== ingredientType) return false;
+            const type = ingredient.Type;
+
+            if (type !== formType) return false;
             if (!ingredientIsParent(ingredient)) return false;
 
-            const type = ingredient.Type || '';
-            const key = ingredient.Name[0];
-
-            if (storedIngredients.hasOwnProperty(type) && 
-                storedIngredients[type].hasOwnProperty(key)) {
-                const items = storedIngredients[type][key];
-                const foundItem = items.find((item: Item) => item.Id === ingredient.Id);
-                const foundAlias = items.find((item: Item) => item.AliasId == ingredient.Id);
-
-                if (foundItem || foundAlias) return true;
-            }
-
-            return false;
+            if (notNullish(storedIngredients, type)) {
+                for (const key of Object.keys(storedIngredients[type])) {
+                    const items = storedIngredients[type][key];
+                    const foundItem = items.find((item: Item) => item.Id === ingredient.Id);
+                    if (foundItem) return true;
+                    const foundAlias = items.find((item: Item) => item.AliasId == ingredient.Id);
+                    if (foundAlias) return true;    
+                }
+            } return false;
         });
-    }, [ingredients, ingredientIsParent, storedIngredients, ingredientType]);
+    }, [ingredients, ingredientIsParent, storedIngredients, formType]);
 
     const loneIngredients = useMemo(() => {
-        const type = ingredientType;
-        const loneItems = [];
+        const loneItems = [] as Item[];
 
-        for (const key of Object.keys(storedIngredients[type])) {
-            const items = storedIngredients[type][key].filter((item: Item) => {
-                if (!item.AliasId && !ingredientIsParent) {
-                    return true;
-                }
+        for (const key of Object.keys(storedIngredients[formType])) {
+            const items = storedIngredients[formType][key].filter((item: Item) => {
+                if (!item.AliasId && !ingredientIsParent(item)) return true;
             });
 
-            loneItems.push(items);
+            for (const item of items) loneItems.push(item);
         }
 
         return loneItems;
-    }, [storedIngredients, ingredientType, ingredientIsParent]);
+    }, [storedIngredients, formType, ingredientIsParent]);
+
+    const formStyles = useMemo(() => {
+        if (formOpen) return [styles.gradient, styles.gradientOpen].join(' ');
+            else return [styles.gradient, styles.gradientClosed].join(' ');
+    }, [formOpen]);
 
     return (
         <fieldset data-testid='ingredient-form' className={formOpen ? [styles.IngredientForm, styles.formOpen].join(' ') : styles.IngredientForm}>
             <FormLegend 
-                ingredientType={ingredientType} 
+                ingredientType={formType} 
                 setFormOpen={setFormOpen} />
-            { (ingredients.length > 0) && 
-            <ul className={formOpen ? [styles.gradient, styles.gradientOpen].join(' ') : [styles.gradient, styles.gradientClosed].join(' ')}>
-                { parentIngredients.map((ingredient: Item, index: number) => {
-                    return (
-                        <ParentForm 
-                            key={index} 
-                            ingredient={ingredient} />
-                    );
-                }) }
-                <ul className={styles.ingredientList}>
-                    { getIngredients(ingredientType).filter((ingredient: Item) => (!ingredientIsParent(ingredient) && !ingredientIsChild(ingredient))).map((ingredient: Item, index: number) => {
+            <ul className={formStyles}>
+            { parentIngredients.map((ingredient: Item, index: number) => {
+                return (
+                    <ParentForm 
+                        key={index} 
+                        parent={ingredient} />
+                );
+            }) }
+                <li>
+                    <ul className={styles.ingredientList}>
+                    { loneIngredients.map((ingredient: Item, index: number) => {
                         return (
                             <IngredientFilter 
                                 key={index} 
@@ -126,8 +97,9 @@ export default function IngredientForm (props: { ingredientType: string }) {
                                 showImage={true} />
                         );
                     }) }
-                </ul>
-            </ul> }
+                    </ul>
+                </li>
+            </ul>
         </fieldset>
     );
 }
