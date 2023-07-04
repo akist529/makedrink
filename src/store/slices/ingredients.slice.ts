@@ -126,12 +126,13 @@ export const ingredientsSlice = createSlice({
         },
         selectIngredient: (state, action: PayloadAction<Item>) => {
             const type = action.payload.Type || '';
-            const letter = action.payload.Name.charAt(0);
+            const key = action.payload.Name.charAt(0);
 
+            // Abort if ingredient already selected
             if (state.selected.hasOwnProperty(type) && 
-                state.selected[type].hasOwnProperty(letter) && 
-                state.selected[type][letter].find(((item: Item) => item.Name === action.payload.Name))) {
-                    return;
+                state.selected[type].hasOwnProperty(key)) {
+                    const itemSelected = state.selected[type][key].find(((item: Item) => item.Name === action.payload.Name));
+                    if (itemSelected) return;
                 }
 
             if (!state.selected.hasOwnProperty(type)) {
@@ -141,17 +142,17 @@ export const ingredientsSlice = createSlice({
                 });
             }
 
-            if (!state.selected[type].hasOwnProperty(letter)) {
+            if (!state.selected[type].hasOwnProperty(key)) {
                 state.selected = ({
                     ...state.selected,
                     [type]: {
                         ...state.selected[type],
-                        [letter]: []
+                        [key]: []
                     }
                 });
             }
 
-            const newArr = state.selected[type][letter];
+            const newArr = state.selected[type][key];
 
             if (!newArr.find((ingredient: Item) => ingredient.Name === action.payload.Name)) {
                 newArr.push(action.payload);
@@ -161,7 +162,7 @@ export const ingredientsSlice = createSlice({
                 ...state.selected,
                 [type]: {
                     ...state.selected[type],
-                    [letter]: newArr
+                    [key]: newArr
                 }
             });
         },

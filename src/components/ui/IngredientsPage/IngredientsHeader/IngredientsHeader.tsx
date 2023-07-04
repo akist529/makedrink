@@ -53,9 +53,12 @@ export default function IngredientsHeader () {
     return (
         <header className={styles.IngredientsHeader}>
             <IngredientsTitle />
-            <SelectAllButton 
-                clickEvent={allIngredientsStored ? removeAllIngredients : addAllIngredients} 
-                ingredients={ingredients} />
+            <div className={styles.selectAll}>
+                <strong>Select All Ingredients</strong>
+                <SelectAllButton 
+                    clickEvent={allIngredientsStored ? removeAllIngredients : addAllIngredients} 
+                    ingredients={ingredients} />
+            </div>
         </header>
     );
 }

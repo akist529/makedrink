@@ -2,13 +2,16 @@
     /* Positioning */
     display: flex;
     flex-direction: column;
-    width: 90vw;
-    max-width: 500px;
+    width: calc(100vw - 20px);
     max-height: 100px;
     overflow: hidden;
 
     /* Visual */
     transition: 0.5s;
+
+    li {
+        width: 90%;
+    }
 
     .gradient {
         /* Positioning */
@@ -16,7 +19,6 @@
         flex-direction: column;
         align-items: center;
         gap: 10px;
-        width: 100%;
         padding-bottom: 20px;
         overflow: hidden;
 
@@ -30,8 +32,8 @@
     .ingredientList {
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 5px;
-        width: 80%;
     }
 }
 
@@ -46,4 +48,16 @@
 
 .gradientClosed {
     mask-image: linear-gradient(black, transparent);
+}
+
+@media only screen and (min-width: 600px) {
+    .IngredientForm {
+        width: calc(100vw - 250px - 20px);
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .IngredientForm {
+        width: 60vw;
+    }
 }

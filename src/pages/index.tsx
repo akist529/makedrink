@@ -16,10 +16,14 @@ import DrinkSection from '@/components/ui/HomePage/DrinkSection/DrinkSection';
 import FormSection from '@/components/ui/HomePage/FormSection/FormSection';
 
 const HomePage: NextPage = () => {
+  const dispatch = useDispatch();
+
+  // Redux store state
+  const randomDrink = useSelector((state: RootState) => state.drinks.random);
+
+  // React local state
   const [drinkType, setDrinkType] = useState('');
   const [drinkError, setDrinkError] = useState('');
-  const dispatch = useDispatch();
-  const randomDrink = useSelector((state: RootState) => state.drinks.random);
 
   useEffect(() => {
     const id = 'form';

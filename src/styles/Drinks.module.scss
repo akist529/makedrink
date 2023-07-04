@@ -2,6 +2,13 @@
     /* Textography */
     font-family: 'Oswald';
 
+    .controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+
     section {
         width: 100%;
 

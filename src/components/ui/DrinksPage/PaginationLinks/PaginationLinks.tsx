@@ -11,21 +11,15 @@ export default function PaginationLinks (props: { activePage: number, setActiveP
     const { activePage, setActivePage, numOfPages, loadState } = props;
 
     const changePage = useCallback((index: number) => {
-        if (!loadState) {
-            setActivePage(index);
-        }
+        if (!loadState) setActivePage(index);
     }, [loadState, setActivePage]);
 
     const setPageLeft = useCallback(() => {
-        if (!loadState) {
-            setActivePage((prevState: number) => (prevState + numOfPages - 1) % numOfPages);
-        }
+        if (!loadState) setActivePage((prevState: number) => (prevState + numOfPages - 1) % numOfPages);
     }, [loadState, numOfPages, setActivePage]);
 
     const setPageRight = useCallback(() => {
-        if (!loadState) {
-            setActivePage((prevState: number) => (prevState + numOfPages + 1) % numOfPages);
-        }
+        if (!loadState) setActivePage((prevState: number) => (prevState + numOfPages + 1) % numOfPages);
     }, [loadState, numOfPages, setActivePage]);
 
     return (
@@ -39,21 +33,15 @@ export default function PaginationLinks (props: { activePage: number, setActiveP
                     onLoadingComplete={e => updateWidth(e)} />
             </button>
             <ul>
-                { (() => {
-                    const arr = [];
-
-                    for (let i = 0; i < numOfPages; i++) {
-                        arr.push(
-                            <li key={i}>
-                                <button className={(activePage === i) ? styles.activeBtn : ''} onClick={() => changePage(i)}>
-                                    <span>{i + 1}</span>
-                                </button>
-                            </li>
-                        );
-                    }
-
-                    return arr;
-                })() }
+            { Array.from(Array(numOfPages).keys()).map((num: number, index: number) => {
+                return (
+                    <li key={index}>
+                        <button className={(activePage === num) ? styles.activeBtn : ''} onClick={() => changePage(num)}>
+                            <span>{num + 1}</span>
+                        </button>
+                    </li>
+                );
+            }) }
             </ul>
             <button className={styles.PaginateBtn} onClick={setPageRight}>
                 <Image 

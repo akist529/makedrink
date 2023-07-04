@@ -1,7 +1,7 @@
 // Component styles
 import styles from './IngredientFilter.module.scss';
 // React components
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useId } from 'react';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -14,41 +14,45 @@ import { Item } from '@/types/index';
 import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
 import getItemName from '@/helpers/getItemName';
-import findItemById from '@/helpers/findItemById';
-import findAltInStore from '@/helpers/findAltInStore';
+import notNullish from '@/helpers/notNullish';
 
 export default function IngredientFilter (props: { ingredient: Item, showImage: boolean }) {
     const { ingredient, showImage } = props;
     const dispatch = useDispatch();
-    const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
+
+    // Redux store state
     const selectedIngredients = useSelector((state: RootState) => state.ingredients.selected);
-    const displayName = useMemo(() => getItemName(ingredient), [ingredient]);
+    
+    // React local state
     const [imageSrc, setImageSrc] = useState(`https://img.makedr.ink/i/${getSlug(ingredient.Name)}.webp`);
 
-    const changeState = useCallback((e: React.MouseEvent<HTMLInputElement,MouseEvent>) => {
-        if (e.currentTarget.checked) {
-            dispatch(selectIngredient(ingredient));
-        } else {
-            dispatch(unselectIngredient(ingredient));
-        }
-    }, [dispatch, ingredient, storedIngredients]);
+    const displayName = useMemo(() => getItemName(ingredient), [ingredient]);
+    const id = useId();
+    const changeState = useCallback((e: React.MouseEvent<HTMLInputElement>) => {
+        if (e.currentTarget.checked) dispatch(selectIngredient(ingredient));
+        else dispatch(unselectIngredient(ingredient));
+    }, [dispatch, ingredient]);
 
     useEffect(() => {
         const type = ingredient.Type || '';
+        const key = ingredient.Name.charAt(0);
 
-        if (selectedIngredients.hasOwnProperty(type) && 
-            selectedIngredients[type].hasOwnProperty(ingredient.Name.charAt(0)) &&
-            selectedIngredients[type][ingredient.Name.charAt(0)].find((item: Item) => item.Name === ingredient.Name))
+        if (notNullish(selectedIngredients, type) && notNullish(selectedIngredients[type], key))
         {
-            (document.getElementById(displayName) as HTMLInputElement).checked = true;
+            const items = selectedIngredients[type][key];
+            const foundIngredient = items.find((item: Item) => item.Name === ingredient.Name);
+
+            if (foundIngredient) {
+                (document.getElementById(displayName) as HTMLInputElement).checked = true;
+            }
         }
     }, [displayName, ingredient.Name, ingredient.Type, selectedIngredients]);
 
     return (
         <li className={styles.IngredientFilter}>
-            <label htmlFor={displayName}>{displayName}</label>
-            <div>
-                { showImage && 
+            <label htmlFor={id}>{displayName}</label>
+            <div {...showImage && {style:{gridTemplateColumns: '48px auto'}}}>
+            { showImage && 
                 <Image 
                     alt={displayName} 
                     src={imageSrc} 
@@ -59,10 +63,10 @@ export default function IngredientFilter (props: { ingredient: Item, showImage: 
                     unoptimized /> }
                 <input 
                     type="checkbox" 
-                    id={displayName} 
+                    id={id} 
                     name={displayName} 
                     value={displayName} 
-                    onClick={(e) => changeState(e)} />
+                    onClick={e => changeState(e)} />
             </div>
         </li>
     );

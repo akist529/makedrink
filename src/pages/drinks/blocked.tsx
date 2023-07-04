@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Head from 'next/head';
 // React components
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 // Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -18,6 +18,7 @@ import PaginationLinks from '@/components/ui/DrinksPage/PaginationLinks/Paginati
 import MakeDrinkLink from '@/components/links/MakeDrinkLink/MakeDrinkLink';
 import Footer from '@/components/footer/Footer';
 import PageCountCtrl from '@/components/ui/DrinksPage/PageCountCtrl/PageCountCtrl';
+import FilterDrinksButton from '@/components/buttons/FilterDrinksButton/FilterDrinksButton';
 // Type interfaces
 import { DrinkDict, DrinkInfo, Item } from '@/types/index';
 
@@ -32,9 +33,8 @@ const BlockedDrinksPage: NextPage = () => {
     const subCardOpen = useSelector((state: RootState) => state.subCard.open);
 
     const [drinksList, setDrinksList] = useState([] as DrinkInfo[]);
-    const [activePage, setActivePage] = useState(() => {
-        return Number(urlParams.get('page'));
-    });
+    const [activePage, setActivePage] = useState(Number(urlParams.get('page')));
+    const [drinkFilter, setDrinkFilter] = useState('cocktail');
 
     // RTK Queries
     const allIngredients = useGetAllIngredientsQuery();
@@ -47,17 +47,55 @@ const BlockedDrinksPage: NextPage = () => {
     }, [allIngredients]);
 
 
-    const allDrinks = (() => {
-        const arr = [];
+    const allDrinks = useMemo(() => {
+        if (allIngredients.data) {
+            const arr = [];
 
-        for (const key of Object.keys(blockedDrinks)) {
-            for (const item of blockedDrinks[key]) {
-                arr.push(item);
+            for (const key of Object.keys(blockedDrinks)) {
+                for (const item of blockedDrinks[key]) {
+                    if (drinkFilter === 'cocktail') {
+                        let hasAlcohol = false;
+    
+                        for (const ingredient of item.Recipe) {
+                            const ingredientData = allIngredients.data.find((item: Item) => item.Name === ingredient.Name);
+    
+                            if (ingredientData) {
+                                if (ingredientData.Type === 'liquor' || ingredientData.Type === 'liqueur' || ingredientData.Type === 'other' || ingredientData.Type === 'wine') {
+                                    hasAlcohol = true;
+                                    break;
+                                }
+                            }
+                        }
+    
+                        if (!hasAlcohol) continue;
+                    }
+    
+                    if (drinkFilter === 'mocktail') {
+                        let hasAlcohol = false;
+    
+                        for (const ingredient of item.Recipe) {
+                            const ingredientData = allIngredients.data.find((item: Item) => item.Name === ingredient.Name);
+    
+                            if (ingredientData) {
+                                if (ingredientData.Type === 'liquor' || ingredientData.Type === 'liqueur' || ingredientData.Type === 'other' || ingredientData.Type === 'wine') {
+                                    hasAlcohol = true;
+                                    break;
+                                }
+                            }
+                        }
+    
+                        if (hasAlcohol) continue;
+                    }
+
+                    arr.push(item);
+                }
             }
+    
+            return arr;
+        } else {
+            return [] as DrinkInfo[];
         }
-
-        return arr;
-    })();
+    }, [blockedDrinks, allIngredients, drinkFilter]);
 
     const numOfPages = Math.ceil(allDrinks.length / 20);
 
@@ -83,7 +121,7 @@ const BlockedDrinksPage: NextPage = () => {
         });
 
         router.push(`${pathname}?` + createQueryString('page', activePage.toString()))
-    }, [activePage]);
+    }, [activePage, drinkFilter]);
 
     return (
         <main className={['page', styles.DrinksPage].join(' ')} {...subCardOpen && {style: {height: '100%', overflowY: 'hidden', filter: 'blur(3px)'}}}>
@@ -91,16 +129,19 @@ const BlockedDrinksPage: NextPage = () => {
                 <title>Blocked Drinks - MakeDrink</title>
             </Head>
             { drinksList.length === 0 && 
-                <>
-                <h1>No drinks blocked!</h1>
+                <><h1>No drinks blocked!</h1>
                 <h2>Go try some drinks to see what you like.</h2>
                 <Link href='/'>
                     <MakeDrinkLink />
-                </Link>
-                </> }
+                </Link></> }
             { drinksList.length > 0 && 
                 <>
-                <PageCountCtrl />
+                <div className={styles.controls}>
+                    <PageCountCtrl />
+                    <FilterDrinksButton 
+                        drinkFilter={drinkFilter} 
+                        setDrinkFilter={setDrinkFilter} />
+                </div>
                 <PaginationLinks 
                     activePage={activePage}
                     setActivePage={setActivePage} 
@@ -108,15 +149,15 @@ const BlockedDrinksPage: NextPage = () => {
                     loadState={false} />
                 <section>
                     <ul>
-                        { drinksList.map((drink: DrinkInfo, index: number) => {
-                            return (
-                                <DrinkCard 
-                                    key={index} 
-                                    drink={drink} 
-                                    isRandom={false} 
-                                    ingredients={ingredients} />
-                            );
-                        }) }
+                    { drinksList.map((drink: DrinkInfo, index: number) => {
+                        return (
+                            <DrinkCard 
+                                key={index} 
+                                drink={drink} 
+                                isRandom={false} 
+                                ingredients={ingredients} />
+                        );
+                    }) }
                     </ul>
                 </section>
                 <PaginationLinks 
@@ -124,8 +165,7 @@ const BlockedDrinksPage: NextPage = () => {
                     setActivePage={setActivePage} 
                     numOfPages={numOfPages} 
                     loadState={false} />
-                <PageCountCtrl />
-                </> }
+                <PageCountCtrl /></> }
             <Footer />
         </main>
     );

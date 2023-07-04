@@ -1,7 +1,7 @@
 // Page styles
 import styles from '@/styles/Drink.module.scss';
 // Redux components
-import { useGetAllIngredientsQuery, useGetAllDrinksQuery, useLazyGetDrinkInfoQuery } from '@/store/api/api';
+import { useGetAllIngredientsQuery, useGetAllDrinksQuery, useLazyGetDrinkInfoQuery, useGetUserQuery } from '@/store/api/api';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { addFavoriteDrink, removeFavoriteDrink, addBlockedDrink, removeBlockedDrink } from '@/store/slices/drinks.slice';
@@ -29,6 +29,7 @@ const DrinkPage: NextPage = () => {
     const allDrinks = useGetAllDrinksQuery();
     const [getDrinkInfo, drinkInfoResult] = useLazyGetDrinkInfoQuery();
     const allIngredients = useGetAllIngredientsQuery();
+    const user = useGetUserQuery();
 
     // Redux store states
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
@@ -45,15 +46,11 @@ const DrinkPage: NextPage = () => {
     const [drinkInfo, setDrinkInfo] = useState({} as DrinkInfo);
     const [ingredients, setIngredients] = useState([] as Item[]);
 
-    const isAdmin = useMemo(() => {
-        // if (Cookies.get('id')) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
-
-        return false;
-    }, []);
+    const isUser = useMemo(() => {
+        if (user.isSuccess && user.data.LoggedIn) {
+            return true;
+        } return false;
+    }, [user]);
 
     useEffect(() => {
         if (allIngredients.isSuccess) {
@@ -331,97 +328,94 @@ const DrinkPage: NextPage = () => {
     }, [drinkInfo, ingredients]);
 
     return (
-        <>
-        { (ingredients.length > 0) && 
         <div className={['page', styles.DrinkPage].join(' ')}>
-            { !drinkError && !drinkInfo.Name && 
-                <>
-                    <Head>
-                        <title>Loading... - MakeDrink</title>
-                    </Head>
-                    <LoadingAnimation />
-                </> }
-            { drinkError && 
-                <>
-                    <Head>
-                        <title>Error - MakeDrink</title>
-                    </Head>
-                    <strong>The drink you entered does not exist!</strong>
-                </> }
-            { drinkInfo.Name && 
-                <main>
-                    <Head>
-                        <title>{drinkInfo.Name} - MakeDrink</title>
-                    </Head>
-                    { recipeError && <strong>You are missing ingredients for this recipe!</strong> }
-                    <header>
-                        <div className={styles.drinkTitle}>
-                            <h1>{drinkInfo.Name}</h1>
-                            { isMocktail && 
-                                <Image 
-                                    alt='Mocktail' 
-                                    src={require('/public/images/ui/no_drinks.svg')} 
-                                    width="0" 
-                                    height="36" 
-                                    title='Mocktail' 
-                                    onLoadingComplete={e => updateWidth(e)} /> }
-                        </div>
-                        <div>
-                            <button className={drinkFavorited ? styles.favorited : styles.unfavorited} onClick={() => favoriteDrink(drinkInfo)}>
-                                <Image 
-                                    alt='Favorite Drink' 
-                                    title='Favorite Drink' 
-                                    src={favoriteImagePath} 
-                                    width="0" 
-                                    height="48"
-                                    onLoadingComplete={e => updateWidth(e)} />
-                            </button>
-                            <button className={drinkBlocked ? styles.blocked : styles.unblocked} onClick={() => blockDrink(drinkInfo)}>
-                                <Image 
-                                    alt='Block Drink' 
-                                    title='Block Drink' 
-                                    src={require('/public/images/ui/block.svg')} 
-                                    width="0" 
-                                    height="48" 
-                                    onLoadingComplete={e => updateWidth(e)} />
-                            </button>
-                        </div>
-                        { isAdmin && 
-                            <EditDrinkButton drink={getSlug(drinkInfo.Name) || ''} /> }
-                    </header>
-                    <section className={styles.ingredients}>
-                        <h2>Ingredients</h2>
-                        <ul>
-                        { drinkInfo.Recipe.map((ingredient, index) => {
-                            return getIngredient(ingredient, index);
-                        }) }
-                        </ul>
-                    </section>
-                    <section className={styles.directions}>
-                        <h2>Directions</h2>
-                        <ol>
-                        { drinkInfo.Directions.map((direction, index) => {
-                            return (
-                                <li key={index}>
-                                    <p>{direction}</p>
-                                    <hr/>
-                                </li>
-                            );
-                        }) }
-                        </ol>
-                    </section>
-                    <figure>
-                        <Image 
-                            alt='Cocktail' 
-                            src={require('/public/images/ui/cocktail-placeholder.jpg')} 
-                            width="0" 
-                            height="256" 
-                            onLoadingComplete={e => updateWidth(e)} />
-                    </figure>
-                </main> }
+        { ingredients.length > 0 && 
+        <>
+        { !drinkError && !drinkInfo.Name && 
+            <><Head>
+                <title>Loading... - MakeDrink</title>
+            </Head>
+            <LoadingAnimation /></> }
+        { drinkError && 
+            <><Head>
+                <title>Error - MakeDrink</title>
+            </Head>
+            <strong>The drink you entered does not exist!</strong></> }
+        { drinkInfo.Name && 
+            <main>
+                <Head>
+                    <title>{drinkInfo.Name} - MakeDrink</title>
+                </Head>
+                { recipeError && 
+                    <strong>You are missing ingredients for this recipe!</strong> }
+                <header>
+                    <div className={styles.drinkTitle}>
+                        <h1>{drinkInfo.Name}</h1>
+                        { isMocktail && 
+                            <Image 
+                                alt='Mocktail' 
+                                src={require('/public/images/ui/no_drinks.svg')} 
+                                width="0" 
+                                height="36" 
+                                title='Mocktail' 
+                                onLoadingComplete={e => updateWidth(e)} /> }
+                    </div>
+                    <div>
+                        <button className={drinkFavorited ? styles.favorited : styles.unfavorited} onClick={() => favoriteDrink(drinkInfo)}>
+                            <Image 
+                                alt='Favorite Drink' 
+                                title='Favorite Drink' 
+                                src={favoriteImagePath} 
+                                width="0" 
+                                height="48"
+                                onLoadingComplete={e => updateWidth(e)} />
+                        </button>
+                        <button className={drinkBlocked ? styles.blocked : styles.unblocked} onClick={() => blockDrink(drinkInfo)}>
+                            <Image 
+                                alt='Block Drink' 
+                                title='Block Drink' 
+                                src={require('/public/images/ui/block.svg')} 
+                                width="0" 
+                                height="48" 
+                                onLoadingComplete={e => updateWidth(e)} />
+                        </button>
+                    </div>
+                    { isUser && 
+                        <EditDrinkButton drink={getSlug(drinkInfo.Name) || ''} /> }
+                </header>
+                <section className={styles.ingredients}>
+                    <h2>Ingredients</h2>
+                    <ul>
+                    { drinkInfo.Recipe.map((ingredient, index) => {
+                        return getIngredient(ingredient, index);
+                    }) }
+                    </ul>
+                </section>
+                <section className={styles.directions}>
+                    <h2>Directions</h2>
+                    <ol>
+                    { drinkInfo.Directions.map((direction, index) => {
+                        return (
+                            <li key={index}>
+                                <p>{direction}</p>
+                                <hr/>
+                            </li>
+                        );
+                    }) }
+                    </ol>
+                </section>
+                <figure>
+                    <Image 
+                        alt='Cocktail' 
+                        src={require('/public/images/ui/cocktail-placeholder.jpg')} 
+                        width="0" 
+                        height="256" 
+                        onLoadingComplete={e => updateWidth(e)} />
+                </figure>
+            </main> }
             <Footer />
-        </div> }
-        </>
+        </> }
+        </div>
     );
 }
 

@@ -12,52 +12,56 @@ import { RootState } from '@/store/store';
 // Helper functions
 import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
+import notNullish from '@/helpers/notNullish';
 // React components
-import { useState, useCallback } from 'react';
+import { useState, useMemo } from 'react';
 
-export default function ParentForm (props: { ingredient: Item }) {
-    const { ingredient } = props;
+export default function ParentForm (props: { parent: Item }) {
+    const { parent } = props;
+
+    // Redux store state
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
-    const [imageSrc, setImageSrc] = useState(`https://img.makedr.ink/i/${getSlug(ingredient.Name)}.webp`);
 
-    const childIngredients = useCallback((item: Item) => {
+    // React local state
+    const [imageSrc, setImageSrc] = useState(`https://img.makedr.ink/i/${getSlug(parent.Name)}.webp`);
+
+    const childIngredients = useMemo(() => {
         const childIngredients: Item[] = [];
-        const type = item.Type || '';
+        const type = parent.Type || '';
 
-        if (storedIngredients.hasOwnProperty(type)) {
+        if (notNullish(storedIngredients, type)) {
             for (const key of Object.keys(storedIngredients[type])) {
-                for (const ingredient of storedIngredients[type][key]) {
-                    if (ingredient.AliasId === item.Id) {
-                    childIngredients.push(ingredient);
+                const items = storedIngredients[type][key];
+                
+                items.forEach((ingredient: Item) => {
+                    if (ingredient.AliasId === parent.Id) {
+                        childIngredients.push(ingredient);
                     }
-                }
+                });
             }
         }
 
         return childIngredients;
-    }, [storedIngredients]);
+    }, [storedIngredients, parent]);
     
-    const ingredientIsChild = useCallback((item: Item) => {
-        const type = item.Type || '';
-        
-        if (storedIngredients.hasOwnProperty(type)) {
-            for (const key of Object.keys(storedIngredients[type])) {
-                if (storedIngredients[type][key].find((ingredient: Item) => item.AliasId === ingredient.Id)) {
-                    return true;
-                }
-            }
-        }
+    const parentInStore = useMemo(() => {
+        const type = parent.Type || '';
+        const key = parent.Name[0];
 
-        return false;
-    }, [storedIngredients]);
+        if (notNullish(storedIngredients, type) && notNullish(storedIngredients[type], key)) {
+            const items = storedIngredients[type][key];
+            const foundParent = items.find((item: Item) => item.Id === parent.Id);
+            if (foundParent) return true;
+        }
+    }, [parent, storedIngredients]);
 
     return (
         <li className={styles.ParentForm}>
             <fieldset>
                 <legend>
-                    <span>{ingredient.Name}</span>
+                    <span>{parent.Name}</span>
                     <Image 
-                        alt={ingredient.Name} 
+                        alt={parent.Name} 
                         src={imageSrc} 
                         width="0" 
                         height="48" 
@@ -66,27 +70,18 @@ export default function ParentForm (props: { ingredient: Item }) {
                         unoptimized />
                 </legend>
                 <ul className={styles.ingredientList}>
-                    { childIngredients(ingredient).filter((ingredient: Item) => ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
-                        return (
-                            <IngredientFilter 
-                                key={index} 
-                                ingredient={ingredient} 
-                                showImage={false} />
-                        );
-                    }) }
+                { childIngredients.map((ingredient: Item, index: number) => {
+                    return (
+                        <IngredientFilter 
+                            key={index} 
+                            ingredient={ingredient} 
+                            showImage={false} />
+                    );
+                }) }
+                { parentInStore && 
                     <IngredientFilter 
-                        ingredient={ingredient} 
-                        showImage={false} />
-                </ul>
-                <ul className={styles.ingredientList}>
-                    { childIngredients(ingredient).filter((ingredient: Item) => !ingredientIsChild(ingredient)).map((ingredient: Item, index: number) => {
-                        return (
-                            <IngredientFilter 
-                                key={index} 
-                                ingredient={ingredient} 
-                                showImage={false} />
-                        );
-                    }) }
+                        ingredient={parent} 
+                        showImage={false} /> }
                 </ul>
             </fieldset>
         </li>
