@@ -6,12 +6,9 @@ import { useState, useEffect, useMemo, useCallback, useId } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { selectIngredient, unselectIngredient } from '@/store/slices/ingredients.slice';
-// Next components
-import Image from 'next/image';
 // Type interfaces
 import { Item } from '@/types/index';
 // Helper functions
-import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
 import getItemName from '@/helpers/getItemName';
 import notNullish from '@/helpers/notNullish';
@@ -53,19 +50,32 @@ export default function IngredientFilter (props: { ingredient: Item, showImage: 
         }
     }, [displayName, ingredient.Name, ingredient.Type, selectedIngredients]);
 
+    const iconExists = useCallback((url: string) => {
+        const image = new Image();
+        image.src = url;
+
+        if (image.complete) {
+            return true;
+        } else {
+            image.onload = () => {
+                return true;
+            }
+
+            image.onerror = () => {
+                return false;
+            }
+        }
+    }, []);
+
     return (
         <li className={styles.IngredientFilter}>
             <label htmlFor={id}>{displayName}</label>
             <div {...showImage && {style:{gridTemplateColumns: '48px auto'}}}>
             { showImage && 
-                <Image 
-                    alt={displayName} 
-                    src={imageSrc} 
-                    width="0" 
-                    height="48" 
-                    onError={() => setImageSrc('https://img.makedr.ink/i/cocktail.webp')} 
-                    onLoadingComplete={e => updateWidth(e)} 
-                    unoptimized /> }
+                <span
+                    className={styles.icon}
+                    style={{backgroundImage: `url(${iconExists(imageSrc) ? imageSrc : 'https://img.makedr.ink/i/cocktail.webp'})`}}
+                ></span> }
                 <input 
                     type="checkbox" 
                     id={id} 

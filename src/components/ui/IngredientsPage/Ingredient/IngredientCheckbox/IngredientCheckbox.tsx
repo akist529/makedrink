@@ -2,12 +2,8 @@
 import styles from './IngredientCheckbox.module.scss';
 // React components
 import { useMemo } from 'react';
-// Next components
-import Image from 'next/image';
 // Type interfaces
 import { Item } from '@/types/index';
-// Helper functions
-import updateWidth from '@/helpers/updateWidth';
 
 export default function IngredientCheckbox(props: { item: Item, isChecked: boolean }) {
     // Import props
@@ -29,13 +25,9 @@ export default function IngredientCheckbox(props: { item: Item, isChecked: boole
     return (
         <div data-testid="ingredient-checkbox" id={item.Name} className={boxStyles} {...isChecked && {style: {background: `var(--whiskey)`}}}>
         { !isChecked && 
-            <Image 
-                className={styles.notSelected} 
-                alt="Ingredient Not Selected" 
-                src={require('/public/images/ui/close.svg')} 
-                width="0" 
-                height="48" 
-                onLoadingComplete={e => updateWidth(e)} /> }
+            <span
+                className={[styles.icon, styles.notSelected].join(' ')}
+            ></span> }
         </div>
     );
 }

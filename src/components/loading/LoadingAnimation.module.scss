@@ -9,7 +9,15 @@
     font-family: 'Oswald';
     text-transform: uppercase;
 
-    img {
+    &::after {
+        display: inline-block;
+        content: '';
+        background-image: url('/images/ui/shaker.webp');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        width: 128px;
+        height: 128px;
         filter: invert(1);
         transform: rotate(0);
         animation: loading 0.5s linear 0s infinite normal none running;

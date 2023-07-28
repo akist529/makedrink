@@ -1,10 +1,23 @@
 .PaginationLinks {
     display: flex;
 
-    button {
-        img {
-            filter: invert(1);
-        }
+    .PaginateBtn::after {
+        display: inline-block;
+        content: '';
+        background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        width: 32px;
+        height: 32px;
+        filter: invert(1);
+    }
+
+    #navLeft::after {
+        background-image: url('/images/ui/chevron_left.svg');
+    }
+
+    #navRight::after {
+        background-image: url('/images/ui/chevron_right.svg');
     }
 
     ul {

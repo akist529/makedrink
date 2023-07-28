@@ -1,7 +1,5 @@
 // Component styles
 import styles from './SubCard.module.scss';
-// Next components
-import Image from 'next/image';
 // Type interfaces
 import { Item, Ingredient } from '@/types/index';
 // Redux components
@@ -10,8 +8,6 @@ import { RootState } from '@/store/store';
 import { toggleSubCard } from '@/store/slices/subCard.slice';
 // Local components
 import RecipeItem from '../RecipeItem/RecipeItem';
-// Helper functions
-import updateWidth from '@/helpers/updateWidth';
 // React components
 import { useMemo } from 'react';
 
@@ -59,14 +55,9 @@ export default function SubCard () {
                         }) }
                     </ul> }
                     { !altIngredients.length && <strong>No other alternatives</strong> }
-                    <button onClick={() => dispatch(toggleSubCard())}>
-                        <Image 
-                            alt="Close Modal" 
-                            src={require('/public/images/ui/close.svg')} 
-                            width="0" 
-                            height="32" 
-                            onLoadingComplete={e => updateWidth(e)} />
-                    </button>
+                    <button
+                        onClick={() => dispatch(toggleSubCard())}
+                    ></button>
                 </div>
             </div> }
         </div>

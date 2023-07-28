@@ -4,4 +4,14 @@
     &:hover {
         filter: invert(16%) sepia(67%) saturate(7116%) hue-rotate(307deg) brightness(106%) contrast(110%);
     }
+
+    .icon {
+        display: inline-block;
+        content: '';
+        background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        width: 40px;
+        height: 40px;
+    }
 }

@@ -1,7 +1,5 @@
 // Component styles
 import styles from './IngredientModal.module.scss';
-// Next components
-import Image from 'next/image';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -17,7 +15,6 @@ import CloseButton from '@/components/buttons/CloseButton/CloseButton';
 // Type interfaces
 import { Item } from '@/types/index';
 // Helper functions
-import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
 // React components
 import { useCallback, useMemo, useState, useEffect } from 'react';
@@ -75,6 +72,23 @@ export default function IngredientModal () {
         });
     }, [childIngredients, storedIngredients]);
 
+    const iconExists = useCallback((url: string) => {
+        const image = new Image();
+        image.src = url;
+
+        if (image.complete) {
+            return true;
+        } else {
+            image.onload = () => {
+                return true;
+            }
+
+            image.onerror = () => {
+                return false;
+            }
+        }
+    }, []);
+
     return (
         <>
         { ingredientModalOpen && modalIngredient && (ingredients.length > 0) &&
@@ -88,14 +102,10 @@ export default function IngredientModal () {
                         <SelectAllButton 
                             clickEvent={allIngredientsStored ? removeAllIngredients : addAllIngredients} 
                             ingredients={childIngredients} />
-                        <Image 
-                            alt={modalIngredient.Name} 
-                            src={imageSrc} 
-                            width="0" 
-                            height="48" 
-                            onError={() => setImageSrc('https://img.makedr.ink/i/cocktail.webp')} 
-                            onLoadingComplete={e => updateWidth(e)} 
-                            unoptimized />
+                        <span
+                            className={styles.icon}
+                            style={{backgroundImage: `url(${iconExists(imageSrc) ? imageSrc : 'https://img.makedr.ink/i/cocktail.webp'})`}}
+                        ></span>
                     </div>
                     <ul className={styles.childList}>
                     { childIngredients.map((ingredient: Item) => <Ingredient key={ingredient.Id} item={ingredient} section={[]} />) }

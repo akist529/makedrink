@@ -1,6 +1,7 @@
+// Component styles
 import styles from './EditDrinkButton.module.scss';
+// Next components
 import Link from 'next/link';
-import { DrinkInfo } from '@/types/index';
 
 export default function EditDrinkButton (props: { drink: string }) {
     const { drink } = props;

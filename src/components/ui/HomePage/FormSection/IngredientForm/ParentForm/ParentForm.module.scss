@@ -21,6 +21,16 @@
             text-transform: uppercase;
             line-height: 32px;
             font-size: 28px;
+
+            .icon {
+                display: inline-block;
+                content: '';
+                background-repeat: no-repeat;
+                    background-size: contain;
+                    background-position: center;
+                width: 48px;
+                height: 48px;
+            }
         }
 
         .ingredientList {

@@ -2,13 +2,18 @@
     filter: invert(100%) sepia(1%) saturate(7488%) hue-rotate(188deg) brightness(119%) contrast(57%);
     transition: 0.125s;
 
+    &::after {
+        display: inline-block;
+        content: '';
+        background-image: url('/images/ui/arrow_circle_down.svg');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        width: 64px;
+        height: 64px;
+    }
+
     &:hover {
         filter: invert(15%) sepia(100%) saturate(3744%) hue-rotate(307deg) brightness(109%) contrast(118%);
     }
 }
-
-// @media only screen and (min-width: 992px) {
-//     .ScrollLink {
-//         padding: 150px 0;
-//     }
-// }

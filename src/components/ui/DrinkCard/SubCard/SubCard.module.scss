@@ -41,6 +41,17 @@
             right: 0;
             filter: invert(1);
 
+            &::after {
+                display: inline-block;
+                content: '';
+                background-image: url('/images/ui/close.svg');
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    background-position: center;
+                width: 32px;
+                height: 32px;
+            }
+
             &:hover {
                 filter: invert(16%) sepia(67%) saturate(7116%) hue-rotate(307deg) brightness(106%) contrast(110%);
             }

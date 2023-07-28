@@ -5,7 +5,7 @@ import { useGetAllIngredientsQuery, useGetAllDrinksQuery } from '@/store/api/api
 // React components
 import { useState, useEffect, useMemo, useCallback, useId } from 'react';
 // Type interfaces
-import { Item, Ingredient, Drink, DrinkInfo } from '@/types/index';
+import { Ingredient, Drink, DrinkInfo } from '@/types/index';
 // Local components
 import IngredientField from './IngredientField/IngredientField';
 import DirectionField from './DirectionField/DirectionField';

@@ -3,7 +3,7 @@ import styles from './Ingredient.module.scss';
 // React components
 import { useState, useEffect, useCallback, useMemo } from 'react';
 // Next components
-import Image from 'next/image';
+import NextImage from 'next/image';
 // Redux components
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleIngredientModal, setModalIngredient } from '@/store/slices/ingredientModal.slice';
@@ -14,7 +14,6 @@ import IngredientCheckbox from '@/components/ui/IngredientsPage/Ingredient/Ingre
 // Type interfaces
 import { Item } from '@/types/index';
 // Helper functions
-import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
 import getItemName from '@/helpers/getItemName';
 
@@ -118,31 +117,42 @@ export default function Ingredient (props: { item: Item, section: Item[]}) {
         }
     }, [storedIngredients, aliasInStore, hasChildren, item, itemInStore]);
 
+    const iconExists = useCallback((url: string) => {
+        const image = new Image();
+        image.src = url;
+
+        if (image.complete) {
+            return true;
+        } else {
+            image.onload = () => {
+                return true;
+            }
+
+            image.onerror = () => {
+                return false;
+            }
+        }
+    }, []);
+
     return (
         <li className={styles.Ingredient}>
             <button className={styles.info} onClick={updateStore}>
             { hasChildren &&
-                <Image 
+                <NextImage 
                     className={styles.children} 
                     alt="Show Varieties" 
                     src={require('/public/images/ui/more_vert.svg')} 
                     width={8} 
                     height={50} 
                     style={{ width: 8, height: 50 }} /> }
-                <div className={styles.icon}>
-                    <Image 
-                        alt={item.Name} 
-                        src={img} 
-                        width="0" 
-                        height="50" 
-                        onLoadingComplete={e => updateWidth(e)} 
-                        onError={() => setImg('https://img.makedr.ink/i/cocktail.webp')} 
-                        unoptimized />
-                </div>
+                <span
+                    className={styles.icon}
+                    style={{backgroundImage: `url(${iconExists(img) ? img : 'https://img.makedr.ink/i/cocktail.webp'})`, width: 50, height: 50}}
+                ></span>
                 <IngredientCheckbox 
                     item={item} 
                     isChecked={isChecked} />
-                <span>{displayName}</span>
+                <span className={styles.name}>{displayName}</span>
             </button>
         </li>
     );

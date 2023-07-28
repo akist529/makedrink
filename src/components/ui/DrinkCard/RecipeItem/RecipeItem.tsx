@@ -2,8 +2,6 @@
 import styles from './RecipeItem.module.scss';
 // Type interfaces
 import { Item, Ingredient } from '@/types/index';
-// Next components
-import Image from 'next/image';
 // React components
 import { useState, useEffect, useMemo, useCallback } from 'react';
 // Redux components
@@ -11,7 +9,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { toggleSubCard, setCardIngredient } from '@/store/slices/subCard.slice';
 // Helper functions
-import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
 import findItemInStore from '@/helpers/findItemInStore';
 import getItemName from '@/helpers/getItemName';
@@ -32,6 +29,23 @@ export default function RecipeItem (props: { ingredient: Item, isSub: boolean, p
         dispatch(toggleSubCard());
     }, [dispatch, ingredient, preferred]);
 
+    const iconExists = useCallback((url: string) => {
+        const image = new Image();
+        image.src = url;
+
+        if (image.complete) {
+            return true;
+        } else {
+            image.onload = () => {
+                return true;
+            }
+
+            image.onerror = () => {
+                return false;
+            }
+        }
+    }, []);
+
     useEffect(() => {
         setImg(`https://img.makedr.ink/i/${getSlug(ingredient.Name)}.webp`);
     }, [ingredient]);
@@ -42,35 +56,19 @@ export default function RecipeItem (props: { ingredient: Item, isSub: boolean, p
             { isSub && itemInStore && 
                 <div className={styles.altIngredient}>
                     <span>{displayName}</span>
-                    <button onClick={(e) => handleClick(e)}>
-                        <Image 
-                            alt='Alternate Ingredient' 
-                            src={require('/public/images/ui/change_circle.svg')} 
-                            width="0" 
-                            height="24" 
-                            title='Alternate Ingredient' 
-                            onLoadingComplete={e => updateWidth(e)} />
-                    </button>
+                    <button
+                        title='Alternate Ingredient'
+                        onClick={(e) => handleClick(e)}
+                    ></button>
                 </div> }
             { !itemInStore && 
-                <div className={styles.missingIngredient}>
+                <div title='Missing Ingredient' className={styles.missingIngredient}>
                     <span>{displayName}</span>
-                    <Image 
-                        alt='Ingredient Missing' 
-                        src={require('/public/images/ui/cancel.svg')} 
-                        width="0" 
-                        height="24" 
-                        title='Ingredient Missing' 
-                        onLoadingComplete={e => updateWidth(e)} />
                 </div> }
-            <Image 
-                alt={displayName} 
-                src={img} 
-                width="0" 
-                height="24" 
-                unoptimized={true} 
-                onError={() => setImg('https://img.makedr.ink/i/cocktail.webp')} 
-                onLoadingComplete={e => updateWidth(e)} />
+            <span
+                className={styles.icon}
+                style={{backgroundImage: `url(${iconExists(img) ? img : 'https://img.makedr.ink/i/cocktail.webp'})`}}
+            ></span>
         </li>
     );
 }

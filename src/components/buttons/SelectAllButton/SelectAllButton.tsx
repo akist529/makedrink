@@ -1,9 +1,11 @@
+// Component styles
 import styles from './SelectAllButton.module.scss';
-import Image from 'next/image';
-import updateWidth from '@/helpers/updateWidth';
+// Redux components
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+// React components
 import { useMemo } from 'react';
+// Type interfaces
 import { Item } from '@/types/index';
 
 export default function SelectAllButton (props: { clickEvent: Function, ingredients: Item[] }) {
@@ -33,14 +35,10 @@ export default function SelectAllButton (props: { clickEvent: Function, ingredie
     }, [allIngredientsStored]);
 
     return (
-        <button className={ButtonStyle} onClick={e => clickEvent(e, ingredients)}>
-            <Image 
-                alt='Select All' 
-                src={require('/public/images/ui/done_all.svg')} 
-                width="0" 
-                height="48" 
-                title='Select All' 
-                onLoadingComplete={e => updateWidth(e)} />
-        </button>
+        <button
+            title='Select All'
+            className={ButtonStyle}
+            onClick={e => clickEvent(e, ingredients)}
+        ></button>
     );
 }

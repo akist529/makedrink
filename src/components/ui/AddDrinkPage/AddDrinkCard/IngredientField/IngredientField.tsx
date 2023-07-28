@@ -4,9 +4,6 @@ import styles from './IngredientField.module.scss';
 import { Item, Ingredient } from '@/types/index';
 // Helper functions
 import getItemName from '@/helpers/getItemName';
-import updateWidth from '@/helpers/updateWidth';
-// Next components
-import Image from 'next/image';
 // React components
 import { useState, useMemo, useCallback } from 'react';
 
@@ -141,15 +138,10 @@ export default function IngredientField (props: { i: number, ingredients: Item[]
                 name={`item-${i}-amount`}
                 placeholder={amount}/>
             <span id={`item-${i}-unit`}>{unit}</span>
-            <button onClick={e => removeIngredient(e, i)}>
-                <Image 
-                    alt="Remove Ingredient"
-                    src={require('/public/images/ui/cancel.svg')} 
-                    width="0" 
-                    height="24" 
-                    title="Remove Ingredient"
-                    onLoadingComplete={e => updateWidth(e)} />
-            </button>
+            <button
+                title='Remove Ingredient'
+                onClick={e => removeIngredient(e, i)}
+            ></button>
         </li>
     );
 }

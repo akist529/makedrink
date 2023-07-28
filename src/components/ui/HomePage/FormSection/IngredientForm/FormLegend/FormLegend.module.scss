@@ -7,7 +7,15 @@
         color: white;
         font-size: 40px;
 
-        img {
+        &::after {
+            display: inline-block;
+            content: '';
+            background-image: url('/images/ui/expand_more.svg');
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: center;
+            width: 32px;
+            height: 32px;
             filter: invert(1);
         }
     }

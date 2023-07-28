@@ -33,6 +33,17 @@
         transition: 0.125s;
     }
 
+    &::before {
+        display: inline-block;
+        content: '';
+        background-image: url('/images/ui/select-ingredients.webp');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        width: 48px;
+        height: 48px;
+    }
+
     &:hover {
         color:rgb(255, 0, 191);
 
