@@ -26,5 +26,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 * FlatIcon authors: IconDuck, Freepik, Flat Icons, AmethystDesign, surang, BZZRINCANTATION, Triangle Squad, Pause08, imaginationlol, shmai, amonrat rungreangfangsai, DinosoftLabs, rizky maulidhani, Talha Dogar, Smashicons, Flat Icons Design, photo3idea_studio, monkik, Ina Mella, Kanyanee Watanajitkasem, Prosymbols Premium, Aranagraphics, small.smiles
 * Liquid effect (for ingredients page) by Dave Quah
-* Background pattern by d__raptis [(https://www.magicpattern.design/tools/css-backgrounds)]
+* Background pattern by d__raptis [https://www.magicpattern.design/tools/css-backgrounds]
 * Drink recipes by their respective authors
