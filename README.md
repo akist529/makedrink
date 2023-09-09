@@ -4,14 +4,14 @@ A full-stack application that allows the user to input cocktail ingredients and 
 
 ## Built With
 
-* [TypeScript](https://www.typescriptlang.org/)
-* [Next.js](https://nextjs.org/)
-* [Redux Toolkit](https://redux-toolkit.js.org/)
-* [SASS](https://sass-lang.com/)
-* [Golang](https://go.dev/)
-* [SQLite](https://www.sqlite.org/index.html)
-* [Apache](https://httpd.apache.org/)
-* [Jest](https://jestjs.io/)
+* [TypeScript](https://www.typescriptlang.org/) - For type-safe JavaScript
+* [Next.js](https://nextjs.org/) - Front-end framework for server-side rendering
+* [Redux Toolkit](https://redux-toolkit.js.org/) - State management tool
+* [SASS](https://sass-lang.com/) - For scalable and clean CSS
+* [Golang](https://go.dev/) - For backend
+* [SQLite](https://www.sqlite.org/index.html) - For backend data
+* [Apache](https://httpd.apache.org/) - For backend
+* [Jest](https://jestjs.io/) - For testing front-end
 
 ## Authors
 
