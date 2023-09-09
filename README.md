@@ -6,7 +6,7 @@ A full-stack application that allows the user to input cocktail ingredients and 
 
 * [TypeScript](https://www.typescriptlang.org/) - For type-safe JavaScript
 * [Next.js](https://nextjs.org/) - Front-end framework for server-side rendering
-* [Redux Toolkit](https://redux-toolkit.js.org/) - State management tool
+* [Redux Toolkit](https://redux-toolkit.js.org/) - State management tool & fetching and caching API data
 * [SASS](https://sass-lang.com/) - For scalable and clean CSS
 * [Golang](https://go.dev/) - For backend
 * [SQLite](https://www.sqlite.org/index.html) - For backend data
