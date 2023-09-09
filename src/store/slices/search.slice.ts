@@ -5,18 +5,18 @@ import { HYDRATE } from 'next-redux-wrapper';
 export const searchSlice = createSlice({
     name: 'search',
     initialState: {
-        searchOpen: false,
+        open: false,
         query: '',
     },
     reducers: {
         toggleSearch: (state) => {
-            state.searchOpen = !state.searchOpen;
+            state.open = !state.open;
         },
         openSearch: (state) => {
-            state.searchOpen = true;
+            state.open = true;
         },
         closeSearch: (state) => {
-            state.searchOpen = false;
+            state.open = false;
         },
         updateSearch: (state, action: PayloadAction<string>) => {
             state.query = action.payload;
@@ -29,7 +29,7 @@ export const searchSlice = createSlice({
         builder.addCase(HYDRATE, (state, action: PayloadAction<any,any>) => {
                 state = ({
                     ...state,
-                    searchOpen: state.searchOpen
+                    open: state.open
                 });
         });
     }

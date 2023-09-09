@@ -9,7 +9,7 @@ import { RootState } from '@/store/store';
 import { useGetAllIngredientsQuery, useGetAllDrinksQuery } from '@/store/api/api';
 import { toggleSearch } from '@/store/slices/search.slice';
 // React components
-import { useState, useEffect, useDeferredValue } from 'react';
+import { useState, useEffect, useDeferredValue, useRef } from 'react';
 // Type interfaces
 import { Item, Drink } from '@/types/index';
 // Helper functions
@@ -25,7 +25,6 @@ export default function SearchFeed () {
     const query = useSelector((state: RootState) => state.search.query);
     const deferredQuery = useDeferredValue(query);
     const navMenuOpen = useSelector((state: RootState) => state.navMenu.navMenuOpen);
-    const searchOpen = useSelector((state: RootState) => state.search.searchOpen);
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
     const dispatch = useDispatch();
 
@@ -38,6 +37,8 @@ export default function SearchFeed () {
     const [drinkData, setDrinkData] = useState([] as Drink[]);
     const [ingredientResults, setIngredientResults] = useState([] as Item[]);
     const [drinkResults, setDrinkResults] = useState([] as Drink[]);
+
+    const firstRender = useRef(true);
 
     useEffect(() => {
         if (allIngredients.isSuccess) {
@@ -109,7 +110,11 @@ export default function SearchFeed () {
     }, [deferredQuery, drinkData, ingredientData]);
 
     useEffect(() => {
-        dispatch(toggleSearch());
+        if (firstRender.current = false) {
+            dispatch(toggleSearch());
+        } else {
+            firstRender.current = false;
+        }
     }, [navMenuOpen, router.asPath, dispatch]);
 
     return (

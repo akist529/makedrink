@@ -19,7 +19,7 @@ import Link from 'next/link';
 
 export default function NavBar() {
     // Redux store state
-    const { searchOpen } = useSelector((state: RootState) => state.search);
+    const searchOpen = useSelector((state: RootState) => state.search.open);
     const dispatch = useDispatch();
 
     // React local state
@@ -54,7 +54,7 @@ export default function NavBar() {
     return (
         <nav className={styles.NavBar}>
             { displayMode === 'mobile' && <BurgerButton /> }
-            { displayMode === 'mobile' && !searchOpen && 
+            { displayMode === 'mobile' && !open && 
                 <Link href='/'>
                     <h1>
                         {arrOfLetters.map((letter: string, index: number) => {
@@ -75,9 +75,9 @@ export default function NavBar() {
                     </h1>
                 </Link> }
             { displayMode === 'laptop' && <DesktopNavMenu /> }
-            { displayMode === 'mobile' && !searchOpen && 
+            { displayMode === 'mobile' && !open && 
                 <SearchButton 
-                    onClick={() => dispatch(toggleSearch())} 
+                    clickEvent={() => dispatch(toggleSearch())} 
                     style={{ filter: 'invert(1' }} /> }
             { displayMode === 'mobile' && searchOpen && 
                 <SearchInput /> }
