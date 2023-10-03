@@ -54,7 +54,7 @@ export default function NavBar() {
     return (
         <nav className={styles.NavBar}>
             { displayMode === 'mobile' && <BurgerButton /> }
-            { displayMode === 'mobile' && !open && 
+            { displayMode === 'mobile' && !searchOpen && 
                 <Link href='/'>
                     <h1>
                         {arrOfLetters.map((letter: string, index: number) => {
@@ -75,7 +75,7 @@ export default function NavBar() {
                     </h1>
                 </Link> }
             { displayMode === 'laptop' && <DesktopNavMenu /> }
-            { displayMode === 'mobile' && !open && 
+            { displayMode === 'mobile' && !searchOpen && 
                 <SearchButton 
                     clickEvent={() => dispatch(toggleSearch())} 
                     style={{ filter: 'invert(1' }} /> }
