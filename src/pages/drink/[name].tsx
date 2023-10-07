@@ -87,25 +87,24 @@ const DrinkPage: NextPage = () => {
     const getAltIngredient = useCallback((ingredient: Item, index: number, unit: string, amount: number, prefers: string) => {
         const type = ingredient.Type || '';
 
-        if (!storedIngredients[type]) return (<>
-            <RecipeItem 
+        if (!storedIngredients[type]) return (
+            <><RecipeItem 
                 key={index} 
                 ingredient={ingredient} 
                 unit={unit} 
                 amount={amount}
                 missing={true} 
                 prefers={prefers} />
-            <hr/>
-        </>);
+            <hr/></>);
 
         for (const key of Object.keys(storedIngredients[type])) {
-            for (let i = 0; i < storedIngredients[type][key].length; i++) {
-                if (storedIngredients[type][key][i].AliasId === ingredient.Id) {
+            for (const item of storedIngredients[type][key]) {
+                if ((ingredient.Id === item.AliasId) || (ingredient.Name === item.Name)) {
                     return (
                         <>
                         <RecipeItem 
                             key={index} 
-                            ingredient={storedIngredients[type][key][i]} 
+                            ingredient={item} 
                             unit={unit} 
                             amount={amount} 
                             missing={false} 
@@ -265,7 +264,7 @@ const DrinkPage: NextPage = () => {
     }, [blockedDrinks]);
 
     const [drinkFavorited, setDrinkFavorited] = useState(drinkIsFavorited(drinkInfo));
-    const [favoriteImagePath, setFavoriteImagePath] = useState(require('/public/images/ui/heart_plus.svg'));
+    const [favoriteImagePath, setFavoriteImagePath] = useState('/images/ui/heart_plus.svg');
     const [drinkBlocked, setDrinkBlocked] = useState(drinkIsBlocked(drinkInfo));    
 
     useEffect(() => {
@@ -303,9 +302,9 @@ const DrinkPage: NextPage = () => {
 
     useEffect(() => {
         if (drinkFavorited) {
-            setFavoriteImagePath(require('/public/images/ui/favorite.svg'));
+            setFavoriteImagePath('/images/ui/favorite.svg');
         } else {
-            setFavoriteImagePath(require('/public/images/ui/heart_plus.svg'));
+            setFavoriteImagePath('/images/ui/heart_plus.svg');
         }
     }, [drinkFavorited]);
 
@@ -361,23 +360,17 @@ const DrinkPage: NextPage = () => {
                                 onLoadingComplete={e => updateWidth(e)} /> }
                     </div>
                     <div>
-                        <button className={drinkFavorited ? styles.favorited : styles.unfavorited} onClick={() => favoriteDrink(drinkInfo)}>
-                            <Image 
-                                alt='Favorite Drink' 
-                                title='Favorite Drink' 
-                                src={favoriteImagePath} 
-                                width="0" 
-                                height="48"
-                                onLoadingComplete={e => updateWidth(e)} />
+                        <button title='Favorite Drink' className={drinkFavorited ? styles.favorited : styles.unfavorited} onClick={() => favoriteDrink(drinkInfo)}>
+                            <span
+                                className={styles.icon}
+                                style={{backgroundImage: `url(${favoriteImagePath})`}}
+                            ></span>
                         </button>
-                        <button className={drinkBlocked ? styles.blocked : styles.unblocked} onClick={() => blockDrink(drinkInfo)}>
-                            <Image 
-                                alt='Block Drink' 
-                                title='Block Drink' 
-                                src={require('/public/images/ui/block.svg')} 
-                                width="0" 
-                                height="48" 
-                                onLoadingComplete={e => updateWidth(e)} />
+                        <button title='Block Drink' className={drinkBlocked ? styles.blocked : styles.unblocked} onClick={() => blockDrink(drinkInfo)}>
+                            <span
+                                className={styles.icon}
+                                style={{backgroundImage: 'url(/images/ui/block.svg'}}
+                            ></span>
                         </button>
                     </div>
                     { isUser && 

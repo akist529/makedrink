@@ -25,4 +25,15 @@
             color: rgb(255, 0, 191);
         }
     }
+
+    a::after {
+        display: inline-block;
+        content: '';
+        background-image: url('https://img.makedr.ink/i/cocktail.webp');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        width: 64px;
+        height: 64px;
+    }
 }

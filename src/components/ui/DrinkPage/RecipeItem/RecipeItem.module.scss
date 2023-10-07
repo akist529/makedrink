@@ -20,6 +20,16 @@
             gap: 0;
         }
     }
+
+    .icon {
+        display: inline-block;
+        content: '';
+        background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        width: 24px;
+        height: 24px;
+    }
 }
 
 @media only screen and (min-width: 992px) {

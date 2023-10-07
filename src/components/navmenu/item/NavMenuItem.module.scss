@@ -15,7 +15,14 @@
     text-transform: uppercase;
     text-align: center;
 
-    img {
+    .icon {
+        display: inline-block;
+        content: '';
+        background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        width: 36px;
+        height: 36px;
         filter: invert(1);
     }
 
@@ -39,8 +46,9 @@
         font-size: 20px;
         line-height: 20px;
 
-        img {
+        &::after {
             width: 32px;
+            height: 32px;
         }
     }
 }
@@ -48,7 +56,7 @@
 .active {
     color: #ff00bf;
 
-    img {
+    .icon {
         filter: invert(91%) sepia(13%) saturate(4913%) hue-rotate(281deg) brightness(107%) contrast(104%);
     }
 }

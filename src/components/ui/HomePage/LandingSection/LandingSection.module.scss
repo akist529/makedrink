@@ -18,7 +18,7 @@
 
         /* Visual */
         border-radius: 10px;
-        animation: 1s title-spawn 0.125s forwards;
+        animation: 0.8s title-spawn 0.125s forwards;
         opacity: 0%;
     }
 
@@ -30,7 +30,7 @@
         gap: 10px;
 
         /* Visual */
-        animation: 0.5s content-spawn 1s forwards;
+        animation: 0.5s content-spawn 0.5s forwards;
         opacity: 0%;
 
         .landingButtons {

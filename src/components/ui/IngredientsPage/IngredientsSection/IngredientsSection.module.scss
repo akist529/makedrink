@@ -27,13 +27,18 @@
             text-shadow: 0 0 20px rgb(80, 80, 255);  
         }
 
-        img {
+        .icon {
             filter: invert(1);
+            display: inline-block;
+            content: '';
+            background-repeat: no-repeat;
+                background-size: contain;
+                background-position: center;
         }
 
         button {
             &:hover {
-                img {
+                .icon {
                     filter: invert(19%) sepia(76%) saturate(6692%) hue-rotate(306deg) brightness(104%) contrast(114%);                }
             }
         }

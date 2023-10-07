@@ -1,5 +1,6 @@
+// Component styles
 import styles from './FilterDrinksButton.module.scss'
-import Image from 'next/image';
+// React components
 import { useCallback } from 'react';
 
 export default function FilterDrinksButton (props: { drinkFilter: string, setDrinkFilter: Function }) {
@@ -11,21 +12,15 @@ export default function FilterDrinksButton (props: { drinkFilter: string, setDri
     }, [drinkFilter, setDrinkFilter]);
 
     return (
-        <button className={styles.FilterDrinksButton} onClick={changeFilter} title="Filter Drinks">
-            <Image 
-                alt="Filter Drinks" 
-                src={require('/public/images/ui/local_bar.svg')} 
-                width={32} 
-                height={32} 
-                unoptimized 
-                className={drinkFilter === 'cocktail' ? styles.active : styles.inactive} />
-            <Image 
-                alt="Filter Drinks" 
-                src={require('/public/images/ui/no_drinks.svg')} 
-                width={32} 
-                height={32} 
-                unoptimized 
-                className={drinkFilter === 'mocktail' ? styles.active : styles.inactive} />
+        <button title={(drinkFilter === 'cocktail') ? 'Show Mocktails' : 'Show Cocktails'} className={styles.FilterDrinksButton} onClick={changeFilter}>
+            <span
+                className={drinkFilter === 'cocktail' ? [styles.icon, styles.active].join(' ') : [styles.icon, styles.inactive].join(' ')}
+                style={{backgroundImage: `url(/images/ui/local_bar.svg)`}}
+            ></span>
+            <span
+                className={drinkFilter === 'mocktail' ? [styles.icon, styles.active].join(' ') : [styles.icon, styles.inactive].join(' ')}
+                style={{backgroundImage: `url(/images/ui/no_drinks.svg)`}}
+            ></span>
         </button>
     );
 }

@@ -1,10 +1,18 @@
 .SelectAllButton {
-    img {
+    &::after {
+        display: inline-block;
+        content: '';
+        background-image: url('/images/ui/done_all.svg');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        width: 48px;
+        height: 48px;
         filter: invert(1);
     }
 
     &:hover {
-        img {
+        &::after {
             filter: invert(17%) sepia(96%) saturate(3092%) hue-rotate(305deg) brightness(110%) contrast(131%);
         }
     }

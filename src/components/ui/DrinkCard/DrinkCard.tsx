@@ -146,23 +146,16 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
             <div className={styles.header}>
                 <h2>{drink.Name}</h2>
                 { isMocktail && 
-                    <Image 
-                        alt='Mocktail' 
-                        src={require('/public/images/ui/no_drinks.svg')} 
-                        width="0" 
-                        height="36" 
-                        title='Mocktail' 
-                        onLoadingComplete={e => updateWidth(e)} /> }
+                    <span
+                        title='Mocktail'
+                        className={styles.icon}
+                        style={{backgroundImage: 'url(/images/ui/no_drinks.svg)', width: 36, height: 36}}
+                    ></span> }
                 { isRandom && 
-                    <button onClick={handleClick}>
-                        <Image 
-                            alt='Get New Drink' 
-                            src={require('/public/images/ui/refresh.svg')} 
-                            width="0"
-                            height="48" 
-                            title='Get New Drink' 
-                            onLoadingComplete={e => updateWidth(e)} />
-                    </button> }
+                    <button
+                        title='Get New Drink'
+                        onClick={handleClick}
+                    ></button> }
             </div>
             <hr/>
             <h3>Ingredients</h3>
@@ -184,12 +177,10 @@ export default function DrinkCard (props: { drink: DrinkInfo, isRandom: boolean,
             <Link href={`/drink/${getSlug(drink.Name)}?page=drinks`}>
                 <button className={styles.goBtn}>
                     <span>GO TO DRINK</span>
-                    <Image 
-                        alt="Go to Drink" 
-                        src={require('/public/images/ui/keyboard_double_arrow_right.svg')} 
-                        width="0" 
-                        height="32" 
-                        onLoadingComplete={e => updateWidth(e)} />
+                    <span
+                        className={styles.icon}
+                        style={{backgroundImage: 'url(/images/ui/keyboard_double_arrow_right.svg', width: 32, height: 32}}
+                    ></span>
                 </button>
             </Link>
         </article>

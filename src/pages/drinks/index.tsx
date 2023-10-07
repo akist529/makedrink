@@ -48,9 +48,7 @@ const AllDrinksPage: NextPage = () => {
     const ingredients = useMemo(() => {
         if (allIngredients.isSuccess) {
             return allIngredients.data;
-        } else {
-            return [] as Item[];
-        }
+        } else return [] as Item[];
     }, [allIngredients]);
 
     const drinksList = useMemo(() => {
@@ -176,7 +174,8 @@ const AllDrinksPage: NextPage = () => {
                 activePage={activePage} 
                 setActivePage={setActivePage} 
                 numOfPages={numOfPages} 
-                loadState={isLoading} />
+                loadState={isLoading}
+            />
             { isLoading && 
                 <LoadingAnimation /> }
             { !isLoading && isError && 
@@ -198,16 +197,18 @@ const AllDrinksPage: NextPage = () => {
                                     key={index} 
                                     drink={drink} 
                                     isRandom={false} 
-                                    ingredients={ingredients} />
+                                    ingredients={ingredients}
+                                />
                             );
                         }) }
                         </ul>
                     </section>
                     <PaginationLinks 
-                    activePage={activePage} 
-                    setActivePage={setActivePage} 
-                    numOfPages={numOfPages} 
-                    loadState={pageInfoResult.isLoading} />
+                        activePage={activePage} 
+                        setActivePage={setActivePage} 
+                        numOfPages={numOfPages} 
+                        loadState={pageInfoResult.isLoading}
+                    />
                     <PageCountCtrl />
                     <Footer /></> }
                 </> }

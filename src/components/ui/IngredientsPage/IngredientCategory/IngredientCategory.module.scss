@@ -20,6 +20,16 @@
         line-height: 84px;
         height: 64px;
     }
+
+    .icon {
+        display: inline-block;
+        content: '';
+        background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center bottom;
+        width: 64px;
+        height: 64px;
+    }
 }
 
 .pink { 

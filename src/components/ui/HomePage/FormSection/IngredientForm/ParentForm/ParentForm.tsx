@@ -1,7 +1,5 @@
 // Component styles
 import styles from './ParentForm.module.scss';
-// Next components
-import Image from 'next/image';
 // Type interfaces
 import { Item } from '@/types/index';
 // Local components
@@ -10,11 +8,10 @@ import IngredientFilter from '../IngredientFilter/IngredientFilter';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 // Helper functions
-import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
 import notNullish from '@/helpers/notNullish';
 // React components
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 
 export default function ParentForm (props: { parent: Item }) {
     const { parent } = props;
@@ -55,19 +52,32 @@ export default function ParentForm (props: { parent: Item }) {
         }
     }, [parent, storedIngredients]);
 
+    const iconExists = useCallback((url: string) => {
+        const image = new Image();
+        image.src = url;
+
+        if (image.complete) {
+            return true;
+        } else {
+            image.onload = () => {
+                return true;
+            }
+
+            image.onerror = () => {
+                return false;
+            }
+        }
+    }, []);
+
     return (
         <li className={styles.ParentForm}>
             <fieldset>
                 <legend>
                     <span>{parent.Name}</span>
-                    <Image 
-                        alt={parent.Name} 
-                        src={imageSrc} 
-                        width="0" 
-                        height="48" 
-                        onError={() => setImageSrc('https://img.makedr.ink/i/cocktail.webp')} 
-                        onLoadingComplete={e => updateWidth(e)} 
-                        unoptimized />
+                    <span
+                        className={styles.icon}
+                        style={{backgroundImage: `url(${iconExists(imageSrc) ? imageSrc : 'https://img.makedr.ink/i/cocktail.webp'})`}}
+                    ></span>
                 </legend>
                 <ul className={styles.ingredientList}>
                 { childIngredients.map((ingredient: Item, index: number) => {

@@ -5,33 +5,29 @@ import { useGetAllIngredientsQuery, useGetAllDrinksQuery } from '@/store/api/api
 // React components
 import { useState, useEffect, useMemo, useCallback, useId } from 'react';
 // Type interfaces
-import { Item, Drink, DrinkInfo } from '@/types/index';
+import { Ingredient, Drink, DrinkInfo } from '@/types/index';
 // Local components
 import IngredientField from './IngredientField/IngredientField';
 import DirectionField from './DirectionField/DirectionField';
 
 export default function AddDrinkCard (props: { drink: DrinkInfo }) {
     const { drink } = props;
-    const [recipeCount, setRecipeCount] = useState(() => {
-        return Array.from(Array(1).keys());
-    });
+    const [recipeCount, setRecipeCount] = useState(Array.from(Array(1).keys()));
     const [directionCount, setDirectionCount] = useState(Array.from(Array(1).keys()));
     const allIngredients = useGetAllIngredientsQuery();
-    const [ingredients, setIngredients] = useState([] as Item[]);
     const allDrinks = useGetAllDrinksQuery();
-    const [drinks, setDrinks] = useState([] as Drink[]);
     const id = useId();
 
-    useEffect(() => {
+    const ingredients = useMemo(() => {
         if (allIngredients.isSuccess) {
-            setIngredients(allIngredients.data);
-        }
+            return allIngredients.data;
+        } else return [];
     }, [allIngredients]);
 
-    useEffect(() => {
+    const drinks = useMemo(() => {
         if (allDrinks.isSuccess) {
-            setDrinks(allDrinks.data.Drinks);
-        }
+            return allDrinks.data.Drinks;
+        } else return [];
     }, [allDrinks]);
 
     useEffect(() => {
@@ -49,11 +45,8 @@ export default function AddDrinkCard (props: { drink: DrinkInfo }) {
     const drinkId = useMemo(() => {
         const drinkData = drinks.find((item: Drink) => item.Name === drink.Name);
 
-        if (drinkData) {
-            return drinkData.Id;
-        } else {
-            return 0;
-        }
+        if (drinkData) return drinkData.Id;
+            else return 0;
     }, [drink, drinks]);
 
     const removeDirection = useCallback((e: React.MouseEvent<HTMLButtonElement>, i: number) => {
@@ -112,6 +105,22 @@ export default function AddDrinkCard (props: { drink: DrinkInfo }) {
         }
     }, [recipeCount.length]);
 
+    const getIngredient = useCallback((i: number) => {
+        if (drink && drink.hasOwnProperty('Recipe')) {
+            return drink.Recipe[i];
+        } else {
+            return {} as Ingredient;
+        }
+    }, [drink]);
+
+    const getDirection = useCallback((i: number) => {
+        if (drink && drink.hasOwnProperty('Directions')) {
+            return drink.Directions[i];
+        } else {
+            return "";
+        }
+    }, [drink]);
+
     return (
         <div data-testid='add-drink-card' className={styles.AddDrinkCard}>
             <header>
@@ -123,7 +132,6 @@ export default function AddDrinkCard (props: { drink: DrinkInfo }) {
                 <input id="id" name="id" type="hidden" value={drinkId}/>
                 <label htmlFor="recipe-credit">Recipe Credit:</label>
                 <input type="text" id="recipe-credit" name="recipe-credit" placeholder="Add Credit (Optional)"/><br/>
-                { drink.Recipe && 
                 <><fieldset>
                     <legend>Recipe</legend>
                     <ul>
@@ -134,15 +142,14 @@ export default function AddDrinkCard (props: { drink: DrinkInfo }) {
                                 i={i} 
                                 ingredients={ingredients} 
                                 removeIngredient={removeIngredient} 
-                                value={drink.Recipe[i]} />
+                                value={getIngredient(i)} />
                         );
                     }) }
                     </ul>
                     <button onClick={addIngredient}>
                         <span>Add Ingredient</span>
                     </button>
-                </fieldset><br/></> }
-                { drink.Directions && 
+                </fieldset><br/></>
                 <><fieldset>
                     <legend>Directions</legend>
                     <ul>
@@ -152,14 +159,14 @@ export default function AddDrinkCard (props: { drink: DrinkInfo }) {
                                 key={i} 
                                 i={i} 
                                 removeDirection={removeDirection} 
-                                value={drink.Directions[i]} />
+                                value={getDirection(i)} />
                         );
                     }) }
                     </ul>
                     <button onClick={addDirection}>
                         <span>Add Direction</span>
                     </button>
-                </fieldset><br/></> }
+                </fieldset><br/></>
                 <fieldset>
                     <legend>Image</legend>
                     <input id={`${id}-image`} type="file" name="image" accept=".webp"/><br/>

@@ -15,7 +15,15 @@
     button {
         display: flex;
 
-        img {
+        &::after {
+            display: inline-block;
+            content: '';
+            background-image: url('/images/ui/cancel.svg');
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: center;
+            width: 24px;
+            height: 24px;
             filter: invert(1);
         }
     }

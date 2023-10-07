@@ -55,7 +55,16 @@
         }
     }
 
-    img {
+    &::after {
+        display: inline-block;
+        content: '';
+        background-image: url('/images/ui/local_bar.svg');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        width: 64px;
+        height: 64px;
+
         /* Positioning */
         transform: rotate(45deg);
         position: absolute;
@@ -87,7 +96,7 @@
             }
         }
 
-        img {
+        &::after {
             transform: scale(1.5) rotate(45deg);
             top: 16px;
             left: 32px;

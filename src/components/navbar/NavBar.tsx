@@ -19,7 +19,7 @@ import Link from 'next/link';
 
 export default function NavBar() {
     // Redux store state
-    const { searchOpen } = useSelector((state: RootState) => state.search);
+    const searchOpen = useSelector((state: RootState) => state.search.open);
     const dispatch = useDispatch();
 
     // React local state
@@ -77,7 +77,7 @@ export default function NavBar() {
             { displayMode === 'laptop' && <DesktopNavMenu /> }
             { displayMode === 'mobile' && !searchOpen && 
                 <SearchButton 
-                    onClick={() => dispatch(toggleSearch())} 
+                    clickEvent={() => dispatch(toggleSearch())} 
                     style={{ filter: 'invert(1' }} /> }
             { displayMode === 'mobile' && searchOpen && 
                 <SearchInput /> }

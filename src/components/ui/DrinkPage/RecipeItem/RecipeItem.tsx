@@ -1,15 +1,12 @@
 // Component styles
 import styles from './RecipeItem.module.scss';
-// Next components
-import Image from 'next/image';
 // Type interfaces
 import { Item, Ingredient } from '@/types/index';
 // Helper functions
-import updateWidth from '@/helpers/updateWidth';
 import getSlug from '@/helpers/getSlug';
 import getItemName from '@/helpers/getItemName';
 // React components
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 
 export default function RecipeItem (props: { ingredient: Item | Ingredient, missing: boolean, unit: string, amount: number, prefers: string }) {
     const { ingredient, missing, unit, amount, prefers } = props;
@@ -24,17 +21,30 @@ export default function RecipeItem (props: { ingredient: Item | Ingredient, miss
         }
     }, [unit]);
 
+    const iconExists = useCallback((url: string) => {
+        const image = new Image();
+        image.src = url;
+
+        if (image.complete) {
+            return true;
+        } else {
+            image.onload = () => {
+                return true;
+            }
+
+            image.onerror = () => {
+                return false;
+            }
+        }
+    }, []);
+
     return (
         <li className={styles.RecipeItem}>
             <div className={missing? styles.missing : ''}>
-                <Image 
-                    alt={ingredient.Name} 
-                    src={imageSrc} 
-                    width="0" 
-                    height="32" 
-                    onError={() => setImageSrc('https://img.makedr.ink/i/cocktail.webp')} 
-                    onLoadingComplete={e => updateWidth(e)} 
-                    unoptimized />
+                <span
+                    className={styles.icon}
+                    style={{backgroundImage: `url(${iconExists(imageSrc) ? imageSrc : 'https://img.makedr.ink/i/cocktail.webp'})`}}
+                ></span>
                 <div className={styles.itemName}>
                     <span>{getItemName(ingredient)}</span>
                     { (ingredient.Name !== prefers) && <span><em>(preferred: {prefers})</em></span> }

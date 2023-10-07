@@ -1,11 +1,8 @@
 // Component styles
 import styles from './IngredientsSection.module.scss';
-// Next components
-import Image from 'next/image';
 // React components
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 // Helper functions
-import updateWidth from '@/helpers/updateWidth';
 import allIngredientsStored from '@/helpers/allIngredientsStored';
 // Local components
 import IngredientCategory from '@/components/ui/IngredientsPage/IngredientCategory/IngredientCategory';
@@ -24,21 +21,17 @@ export default function IngredientsSection (props: { section: string, ingredient
     const dispatch = useDispatch();
     const storedIngredients = useSelector((state: RootState) => state.ingredients.stored);
 
-    const imagePath = (() => {
+    const imagePath = useMemo(() => {
         if (section === 'Alcohol') {
             return 'https://img.makedr.ink/i/drunk.webp';
-        } else {
-            return 'https://img.makedr.ink/i/shaker.webp';
-        }
-    })();
+        } else return '/images/ui/shaker.webp';
+    }, [section]);
 
-    const types = (() => {
+    const types = useMemo(() => {
         if (section === 'Alcohol') {
             return ['liquor', 'liqueur', 'other', 'wine'];
-        } else {
-            return ['carbonated', 'juice', 'mixer'];
-        }
-    })();
+        } else return ['carbonated', 'juice', 'mixer'];
+    }, [section]);
 
     function filterDataByType (type: string) {
         let filteredData: Item[] = [];
@@ -70,24 +63,18 @@ export default function IngredientsSection (props: { section: string, ingredient
         <section className={styles.IngredientsSection}>
             <header>
                 <h2>{section}</h2>
-                <Image 
-                    alt={section} 
-                    src={imagePath} 
-                    width="0" 
-                    height="48" 
-                    unoptimized={true} 
-                    onLoadingComplete={e => updateWidth(e)} />
+                <span
+                    className={styles.icon}
+                    style={{backgroundImage: `url(${imagePath})`, width: 96, height: 48}}
+                ></span>
                 <SelectAllButton 
                     clickEvent={allIngredientsStored(ingredients, storedIngredients) ? removeAllIngredients : addAllIngredients} 
                     ingredients={ingredients} />
-                <button onClick={() => setShowList(prev => !prev)}>
-                    <Image 
-                        alt={`Hide ${section}`} 
-                        src={require(`/public/images/ui/expand_${showList ? 'more' : 'less'}.svg`)} 
-                        width="0" 
-                        height="64" 
-                        title="Hide Section" 
-                        onLoadingComplete={e => updateWidth(e)} />
+                <button title={`Hide ${section}`} onClick={() => setShowList(prev => !prev)}>
+                    <span
+                        className={styles.icon}
+                        style={{backgroundImage: `url(/images/ui/expand_${showList ? 'more' : 'less'}.svg)`, width: 64, height: 64}}
+                    ></span>
                 </button>
             </header>
             { showList && types.map((type: string, index: number) => {

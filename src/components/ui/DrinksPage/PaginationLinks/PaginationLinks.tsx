@@ -1,9 +1,5 @@
 // Component styles
 import styles from './PaginationLinks.module.scss';
-// Next components
-import Image from 'next/image';
-// Helper functions
-import updateWidth from '@/helpers/updateWidth';
 // React components
 import { useCallback } from 'react';
 
@@ -24,14 +20,11 @@ export default function PaginationLinks (props: { activePage: number, setActiveP
 
     return (
         <nav className={styles.PaginationLinks}>
-            <button className={styles.PaginateBtn} onClick={setPageLeft}>
-                <Image 
-                    alt='Left' 
-                    src={require('/public/images/ui/chevron_left.svg')} 
-                    width="0" 
-                    height="32" 
-                    onLoadingComplete={e => updateWidth(e)} />
-            </button>
+            <button
+                id={styles.navLeft}
+                className={styles.PaginateBtn}
+                onClick={setPageLeft}
+            ></button>
             <ul>
             { Array.from(Array(numOfPages).keys()).map((num: number, index: number) => {
                 return (
@@ -43,14 +36,11 @@ export default function PaginationLinks (props: { activePage: number, setActiveP
                 );
             }) }
             </ul>
-            <button className={styles.PaginateBtn} onClick={setPageRight}>
-                <Image 
-                    alt='Right' 
-                    src={require('/public/images/ui/chevron_right.svg')} 
-                    width="0" 
-                    height="32" 
-                    onLoadingComplete={e => updateWidth(e)} />
-            </button>
+            <button
+                id={styles.navRight}
+                className={styles.PaginateBtn}
+                onClick={setPageRight}
+            ></button>
         </nav>
     );
 }

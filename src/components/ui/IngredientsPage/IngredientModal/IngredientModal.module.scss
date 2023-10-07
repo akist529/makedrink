@@ -52,6 +52,16 @@
             /* Typography */
             font-size: 36px;
             text-align: center;
+
+            .icon {
+                display: inline-block;
+                content: '';
+                background-repeat: no-repeat;
+                    background-size: contain;
+                    background-position: center;
+                width: 48px;
+                height: 48px;
+            }
         }
 
         .childList {

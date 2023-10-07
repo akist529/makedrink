@@ -20,53 +20,58 @@
         header {
             grid-row: 2 / 3;
 
-            button {
-                img {
-                    transition: 0.125s;
-                }
+            button .icon {
+                display: inline-block;
+                content: '';
+                background-repeat: no-repeat;
+                    background-size: contain;
+                    background-position: center;
+                width: 48px;
+                height: 48px;
+                transition: 0.125s;
             }
 
             .unfavorited {
-                img {
+                .icon {
                     filter: invert(52%) sepia(0%) saturate(6%) hue-rotate(200deg) brightness(94%) contrast(98%);
                 }
 
                 &:hover {
-                    img {
+                    .icon {
                         filter: invert(75%) sepia(35%) saturate(698%) hue-rotate(282deg) brightness(98%) contrast(107%);
                     }
                 }
             }
 
             .unblocked {
-                img {
+                .icon {
                     filter: invert(52%) sepia(0%) saturate(6%) hue-rotate(200deg) brightness(94%) contrast(98%);
                 }
 
                 &:hover {
-                    img {
+                    .icon {
                         filter: invert(31%) sepia(14%) saturate(6569%) hue-rotate(331deg) brightness(128%) contrast(111%);
                     }
                 }
             }
 
             .favorited {
-                img {
+                .icon {
                     filter: invert(32%) sepia(74%) saturate(5818%) hue-rotate(299deg) brightness(92%) contrast(135%);
                 }
             }
 
             .blocked {
-                img {
+                .icon {
                     filter: invert(11%) sepia(85%) saturate(5222%) hue-rotate(359deg) brightness(123%) contrast(124%);
                 }
             }
 
             .drinkTitle {
                 display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 10px;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
                 text-transform: uppercase;
 
                 img {

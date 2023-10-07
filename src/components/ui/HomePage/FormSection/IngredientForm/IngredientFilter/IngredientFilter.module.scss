@@ -23,6 +23,16 @@
         align-items: center;
         gap: 15px;
 
+        .icon {
+            display: inline-block;
+            content: '';
+            background-repeat: no-repeat;
+                background-size: contain;
+                background-position: center;
+            width: 48px;
+            height: 48px;
+        }
+
         input {
             transform: scale(2);
             cursor: pointer;
