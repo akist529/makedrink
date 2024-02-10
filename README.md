@@ -16,7 +16,7 @@ A full-stack application that allows the user to input cocktail ingredients and 
 ## Authors
 
 * **Alex Kist** - *Frontend* - [akist529](https://github.com/akist529)
-* **Chase Tarson** - *Backend* - [Caboose700](https://github.com/Caboose700)
+* **Sabrina Tarson** - *Backend* - [Caboose700](https://github.com/Caboose700)
 
 ## License
 
