@@ -18,17 +18,27 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+    <Provider store={ store }>
+      <PersistGate
+        loading={ null }
+        persistor={ persistor }
+      >
         <div className="app">
           <Head>
-            <link rel="shortcut icon" href="/images/favicon.ico" />
+            <link
+              rel="shortcut icon"
+              href="/images/favicon.ico"
+            />
           </Head>
           <SubCard />
           <IngredientModal />
           <NavBar />
           <MobileNavMenu />
-          <Component {...pageProps} className="page" key={router.asPath} />
+          <Component
+            { ...pageProps }
+            className="page"
+            key={ router.asPath }
+          />
         </div>
       </PersistGate>
     </Provider>

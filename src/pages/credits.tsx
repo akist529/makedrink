@@ -3,95 +3,42 @@ import styles from '@/styles/Credits.module.scss';
 // Next components
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 
 const CreditsPage: NextPage = () => {
     return (
-        <main className={['page', styles.CreditsPage].join(' ')}>
-            <Head>
-                <title>Credits - MakeDrink</title>
-            </Head>
+        <main className={ ['page', styles.CreditsPage].join(' ') }>
+            <Head><title>Credits - MakeDrink</title></Head>
             <header>
-                <a href="https://www.flaticon.com/" target="_blank" title="Flaticon">All icons from Flaticon</a>
+                <Link href="https://www.flaticon.com/" target="_blank" title="Flaticon">All icons from Flaticon</Link>
             </header>
             <ul>
-                <li>
-                    <span>Bartender icon created by Iconduck</span>
-                </li>
-                <li>
-                    <span>Spirit icons created by Freepik</span>
-                </li>
-                <li>
-                    <span>Beer can icons created by Flat Icons</span>
-                </li>
-                <li>
-                    <span>Soda icons created by AmethystDesign</span>
-                </li>
-                <li>
-                    <span>Liqueur icons created by surang</span>
-                </li>
-                <li>
-                    <span>Liquor icons created by BZZRINCANTATION</span>
-                </li>
-                <li>
-                    <span>Liquor icons created by Triangle Squad</span>
-                </li>
-                <li>
-                    <span>Liquor icons created by Pause08</span>
-                </li>
-                <li>
-                    <span>Rice wine icons created by imaginationlol</span>
-                </li>
-                <li>
-                    <span>Cranberry icons created by shmai</span>
-                </li>
-                <li>
-                    <span>Grapefruit icons created by amonrat rungreangfangsai</span>
-                </li>
-                <li>
-                    <span>Jug icons created by DinosoftLabs</span>
-                </li>
-                <li>
-                    <span>Food and restaurant icons created by rizky maulidhani</span>
-                </li>
-                <li>
-                    <span>Sauce icons created by Talha Dogar</span>
-                </li>
-                <li>
-                    <span>Almond icons created by shmai</span>
-                </li>
-                <li>
-                    <span>Whiskey icons created by Smashicons</span>
-                </li>
-                <li>
-                    <span>Alcohol icons created by Flat Icons Design</span>
-                </li>
-                <li>
-                    <span>Alcohol icons created by photo3idea_studio</span>
-                </li>
-                <li>
-                    <span>Drink icons created by monkik</span>
-                </li>
-                <li>
-                    <span>Bottle icons created by Ina Mella</span>
-                </li>
-                <li>
-                    <span>White wine icons created by Kanyanee Watanajitkasem</span>
-                </li>
-                <li>
-                    <span>CSS liquid effect by Dave Quah</span>
-                </li>
-                <li>
-                    <span>Drunk icons created by Prosymbols Premium</span>
-                </li>
-                <li>
-                    <span>Bartender icons created by photo3idea_studio</span>
-                </li>
-                <li>
-                    <span>Bottle icons created by Aranagraphics</span>
-                </li>
-                <li>
-                    <span>Rum icons created by small.smiles</span>
-                </li>
+                <li>Bartender icon created by Iconduck</li>
+                <li>Spirit icons created by Freepik</li>
+                <li>Beer can icons created by Flat Icons</li>
+                <li>Soda icons created by AmethystDesign</li>
+                <li>Liqueur icons created by surang</li>
+                <li>Liquor icons created by BZZRINCANTATION</li>
+                <li>Liquor icons created by Triangle Squad</li>
+                <li>Liquor icons created by Pause08</li>
+                <li>Rice wine icons created by imaginationlol</li>
+                <li>Cranberry icons created by shmai</li>
+                <li>Grapefruit icons created by amonrat rungreangfangsai</li>
+                <li>Jug icons created by DinosoftLabs</li>
+                <li>Food and restaurant icons created by rizky maulidhani</li>
+                <li>Sauce icons created by Talha Dogar</li>
+                <li>Almond icons created by shmai</li>
+                <li>Whiskey icons created by Smashicons</li>
+                <li>Alcohol icons created by Flat Icons Design</li>
+                <li>Alcohol icons created by photo3idea_studio</li>
+                <li>Drink icons created by monkik</li>
+                <li>Bottle icons created by Ina Mella</li>
+                <li>White wine icons created by Kanyanee Watanajitkasem</li>
+                <li>CSS liquid effect by Dave Quah</li>
+                <li>Drunk icons created by Prosymbols Premium</li>
+                <li>Bartender icons created by photo3idea_studio</li>
+                <li>Bottle icons created by Aranagraphics</li>
+                <li>Rum icons created by small.smiles</li>
             </ul>
         </main>
     );
